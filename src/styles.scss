@@ -1,9 +1,14 @@
 html,
 body {
   height: 100%;
-  background-color: #ECEEFE;
+  background-color: #eceefe;
 }
 body {
   margin: 0;
+
   font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+* {
+  border: none;
 }
