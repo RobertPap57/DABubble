@@ -6,9 +6,14 @@ body {
 body {
   margin: 0;
 
-  font-family: Roboto, "Helvetica Neue", sans-serif;
+  font-family: nunito, Roboto, "Helvetica Neue", sans-serif;
 }
 
 * {
   border: none;
+}
+
+@font-face {
+  font-family: nunito;
+  src: url('/Nunito-VariableFont_wght.ttf');
 }
