@@ -8,5 +8,5 @@ import { Component } from '@angular/core';
   styleUrl: './searchbar.component.scss'
 })
 export class SearchbarComponent {
-
+  searchInChat() {}
 }

@@ -1,0 +1,26 @@
+section {
+    display: flex;
+    align-items: center;
+    position: fixed;
+    top: 25px;
+    height: 70px;
+    width: 100%;
+    background-color: hotpink;
+
+    >div {
+        display: flex;
+        align-items: center;
+        width: 242px;
+    }
+
+    svg {
+        height: 70px;
+        width: 70px;
+        margin-right: 16px;
+        margin-left: 50px;
+    }
+}
+
+h1 {
+    font-size: 32px;
+}
