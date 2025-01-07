@@ -5,7 +5,6 @@ section {
     top: 25px;
     height: 70px;
     width: 100%;
-    background-color: hotpink;
 
     >div {
         display: flex;
@@ -23,4 +22,12 @@ section {
 
 h1 {
     font-size: 32px;
+}
+
+app-searchbar {
+    width: 100%;
+}
+
+app-profile {
+    width: 485px;
 }
