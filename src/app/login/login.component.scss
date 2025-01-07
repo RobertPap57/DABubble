@@ -86,7 +86,7 @@ section {
   &:hover {
     background-color: #eceefe;
     border-radius: 30px;
-    font-weight: 600;
+    font-weight: 700;
   }
 }
 
@@ -120,7 +120,7 @@ section {
   border: 1px solid #eceefe;
   &:hover {
     border: 1px solid #444df2;
-    font-weight: 600;
+    font-weight: 700;
   }
   &:active {
     border: 1px solid #686868;
@@ -128,11 +128,11 @@ section {
   }
 }
 
-.login-btns{
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    gap: 30px;
+.login-btns {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  gap: 30px;
 }
 
 .primary-btn {
@@ -151,18 +151,22 @@ section {
 }
 
 .secondary-btn {
-    width: 137px;
-    height: 49px;
-    border: 1px solid #797EF3;
-    border-radius: 25px;
-    background-color: #ffffff;
-    font-size: 18px;
-    &:hover {
-      background-color: #535AF1;
-      color: #ffffff;
-    }
-    &:active {
-      background-color: #444df2;
-      color: #ffffff;
-    }
+  width: 137px;
+  height: 49px;
+  border: 1px solid #797ef3;
+  border-radius: 25px;
+  background-color: #ffffff;
+  color: #444df2;
+  font-size: 18px;
+  font-weight: 700;
+  &:hover {
+    background-color: #535af1;
+    color: #ffffff;
+    border: none;
   }
+  &:active {
+    background-color: #444df2;
+    color: #ffffff;
+    border: none;
+  }
+}
