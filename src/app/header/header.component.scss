@@ -2,7 +2,7 @@ section {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    height: 145px;
+    height: 115px;
     width: 70px;
     width: 100%;
 
@@ -10,9 +10,9 @@ section {
         margin-left: 50px;
         display: flex;
         align-items: center;
-        width: 242px;
+        min-width: 356px;
+        width: 356px;
         height: 70px;
-        margin-right: 16px;
     }
 
     .logoContainer {

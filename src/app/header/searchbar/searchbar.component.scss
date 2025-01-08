@@ -4,7 +4,6 @@ div {
     display: flex;
     align-items: center;
     background-color: white;
-    margin-left: 114px;
     border-radius: 42px;
     position: relative;
     padding-left: 45px;
@@ -29,7 +28,6 @@ div {
 
 @media screen and (max-width: 1250px) {
     div {
-        margin-left: 34px;
         padding-left: 32px;
 
         a {
