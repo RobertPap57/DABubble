@@ -6,17 +6,32 @@ section {
     width: 70px;
     width: 100%;
     background-color: #eceefe;
+
     >div {
         margin-left: 50px;
         display: flex;
         align-items: center;
         width: 242px;
+        animation: slidein 1.5s ease-in-out;
     }
 
-    svg {
+    .logoContainer {
         height: 70px;
         width: 70px;
         margin-right: 16px;
+
+        svg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            background-color: #edefff;
+            height: 100vh;
+            width: 100%;
+            margin-right: 16px;
+            transform: translate(-50%, -50%);
+            transition: all 1.5s ease;
+            z-index: 10;
+        }
     }
 }
 
