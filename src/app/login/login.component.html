@@ -25,7 +25,6 @@
       <div class="error-message" *ngIf="emailInput.invalid && emailInput.touched">
         *Diese E-Mail-Adresse ist leider ungültig.
       </div>
-    
       <div class="input">
         <img [src]="lockImg" alt="Lock Icon">
         <input 
@@ -38,7 +37,6 @@
           (input)="onInput('password', $event)" />
       </div>
     </form>
-    
     <span class="forgot-pw">Passwort vergessen?</span>
     <div class="or-div">
       <div class="div-line"></div>

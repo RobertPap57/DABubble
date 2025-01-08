@@ -13,8 +13,8 @@ export class LoginComponent {
   emailImg: string = '/mail-grey.png';
   lockImg: string = '/lock-grey.png';
 
-  emailText: string = ''; // Speichert den Text im Emailfeld
-  passwordText: string = ''; // Speichert den Text im Passwortfeld
+  emailText: string = '';
+  passwordText: string = '';
 
   onFocus(field: string): void {
     if (field === 'email' && !this.emailText) {
