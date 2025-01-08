@@ -48,9 +48,11 @@
         <h1>DABubble</h1>
     </div>
 
-    <!-- <app-searchbar></app-searchbar>
-
-    <app-profile></app-profile> -->
+    @if (isLoginRoute) {
     <app-link-create></app-link-create>
+    } @else {
+    <app-searchbar></app-searchbar>
+    <app-profile></app-profile>
+    }
 
 </section>
