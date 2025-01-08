@@ -20,6 +20,24 @@ div {
     }
 }
 
+@keyframes slidein {
+    0% {
+      left: -1000px;
+    }
+    100% {
+      left: 0px;
+    }
+  }
+  
+  @keyframes slideintop {
+    0% {
+      top: -1000px;
+    }
+    100% {
+      top: 0px;
+    }
+  }
+
 @media screen and (max-width: 1250px) {
     div {
         width: 380px;
