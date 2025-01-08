@@ -7,16 +7,38 @@
         verwendest.
       </span>
     </div>
-    <form>
+    <form #form="ngForm">
       <div class="input">
-        <img src="/mail-grey.png" alt="">
-        <input placeholder="beispielname@email.com" type="email" />
+        <img [src]="emailImg" alt="Email Icon">
+        <input 
+          placeholder="beispielname@email.com" 
+          type="email" 
+          name="email" 
+          [(ngModel)]="emailText" 
+          (focus)="onFocus('email')" 
+          (blur)="onBlur('email')" 
+          (input)="onInput('email', $event)" 
+          #emailInput="ngModel"
+          required
+          email />
       </div>
+      <div class="error-message" *ngIf="emailInput.invalid && emailInput.touched">
+        *Diese E-Mail-Adresse ist leider ungültig.
+      </div>
+    
       <div class="input">
-        <img src="/lock-grey.png" alt="">
-        <input placeholder="Passwort" type="text" />
+        <img [src]="lockImg" alt="Lock Icon">
+        <input 
+          placeholder="Passwort" 
+          type="text" 
+          name="password" 
+          [(ngModel)]="passwordText" 
+          (focus)="onFocus('password')" 
+          (blur)="onBlur('password')" 
+          (input)="onInput('password', $event)" />
       </div>
     </form>
+    
     <span class="forgot-pw">Passwort vergessen?</span>
     <div class="or-div">
       <div class="div-line"></div>

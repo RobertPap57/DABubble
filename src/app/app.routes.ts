@@ -4,7 +4,7 @@ import { HeaderComponent } from './header/header.component';
 import { SideNavBarComponent } from './side-nav-bar/side-nav-bar.component';
 
 export const routes: Routes = [
-  { path: 'login', component: LoginComponent },
+  { path: '', component: LoginComponent },
   { path: 'header', component: HeaderComponent },
   { path: 'sidebar', component: SideNavBarComponent },
 ];

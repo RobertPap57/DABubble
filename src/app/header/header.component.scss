@@ -2,12 +2,10 @@ section {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    position: fixed;
-    top: 25px;
-    height: 70px;
+    height: 145px;
     width: 70px;
     width: 100%;
-
+    background-color: #eceefe;
     >div {
         margin-left: 50px;
         display: flex;
