@@ -14,9 +14,9 @@ import { Router } from '@angular/router';
 export class HeaderComponent {
   isLoginRoute: boolean = false;
 
-  constructor(private router: Router) {
-    this.router.events.subscribe(() => {
-      this.isLoginRoute = this.router.url.endsWith('');
-    });
-  }
+  // constructor(private router: Router) {
+  //   this.router.events.subscribe(() => {
+  //     this.isLoginRoute = this.router.url.endsWith('');
+  //   });
+  // }
 }
