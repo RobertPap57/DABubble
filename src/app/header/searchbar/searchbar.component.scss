@@ -23,5 +23,45 @@ div {
     input {
         all: unset;
         color: #686868;
+        font-size: 24px;
+    }
+}
+
+@media screen and (max-width: 1250px) {
+    div {
+        margin-left: 34px;
+        padding-left: 32px;
+
+        a {
+            right: 32px;
+        }
+
+        input {
+            font-size: 19px;
+        }
+    }
+}
+
+@media screen and (max-width: 1024px) {
+    div {
+        margin-left: 20px;
+        margin-right: 20px;
+        padding-left: 24px;
+        height: 48px;
+        border: 1px solid #ADB0D9;
+
+        a {
+            right: 24px;
+        }
+
+        svg {
+            height: 24px;
+            width: 24px;
+        }
+
+        input {
+            font-size: 17px;
+            color: #686868;
+        }
     }
 }

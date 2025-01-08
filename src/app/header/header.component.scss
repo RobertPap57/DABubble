@@ -1,12 +1,15 @@
 section {
     display: flex;
     align-items: center;
+    justify-content: space-between;
     position: fixed;
     top: 25px;
     height: 70px;
+    width: 70px;
     width: 100%;
 
     >div {
+        margin-left: 50px;
         display: flex;
         align-items: center;
         width: 242px;
@@ -16,12 +19,11 @@ section {
         height: 70px;
         width: 70px;
         margin-right: 16px;
-        margin-left: 50px;
     }
 }
 
 h1 {
-    font-size: 32px;
+    font-size: 30px;
 }
 
 app-searchbar {
@@ -29,5 +31,39 @@ app-searchbar {
 }
 
 app-profile {
-    width: 485px;
+    width: 491px;
+}
+
+@media screen and (max-width: 1024px) {
+    section {
+        top: 0;
+        height: 80px;
+        margin-bottom: 88px;
+
+        >div {
+            margin-left: 16px;
+        }
+
+        svg {
+            height: 45px;
+            width: 45px;
+            margin-right: 11px;
+        }
+    }
+
+    h1 {
+        font-size: 24px;
+    }
+
+    app-searchbar {
+        position: absolute;
+        top: 80px;
+        background-color: white;
+        height: 56px;
+        padding-top: 32px;
+    }
+
+    app-profile {
+        width: auto;
+    }
 }
