@@ -52,4 +52,19 @@ section {
             right: 8px;
         }
     }
+
+    span {
+        display: flex;
+        align-items: center;
+        width: 166px;
+        background-color: #ECEEFE;
+        border-radius: 20px;
+        font-size: 18px;
+        font-weight: 700;
+        color: #535AF1;
+        margin-bottom: 25px;
+        margin-left: 25px;
+        gap: 15px;
+        padding: 4px 20px 4px 20px;
+    }
 }

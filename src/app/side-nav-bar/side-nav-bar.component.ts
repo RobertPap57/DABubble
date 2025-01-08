@@ -8,5 +8,6 @@ import { Component } from '@angular/core';
   styleUrl: './side-nav-bar.component.scss'
 })
 export class SideNavBarComponent {
+channels = ['Kanal1', 'Kekse essen']
 
 }

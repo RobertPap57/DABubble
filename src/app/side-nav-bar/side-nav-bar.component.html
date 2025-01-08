@@ -1,7 +1,6 @@
 <!-- <a>Workspace-Menü schließen</a> -->
 <section>
     <h2><img src="./Workspace_logo.png">Devspace<img class="editServer" src="./edit_square.png"></h2>
-    <div>
 
         <h3>
             <a><img src="./arrow_drop_down.png"></a>
@@ -29,5 +28,7 @@
             <img class="addBtn" src="./add.png">
         </h3>
 
-    </div>
+    @for (channel of channels; track $index) {
+        <span><img src="./tag.png">{{channel}}</span>
+    }
 </section>
