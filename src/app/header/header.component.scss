@@ -27,6 +27,7 @@ section {
 
         .colorCountainer {
             position: absolute;
+            z-index: 10;
             top: 0;
             left: 0;
             background: linear-gradient(#797df2, #323be6);
@@ -34,13 +35,14 @@ section {
         }
 
         svg {
+            z-index: 10;
             height: 70px;
             width: 70px;
-            z-index: 10;
             animation: slideInSVG 2.5s linear;
         }
 
         p {
+            z-index: 10;
             animation: slideInText 2.5s linear;
         }
     }
