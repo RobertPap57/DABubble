@@ -24,10 +24,10 @@ section {
         font-size: 30px;
         font-weight: 700;
         gap: 16px;
+        z-index: 10;
 
         .colorCountainer {
             position: absolute;
-            z-index: 10;
             top: 0;
             left: 0;
             background: linear-gradient(#797df2, #323be6);
@@ -42,7 +42,6 @@ section {
         }
 
         p {
-            z-index: 10;
             animation: slideInText 2.5s linear;
         }
     }
