@@ -12,6 +12,7 @@ export class ProfileComponent {
   onlineColor = '#92c73e';
   offlineColor = '#696969';
   userOnline = true;
+  userName = 'Max Mustermann';
 
   openEditUser() {
     //open the Edit User Component
