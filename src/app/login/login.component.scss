@@ -67,7 +67,7 @@ section {
     color: #444df2;
     font-size: 46px;
     margin-top: 0;
-    margin-bottom: 33px;
+    margin-bottom: 32px;
   }
   span {
     font-size: 20px;
@@ -91,18 +91,22 @@ section {
 }
 
 .or-div {
+  position: relative;
   display: flex;
   align-items: center;
+  justify-content: center;
   font-size: 18px;
-  width: 500px;
+  width: 100%;
+  .div-line {
+    border-bottom: 1px solid #adb0d9;
+    width: 554px;
+  }
   span {
+    position: absolute;
+    z-index: 1;
+    background-color: #ffffff;
     padding-inline: 14px;
   }
-}
-
-.div-line {
-  border-bottom: 1px solid #adb0d9;
-  width: 100%;
 }
 
 .google-btn {
@@ -138,7 +142,7 @@ section {
 .primary-btn {
   cursor: pointer;
   width: 137px;
-  height: 49px;
+  height: 48px;
   border-radius: 25px;
   background-color: #444df2;
   color: #ffffff;
@@ -155,7 +159,7 @@ section {
 .secondary-btn {
   cursor: pointer;
   width: 137px;
-  height: 49px;
+  height: 48px;
   border: 1px solid #797ef3;
   border-radius: 25px;
   background-color: #ffffff;
@@ -171,5 +175,86 @@ section {
     background-color: #444df2;
     color: #ffffff;
     border: none;
+  }
+}
+
+@media (max-width: 1920px) {
+  section {
+    height: 650px;
+  }
+  .section-content {
+    width: calc(100% - 50px);
+    height: calc(100% - 50px);
+    form {
+      .input {
+        height: 48px;
+      }
+    }
+  }
+  .google-btn {
+    height: 48px;
+  }
+}
+
+@media (max-width: 768px) {
+  section {
+    height: 650px;
+  }
+  .section-content {
+    width: calc(100% - 50px);
+    height: calc(100% - 50px);
+    form {
+      .input {
+        height: 48px;
+        img {
+          margin-inline: 16px;
+        }
+        input {
+          padding-left: 56px;
+        }
+      }
+    }
+  }
+  .google-btn {
+    height: 48px;
+  }
+}
+
+@media (max-width: 653px) {
+  section {
+    margin-inline: 16px;
+  }
+}
+
+@media (max-width: 375px) {
+  section {
+    height: 650px;
+  }
+  .headline {
+    h2 {
+      font-size: 32px;
+      margin-bottom: 24px;
+    }
+    span {
+      font-size: 16px;
+    }
+  }
+  .section-content {
+    form {
+      .input {
+        input {
+          font-size: 14px;
+        }
+      }
+    }
+  }
+  .google-btn {
+    font-size: 14px;
+  }
+  .primary-btn {
+    font-size: 14px;
+  }
+  .secondary-btn {
+    font-size: 14px;
   }
 }
