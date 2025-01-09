@@ -12,13 +12,13 @@
         <img [src]="emailImg" alt="Email Icon">
         <input 
           placeholder="beispielname@email.com" 
-          type="email" 
+          type="email"
           name="email" 
           [(ngModel)]="emailText" 
           (focus)="onFocus('email')" 
           (blur)="onBlur('email')" 
           (input)="onInput('email', $event)" 
-          #emailInput="ngModel"
+          #emailInput="ngModel" 
           required
           email />
       </div>
