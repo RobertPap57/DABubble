@@ -1,5 +1,5 @@
 <!-- <a>Workspace-Menü schließen</a> -->
-<section>
+<section [ngClass]="{'slideOut': slideOut}">
     <h2><img src="./Workspace_logo.png">Devspace<img class="editServer" src="./edit_square.png"></h2>
 
     <h3>
@@ -30,6 +30,8 @@
 
     @for (channel of channels; track $index) {
     <span><img src="./tag.png">{{channel}}</span>
+    } @empty {
+        <span>No Channel created</span>
     }
 
     <a><img src="./add_circle.png">Channel hinzufügen</a>
@@ -76,5 +78,10 @@
         </div>
         <p>{{addedUsers[$index]}}</p>
     </div>
+    } @empty {
+        <div class="users">
+            <p>No Users</p>
+        </div>
     }
+
 </section>

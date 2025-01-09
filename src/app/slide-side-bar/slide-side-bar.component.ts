@@ -10,8 +10,15 @@ import { SideNavBarComponent } from './side-nav-bar/side-nav-bar.component';
 })
 export class SlideSideBarComponent {
   sideNavOpen = true;
+  slideOut = false;
 
   toggleSideBar() {
-    this.sideNavOpen = !this.sideNavOpen;
+    if (this.sideNavOpen) {
+      this.slideOut = true;
+      setTimeout(() => {
+        this.sideNavOpen = !this.sideNavOpen;
+        this.slideOut = false;
+      }, 200);
+    } else { this.sideNavOpen = !this.sideNavOpen; }
   }
 }

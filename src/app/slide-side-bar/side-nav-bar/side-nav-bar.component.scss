@@ -9,6 +9,7 @@ section {
     scrollbar-color: transparent transparent;
     scrollbar-width: thin;
     scrollbar-gutter: stable;
+    animation: slideInBar 0.2s ease-in-out;
 
     h2 {
         font-size: 24px;
@@ -144,4 +145,19 @@ section {
         height: 10px;
         border: 2px #edefff solid;
     }
+}
+
+@keyframes slideInBar {
+    0% {
+        transform: translateX(-110%);
+    }
+
+    100% {
+        transform: translateX(0%);
+    }
+}
+
+.slideOut {
+    transform: translateX(-110%);
+    transition: transform 0.2s ease-in-out;
 }
