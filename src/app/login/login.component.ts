@@ -16,6 +16,13 @@ export class LoginComponent {
   emailText: string = '';
   passwordText: string = '';
 
+  /**
+   * Handles the focus event for an input field.
+   * Updates the icon color to black when the input field is focused,
+   * provided the corresponding field is empty.
+   *
+   * @param {string} field - The name of the input field ('email' or 'password').
+   */
   onFocus(field: string): void {
     if (field === 'email' && !this.emailText) {
       this.emailImg = '/mail-black.png';
@@ -24,6 +31,13 @@ export class LoginComponent {
     }
   }
 
+  /**
+   * Handles the blur event for an input field.
+   * Resets the icon color to gray when the input field loses focus,
+   * provided the corresponding field is empty.
+   *
+   * @param {string} field - The name of the input field ('email' or 'password').
+   */
   onBlur(field: string): void {
     if (field === 'email' && !this.emailText) {
       this.emailImg = '/mail-grey.png';
@@ -32,6 +46,14 @@ export class LoginComponent {
     }
   }
 
+  /**
+   * Handles the input event for an input field.
+   * Updates the text and icon color dynamically as the user types.
+   * If the field is empty, the icon is reset to gray; otherwise, it is set to black.
+   *
+   * @param {string} field - The name of the input field ('email' or 'password').
+   * @param {Event} event - The input event containing the user's input.
+   */
   onInput(field: string, event: Event): void {
     const value = (event.target as HTMLInputElement).value;
 
