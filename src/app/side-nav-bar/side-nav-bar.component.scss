@@ -1,0 +1,141 @@
+section {
+    margin-left: 20px;
+    background-color: white;
+    height: calc(100vh - 200px);
+    width: 306px;
+    border-radius: 30px;
+    padding: 32px 30px 32px 30px;
+
+    h2 {
+        font-size: 24px;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        position: relative;
+        gap: 15px;
+
+        .editServer {
+            position: absolute;
+            right: 8px;
+        }
+    }
+
+    h3 {
+        font-size: 20px;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        position: relative;
+
+        svg {
+            padding-right: 10px;
+        }
+
+        >a {
+            cursor: pointer;
+            width: 30px;
+            height: 30px;
+            margin-right: 15px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            >img {
+                width: 10px;
+                height: 7px;
+            }
+        }
+
+        .addBtn {
+            cursor: pointer;
+            position: absolute;
+            right: 8px;
+        }
+    }
+
+    >span {
+        display: flex;
+        align-items: center;
+        width: 166px;
+        background-color: #ECEEFE;
+        border-radius: 20px;
+        font-size: 18px;
+        font-weight: 700;
+        color: #535AF1;
+        margin-bottom: 25px;
+        margin-left: 25px;
+        gap: 15px;
+        padding: 4px 20px 4px 20px;
+    }
+
+    >a {
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        font-size: 18px;
+        margin-bottom: 25px;
+        margin-left: 25px;
+        gap: 15px;
+        padding: 4px 20px 4px 20px;
+    }
+
+    h1 {
+        font-size: 20px;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        position: relative;
+
+        svg {
+            padding-right: 10px;
+        }
+
+        >a {
+            cursor: pointer;
+            width: 30px;
+            height: 30px;
+            margin-right: 15px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            >img {
+                width: 10px;
+                height: 7px;
+            }
+        }
+
+        .addBtn {
+            cursor: pointer;
+            position: absolute;
+            right: 8px;
+        }
+    }
+}
+
+.users {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 4px 20px 4px 20px;
+    height: 50px;
+
+    >div {
+        width: 261px;
+        position: relative;
+    }
+
+    img {
+        height: 50px;
+    }
+
+    span {
+        position: absolute;
+        left: 0px;
+        bottom: 0px;
+        border-radius: 50%;
+        width: 10px;
+        height: 10px;
+        border: 2px #edefff solid;
+    }
+}
