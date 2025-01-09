@@ -19,9 +19,10 @@ section {
         position: relative;
         gap: 15px;
 
-        .editServer {
+        .editChannel {
             position: absolute;
             right: 8px;
+            cursor: pointer;
         }
     }
 
@@ -59,6 +60,7 @@ section {
     }
 
     >span {
+        cursor: pointer;
         display: flex;
         align-items: center;
         width: 166px;
@@ -118,6 +120,10 @@ section {
     }
 }
 
+.editChannelResp {
+    display: none;
+}
+
 .users {
     display: flex;
     justify-content: flex-start;
@@ -152,6 +158,10 @@ section {
     transition: transform 0.2s ease-in-out;
 }
 
+.rotateArrow {
+    transform: rotate(180deg);
+}
+
 @keyframes slideInBar {
     0% {
         transform: translateX(-110%);
@@ -164,18 +174,71 @@ section {
 
 @media screen and (max-width: 1024px) {
     section {
-        width: 100%;
-        height: calc(100vh - 240px);
-        margin-top: 40px;
-        margin-left: 20px;
-        background-color: white;
+        width: calc(100% - 100px);
+        height: calc(100vh - 252px);
+        padding: 7px 30px 32px 30px;
+
+        h2 {
+            display: none;
+        }
+
+        >span {
+            width: 166px;
+            background-color: white;
+            font-size: 18px;
+            font-weight: 400;
+            color: black;
+            padding: 4px 20px 4px 20px;
+
+            >img {
+                filter: brightness(0) saturate(0);
+                height: 16px;
+                width: 16px;
+            }
+        }
+
+        >a {
+            color: #535AF1;
+            font-size: 18px;
+            margin-bottom: 25px;
+            margin-left: 25px;
+            gap: 15px;
+            padding: 4px 20px 4px 20px;
+
+            >img {
+                filter: invert(38%) sepia(80%) saturate(2932%) hue-rotate(225deg) brightness(107%) contrast(94%);
+            }
+        }
+    }
+
+    .addBtn {
+        filter: invert(38%) sepia(80%) saturate(2932%) hue-rotate(225deg) brightness(107%) contrast(94%);
+    }
+
+    .editChannelResp {
+        z-index: 2;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        background-color: #535AF1;
+        border-radius: 50%;
+        position: absolute;
+        height: 60px;
+        width: 60px;
+        right: 16px;
+        bottom: 41px;
         
-        border-radius: 30px;
-        padding: 32px 30px 32px 30px;
-        overflow-y: auto;
-        scrollbar-color: transparent transparent;
-        scrollbar-width: thin;
-        scrollbar-gutter: stable;
-        animation: slideInBar 0.2s ease-in-out;
+        >img {
+            filter: invert(1);
+        }
+    }
+}
+
+@media screen and (max-width: 375px) {
+    section {
+        width: calc(100% - 50px);
+        height: calc(100vh - 232px);
+        padding: 7px 5px 12px 5px;
     }
 }

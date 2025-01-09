@@ -1,9 +1,8 @@
-<!-- <a>Workspace-Menü schließen</a> -->
 <section [ngClass]="{'slideOut': slideOut}">
-    <h2><img src="./Workspace_logo.png">Devspace<img class="editServer" src="./edit_square.png"></h2>
+    <h2><img src="./Workspace_logo.png">Devspace<img (click)="editChannel()" class="editChannel" src="./edit_square.png"></h2>
 
     <h3>
-        <a><img src="./arrow_drop_down.png"></a>
+        <a (click)="toggleChannels()" [ngClass]="{'rotateArrow': !channelsVisible}"><img src="./arrow_drop_down.png"></a>
         <div class="channels">
             <svg width="20" height="18" viewBox="0 0 20 18" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M4 18C2.9 18 1.95833 17.6083 1.175 16.825C0.391667 16.0417 0 15.1 0 14C0 12.9 0.391667
@@ -28,16 +27,19 @@
         <img (click)="addChannel()" class="addBtn" src="./add.png">
     </h3>
 
+    @if (channelsVisible) {
     @for (channel of channels; track $index) {
     <span><img src="./tag.png">{{channel}}</span>
     } @empty {
-        <span>No Channel created</span>
+    <span>No Channel created</span>
+    }
     }
 
-    <a><img src="./add_circle.png">Channel hinzufügen</a>
+    <a (click)="addChannel()"><img src="./add_circle.png">Channel hinzufügen</a>
 
     <h1>
-        <a><img src="./arrow_drop_down.png"></a>
+        <a (click)="toggleDirectMsgs()" [ngClass]="{'rotateArrow': !directMsgVisible}"><img
+                src="./arrow_drop_down.png"></a>
         <div class="channels">
 
             <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -67,9 +69,9 @@
             </svg>
             Direktnachrichten
         </div>
-        <img (click)="addDirectMsg()" class="addBtn" src="./add.png">
     </h1>
 
+    @if (directMsgVisible) {
     @for (user of addedUsers; track $index) {
     <div class="users">
         <div>
@@ -79,9 +81,12 @@
         <p>{{addedUsers[$index]}}</p>
     </div>
     } @empty {
-        <div class="users">
-            <p>No Users</p>
-        </div>
+    <div class="users">
+        <p>No Users</p>
+    </div>
     }
+    }
+
+    <div class="editChannelResp"><img (click)="editChannel()" src="./edit_square.png"></div>
 
 </section>

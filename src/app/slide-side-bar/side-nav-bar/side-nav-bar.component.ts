@@ -9,15 +9,29 @@ import { Component, Input } from '@angular/core';
   styleUrl: './side-nav-bar.component.scss'
 })
 export class SideNavBarComponent {
-  @Input()slideOut = false;
+  @Input() slideOut = false;
   channels = ['Kanal1', 'Kekse essen']
+  channelsVisible = true;
   addedUsers = ['Plato', 'Friedrich Nietzsche', 'Carl Jung', 'Sigmund Freud']
+  directMsgVisible = true;
   addedUserImg = ['00.Charaters.png', '01.Charaters.png', '02.Charaters.png', '03.Charaters.png']
   addedUserOnline = [true, false, false, true]
   onlineColor = '#92c73e';
   offlineColor = '#696969';
 
-  addDirectMsg() { }
+  toggleChannels() {
+    this.channelsVisible = !this.channelsVisible;
+  }
+
+  toggleDirectMsgs() {
+    this.directMsgVisible = !this.directMsgVisible;
+  }
+
+  addDirectMsg() {
+  }
 
   addChannel() { }
+
+  editChannel() { }
+  
 }
