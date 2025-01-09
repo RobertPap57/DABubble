@@ -69,10 +69,12 @@
     </h1>
 
     @for (user of addedUsers; track $index) {
-    <div>
-        <img src="./{{addedUserImg[$index]}}">
+    <div class="users">
+        <div>
+            <img src="./{{addedUserImg[$index]}}">
+            <span [ngStyle]="{'background-color': addedUserOnline[$index] ? onlineColor : offlineColor}"></span>
+        </div>
         <p>{{addedUsers[$index]}}</p>
-        <span [ngStyle]="{'background-color': addedUserOnline[$index] ? onlineColor : offlineColor}"></span>
     </div>
     }
 </section>
