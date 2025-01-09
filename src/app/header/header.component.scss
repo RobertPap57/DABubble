@@ -57,12 +57,12 @@ app-profile {
 
 @media screen and (max-width: 1024px) {
     section {
-        top: 0;
-        height: 80px;
+        height: auto;
 
         .spaceholderLogo {
             margin-left: 16px;
-            width: 160px;
+            width: 200px;
+            min-width: 200px;
             height: 80px;
         }
 
@@ -89,11 +89,7 @@ app-profile {
     }
 
     app-searchbar {
-        position: absolute;
-        top: 80px;
-        background-color: white;
-        height: 56px;
-        padding-top: 32px;
+       display: none;
     }
 
     app-profile {

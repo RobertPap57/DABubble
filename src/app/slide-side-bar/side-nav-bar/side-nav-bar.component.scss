@@ -147,6 +147,11 @@ section {
     }
 }
 
+.slideOut {
+    transform: translateX(-110%);
+    transition: transform 0.2s ease-in-out;
+}
+
 @keyframes slideInBar {
     0% {
         transform: translateX(-110%);
@@ -157,7 +162,20 @@ section {
     }
 }
 
-.slideOut {
-    transform: translateX(-110%);
-    transition: transform 0.2s ease-in-out;
+@media screen and (max-width: 1024px) {
+    section {
+        width: 100%;
+        height: calc(100vh - 240px);
+        margin-top: 40px;
+        margin-left: 20px;
+        background-color: white;
+        
+        border-radius: 30px;
+        padding: 32px 30px 32px 30px;
+        overflow-y: auto;
+        scrollbar-color: transparent transparent;
+        scrollbar-width: thin;
+        scrollbar-gutter: stable;
+        animation: slideInBar 0.2s ease-in-out;
+    }
 }

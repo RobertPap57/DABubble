@@ -23,3 +23,9 @@ section {
         rotate: 90deg;
     }
 }
+
+@media screen and (max-width: 1024px) {
+    section {
+        display: none;
+    }
+}
