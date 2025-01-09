@@ -42,8 +42,10 @@ div {
 
 @media screen and (max-width: 1024px) {
     div {
+        margin-top: 37px;
         margin-left: 20px;
         margin-right: 20px;
+        width: calc(100% - 64px);
         padding-left: 24px;
         height: 48px;
         border: 1px solid #ADB0D9;

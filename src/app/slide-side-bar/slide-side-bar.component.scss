@@ -24,8 +24,16 @@ section {
     }
 }
 
+app-searchbar {
+    display: none;
+}
+
 @media screen and (max-width: 1024px) {
     section {
         display: none;
+    }
+
+    app-searchbar {
+        display: block;
     }
 }
