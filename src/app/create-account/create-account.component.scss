@@ -87,6 +87,7 @@ section {
 }
 
 .legal-notice {
+  position: relative;
   display: flex;
   align-items: center;
   width: 100%;
@@ -98,6 +99,7 @@ section {
   }
   p {
     font-size: 16px;
+    margin: 0;
   }
   span {
     cursor: pointer;
@@ -107,6 +109,9 @@ section {
       background-color: #eceefe;
       border-radius: 30px;
     }
+  }
+  div{
+    top: 24px;
   }
 }
 

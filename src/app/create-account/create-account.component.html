@@ -91,14 +91,12 @@
       />
       <p>
         Ich stimme der
-        <span
-          (mouseover)="onHover(true)"
-          (mouseout)="onHover(false)"
-          (click)="onClick()"
-          >Datenschutzerklärung</span
-        >
+        <span (click)="onClick()">Datenschutzerklärung</span>
         zu.
       </p>
+      <div class="error-message" *ngIf="showError && !isChecked">
+        *Bitte stimmen Sie der Datenschutzerklärung zu.
+      </div>
     </div>
     <div class="login-btns">
       <button (click)="openAvatar()" class="primary-btn">Weiter</button>

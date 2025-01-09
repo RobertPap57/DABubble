@@ -11,8 +11,7 @@ import { Router } from '@angular/router';
   styleUrl: './create-account.component.scss',
 })
 export class CreateAccountComponent {
-
-   constructor(private router: Router) {}
+  constructor(private router: Router) {}
 
   emailImg: string = '/mail-grey.png';
   lockImg: string = '/lock-grey.png';
@@ -24,6 +23,7 @@ export class CreateAccountComponent {
 
   isChecked: boolean = false;
   isHovered: boolean = false;
+  showError: boolean = false;
   currentImage: string = '/check-field.png';
 
   isArrowHovered: boolean = false;
@@ -34,7 +34,12 @@ export class CreateAccountComponent {
   }
 
   openAvatar(): void {
-    this.router.navigate(['/avatar']);
+    if (!this.isChecked) {
+      this.showError = true;
+    } else {
+      this.showError = false;
+      this.router.navigate(['/avatar']);
+    }
   }
 
   onFocus(field: string): void {
@@ -104,7 +109,7 @@ export class CreateAccountComponent {
   updateArrowImage(): void {
     if (this.isArrowHovered) {
       this.backArrowImage = '/back-arrow-hover.png';
-    }  else {
+    } else {
       this.backArrowImage = '/back-arrow.png';
     }
   }
