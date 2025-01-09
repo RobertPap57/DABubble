@@ -1,1 +1,107 @@
-<p>create-account works!</p>
+<section>
+  <img
+    (mouseover)="onHoverArrow(true)"
+    (mouseout)="onHoverArrow(false)"
+    (click)="backToLogin()"
+    class="back-arrow"
+    [src]="backArrowImage"
+    alt=""
+  />
+  <div class="section-content">
+    <div class="headline">
+      <h2>Konto erstellen</h2>
+      <span
+        >Mit deinem Namen und deiner E-Mail-Adresse hast du dein neues
+        DABubble-Konto.
+      </span>
+    </div>
+    <form #form="ngForm">
+      <div class="input">
+        <img [src]="userNameImg" alt="Email Icon" />
+        <input
+          placeholder="Name und Nachname"
+          type="text"
+          name="name"
+          [(ngModel)]="userNameText"
+          (focus)="onFocus('userName')"
+          (blur)="onBlur('userName')"
+          (input)="onInput('userName', $event)"
+          #userNameInput="ngModel"
+          required
+          userName
+        />
+        <div
+          class="error-message"
+          *ngIf="userNameInput.invalid && userNameInput.touched"
+        >
+          *Bitte schreiben Sie einen Namen.
+        </div>
+      </div>
+      <div class="input">
+        <img [src]="emailImg" alt="Email Icon" />
+        <input
+          placeholder="beispielname@email.com"
+          type="email"
+          name="email"
+          [(ngModel)]="emailText"
+          (focus)="onFocus('email')"
+          (blur)="onBlur('email')"
+          (input)="onInput('email', $event)"
+          #emailInput="ngModel"
+          required
+          email
+        />
+        <div
+          class="error-message"
+          *ngIf="emailInput.invalid && emailInput.touched"
+        >
+          *Diese E-Mail-Adresse ist leider ungültig.
+        </div>
+      </div>
+
+      <div class="input">
+        <img [src]="lockImg" alt="Lock Icon" />
+        <input
+          placeholder="Passwort"
+          type="text"
+          name="password"
+          [(ngModel)]="passwordText"
+          (focus)="onFocus('password')"
+          (blur)="onBlur('password')"
+          (input)="onInput('password', $event)"
+          #passwortInput="ngModel"
+          required
+          password
+        />
+        <div
+          class="error-message"
+          *ngIf="passwortInput.invalid && passwortInput.touched"
+        >
+          *Falsches Passwort oder E-Mail. Bitte noch einmal versuchen.
+        </div>
+      </div>
+    </form>
+    <div class="legal-notice">
+      <img
+        (mouseover)="onHover(true)"
+        (mouseout)="onHover(false)"
+        (click)="onClick()"
+        [src]="currentImage"
+        alt="Checkbox"
+      />
+      <p>
+        Ich stimme der
+        <span
+          (mouseover)="onHover(true)"
+          (mouseout)="onHover(false)"
+          (click)="onClick()"
+          >Datenschutzerklärung</span
+        >
+        zu.
+      </p>
+    </div>
+    <div class="login-btns">
+      <button (click)="openAvatar()" class="primary-btn">Weiter</button>
+    </div>
+  </div>
+</section>

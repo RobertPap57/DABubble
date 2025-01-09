@@ -9,32 +9,47 @@
     </div>
     <form #form="ngForm">
       <div class="input">
-        <img [src]="emailImg" alt="Email Icon">
-        <input 
-          placeholder="beispielname@email.com" 
+        <img [src]="emailImg" alt="Email Icon" />
+        <input
+          placeholder="beispielname@email.com"
           type="email"
-          name="email" 
-          [(ngModel)]="emailText" 
-          (focus)="onFocus('email')" 
-          (blur)="onBlur('email')" 
-          (input)="onInput('email', $event)" 
-          #emailInput="ngModel" 
+          name="email"
+          [(ngModel)]="emailText"
+          (focus)="onFocus('email')"
+          (blur)="onBlur('email')"
+          (input)="onInput('email', $event)"
+          #emailInput="ngModel"
           required
-          email />
-      </div>
-      <div class="error-message" *ngIf="emailInput.invalid && emailInput.touched">
+          email
+        />
+        <div
+        class="error-message"
+        *ngIf="emailInput.invalid && emailInput.touched"
+      >
         *Diese E-Mail-Adresse ist leider ungültig.
       </div>
+      </div>
+      
       <div class="input">
-        <img [src]="lockImg" alt="Lock Icon">
-        <input 
-          placeholder="Passwort" 
-          type="text" 
-          name="password" 
-          [(ngModel)]="passwordText" 
-          (focus)="onFocus('password')" 
-          (blur)="onBlur('password')" 
-          (input)="onInput('password', $event)" />
+        <img [src]="lockImg" alt="Lock Icon" />
+        <input
+          placeholder="Passwort"
+          type="text"
+          name="password"
+          [(ngModel)]="passwordText"
+          (focus)="onFocus('password')"
+          (blur)="onBlur('password')"
+          (input)="onInput('password', $event)"
+          #passwortInput="ngModel"
+          required
+          password
+        />
+        <div
+        class="error-message"
+        *ngIf="passwortInput.invalid && passwortInput.touched"
+      >
+        *Falsches Passwort oder E-Mail. Bitte noch einmal versuchen. 
+      </div>
       </div>
     </form>
     <span class="forgot-pw">Passwort vergessen?</span>
