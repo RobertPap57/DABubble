@@ -1,0 +1,25 @@
+section {
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    left: -143px;
+    top: 60%;
+    display: flex;
+    z-index: 2;
+    background-color: white;
+    rotate: -90deg;
+    font-size: 20px;
+    border-radius: 0 0 30px 30px;
+    padding: 14px 20px 14px 20px;
+    height: 32px;
+    width: 300px;
+    box-shadow: 0px 4px 6px #686868;
+
+    img {
+        margin-left: 10px;
+        margin-right: 10px;
+        rotate: 90deg;
+    }
+}
