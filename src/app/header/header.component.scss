@@ -45,6 +45,10 @@ section {
             // animation: slideInText 2.5s linear;
         }
     }
+
+    h2 {
+        display: none;
+    }
 }
 
 app-searchbar {
@@ -73,7 +77,7 @@ app-profile {
             .colorCountainer {
                 animation: fadeColor 2.5s linear, slideInResp 2.5s linear;
             }
-            
+
             svg {
                 height: 45px;
                 width: 45px;
@@ -89,11 +93,22 @@ app-profile {
     }
 
     app-searchbar {
-       display: none;
+        display: none;
     }
 
     app-profile {
         width: auto;
+    }
+
+    .backArrow {
+
+        >svg {
+            rotate: 90deg;
+        }
+    }
+
+    h2 {
+        display: block;
     }
 }
 

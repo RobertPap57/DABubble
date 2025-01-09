@@ -17,12 +17,14 @@ div {
         width: 26px;
         height: 26px;
         color: #686868;
+        cursor: pointer;
     }
 
     input {
         all: unset;
         color: #686868;
         font-size: 24px;
+        width: 100%;
     }
 }
 

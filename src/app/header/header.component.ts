@@ -13,10 +13,13 @@ import { Router } from '@angular/router';
 })
 export class HeaderComponent {
   isLoginRoute: boolean = false;
+  Server = 'Devspace';
 
   // constructor(private router: Router) {
   //   this.router.events.subscribe(() => {
   //     this.isLoginRoute = this.router.url.endsWith('');
   //   });
   // }
+
+  backToServer() {}
 }
