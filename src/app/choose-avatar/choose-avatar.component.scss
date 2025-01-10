@@ -1,0 +1,156 @@
+section {
+  position: relative;
+  background-color: #ffffff;
+  border-radius: 30px;
+  max-width: 606px;
+  height: 769px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: auto;
+  .back-arrow {
+    position: absolute;
+    top: 45px;
+    left: 32px;
+  }
+}
+
+.section-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  width: calc(100% - 100px);
+  height: calc(100% - 100px);
+  padding: 64px;
+}
+
+.error-message {
+  position: absolute;
+  top: 56px;
+  font-size: 14px;
+  color: #ed1e79;
+}
+
+.headline {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  max-width: 486px;
+  h2 {
+    color: #444df2;
+    font-size: 46px;
+    margin-top: 0;
+    margin-bottom: 32px;
+  }
+}
+
+.user-details {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.user-avatar {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.user-name {
+  font-size: 32px;
+  font-weight: 700;
+}
+
+.avatar-list {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 20px;
+}
+
+.avatar-container {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  gap: 8px;
+}
+
+.avatar-frame {
+  height: 72px;
+  width: 72px;
+  border-radius: 50%;
+  overflow: hidden;
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+.next-btn {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  gap: 30px;
+}
+
+.primary-btn {
+  cursor: pointer;
+  width: 137px;
+  height: 48px;
+  border-radius: 25px;
+  background-color: #444df2;
+  color: #ffffff;
+  font-size: 18px;
+  font-weight: 700;
+  &:hover {
+    background-color: #797ef3;
+  }
+  &:active {
+    background-color: #444df2;
+  }
+}
+
+@media (max-width: 1920px) {
+  section {
+    height: 650px;
+  }
+  .section-content {
+    width: calc(100% - 50px);
+    height: calc(100% - 50px);
+  }
+}
+
+@media (max-width: 768px) {
+  section {
+    height: 650px;
+  }
+  .section-content {
+    width: calc(100% - 50px);
+    height: calc(100% - 50px);
+  }
+}
+
+@media (max-width: 653px) {
+  section {
+    margin-inline: 16px;
+  }
+}
+
+@media (max-width: 375px) {
+  section {
+    height: 650px;
+  }
+  .headline {
+    h2 {
+      font-size: 32px;
+      margin-bottom: 24px;
+    }
+  }
+  .next-btn {
+    font-size: 14px;
+  }
+}
