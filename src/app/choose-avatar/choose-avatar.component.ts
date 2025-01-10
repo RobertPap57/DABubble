@@ -25,15 +25,14 @@ export class ChooseAvatarComponent {
   ];
 
   /**
-   * Navigates the user back to the login page.
+   * Navigates the user to the register page.
    */
   backToRegister(): void {
     this.router.navigate(['/register']);
   }
 
   /**
-   * Handles navigation to the avatar selection page.
-   * Displays an error message if the "terms accepted" checkbox is not checked.
+   * Navigates the user back to the login page.
    */
   openLogin(): void {
     this.router.navigate(['']);
@@ -41,7 +40,8 @@ export class ChooseAvatarComponent {
 
   /**
    * Toggles the hover state of the back arrow icon and updates its image.
-   * @param {boolean} hoverState - Whether the back arrow is hovered.
+   *
+   * @param {boolean} hoverState - A boolean indicating whether the back arrow is being hovered.
    */
   onHoverArrow(hoverState: boolean): void {
     this.isArrowHovered = hoverState;
@@ -50,6 +50,8 @@ export class ChooseAvatarComponent {
 
   /**
    * Updates the back arrow icon image based on its hover state.
+   * If the back arrow is hovered, the hover image is shown.
+   * Otherwise, the default image is displayed.
    */
   updateArrowImage(): void {
     if (this.isArrowHovered) {
