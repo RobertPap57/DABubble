@@ -4,6 +4,7 @@ import { HeaderComponent } from './header/header.component';
 import { CreateAccountComponent } from './create-account/create-account.component';
 import { ChooseAvatarComponent } from './choose-avatar/choose-avatar.component';
 import { SlideSideBarComponent } from './slide-side-bar/slide-side-bar.component';
+import { ContactWindowComponent } from './contacts/contact-window/contact-window.component';
 
 export const routes: Routes = [
   { path: '', component: LoginComponent },
@@ -11,4 +12,5 @@ export const routes: Routes = [
   { path: 'sidebar', component: SlideSideBarComponent },
   { path: 'register', component: CreateAccountComponent },
   { path: 'avatar', component: ChooseAvatarComponent },
+  { path: 'contact', component: ContactWindowComponent },
 ];
