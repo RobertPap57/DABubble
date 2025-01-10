@@ -13,7 +13,7 @@
     </div>
     <div class="user-details">
       <div class="user-avatar">
-        <img src="/default-user-avatar.png" alt="" />
+        <img [src]="selectedAvatar" alt="Selected Avatar" />
       </div>
       <span class="user-name"> User Name und Nachname </span>
     </div>
@@ -21,7 +21,11 @@
       <span>Aus der Liste wählen</span>
       <div class="avatar-container">
         <div class="avatar-frame" *ngFor="let avatarImage of avatarImages">
-          <img [src]="avatarImage" alt="Avatar" />
+          <img
+            [src]="avatarImage"
+            alt="Avatar"
+            (click)="selectAvatar(avatarImage)"
+          />
         </div>
       </div>
     </div>

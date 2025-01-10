@@ -24,6 +24,8 @@ export class ChooseAvatarComponent {
     '/steffen-hoffmann-avatar.png',
   ];
 
+  selectedAvatar: string = '/default-user-avatar.png';
+
   /**
    * Navigates the user to the register page.
    */
@@ -59,5 +61,14 @@ export class ChooseAvatarComponent {
     } else {
       this.backArrowImage = '/back-arrow.png';
     }
+  }
+
+  /**
+   * Updates the selected avatar with the clicked image.
+   *
+   * @param {string} avatarImage - The URL of the clicked avatar.
+   */
+  selectAvatar(avatarImage: string): void {
+    this.selectedAvatar = avatarImage;
   }
 }
