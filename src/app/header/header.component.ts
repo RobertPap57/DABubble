@@ -13,7 +13,8 @@ import { Router } from '@angular/router';
 })
 export class HeaderComponent {
   isLoginRoute: boolean = false;
-  Server = 'Devspace';
+  serverOpen: boolean = true;
+  server: string = 'Devspace';
 
   // constructor(private router: Router) {
   //   this.router.events.subscribe(() => {
@@ -21,5 +22,27 @@ export class HeaderComponent {
   //   });
   // }
 
-  backToServer() {}
+  ngOnInit() {
+    if (typeof window !== 'undefined') {
+      window.addEventListener('resize', this.handleResize.bind(this));
+      this.handleResize();
+    }
+  }
+  
+  ngOnDestroy() {
+    if (typeof window !== 'undefined') {
+      window.removeEventListener('resize', this.handleResize.bind(this));
+    }
+  }
+  
+  handleResize() {
+    if (this.serverOpen) {
+      this.serverOpen = window.innerWidth < 1024;
+    }
+  }
+
+  backToServer() {
+    // deactivate animation
+    this.serverOpen = false;
+  }
 }

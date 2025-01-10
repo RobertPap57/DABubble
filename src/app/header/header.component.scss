@@ -45,10 +45,6 @@ section {
             // animation: slideInText 2.5s linear;
         }
     }
-
-    h2 {
-        display: none;
-    }
 }
 
 app-searchbar {
@@ -61,7 +57,7 @@ app-profile {
 
 @media screen and (max-width: 1024px) {
     section {
-        height: auto;
+        height: 80px;
 
         .spaceholderLogo {
             margin-left: 16px;
@@ -108,7 +104,18 @@ app-profile {
     }
 
     h2 {
-        display: block;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin: 0 0 0 16px;
+
+        >a {
+            cursor: pointer;
+        }
+
+        >img {
+            height: 50px;
+        }
     }
 }
 
