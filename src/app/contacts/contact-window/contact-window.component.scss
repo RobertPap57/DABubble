@@ -15,4 +15,21 @@ section {
     justify-content: space-between;
     margin-left: 64px;
     margin-right: 64px;
+
+    img:hover {
+        cursor: pointer;
+    }
+}
+
+.avatar {
+    display: flex;
+    justify-content: center;
+    margin-top: 24px;
+
+    img {
+        width: 200px;
+        height: 200px;
+        gap: 20px;
+        border-radius: 500px;
+    }
 }
