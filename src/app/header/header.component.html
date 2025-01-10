@@ -14,9 +14,9 @@
         </a><img src="./Workspace_logo.png">{{server}}</h2>
     } @else {
     <div class="spaceholderLogo">
-        <div class="logoContainer">
-            <div class="colorCountainer"></div>
-            <svg width="188" height="184" viewBox="0 0 188 184" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <div class="logoContainer" [ngClass]="{ 'animation-done': !animationActive }">
+            <div class="colorCountainer" [ngClass]="{ 'animation-done': !animationActive }"></div>
+            <svg [ngClass]="{ 'animation-done': !animationActive }" width="188" height="184" viewBox="0 0 188 184" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <g clip-path="url(#clip0_169_96)">
                     <path
                         d="M173.488 0H87.6223C79.8556 0 73.6709 6.08615 73.6709 13.5877V83.5077H173.345C180.968 83.5077 187.152 77.4215 187.152 69.92V13.5877C187.296 6.08615 181.111 0 173.488 0Z"
@@ -55,7 +55,7 @@
                     </clipPath>
                 </defs>
             </svg>
-            <p>DABubble</p>
+            <p [ngClass]="{ 'animation-done': !animationActive }">DABubble</p>
         </div>
     </div>
     }

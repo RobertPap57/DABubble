@@ -70,8 +70,16 @@ app-profile {
             gap: 11px;
             animation: slideInResp 2.5s linear;
 
+            &.animation-done {
+                animation: none;
+            }
+
             .colorCountainer {
                 animation: fadeColor 2.5s linear, slideInResp 2.5s linear;
+
+                &.animation-done {
+                    animation: none;
+                }
             }
 
             svg {
@@ -79,11 +87,19 @@ app-profile {
                 width: 45px;
                 animation: none;
                 animation: slideInSVGResp 2s linear;
+
+                &.animation-done {
+                    animation: none;
+                }
             }
 
             p {
                 font-size: 22px;
                 animation: slideInTextResp 2s linear;
+
+                &.animation-done {
+                    animation: none;
+                }
             }
         }
     }
