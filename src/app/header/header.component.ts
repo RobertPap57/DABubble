@@ -18,6 +18,12 @@ export class HeaderComponent {
   animationTriggered: boolean = false;
   server: string = 'Devspace';
 
+    // constructor(private router: Router) {
+  //   this.router.events.subscribe(() => {
+  //     this.isLoginRoute = this.router.url.endsWith('');
+  //   });
+  // }
+
   /**
    * subscribe to an eventListener to check the screensize of the User
    */
