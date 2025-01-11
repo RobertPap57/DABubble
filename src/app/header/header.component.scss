@@ -20,7 +20,7 @@ section {
         justify-content: center;
         align-items: center;
         position: absolute;
-        // animation: slideIn 2.5s linear;
+        animation: slideIn 2.5s linear;
         font-size: 30px;
         font-weight: 700;
         gap: 16px;
@@ -31,18 +31,18 @@ section {
             top: 0;
             left: 0;
             background: linear-gradient(#797df2, #323be6);
-            // animation: fadeColor 2.5s linear, slideIn 2.5s linear;
+            animation: fadeColor 2.5s linear, slideIn 2.5s linear;
         }
 
         svg {
             z-index: 10;
             height: 70px;
             width: 70px;
-            // animation: slideInSVG 2.5s linear;
+            animation: slideInSVG 2.5s linear;
         }
 
         p {
-            // animation: slideInText 2.5s linear;
+            animation: slideInText 2.5s linear;
         }
     }
 }
