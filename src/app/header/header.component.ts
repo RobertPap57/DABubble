@@ -3,6 +3,7 @@ import { ProfileComponent } from './profile/profile.component';
 import { SearchbarComponent } from './searchbar/searchbar.component';
 import { LinkCreateComponent } from './link-create/link-create.component';
 import { NgClass } from '@angular/common';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-header',
@@ -18,11 +19,11 @@ export class HeaderComponent {
   animationTriggered: boolean = false;
   server: string = 'Devspace';
 
-    // constructor(private router: Router) {
-  //   this.router.events.subscribe(() => {
-  //     this.isLoginRoute = this.router.url.endsWith('');
-  //   });
-  // }
+  constructor(private router: Router) {
+    this.router.events.subscribe(() => {
+      this.isLoginRoute = this.router.url.endsWith('');
+    });
+  }
 
   /**
    * subscribe to an eventListener to check the screensize of the User
