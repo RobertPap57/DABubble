@@ -16,5 +16,5 @@ export const routes: Routes = [
   { path: 'avatar', component: ChooseAvatarComponent },
   { path: 'contact', component: ContactWindowComponent },
   { path: 'reset-password', component: PasswordResetSendMailComponent },
-  // { path: '{{ newUserId }} + reset-password', component: PasswordResetComponent },
+  { path: 'reset-password-id', component: PasswordResetComponent },
 ];
