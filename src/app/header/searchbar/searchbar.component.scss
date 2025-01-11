@@ -4,7 +4,6 @@ div {
     display: flex;
     align-items: center;
     background-color: white;
-    margin-left: 114px;
     border-radius: 42px;
     position: relative;
     padding-left: 45px;
@@ -18,22 +17,23 @@ div {
         width: 26px;
         height: 26px;
         color: #686868;
+        cursor: pointer;
     }
 
     input {
         all: unset;
         color: #686868;
         font-size: 24px;
+        width: 100%;
     }
 }
 
 @media screen and (max-width: 1250px) {
     div {
-        margin-left: 34px;
         padding-left: 32px;
 
         a {
-            right: 32px;
+            right: 28px;
         }
 
         input {
@@ -44,8 +44,10 @@ div {
 
 @media screen and (max-width: 1024px) {
     div {
+        margin-top: 37px;
         margin-left: 20px;
         margin-right: 20px;
+        width: calc(100% - 64px);
         padding-left: 24px;
         height: 48px;
         border: 1px solid #ADB0D9;
