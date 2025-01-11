@@ -13,6 +13,9 @@ export class SlideSideBarComponent {
   sideNavOpen = true;
   slideOut = false;
 
+  /**
+   * toggles the sideBar in and out of the screen
+   */
   toggleSideBar() {
     if (this.sideNavOpen) {
       this.slideOut = true;

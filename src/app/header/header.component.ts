@@ -20,7 +20,6 @@ export class HeaderComponent {
 
   /**
    * subscribe to an eventListener to check the screensize of the User
-   * 
    */
   ngOnInit() {
     if (typeof window !== 'undefined') {
@@ -31,7 +30,6 @@ export class HeaderComponent {
 
   /**
    * unsubscribes the eventListener to check the screensize of the User
-   * 
    */
   ngOnDestroy() {
     if (typeof window !== 'undefined') {
@@ -42,7 +40,6 @@ export class HeaderComponent {
   /**
    * checks if the the window is below 1024px and checks if the server
    * tab is open and plays the startAnimation just once
-   * 
    */
   handleResize() {
     if (this.serverOpen) this.serverOpen = window.innerWidth < 1024;

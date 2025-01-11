@@ -19,10 +19,16 @@ export class SideNavBarComponent {
   onlineColor = '#92c73e';
   offlineColor = '#696969';
 
+  /**
+   * toggles the visibility of the channels
+   */
   toggleChannels() {
     this.channelsVisible = !this.channelsVisible;
   }
 
+  /**
+   * toggles the visibility of the users in direct messages
+   */
   toggleDirectMsgs() {
     this.directMsgVisible = !this.directMsgVisible;
   }
