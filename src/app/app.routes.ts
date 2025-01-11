@@ -5,6 +5,8 @@ import { CreateAccountComponent } from './create-account/create-account.componen
 import { ChooseAvatarComponent } from './choose-avatar/choose-avatar.component';
 import { SlideSideBarComponent } from './slide-side-bar/slide-side-bar.component';
 import { ContactWindowComponent } from './contacts/contact-window/contact-window.component';
+import { PasswordResetSendMailComponent } from './password-reset-send-mail/password-reset-send-mail.component';
+import { PasswordResetComponent } from './password-reset/password-reset.component';
 
 export const routes: Routes = [
   { path: '', component: LoginComponent },
@@ -13,4 +15,6 @@ export const routes: Routes = [
   { path: 'register', component: CreateAccountComponent },
   { path: 'avatar', component: ChooseAvatarComponent },
   { path: 'contact', component: ContactWindowComponent },
+  { path: 'reset-password', component: PasswordResetSendMailComponent },
+  // { path: '{{ newUserId }} + reset-password', component: PasswordResetComponent },
 ];

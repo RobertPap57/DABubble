@@ -1,18 +1,15 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-login',
+  selector: 'app-password-reset-send-mail',
   standalone: true,
   imports: [FormsModule, CommonModule],
-  templateUrl: './login.component.html',
-  styleUrl: './login.component.scss',
+  templateUrl: './password-reset-send-mail.component.html',
+  styleUrl: './password-reset-send-mail.component.scss',
 })
-export class LoginComponent {
-  constructor(private router: Router) {}
-
+export class PasswordResetSendMailComponent {
   emailImg: string = '/mail-grey.png';
   lockImg: string = '/lock-grey.png';
 
@@ -67,9 +64,5 @@ export class LoginComponent {
       this.passwordText = value;
       this.lockImg = value ? '/lock-black.png' : '/lock-grey.png';
     }
-  }
-
-  openResetPassword(): void {
-    this.router.navigate(['/reset-password']);
   }
 }
