@@ -1,0 +1,13 @@
+<div class="home-container">
+    <div class="nav-bar"> 
+        <h1>nav</h1>
+    </div>
+    <div class="channel-container">
+        <app-chat-box [chatType]="'channel'" [chatId]="selectedChannelId"></app-chat-box>
+    </div>
+    @if(selectedThreadId) {
+        <div class="thread-container">
+            <app-chat-box [chatType]="'thread'" [chatId]="selectedThreadId"></app-chat-box>
+        </div>
+    }
+</div>  

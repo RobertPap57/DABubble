@@ -1,8 +1,12 @@
+@import 'material-symbols';
+@import '@ctrl/ngx-emoji-mart/picker';
+
 html,
 body {
   height: 100%;
   background-color: #eceefe;
 }
+
 body {
   margin: 0;
 
@@ -11,9 +15,11 @@ body {
 
 * {
   border: none;
+  box-sizing: border-box;
 }
 
 @font-face {
   font-family: nunito;
   src: url('/Nunito-VariableFont_wght.ttf');
 }
+

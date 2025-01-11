@@ -1,0 +1,27 @@
+.home-container {
+    display: flex;
+    flex-direction: row; 
+    gap: 20px;
+    width: 100vw;
+    height: 80vh;
+    background: #ECEEFE;
+    padding: 20px;
+    font-family: nunito;
+
+}
+
+.nav-bar {
+    width: 300px;
+    height: 100%;
+    background: #d34f4f;
+    display: none;
+}
+
+.channel-container {
+    flex: 1;
+    height: 100%;
+}
+.thread-container {
+    width: 485px;
+    height: 100%;
+}
