@@ -3,37 +3,36 @@ import { ProfileComponent } from './profile/profile.component';
 import { SearchbarComponent } from './searchbar/searchbar.component';
 import { LinkCreateComponent } from './link-create/link-create.component';
 import { NgClass } from '@angular/common';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [ProfileComponent, SearchbarComponent, LinkCreateComponent, NgClass],
+  imports: [ProfileComponent, SearchbarComponent, LinkCreateComponent, NgClass, RouterLink],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss'
 })
 export class HeaderComponent {
   isLoginRoute: boolean = false;
-  serverOpen: boolean = true;
-  animationActive: boolean = true;
-  animationTriggered: boolean = false;
+  animationPlayed: boolean = false;
+  serverOpen: boolean = false;
   server: string = 'Devspace';
 
   constructor(private router: Router) {
-    this.router.events.subscribe(() => {
-      this.isLoginRoute = this.router.url.endsWith('');
-    });
   }
 
   /**
-   * subscribe to an eventListener to check the screensize of the User
+   * subscribe to an eventListener to check the screensize of the User and checks if the user is on the login Page
    */
-  ngOnInit() {
-    if (typeof window !== 'undefined') {
-      window.addEventListener('resize', this.handleResize.bind(this));
-      this.handleResize();
-    }
-  }
+  // ngOnInit() {
+  //   this.isLoginRoute = this.router.url.endsWith(''); // Wir brauchen hier login vom Router sonst ist der wert immer true
+  //   if (typeof window !== 'undefined') {
+  //     window.addEventListener('resize', this.handleResize.bind(this));
+  //     this.handleResize();
+  //     setTimeout(() => this.animationPlayed = true, 3000);
+  //     console.log(this.isLoginRoute);
+  //   }
+  // }
 
   /**
    * unsubscribes the eventListener to check the screensize of the User
@@ -45,16 +44,10 @@ export class HeaderComponent {
   }
 
   /**
-   * checks if the the window is below 1024px and checks if the server
-   * tab is open and plays the startAnimation just once
+   * checks if the servertab is open
    */
   handleResize() {
     if (this.serverOpen) this.serverOpen = window.innerWidth < 1024;
-    if (!this.animationTriggered && window.innerWidth < 1024) {
-      this.animationTriggered = true;
-      this.animationActive = true;
-      setTimeout(() => this.animationActive = false, 5000);
-    }
   }
 
   /**

@@ -3,26 +3,47 @@ section {
     height: 100%;
     width: 306px;
     border-radius: 30px;
-    padding: 32px 30px 32px 30px;
+    padding: 0px 26px 32px 30px;
     overflow-y: auto;
-    scrollbar-color: transparent transparent;
-    scrollbar-width: thin;
-    scrollbar-gutter: stable;
+    scrollbar-width: none;
     animation: slideInBar 0.2s ease-in-out;
     box-sizing: border-box;
 
     h2 {
+        padding-block: 18px;
+        margin: 0;
         font-size: 24px;
         width: 100%;
+        z-index: 2;
         display: flex;
         align-items: center;
-        position: relative;
-        gap: 15px;
+        justify-content: space-between;
+        position: sticky;
+        top: 0;
+        background-color: white;
 
-        .editChannel {
-            position: absolute;
-            right: 8px;
-            cursor: pointer;
+        >div {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+
+            .editChannel {
+                cursor: pointer;
+                margin-right: -2px;
+                border-radius: 8px;
+                padding: 6px;
+
+                &:hover {
+                    filter: invert(38%) sepia(80%) saturate(2932%) hue-rotate(225deg) brightness(107%) contrast(94%);
+                }
+            }
+
+            &:hover {
+                background-color: #ECEEFE;
+            }
         }
     }
 
@@ -32,16 +53,23 @@ section {
         display: flex;
         align-items: center;
         position: relative;
+        cursor: pointer;
+        gap: 10px;
+        margin: 0;
+        margin-bottom: 25px;
 
-        svg {
-            padding-right: 10px;
+        &:hover {
+            color: #535AF1;
+        }
+
+        &:hover .channels path {
+            fill: #535AF1;
         }
 
         >a {
             cursor: pointer;
             width: 30px;
             height: 30px;
-            margin-right: 15px;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -50,12 +78,6 @@ section {
                 width: 10px;
                 height: 7px;
             }
-        }
-
-        .addBtn {
-            cursor: pointer;
-            position: absolute;
-            right: 8px;
         }
     }
 
@@ -72,7 +94,7 @@ section {
         margin-bottom: 25px;
         margin-left: 25px;
         gap: 15px;
-        padding: 4px 20px 4px 20px;
+        padding: 4px 17px 4px 17px;
     }
 
     >a {
@@ -83,7 +105,7 @@ section {
         margin-bottom: 25px;
         margin-left: 25px;
         gap: 15px;
-        padding: 4px 20px 4px 20px;
+        padding: 4px 14px 4px 14px;
     }
 
     h1 {
@@ -101,7 +123,7 @@ section {
             cursor: pointer;
             width: 30px;
             height: 30px;
-            margin-right: 15px;
+            margin-right: 9px;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -111,12 +133,22 @@ section {
                 height: 7px;
             }
         }
+    }
+}
 
-        .addBtn {
-            cursor: pointer;
-            position: absolute;
-            right: 8px;
-        }
+.addBtn {
+    cursor: pointer;
+    border-radius: 50%;
+    width: 34px;
+    height: 30px;
+    font-size: 24px;
+    margin-bottom: 25px;
+
+    &:hover {
+        background-color: #ECEEFE;
+        color: #535AF1;
+        font-size: 25px;
+        font-weight: 700;
     }
 }
 
@@ -128,12 +160,13 @@ section {
     display: flex;
     justify-content: flex-start;
     align-items: center;
-    padding: 4px 20px 4px 20px;
+    padding: 4px 0px 4px 20px;
     height: 50px;
     gap: 15px;
 
     >div {
         position: relative;
+        height: 50px;
     }
 
     img {
@@ -159,7 +192,7 @@ section {
 }
 
 .rotateArrow {
-    transform: rotate(180deg);
+    transform: rotate(-90deg);
 }
 
 @keyframes slideInBar {
@@ -228,7 +261,7 @@ section {
         width: 60px;
         right: 16px;
         bottom: 41px;
-        
+
         >img {
             filter: invert(1);
         }

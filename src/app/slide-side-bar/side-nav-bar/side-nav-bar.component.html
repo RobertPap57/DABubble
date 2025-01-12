@@ -1,10 +1,23 @@
 <section [ngClass]="{'slideOut': slideOut}">
-    <h2><img src="./Workspace_logo.png">Devspace<img (click)="editChannel()" class="editChannel" src="./edit_square.png"></h2>
+    <h2><img src="./Workspace_logo.png">Devspace<div><img (click)="editChannel()" class="editChannel"
+                src="./edit_square.png"></div>
+    </h2>
 
-    <h3>
-        <a (click)="toggleChannels()" [ngClass]="{'rotateArrow': !channelsVisible}"><img src="./arrow_drop_down.png"></a>
-        <div class="channels">
-            <svg width="20" height="18" viewBox="0 0 20 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <div class="dFlexCenter">
+        <h3>
+            <a (click)="toggleChannels()" [ngClass]="{'rotateArrow': !channelsVisible}">
+                <svg class="channels" width="10" height="7" viewBox="0 0 10 7" fill="none"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path d="M4.12508 5.875L0.875076 2.625C0.479243 2.22917 0.390909 1.77625 0.610076 1.26625C0.828409
+            0.755417 1.21883 0.5 1.78133 0.5H8.21883C8.78133 0.5 9.17174 0.755417 9.39008 1.26625C9.60924 1.77625
+            9.52091 2.22917 9.12508 2.625L5.87508 5.875C5.75008 6 5.61466 6.09375 5.46883 6.15625C5.32299 6.21875
+            5.16674 6.25 5.00008 6.25C4.83341 6.25 4.67716 6.21875 4.53133 6.15625C4.38549 6.09375 4.25008
+            6 4.12508 5.875Z" fill="black" />
+                </svg>
+            </a>
+
+            <svg class="channels" width="20" height="18" viewBox="0 0 20 18" fill="none"
+                xmlns="http://www.w3.org/2000/svg">
                 <path d="M4 18C2.9 18 1.95833 17.6083 1.175 16.825C0.391667 16.0417 0 15.1 0 14C0 12.9 0.391667
                 11.9583 1.175 11.175C1.95833 10.3917 2.9 10 4 10C5.1 10 6.04167 10.3917 6.825 11.175C7.60833
                 11.9583 8 12.9 8 14C8 15.1 7.60833 16.0417 6.825 16.825C6.04167 17.6083 5.1 18 4 18ZM16 18C14.9
@@ -22,10 +35,14 @@
                 11.1 8 10 8ZM10 6C10.55 6 11.021 5.804 11.413 5.412C11.8043 5.02067 12 4.55 12 4C12 3.45 11.8043
                 2.97933 11.413 2.588C11.021 2.196 10.55 2 10 2C9.45 2 8.97933 2.196 8.588 2.588C8.196 2.97933
                 8 3.45 8 4C8 4.55 8.196 5.02067 8.588 5.412C8.97933 5.804 9.45 6 10 6Z" fill="black" />
-            </svg>Channels
+            </svg>
+
+            Channels
+        </h3>
+        <div class="addBtn dFlexCenter">
+            <a (click)="addChannel()">+</a>
         </div>
-        <img (click)="addChannel()" class="addBtn" src="./add.png">
-    </h3>
+    </div>
 
     @if (channelsVisible) {
     @for (channel of channels; track $index) {
