@@ -51,6 +51,11 @@ export class SideNavBarComponent {
 
   editChannel() { }
 
+  openDirectMsg(i: number) {
+    this.openedChannel = this.addedUsers[i];
+    // Übergebe Kanal an Chat-box
+  }
+
   openChannel(i: number) {
     this.openedChannel = this.channels[i];
     // Übergebe Kanal an Chat-box

@@ -175,12 +175,20 @@ section {
 }
 
 .users {
+    cursor: pointer;
     display: flex;
     justify-content: flex-start;
     align-items: center;
-    padding: 4px 0px 4px 20px;
+    padding: 4px 4px 4px 20px;
+    margin-block: 8px;
     height: 50px;
     gap: 15px;
+    border-radius: 50px;
+    margin-left: 10px;
+
+    &:hover{
+        background-color: #ECEEFE;
+    }
 
     >div {
         position: relative;
@@ -193,7 +201,6 @@ section {
     }
 
     span {
-        cursor: pointer;
         position: absolute;
         left: 36px;
         bottom: 2px;
@@ -202,6 +209,12 @@ section {
         height: 10px;
         border: 2px #edefff solid;
     }
+}
+
+.users.active {
+    color: #535AF1;
+    background-color: #ECEEFE;
+    font-weight: 700;
 }
 
 .slideOut {
