@@ -1,3 +1,14 @@
+.colorCountainer {
+    position: fixed;
+    z-index: 4;
+    pointer-events: none;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    background: linear-gradient(#797df2, #323be6);
+    animation: fadeColor 2.5s linear;
+}
+
 section {
     display: flex;
     align-items: center;
@@ -25,14 +36,6 @@ section {
         font-weight: 700;
         gap: 16px;
         z-index: 10;
-
-        .colorCountainer {
-            position: absolute;
-            top: 0;
-            left: 0;
-            background: linear-gradient(#797df2, #323be6);
-            animation: fadeColor 2.5s linear, slideIn 2.5s linear;
-        }
 
         svg {
             z-index: 10;
@@ -149,8 +152,6 @@ app-profile {
     }
 
     45% {
-        top: 0;
-        left: 0;
         height: 85%;
         width: 85%;
     }
@@ -163,8 +164,8 @@ app-profile {
     }
 
     100% {
-        top: 20px;
-        left: 50px;
+        top: 8px;
+        left: -22px;
         width: 230px;
         height: 101px;
     }
@@ -215,19 +216,19 @@ app-profile {
 
     75% {
         color: white;
-        width: auto;
         font-size: 32px;
     }
 
     100% {
         color: black;
-        width: auto;
         font-size: 30px;
     }
 }
 
 @keyframes fadeColor {
     0% {
+        width: 100%;
+        height: 100%;
         opacity: 1;
     }
 
@@ -237,10 +238,8 @@ app-profile {
 
     75% {
         opacity: 0;
-    }
-
-    100% {
-        opacity: 0;
+        width: 100%;
+        height: 100%;
     }
 }
 

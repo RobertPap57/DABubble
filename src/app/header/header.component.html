@@ -1,3 +1,4 @@
+<div class="colorCountainer" [ngClass]="{ 'animation-done': !animationActive }"></div>
 <section>
 
     @if (serverOpen) {
@@ -15,7 +16,6 @@
     } @else {
     <div class="spaceholderLogo">
         <div class="logoContainer" [ngClass]="{ 'animation-done': !animationActive }">
-            <div class="colorCountainer" [ngClass]="{ 'animation-done': !animationActive }"></div>
             <svg [ngClass]="{ 'animation-done': !animationActive }" width="188" height="184" viewBox="0 0 188 184" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <g clip-path="url(#clip0_169_96)">
                     <path
