@@ -24,15 +24,15 @@ export class HeaderComponent {
   /**
    * subscribe to an eventListener to check the screensize of the User and checks if the user is on the login Page
    */
-  ngOnInit() {
-    this.isLoginRoute = this.router.url.endsWith(''); // Wir brauchen hier login vom Router sonst ist der wert immer true
-    if (typeof window !== 'undefined') {
-      window.addEventListener('resize', this.handleResize.bind(this));
-      this.handleResize();
-      setTimeout(() => this.animationPlayed = true, 3000);
-      console.log(this.isLoginRoute);
-    }
-  }
+  // ngOnInit() {
+  //   this.isLoginRoute = this.router.url.endsWith(''); // Wir brauchen hier login vom Router sonst ist der wert immer true
+  //   if (typeof window !== 'undefined') {
+  //     window.addEventListener('resize', this.handleResize.bind(this));
+  //     this.handleResize();
+  //     setTimeout(() => this.animationPlayed = true, 3000);
+  //     console.log(this.isLoginRoute);
+  //   }
+  // }
 
   /**
    * unsubscribes the eventListener to check the screensize of the User
