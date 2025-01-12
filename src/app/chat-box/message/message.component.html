@@ -1,13 +1,13 @@
 <div [class.my-message]="logedUser === message.sender" class="message-container">
     <div class="actions-container">
         @if (emojiPickerOn) {
-            <emoji-mart appClickOutside (clickOutside)="closeEmojiPicker()" title="Pick your emoji…" emoji="point_up"
-                set="twitter" (emojiClick)="addEmoji($event)"></emoji-mart>
-            }
+        <emoji-mart appClickOutside (clickOutside)="closeEmojiPicker()" title="Pick your emoji…" emoji="point_up"
+            set="twitter" (emojiClick)="addEmoji($event)"></emoji-mart>
+        }
         <div class="recent-emoji">
-         
+
             <span *ngFor="let emoji of recentEmojis" class="emoji" (click)="addEmoji(emoji)">{{emoji}}</span>
-            
+
             <mat-icon class="add-emoji" fontSet="material-symbols-rounded">close</mat-icon>
             <mat-icon class="open-thread" fontSet="material-symbols-rounded">close</mat-icon>
             <mat-icon class="open-options" fontSet="material-symbols-rounded">close</mat-icon>
@@ -17,12 +17,42 @@
     </div>
 
     <img class="sender-img" src="chat-box/character_{{message.senderImg}}.svg" alt="">
+
     <div class="message">
+
         <div class="sender">
             <h2>{{message.sender}}</h2>
             <p>{{message.time}} Uhr</p>
         </div>
-        <p class="message-text">{{message.text}}</p>
+
+        <div class="message-text">{{message.text}}</div>
+
+        <div class="reactions-container">
+            <div *ngIf="message.reactions.length > 0" class="emoji-reaction">
+                <div *ngFor="let emoji of message.reactions" class="emoji-icon">
+                    <p>{{emoji.emoji}}</p>
+                    <p>{{emoji.count}}</p>
+                    <div class="emoji-popup">
+                        <p>{{emoji.emoji}}</p>
+                        <div class="emoji-users">
+                            <div *ngFor="let user of emoji.users; let i = index">
+                                <p>{{user}}</p>
+                                <p *ngIf="emoji.users.length > 2 && i < emoji.users.length - 2">,</p>
+                                <p *ngIf="i === emoji.users.length - 2"> und</p>
+
+                            </div>
+                        </div>
+                        <p>hat reagiert</p>
+                    </div>
+                </div>
+                <mat-icon class="add-emoji" fontSet="material-symbols-rounded">add_reaction</mat-icon>
+            </div>
+            <div *ngIf="message.thread.length > 0" class="thread-responses">
+                <p>{{message.thread.length}} Antworten</p>
+                <p>Letzte Antwort {{message.thread[message.thread.length - 1].time}}</p>
+            </div>
+        </div>
     </div>
 </div>
+
 
