@@ -13,7 +13,7 @@ import { Router } from '@angular/router';
   styleUrl: './header.component.scss'
 })
 export class HeaderComponent {
-  isLoginRoute: boolean = false;
+  isLoginRoute: boolean = true;
   serverOpen: boolean = true;
   animationActive: boolean = true;
   animationTriggered: boolean = false;
@@ -21,8 +21,10 @@ export class HeaderComponent {
 
   constructor(private router: Router) {
     this.router.events.subscribe(() => {
-      this.isLoginRoute = this.router.url.endsWith('');
+      this.isLoginRoute = this.router.url.endsWith('/home');
     });
+    
+    
   }
 
   /**
