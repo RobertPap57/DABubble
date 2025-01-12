@@ -15,7 +15,7 @@
         </a><img src="./Workspace_logo.png">{{server}}</h2>
     } @else {
     <div class="spaceholderLogo">
-        <div class="logoContainer" [ngClass]="{ 'animation-done': !isLoginRoute || animationPlayed && isLoginRoute }">
+        <div class="logoContainer" [routerLink]="['/home']" [ngClass]="{ 'animation-done': !isLoginRoute || animationPlayed && isLoginRoute }">
             <svg [ngClass]="{ 'animation-done': !isLoginRoute || animationPlayed && isLoginRoute }" width="188" height="184" viewBox="0 0 188 184"
                 fill="none" xmlns="http://www.w3.org/2000/svg">
                 <g clip-path="url(#clip0_169_96)">

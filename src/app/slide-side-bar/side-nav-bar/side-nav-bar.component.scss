@@ -3,21 +3,24 @@ section {
     height: 100%;
     width: 306px;
     border-radius: 30px;
-    padding: 32px 26px 32px 30px;
+    padding: 0px 26px 32px 30px;
     overflow-y: auto;
     scrollbar-width: none;
     animation: slideInBar 0.2s ease-in-out;
     box-sizing: border-box;
 
     h2 {
+        padding-block: 18px;
         margin: 0;
         font-size: 24px;
         width: 100%;
+        z-index: 2;
         display: flex;
         align-items: center;
         justify-content: space-between;
-        position: relative;
-        gap: 15px;
+        position: sticky;
+        top: 0;
+        background-color: white;
 
         >div {
             display: flex;
@@ -52,6 +55,8 @@ section {
         position: relative;
         cursor: pointer;
         gap: 10px;
+        margin: 0;
+        margin-bottom: 25px;
 
         &:hover {
             color: #535AF1;
@@ -89,7 +94,7 @@ section {
         margin-bottom: 25px;
         margin-left: 25px;
         gap: 15px;
-        padding: 4px 20px 4px 20px;
+        padding: 4px 17px 4px 17px;
     }
 
     >a {
@@ -100,7 +105,7 @@ section {
         margin-bottom: 25px;
         margin-left: 25px;
         gap: 15px;
-        padding: 4px 20px 4px 20px;
+        padding: 4px 14px 4px 14px;
     }
 
     h1 {
@@ -118,7 +123,7 @@ section {
             cursor: pointer;
             width: 30px;
             height: 30px;
-            margin-right: 15px;
+            margin-right: 9px;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -137,6 +142,7 @@ section {
     width: 34px;
     height: 30px;
     font-size: 24px;
+    margin-bottom: 25px;
 
     &:hover {
         background-color: #ECEEFE;
@@ -154,12 +160,13 @@ section {
     display: flex;
     justify-content: flex-start;
     align-items: center;
-    padding: 4px 20px 4px 20px;
+    padding: 4px 0px 4px 20px;
     height: 50px;
     gap: 15px;
 
     >div {
         position: relative;
+        height: 50px;
     }
 
     img {
