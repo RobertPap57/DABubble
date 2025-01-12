@@ -73,28 +73,7 @@ section {
             display: flex;
             justify-content: center;
             align-items: center;
-
-            >img {
-                width: 10px;
-                height: 7px;
-            }
         }
-    }
-
-    >span {
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        width: 166px;
-        background-color: #ECEEFE;
-        border-radius: 20px;
-        font-size: 18px;
-        font-weight: 700;
-        color: #535AF1;
-        margin-bottom: 25px;
-        margin-left: 25px;
-        gap: 15px;
-        padding: 4px 17px 4px 17px;
     }
 
     >a {
@@ -106,6 +85,14 @@ section {
         margin-left: 25px;
         gap: 15px;
         padding: 4px 14px 4px 14px;
+
+        &:hover {
+            color: #535AF1;
+        }
+
+        &:hover .channels path {
+            fill: #535AF1;
+        }
     }
 
     h1 {
@@ -114,26 +101,57 @@ section {
         display: flex;
         align-items: center;
         position: relative;
+        cursor: pointer;
 
-        svg {
-            padding-right: 10px;
+        &:hover {
+            color: #535AF1;
+        }
+
+        &:hover .channels path {
+            fill: #535AF1;
+        }
+
+        div {
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
         >a {
-            cursor: pointer;
             width: 30px;
             height: 30px;
             margin-right: 9px;
             display: flex;
             justify-content: center;
             align-items: center;
-
-            >img {
-                width: 10px;
-                height: 7px;
-            }
         }
     }
+}
+
+.channel {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    width: 166px;
+    border-radius: 20px;
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 25px;
+    margin-left: 25px;
+    gap: 15px;
+    padding: 4px 17px 4px 17px;
+    filter: brightness(0) saturate(0);
+
+    &:hover {
+        filter: brightness(1) saturate(1);
+        background-color: #ECEEFE;
+    }
+}
+
+.channel.active {
+    color: #535AF1;
+    background-color: #ECEEFE;
+    filter: brightness(1) saturate(1);
 }
 
 .addBtn {

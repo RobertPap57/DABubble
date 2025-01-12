@@ -10,7 +10,7 @@ import { Component, Input } from '@angular/core';
 })
 export class SideNavBarComponent {
   @Input() slideOut = false;
-  channels = ['Kanal1', 'Kekse essen']
+  channels = ['Entwicklerteam', 'Kekse essen']
   channelsVisible = true;
   addedUsers = ['Plato', 'Friedrich Nietzsche', 'Carl Jung', 'Sigmund Freud']
   directMsgVisible = true;
@@ -18,6 +18,7 @@ export class SideNavBarComponent {
   addedUserOnline = [true, false, false, true]
   onlineColor = '#92c73e';
   offlineColor = '#696969';
+  openedChannel: string = '';
 
   /**
    * toggles the visibility of the channels
@@ -36,8 +37,22 @@ export class SideNavBarComponent {
   addDirectMsg() {
   }
 
-  addChannel() { }
+  addChannel(i: number) {
+    //Adding Channel
+      i++
+      let channel = "Neuer Kanal" + i
+      if (this.channels.includes(channel)) {
+        this.addChannel(i);
+        return
+      } else {
+        this.channels.push(channel);
+      }
+  }
 
   editChannel() { }
-  
+
+  openChannel(i: number) {
+    this.openedChannel = this.channels[i];
+    // Übergebe Kanal an Chat-box
+  }
 }
