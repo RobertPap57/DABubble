@@ -26,6 +26,11 @@ div {
         color: #686868;
         font-size: 24px;
         width: 85%;
+
+        &:focus-within {
+            background-color: white;
+            color: black;
+        }
     }
 }
 
