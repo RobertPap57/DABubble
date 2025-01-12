@@ -1,5 +1,6 @@
 <section (click)="toggleSideBar()">
-        <p>Workspace-Menü {{ sideNavOpen ? 'schließen' : 'öffnen' }}<img src="./Group 2.png"></p>
+        <p>Workspace-Menü {{ sideNavOpen ? 'schließen' : 'öffnen' }}
+                <img src="{{ sideNavOpen ? './Group 2.png' : './Group 1.png' }}"></p>
 </section>
 
 @if (sideNavOpen) {

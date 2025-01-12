@@ -33,10 +33,7 @@ export class SideNavBarComponent {
   toggleDirectMsgs() {
     this.directMsgVisible = !this.directMsgVisible;
   }
-
-  addDirectMsg() {
-  }
-
+  
   addChannel(i: number) {
     //Adding Channel
       i++
