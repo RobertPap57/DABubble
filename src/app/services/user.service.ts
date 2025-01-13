@@ -2,17 +2,11 @@ import { Injectable, inject } from '@angular/core';
 import { User } from '../interfaces/user.model';
 import { addDoc, updateDoc, deleteDoc, collection, doc, DocumentData, Firestore, onSnapshot, QuerySnapshot, } from '@angular/fire/firestore';
 
+
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
-}
-
-
-@Injectable({
-  providedIn: 'root'
-})
-export class UserListService {
   users: User[] = [];
   firestore: Firestore = inject(Firestore);
   userId: string = '';
