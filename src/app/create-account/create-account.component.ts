@@ -16,9 +16,11 @@ export class CreateAccountComponent {
   emailImg: string = '/mail-grey.png';
   lockImg: string = '/lock-grey.png';
   userNameImg: string = '/user-name-icon-grey.png';
+  confirmLockImg: string = '/lock-grey.png';
 
   emailText: string = '';
   passwordText: string = '';
+  confirmPasswordText: string = '';
   userNameText: string = '';
 
   isChecked: boolean = false;
@@ -58,6 +60,8 @@ export class CreateAccountComponent {
       this.emailImg = '/mail-black.png';
     } else if (field === 'password' && !this.passwordText) {
       this.lockImg = '/lock-black.png';
+    } else if (field === 'confirm' && !this.confirmPasswordText) {
+      this.confirmLockImg = '/lock-black.png';
     } else if (field === 'userName' && !this.userNameText) {
       this.userNameImg = '/user-name-icon-black.png';
     }
@@ -73,6 +77,8 @@ export class CreateAccountComponent {
       this.emailImg = '/mail-grey.png';
     } else if (field === 'password' && !this.passwordText) {
       this.lockImg = '/lock-grey.png';
+    } else if (field === 'confirm' && !this.confirmPasswordText) {
+      this.confirmLockImg = '/lock-grey.png';
     } else if (field === 'userName' && !this.userNameText) {
       this.userNameImg = '/user-name-icon-grey.png';
     }
@@ -92,6 +98,9 @@ export class CreateAccountComponent {
     } else if (field === 'password') {
       this.passwordText = value;
       this.lockImg = value ? '/lock-black.png' : '/lock-grey.png';
+    } else if (field === 'confirm') {
+      this.confirmPasswordText = value;
+      this.confirmLockImg = value ? '/lock-black.png' : '/lock-grey.png';
     } else if (field === 'userName') {
       this.userNameText = value;
       this.userNameImg = value

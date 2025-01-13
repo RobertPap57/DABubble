@@ -14,8 +14,10 @@ export class PasswordResetComponent {
   constructor(private router: Router) {}
 
   lockImg: string = '/lock-grey.png';
+  confirmLockImg: string = '/lock-grey.png';
 
   passwordText: string = '';
+  confirmPasswordText: string = '';
 
   isHovered: boolean = false;
 
@@ -29,8 +31,10 @@ export class PasswordResetComponent {
    * @param {string} field - The input field name ('email', 'password', or 'userName').
    */
   onFocus(field: string): void {
-    if (field === 'email' && !this.passwordText) {
+    if (field === 'password' && !this.passwordText) {
       this.lockImg = '/lock-black.png';
+    } else if (field === 'confirm' && !this.confirmPasswordText) {
+      this.confirmLockImg = '/lock-black.png';
     }
   }
 
@@ -40,8 +44,10 @@ export class PasswordResetComponent {
    * @param {string} field - The input field name ('email', 'password', or 'userName').
    */
   onBlur(field: string): void {
-    if (field === 'email' && !this.passwordText) {
+    if (field === 'password' && !this.passwordText) {
       this.lockImg = '/lock-grey.png';
+    } else if (field === 'confirm' && !this.confirmPasswordText) {
+      this.confirmLockImg = '/lock-grey.png';
     }
   }
 
@@ -54,9 +60,12 @@ export class PasswordResetComponent {
   onInput(field: string, event: Event): void {
     const value = (event.target as HTMLInputElement).value;
 
-    if (field === 'email') {
+    if (field === 'password') {
       this.passwordText = value;
       this.lockImg = value ? '/lock-black.png' : '/lock-grey.png';
+    } else if (field === 'confirm') {
+      this.confirmPasswordText = value;
+      this.confirmLockImg = value ? '/lock-black.png' : '/lock-grey.png';
     }
   }
 
