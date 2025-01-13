@@ -18,7 +18,7 @@ section {
     align-items: center;
     justify-content: space-between;
     height: 115px;
-    width: 70px;
+    max-width: 1920px;
     width: 100%;
 
     .spaceholderLogo {
@@ -35,12 +35,12 @@ section {
         justify-content: center;
         align-items: center;
         position: absolute;
-        animation: slideIn 2.5s linear;
         font-size: 30px;
         font-weight: 700;
         gap: 16px;
         z-index: 10;
         cursor: pointer;
+        animation: slideIn 2.5s linear;
 
         svg {
             z-index: 10;
@@ -119,6 +119,16 @@ app-profile {
 
         >img {
             height: 50px;
+        }
+    }
+}
+
+@media screen and (min-width: 1921px) {
+    section {
+
+        .logoContainer {
+            animation: none;
+            animation: slideInBig 2.5s linear;
         }
     }
 }
@@ -304,5 +314,38 @@ app-profile {
         left: 0;
         height: 101px;
         width: 100%;
+    }
+}
+
+@keyframes slideInBig {
+    0% {
+        top: 0;
+        left: calc(50vw - 960px);
+        height: 100%;
+        width: 1920px;
+    }
+
+    35% {
+        height: 100%;
+        width: 1920px;
+    }
+
+    45% {
+        height: 85%;
+        width: 1632px;
+    }
+
+    80% {
+        top: 0px;
+        height: 200px;
+        width: 400px;
+    }
+
+    100% {
+        top: 8px;
+        left: -22px;
+        width: 230px;
+        height: 101px;
+        left: calc(50vw - 982px);
     }
 }
