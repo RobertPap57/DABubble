@@ -80,6 +80,27 @@
           *Falsches Passwort oder E-Mail. Bitte noch einmal versuchen.
         </div>
       </div>
+      <div class="input">
+        <img [src]="confirmLockImg" alt="Lock Icon" />
+        <input
+          placeholder="Passwort bestätigen"
+          type="text"
+          name="confirm"
+          [(ngModel)]="confirmPasswordText"
+          (focus)="onFocus('confirm')"
+          (blur)="onBlur('confirm')"
+          (input)="onInput('confirm', $event)"
+          #confirmPasswortInput="ngModel"
+          required
+          confirm
+        />
+        <div
+          class="error-message"
+          *ngIf="confirmPasswortInput.invalid && confirmPasswortInput.touched"
+        >
+          *Passwörter müssen übereinstimmen.
+        </div>
+      </div>
     </form>
     <div class="legal-notice">
       <img
