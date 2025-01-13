@@ -12,9 +12,16 @@
             <div class="status-container">
                 <div class="status" [ngClass]="{ active: isActive, inactive: !isActive }"></div>
                 <span class="status-text" [ngStyle]="{ color: isActive ? 'green' : 'gray' }"> 
-                  {{ isActive ? 'Aktiv' : 'Abwesend' }} 
+                    {{ isActive ? 'Aktiv' : 'Abwesend' }} 
                 </span>
             </div>
+        </div>
+        <div class="mail">
+            <div class="headline">
+                <img src="mail-black.png" alt="Mail Icon">
+                <h2>E-Mail-Adresse</h2>
+            </div>
+            <a [href]="'mailto:' + email">{{ email }}</a>
         </div>
     </div>
 </section>

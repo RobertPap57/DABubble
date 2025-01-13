@@ -9,8 +9,10 @@ import { Component } from '@angular/core';
   styleUrl: './contact-window.component.scss'
 })
 export class ContactWindowComponent {
-  name: string = 'Steffen Hoffmann';
-  isActive: boolean = false; // Standardmäßig auf 'abwesend'
+  
+  name: string = 'Steffen Hoffmann';  // Beispielname
+  email: string = 'thehoffman@beispiel.com'; // Beispiel-E-Mail
+  isActive: boolean = false; // Status standardmäßig 'abwesend'
 
   constructor() { }
 

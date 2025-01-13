@@ -10,6 +10,10 @@ section {
 
 }
 
+h2 {
+    font-size: 20px;
+}
+
 .top {
     display: flex;
     justify-content: space-between;
@@ -24,7 +28,7 @@ section {
 .avatar {
     display: flex;
     justify-content: center;
-    margin-top: 24px;
+    margin-top: 45px;
 
     img {
         width: 200px;
@@ -36,6 +40,8 @@ section {
 
 .name {
     margin-left: 64px;
+    margin-top: 45px;
+
     h1 {
         font-size: 32px;
     }
@@ -44,6 +50,7 @@ section {
 .status-container {
     display: flex;
     align-items: center;
+
     .status-text {
         font-size: 20px;
     }
@@ -62,4 +69,23 @@ section {
 
 .status.inactive {
     background-color: gray;
+}
+
+.mail {
+    img {
+        width: 25px;
+        height: 20px;
+    }
+    a {
+        font-size: 18px;
+        margin-left: 114px;
+    }
+}
+
+.headline {
+    display: flex;
+    margin-top: 45px;
+    align-items: center;
+    margin-left: 64px;
+    gap: 20px;
 }
