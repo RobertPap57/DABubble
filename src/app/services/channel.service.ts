@@ -7,66 +7,46 @@ import { addDoc, updateDoc, deleteDoc, collection, doc, DocumentData, Firestore,
   providedIn: 'root'
 })
 export class ChannelService {
-  users: Channel[] = [];
+  channels: Channel[] = [];
   firestore: Firestore = inject(Firestore);
-  userId: string = '';
-  unsubUserList;
+  channelId: string = '';
+  unsubChannelList;
 
   constructor() {
-    this.unsubUserList = this.subUserList();
+    this.unsubChannelList = this.subChannelList();
   }
 
-  subUserList() {
-    return onSnapshot(this.getallUsersdocRef(),
+  subChannelList() {
+    return onSnapshot(this.getallChannelsdocRef(),
       (list: QuerySnapshot<DocumentData>) => {
-        this.users = [];
+        this.channels = [];
         list.forEach(element => {
-          console.log(this.setUserObject(element.data(), element.id));
-          this.users.push(this.setUserObject(element.data(), element.id));
+          console.log(this.setChannelObject(element.data(), element.id));
+          this.channels.push(this.setChannelObject(element.data(), element.id));
         });
       });
   }
 
-  /**
-   * sets the User id for the specific array
-   * 
-   * @param id the specific User ID
-   */
-  setUserId(id: string) {
-    this.userId = id;
+  setChannelId(id: string) {
+    this.channelId = id;
   }
 
-  /**
-   * unsubscribe the onsnapshotFunction
-   */
   ngOnDestroy() {
-    this.unsubUserList;
+    this.unsubChannelList;
   }
 
-  /**
-   * Add a new document with a generated id to the firestore
-   * 
-   * @param user the User Array
-   */
-  async createUser(user: Channel) {
-    await addDoc(this.getallUsersdocRef(), user).catch(
+  async createChannel(channel: Channel) {
+    await addDoc(this.getallChannelsdocRef(), channel).catch(
       (err) => { console.error(err) }
     ).then(
       (docRef) => { console.log("Document written with ID: ", docRef); }
     )
   }
 
-  /**
-   * updates one or more specific keys for the User
-   * 
-   * @param 'user' the id of the collection i.e. 'user'
-   * @param docId the document id
-   * @param user the keys that get changed
-   */
-  async updateUser(user: Channel) {
-    if (user.id) {
-      let docRef = this.getSingleUserDocRef('user', user.id);
-      await updateDoc(docRef, this.getCleanJSON(user)).catch(
+  async updateChannel(channel: Channel) {
+    if (channel.chanId) {
+      let docRef = this.getSingleChannelDocRef('channel', channel.chanId);
+      await updateDoc(docRef, this.getCleanJSON(channel)).catch(
         (err) => { console.error(err); }
       ).then(
         () => { } //Hier Update Funktioniert Modul
@@ -74,69 +54,42 @@ export class ChannelService {
     }
   }
 
-  /**
-   * deletes the User from the database
-   */
-  async deleteUser(docId: string) {
-    await deleteDoc(this.getSingleUserDocRef('user', docId)).catch(
+  async deleteChannel(docId: string) {
+    await deleteDoc(this.getSingleChannelDocRef('channel', docId)).catch(
       (err) => { console.error(err); }
     ).then(
       () => { } //Hier Update Funktioniert Modul
     );
   }
 
-  /**
-   * get a clean JSON for the user
-   * 
-   * @param user the object from the input
-   * @returns a complete user-object
-   */
-  getCleanJSON(user: Channel): {} {
+  getCleanJSON(channel: Channel): {} {
     return {
-      id: user.id,
-      name: user.name,
-      userImage: user.userImage,
-      email: user.email,
-      status: user.status,
-      lastSeen: user.lastSeen,
+      chanId: channel.chanId,
+      chanName: channel.chanName,
+      chanDescription: channel.chanDescription,
+      chanCreatedByUser: channel.chanCreatedByUser,
+      userIds: channel.userIds,
+      textId: channel.textId,
     }
   }
 
-  /**
-   * checks if the Object has all the User-Object
-   * 
-   * @param obj The Object from the input
-   * @param id the id that is generated from the object
-   * @returns an User-Object
-   */
-  setUserObject(obj: any, id: string): Channel {
+  setChannelObject(obj: any, id: string): Channel {
     return {
-      id: id || '',
-      name: obj.name,
-      userImage: obj.userImage,
-      email: obj.email,
-      status: obj.status,
-      lastSeen: obj.lastSeen,
+      chanId: id || '',
+      chanName: obj.chanName,
+      chanDescription: obj.chanDescription,
+      chanCreatedByUser: obj.chanCreatedByUser,
+      userIds: obj.userIds,
+      textId: obj.textId,
+      threadIDs: obj.threadIDs,
     }
   }
 
-  /**
-   * gets the reference for the 'user' collection
-   * 
-   * @returns 
-   */
-  getallUsersdocRef() {
-    return collection(this.firestore, 'user');
+  getallChannelsdocRef() {
+    return collection(this.firestore, 'channel');
   }
 
-  /**
-   * gets the reference of a specific user in the collection 'user'
-   * 
-   * @param colId 
-   * @param docId 
-   * @returns 
-   */
-  getSingleUserDocRef(colId: string, docId: string) {
+  getSingleChannelDocRef(colId: string, docId: string) {
     return doc(collection(this.firestore, colId), docId);
   }
 }

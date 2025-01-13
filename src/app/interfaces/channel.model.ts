@@ -1,5 +1,5 @@
 export interface Channel {
-    chanId: [],
+    chanId: string,
     chanName: string,
     chanDescription: string,
     chanCreatedByUser: string,
