@@ -14,7 +14,7 @@ export class SideNavBarComponent {
   channelsVisible = true;
   addedUsers = ['Plato', 'Friedrich Nietzsche', 'Carl Jung', 'Sigmund Freud']
   directMsgVisible = true;
-  addedUserImg = ['Alex1.png', '01.Charaters.png', '02.Charaters.png', '03.Charaters.png']
+  addedUserImg = ['steffen-hoffmann-avatar.png', '01.Charaters.png', '02.Charaters.png', '03.Charaters.png']
   addedUserOnline = [true, false, false, true]
   onlineColor = '#92c73e';
   offlineColor = '#696969';
