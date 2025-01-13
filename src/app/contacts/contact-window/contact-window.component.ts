@@ -9,4 +9,16 @@ import { Component } from '@angular/core';
   styleUrl: './contact-window.component.scss'
 })
 export class ContactWindowComponent {
+  name: string = 'Steffen Hoffmann';
+  isActive: boolean = false; // Standardmäßig auf 'abwesend'
+
+  constructor() { }
+
+  ngOnInit(): void {
+  }
+
+  // Diese Methode könnte verwendet werden, um den Status von einer Datenbank abzurufen
+  fetchStatusFromDatabase() {
+  }
+
 }

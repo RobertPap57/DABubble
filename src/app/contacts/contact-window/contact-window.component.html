@@ -1,5 +1,4 @@
 <section>
-
     <div class="align">
         <div class="top">
             <h2>Profil</h2>
@@ -8,6 +7,14 @@
         <div class="avatar">
             <img src="/steffen-hoffmann-avatar.png">
         </div>
+        <div class="name">
+            <h1>{{ name }}</h1>
+            <div class="status-container">
+                <div class="status" [ngClass]="{ active: isActive, inactive: !isActive }"></div>
+                <span class="status-text" [ngStyle]="{ color: isActive ? 'green' : 'gray' }"> 
+                  {{ isActive ? 'Aktiv' : 'Abwesend' }} 
+                </span>
+            </div>
+        </div>
     </div>
-
 </section>
