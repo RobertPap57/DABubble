@@ -183,7 +183,6 @@ section {
     margin-block: 12px;
     height: 50px;
     gap: 15px;
-    border-radius: 50px;
     margin-left: 10px;
 
     &:hover{
@@ -197,7 +196,10 @@ section {
 
     img {
         height: 50px;
+        width: 50px;
         cursor: pointer;
+        border-radius: 50px;
+        object-fit: cover;
     }
 
     span {
