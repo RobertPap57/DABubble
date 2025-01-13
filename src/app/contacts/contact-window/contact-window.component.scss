@@ -76,6 +76,7 @@ h2 {
         width: 25px;
         height: 20px;
     }
+
     a {
         font-size: 18px;
         margin-left: 114px;
@@ -88,4 +89,19 @@ h2 {
     align-items: center;
     margin-left: 64px;
     gap: 20px;
+}
+
+.message {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    margin-top: 45px;
+
+    img {
+        cursor: pointer;
+        transition: filter 0.3s ease; 
+        &:hover {
+            filter: brightness(1.5);
+        }
+    }
 }

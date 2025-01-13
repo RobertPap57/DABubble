@@ -11,8 +11,8 @@
             <h1>{{ name }}</h1>
             <div class="status-container">
                 <div class="status" [ngClass]="{ active: isActive, inactive: !isActive }"></div>
-                <span class="status-text" [ngStyle]="{ color: isActive ? 'green' : 'gray' }"> 
-                    {{ isActive ? 'Aktiv' : 'Abwesend' }} 
+                <span class="status-text" [ngStyle]="{ color: isActive ? 'green' : 'gray' }">
+                    {{ isActive ? 'Aktiv' : 'Abwesend' }}
                 </span>
             </div>
         </div>
@@ -22,6 +22,9 @@
                 <h2>E-Mail-Adresse</h2>
             </div>
             <a [href]="'mailto:' + email">{{ email }}</a>
+        </div>
+        <div class="message">
+            <img src="message.svg">
         </div>
     </div>
 </section>
