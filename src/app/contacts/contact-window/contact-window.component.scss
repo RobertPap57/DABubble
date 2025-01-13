@@ -20,8 +20,12 @@ h2 {
     margin-left: 64px;
     margin-right: 64px;
 
-    img:hover {
+    img {
         cursor: pointer;
+        transition: transform 0.3s ease;
+        &:hover {
+            transform: scale(1.5);
+        }
     }
 }
 
@@ -99,7 +103,8 @@ h2 {
 
     img {
         cursor: pointer;
-        transition: filter 0.3s ease; 
+        transition: filter 0.3s ease;
+
         &:hover {
             filter: brightness(1.5);
         }
