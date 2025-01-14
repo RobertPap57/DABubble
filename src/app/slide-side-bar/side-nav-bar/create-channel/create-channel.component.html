@@ -1,0 +1,26 @@
+<section class="dFlexCenter" (click)="closeCreateChan()">
+    <div>
+        <h2>Channel erstellen <span class="dFlexCenter" (click)="closeCreateChan()">+</span></h2>
+        <p>Channels dienen deinem Team zur Kommunikation. Am besten sollten sie themenbezogen sein #marketing zum
+            Beispiel.</p>
+
+        <h3>Channel-Name</h3>
+        <form #form="ngForm">
+
+            <div>
+                <img src="./tag_grey.png" alt="#">
+                <input placeholder="z.B. Kooperationsprojekte" type="text" [(ngModel)]="channelName" required>
+            </div>
+
+            <h3>Channel-Beschreibung <p class="optional">(optional)</p>
+            </h3>
+
+            <div>
+                <textarea placeholder="Deine Channel-Beschreibung" type="text" [(ngModel)]="channelDescription"></textarea>
+            </div>
+            
+        </form>
+
+        <button (click)="createChanel()">Erstellen</button>
+    </div>
+</section>

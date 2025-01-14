@@ -8,7 +8,7 @@ import { PasswordResetSendMailComponent } from './password-reset-send-mail/passw
 import { PasswordResetComponent } from './password-reset/password-reset.component';
 import { HomeComponent } from './home/home.component';
 export const routes: Routes = [
-  { path: '', component: LoginComponent },
+  { path: 'login', component: LoginComponent },
   { path: 'header', component: HeaderComponent },
   { path: 'register', component: CreateAccountComponent },
   { path: 'avatar', component: ChooseAvatarComponent },

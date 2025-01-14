@@ -1,10 +1,11 @@
 import { NgClass, NgStyle } from '@angular/common';
 import { Component, Input } from '@angular/core';
+import { CreateChannelComponent } from './create-channel/create-channel.component';
 
 @Component({
   selector: 'app-side-nav-bar',
   standalone: true,
-  imports: [NgStyle, NgClass],
+  imports: [NgStyle, NgClass, CreateChannelComponent],
   templateUrl: './side-nav-bar.component.html',
   styleUrl: './side-nav-bar.component.scss'
 })
@@ -19,6 +20,7 @@ export class SideNavBarComponent {
   onlineColor = '#92c73e';
   offlineColor = '#696969';
   openedChannel: string = '';
+  createNewChannel = false;
 
   /**
    * toggles the visibility of the channels
@@ -34,19 +36,19 @@ export class SideNavBarComponent {
     this.directMsgVisible = !this.directMsgVisible;
   }
   
-  addChannel(i: number) {
+  createChannel(i: number) {
     //Adding Channel
       i++
       let channel = "Neuer Kanal" + i
       if (this.channels.includes(channel)) {
-        this.addChannel(i);
+        this.createChannel(i);
         return
       } else {
         this.channels.push(channel);
       }
   }
 
-  editChannel() { }
+  openSearchChannel() { }
 
   openDirectMsg(i: number) {
     this.openedChannel = this.addedUsers[i];

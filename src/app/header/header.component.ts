@@ -3,7 +3,8 @@ import { ProfileComponent } from './profile/profile.component';
 import { SearchbarComponent } from './searchbar/searchbar.component';
 import { LinkCreateComponent } from './link-create/link-create.component';
 import { NgClass } from '@angular/common';
-import { Router, RouterLink } from '@angular/router';
+import { NavigationEnd, Router, RouterLink } from '@angular/router';
+import { filter } from 'rxjs';
 
 @Component({
   selector: 'app-header',
@@ -14,33 +15,23 @@ import { Router, RouterLink } from '@angular/router';
 })
 export class HeaderComponent {
   isLoginRoute: boolean = false;
+  isHomeRoute:boolean = false;
   animationPlayed: boolean = false;
   serverOpen: boolean = false;
   server: string = 'Devspace';
 
   constructor(private router: Router) {
+    this.ngOnInit();
   }
 
-  /**
-   * subscribe to an eventListener to check the screensize of the User and checks if the user is on the login Page
-   */
   ngOnInit() {
-    this.isLoginRoute = this.router.url.endsWith(''); // Wir brauchen hier login vom Router sonst ist der wert immer true
-    if (typeof window !== 'undefined') {
-      window.addEventListener('resize', this.handleResize.bind(this));
-      this.handleResize();
+    this.router.events
+    .pipe(filter(event => event instanceof NavigationEnd))
+    .subscribe((event: NavigationEnd) => {
+      this.isHomeRoute = event.url.endsWith('/home');
+      this.isLoginRoute = event.url.endsWith('/login');
       setTimeout(() => this.animationPlayed = true, 3000);
-      console.log(this.isLoginRoute);
-    }
-  }
-
-  /**
-   * unsubscribes the eventListener to check the screensize of the User
-   */
-  ngOnDestroy() {
-    if (typeof window !== 'undefined') {
-      window.removeEventListener('resize', this.handleResize.bind(this));
-    }
+    });
   }
 
   /**
