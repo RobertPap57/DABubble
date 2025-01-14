@@ -35,16 +35,10 @@ export class SideNavBarComponent {
   toggleDirectMsgs() {
     this.directMsgVisible = !this.directMsgVisible;
   }
-  
-  createChannel(i: number) {
-      i++
-      let channel = "Neuer Kanal" + i
-      if (this.channels.includes(channel)) {
-        this.createChannel(i);
-        return
-      } else {
-        this.channels.push(channel);
-      }
+
+  createChannel(name: string, description: string) {
+    let channel = name;
+    this.channels.push(channel);
   }
 
   openCreateChannel() {

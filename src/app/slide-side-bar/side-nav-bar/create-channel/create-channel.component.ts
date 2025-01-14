@@ -13,11 +13,9 @@ import { SideNavBarComponent } from '../side-nav-bar.component';
 })
 export class CreateChannelComponent {
   @ViewChild('createdBox') createdBox!: ElementRef<HTMLDivElement>;
-  channelName:string = '';
-  channelDescription:string = '';
+  channelName: string = '';
+  channelDescription: string = '';
   closeDialog = inject(SideNavBarComponent);
-
-  constructor(private elementRef: ElementRef) {}
 
   @HostListener('document:click', ['$event.target'])
   onClickOutside(target: HTMLElement): void {
@@ -31,10 +29,15 @@ export class CreateChannelComponent {
     this.closeDialog.createNewChannel = false;
   }
 
-  
   createChanel() {
-    this.closeDialog.createChannel(1);
+    let baseName = this.channelName;
+    let newName = baseName;
+    let counter = 1;
+    while (this.closeDialog.channels.includes(newName)) {
+      newName = `${baseName}${counter}`;
+      counter++;
+    }
+    this.closeDialog.createChannel(newName, this.channelDescription);
     this.closeCreateChan();
   }
-
 }
