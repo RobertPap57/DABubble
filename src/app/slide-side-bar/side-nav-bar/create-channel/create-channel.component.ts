@@ -3,7 +3,7 @@ import { Component, ElementRef, HostListener, inject, ViewChild } from '@angular
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { SideNavBarComponent } from '../side-nav-bar.component';
-import { AddPeopleComponent } from '../../create-channel/add-people/add-people.component';
+import { AddPeopleComponent } from './add-people/add-people.component';
 
 @Component({
   selector: 'app-create-channel',
@@ -13,17 +13,19 @@ import { AddPeopleComponent } from '../../create-channel/add-people/add-people.c
   styleUrl: './create-channel.component.scss'
 })
 export class CreateChannelComponent {
-  creatingChannel:boolean = false;
-  @ViewChild('createdBox') createdBox!: ElementRef<HTMLDivElement>;
+  creatingChannel: boolean = true;
+  @ViewChild('createdChannelBox') createdChannelBox!: ElementRef<HTMLDivElement>;
   channelName: string = '';
   channelDescription: string = '';
   closeDialog = inject(SideNavBarComponent);
 
+
+
   @HostListener('document:click', ['$event.target'])
-  onClickOutside(target: HTMLElement): void {
-    const clickedInside = this.createdBox.nativeElement.contains(target);
-    if (!clickedInside) {
-      this.closeCreateChan();
+  onClickOutsideChan(target: HTMLElement): void {
+    if (this.createdChannelBox) {
+      let clickInsideChan = this.createdChannelBox.nativeElement.contains(target); {
+      } if (!clickInsideChan) this.closeCreateChan();
     }
   }
 
@@ -36,11 +38,12 @@ export class CreateChannelComponent {
     let newName = baseName;
     let counter = 1;
     while (this.closeDialog.channels.includes(newName)) {
-      newName = `${baseName}${counter}`;
+      newName = `${counter} ${baseName}`;
       counter++;
     }
     this.creatingChannel = true;
     // this.closeDialog.createChannel(newName, this.channelDescription);
     // this.closeCreateChan();
+    //check if empty
   }
 }
