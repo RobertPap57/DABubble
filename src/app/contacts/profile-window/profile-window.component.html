@@ -8,7 +8,10 @@
             <img src="/steffen-hoffmann-avatar.png">
         </div>
         <div class="name">
-            <h1>{{ name }}</h1>
+            <div class="edit">
+                <h1>{{ name }}</h1>
+                <a href="#">Bearbeiten</a>
+            </div>
             <div class="status-container">
                 <div class="status" [ngClass]="{ active: isActive, inactive: !isActive }"></div>
                 <span class="status-text" [ngStyle]="{ color: isActive ? 'green' : 'gray' }">

@@ -46,8 +46,20 @@ h2 {
     margin-top: 38px;
 
     h1 {
-        font-size: 32px;
+        font-size: 28px;
     }
+    a {
+        font-size: 18px;
+        text-decoration: none;
+    }
+}
+
+.edit {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 372px;
+
 }
 
 .status-container {
