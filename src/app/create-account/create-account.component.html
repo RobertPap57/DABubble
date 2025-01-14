@@ -32,7 +32,10 @@
         />
         <div
           class="error-message"
-          *ngIf="userNameInput.invalid && userNameInput.touched"
+          *ngIf="
+            (userNameInput.invalid && userNameInput.touched) ||
+            (showError && userNameInput.invalid)
+          "
         >
           *Bitte schreiben Sie einen Namen.
         </div>
@@ -53,7 +56,10 @@
         />
         <div
           class="error-message"
-          *ngIf="emailInput.invalid && emailInput.touched"
+          *ngIf="
+            (emailInput.invalid && emailInput.touched) ||
+            (showError && emailInput.invalid)
+          "
         >
           *Diese E-Mail-Adresse ist leider ungültig.
         </div>
@@ -75,7 +81,10 @@
         />
         <div
           class="error-message"
-          *ngIf="passwortInput.invalid && passwortInput.touched"
+          *ngIf="
+            (passwortInput.invalid && passwortInput.touched) ||
+            (showError && passwortInput.invalid)
+          "
         >
           *Falsches Passwort oder E-Mail. Bitte noch einmal versuchen.
         </div>
@@ -96,7 +105,10 @@
         />
         <div
           class="error-message"
-          *ngIf="confirmPasswortInput.invalid && confirmPasswortInput.touched"
+          *ngIf="
+            (confirmPasswortInput.invalid && confirmPasswortInput.touched) ||
+            (showError && passwordText !== confirmPasswordText)
+          "
         >
           *Passwörter müssen übereinstimmen.
         </div>

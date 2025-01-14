@@ -54,10 +54,17 @@ export class CreateAccountComponent {
 
   /**
    * Handles navigation to the avatar selection page.
-   * Displays an error message if the "terms accepted" checkbox is not checked.
+   * Displays error messages if fields are invalid or passwords do not match.
    */
   openAvatar(): void {
-    if (!this.isChecked) {
+    const allFieldsFilled =
+      this.emailText &&
+      this.passwordText &&
+      this.confirmPasswordText &&
+      this.userNameText;
+    const passwordsMatch = this.passwordText === this.confirmPasswordText;
+
+    if (!allFieldsFilled || !passwordsMatch || !this.isChecked) {
       this.showError = true;
     } else {
       this.showError = false;
@@ -101,6 +108,7 @@ export class CreateAccountComponent {
 
   /**
    * Updates the text and icon of an input field as the user types.
+   * Includes password matching validation for confirmPassword.
    * @param {string} field - The input field name ('email', 'password', or 'userName').
    * @param {Event} event - The input event containing the user's input.
    */
@@ -116,6 +124,12 @@ export class CreateAccountComponent {
     } else if (field === 'confirm') {
       this.confirmPasswordText = value;
       this.confirmLockImg = value ? '/lock-black.png' : '/lock-grey.png';
+      if (
+        this.passwordText === this.confirmPasswordText &&
+        this.confirmPasswordText == ''
+      ) {
+        this.showError = false;
+      }
     } else if (field === 'userName') {
       this.userNameText = value;
       this.userNameImg = value
