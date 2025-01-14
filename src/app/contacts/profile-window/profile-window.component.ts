@@ -9,11 +9,16 @@ import { Component } from '@angular/core';
   styleUrl: './profile-window.component.scss'
 })
 export class ProfileWindowComponent {
+  isEditMode: boolean = true;
   name: string = 'Steffen Hoffmann';  // Beispielname
   email: string = 'thehoffman@beispiel.com'; // Beispiel-E-Mail
   isActive: boolean = false; // Status standardmäßig 'abwesend'
 
   constructor() { }
+
+  toggleEditMode() {
+    this.isEditMode = !this.isEditMode;
+  }
 
   ngOnInit(): void {
   }
