@@ -37,7 +37,6 @@ export class SideNavBarComponent {
   }
   
   createChannel(i: number) {
-    //Adding Channel
       i++
       let channel = "Neuer Kanal" + i
       if (this.channels.includes(channel)) {
@@ -46,6 +45,10 @@ export class SideNavBarComponent {
       } else {
         this.channels.push(channel);
       }
+  }
+
+  openCreateChannel() {
+    this.createNewChannel = true;
   }
 
   openSearchChannel() { }
