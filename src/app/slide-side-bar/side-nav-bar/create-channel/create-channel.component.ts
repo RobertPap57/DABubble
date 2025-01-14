@@ -13,7 +13,7 @@ import { AddPeopleComponent } from './add-people/add-people.component';
   styleUrl: './create-channel.component.scss'
 })
 export class CreateChannelComponent {
-  creatingChannel: boolean = true;
+  creatingChannel: boolean = false;
   @ViewChild('createdChannelBox') createdChannelBox!: ElementRef<HTMLDivElement>;
   channelName: string = '';
   channelDescription: string = '';
@@ -42,8 +42,12 @@ export class CreateChannelComponent {
       counter++;
     }
     this.creatingChannel = true;
+
+  }
+
+  finalizeChannel() {
+    this.closeCreateChan();
     // this.closeDialog.createChannel(newName, this.channelDescription);
-    // this.closeCreateChan();
-    //check if empty
+    // check if empty
   }
 }

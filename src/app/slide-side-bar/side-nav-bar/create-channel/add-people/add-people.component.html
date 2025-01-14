@@ -2,10 +2,42 @@
     <div #createPeopleBox>
         <h2>Leute hinzufügen<span class="dFlexCenter" (click)="openDialog.closeCreateChan()">+</span></h2>
 
-        <input type="radio" id="all" name="users" value="all">
-        <label for="all">Alle Mitglieder von Devspace hinzufügen</label>
-        <input type="radio" id="select" name="users" value="">
-        <label for="select">Bestimmte Leute hinzufügen</label>
-        <input>
+        <div>
+            <input class="radio" type="radio" id="all" name="users" (change)="selectAll = false">
+            <label for="all">Alle Mitglieder von Devspace hinzufügen</label>
+        </div>
+
+        <div>
+            <input class="radio" type="radio" id="select" name="users" (change)="selectAll = true">
+            <label for="select">Bestimmte Leute hinzufügen</label>
+        </div>
+
+        @if (selectAll) {
+        <div class="dropdownInput">
+            <input (focus)="dropdownActive = true" class="searchUser" type="search" placeholder="Name eingeben">
+
+            @if (dropdownActive) {
+            <div class="dropdown">
+                @for (user of users; track $index) {
+                <div (click)="selectUser(user)" [class.active]="isSelected(user)" class="users">
+                    <div>
+                        <img src="./{{userImg[$index]}}">
+                        <span [ngStyle]="{'background-color': userOnline[$index] ? onlineColor : offlineColor}"></span>
+                    </div>
+                    <p>{{user}}</p>
+                </div>
+                } @empty {
+                <div class="users">
+                    <p>No Users</p>
+                </div>
+                }
+            </div>
+            }
+        </div>
+        }
+
+
+        <button (click)="openDialog.finalizeChannel()">Erstellen</button>
+
     </div>
 </section>
