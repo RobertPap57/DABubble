@@ -3,15 +3,17 @@ import { Component, ElementRef, HostListener, inject, ViewChild } from '@angular
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { SideNavBarComponent } from '../side-nav-bar.component';
+import { AddPeopleComponent } from '../../create-channel/add-people/add-people.component';
 
 @Component({
   selector: 'app-create-channel',
   standalone: true,
-  imports: [FormsModule, CommonModule],
+  imports: [FormsModule, CommonModule, AddPeopleComponent],
   templateUrl: './create-channel.component.html',
   styleUrl: './create-channel.component.scss'
 })
 export class CreateChannelComponent {
+  creatingChannel:boolean = false;
   @ViewChild('createdBox') createdBox!: ElementRef<HTMLDivElement>;
   channelName: string = '';
   channelDescription: string = '';
@@ -37,7 +39,8 @@ export class CreateChannelComponent {
       newName = `${baseName}${counter}`;
       counter++;
     }
-    this.closeDialog.createChannel(newName, this.channelDescription);
-    this.closeCreateChan();
+    this.creatingChannel = true;
+    // this.closeDialog.createChannel(newName, this.channelDescription);
+    // this.closeCreateChan();
   }
 }
