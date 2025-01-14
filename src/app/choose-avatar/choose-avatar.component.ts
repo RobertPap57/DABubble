@@ -30,14 +30,14 @@ export class ChooseAvatarComponent {
    * Navigates the user to the register page.
    */
   backToRegister(): void {
-    this.router.navigate(['/register']);
+    this.router.navigate(['register']);
   }
 
   /**
    * Navigates the user back to the login page.
    */
   openLogin(): void {
-    this.router.navigate(['']);
+    this.router.navigate(['login']);
   }
 
   /**

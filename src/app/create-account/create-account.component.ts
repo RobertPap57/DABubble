@@ -35,7 +35,7 @@ export class CreateAccountComponent {
    * Navigates the user back to the login page.
    */
   backToLogin(): void {
-    this.router.navigate(['']);
+    this.router.navigate(['login']);
   }
 
   /**
@@ -47,7 +47,7 @@ export class CreateAccountComponent {
       this.showError = true;
     } else {
       this.showError = false;
-      this.router.navigate(['/avatar']);
+      this.router.navigate(['avatar']);
     }
   }
 
