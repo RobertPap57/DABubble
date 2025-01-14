@@ -7,12 +7,13 @@ import { ContactWindowComponent } from './contacts/contact-window/contact-window
 import { PasswordResetSendMailComponent } from './password-reset-send-mail/password-reset-send-mail.component';
 import { PasswordResetComponent } from './password-reset/password-reset.component';
 import { HomeComponent } from './home/home.component';
+import { ProfileWindowComponent } from './contacts/profile-window/profile-window.component';
 export const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'header', component: HeaderComponent },
   { path: 'register', component: CreateAccountComponent },
   { path: 'avatar', component: ChooseAvatarComponent },
-  { path: 'contact', component: ContactWindowComponent },
+  { path: 'profile-window', component: ProfileWindowComponent },
   { path: 'reset-password', component: PasswordResetSendMailComponent },
   { path: 'reset-password-id', component: PasswordResetComponent },
   { path: 'home', component: HomeComponent },
