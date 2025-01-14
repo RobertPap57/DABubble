@@ -3,14 +3,14 @@ section {
   background-color: #ffffff;
   border-radius: 30px;
   max-width: 606px;
-  height: 769px;
+  min-height: 700px;
   display: flex;
   align-items: center;
   justify-content: center;
   margin: auto;
-  .back-arrow{
+  .back-arrow {
     position: absolute;
-    top:45px;
+    top: 45px;
     left: 32px;
   }
 }
@@ -20,22 +20,21 @@ section {
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  width: calc(100% - 100px);
-  height: calc(100% - 100px);
+  padding: 32px 64px;
   form {
     display: flex;
     flex-direction: column;
     width: 100%;
-    gap: 40px;
     .input {
       position: relative;
       display: flex;
       align-items: center;
-      height: 60px;
+      height: 48px;
       border-radius: 100px;
       background-color: #eceefe;
       font-size: 18px;
       border: 1px solid #eceefe;
+      margin-bottom: 40px;
       img {
         position: absolute;
         width: 24px;
@@ -83,15 +82,18 @@ section {
   }
   span {
     font-size: 20px;
+    margin-bottom: 40px;
   }
 }
 
 .legal-notice {
   position: relative;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   width: 100%;
   gap: 8px;
+  margin-bottom: 48px;
+  padding-top: 8px;
   img {
     cursor: pointer;
     height: 24px;
@@ -110,16 +112,12 @@ section {
       border-radius: 30px;
     }
   }
-  div{
-    top: 24px;
-  }
 }
 
-.login-btns {
+.next-btn {
   width: 100%;
   display: flex;
   justify-content: flex-end;
-  gap: 30px;
 }
 
 .primary-btn {
@@ -139,28 +137,8 @@ section {
   }
 }
 
-@media (max-width: 1920px) {
-  section {
-    height: 650px;
-  }
-  .section-content {
-    width: calc(100% - 50px);
-    height: calc(100% - 50px);
-    form {
-      .input {
-        height: 48px;
-      }
-    }
-  }
-}
-
 @media (max-width: 768px) {
-  section {
-    height: 650px;
-  }
   .section-content {
-    width: calc(100% - 50px);
-    height: calc(100% - 50px);
     form {
       .input {
         height: 48px;
@@ -175,25 +153,40 @@ section {
   }
 }
 
-@media (max-width: 653px) {
+@media (max-width: 640px) {
   section {
     margin-inline: 16px;
   }
+  .section-content {
+    form {
+      gap: 16px;
+    }
+  }
 }
 
-@media (max-width: 375px) {
+@media (max-width: 510px) {
   section {
-    height: 650px;
+    .back-arrow {
+      top: 30px;
+      left: 16px;
+    }
+  }
+  .section-content {
+    padding: 32px 40px;
   }
   .headline {
     h2 {
       font-size: 32px;
+      margin-inline: 16px;
       margin-bottom: 24px;
     }
     span {
       font-size: 16px;
     }
   }
+}
+
+@media (max-width: 375px) {
   .section-content {
     form {
       .input {
@@ -203,7 +196,17 @@ section {
       }
     }
   }
+  .legal-notice {
+    div {
+      top: 72px;
+    }
+  }
+  .next-btn {
+    margin-top: 8px;
+  }
   .primary-btn {
     font-size: 14px;
+    width: 96px;
+    height: 40px;
   }
 }
