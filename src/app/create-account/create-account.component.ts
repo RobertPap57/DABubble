@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import { UserService } from '../services/user.service';
 
 @Component({
   selector: 'app-create-account',
@@ -11,7 +12,7 @@ import { Router } from '@angular/router';
   styleUrl: './create-account.component.scss',
 })
 export class CreateAccountComponent {
-  constructor(private router: Router) {}
+  constructor(private router: Router, public userData: UserService) {}
 
   emailImg: string = '/mail-grey.png';
   lockImg: string = '/lock-grey.png';
@@ -31,6 +32,19 @@ export class CreateAccountComponent {
   isArrowHovered: boolean = false;
   backArrowImage: string = '/back-arrow.png';
 
+  createUser() {
+    this.userData.userName = this.userNameText;
+    this.userData.email = this.emailText;
+    this.userData.password = this.passwordText;
+    this.userData.confirmPassword = this.confirmPasswordText;
+    console.log([
+      this.userData.userName,
+      this.userData.email,
+      this.userData.password,
+      this.userData.confirmPassword,
+    ]);
+  }
+
   /**
    * Navigates the user back to the login page.
    */
@@ -48,6 +62,7 @@ export class CreateAccountComponent {
     } else {
       this.showError = false;
       this.router.navigate(['avatar']);
+      this.createUser();
     }
   }
 

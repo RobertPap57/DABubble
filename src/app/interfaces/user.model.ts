@@ -3,6 +3,7 @@ export interface User {
     name: string,
     userImage: string,
     email: string,
+    password: string,
     status: string,
-    lastSeen: number,
+    lastSeen: any,
 }

@@ -10,6 +10,13 @@ export class UserService {
   users: User[] = [];
   firestore: Firestore = inject(Firestore);
   userId: string = '';
+  userName: string = '';
+  email: string = '';
+  password: string = '';
+  confirmPassword: string = '';
+  userImage: string = '';
+
+  
   unsubUserList;
 
   constructor() {
@@ -115,6 +122,7 @@ export class UserService {
       name: obj.name,
       userImage: obj.userImage,
       email: obj.email,
+      password: obj.password,
       status: obj.status,
       lastSeen: obj.lastSeen,
     }
@@ -138,5 +146,25 @@ export class UserService {
    */
   getSingleUserDocRef(colId: string, docId: string) {
     return doc(collection(this.firestore, colId), docId);
+  }
+
+  uploadUserData() {
+    const newUser: User = {
+      id: '',
+      name: this.userName,
+      email: this.email,
+      password: this.password,
+      userImage: this.userImage,
+      status: 'online',
+      lastSeen: new Date(),
+    };
+  
+    this.createUser(newUser)
+      .then(() => {
+        console.log('Benutzerdaten erfolgreich hochgeladen.');
+      })
+      .catch((error) => {
+        console.error('Fehler beim Hochladen der Benutzerdaten:', error);
+      });
   }
 }

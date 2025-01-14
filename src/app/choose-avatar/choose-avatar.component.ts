@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { UserService } from '../services/user.service';
 
 @Component({
   selector: 'app-choose-avatar',
@@ -10,7 +11,7 @@ import { Router } from '@angular/router';
   styleUrl: './choose-avatar.component.scss',
 })
 export class ChooseAvatarComponent {
-  constructor(private router: Router) {}
+  constructor(private router: Router, public userData: UserService) {}
 
   isArrowHovered: boolean = false;
   backArrowImage: string = '/back-arrow.png';
@@ -38,6 +39,15 @@ export class ChooseAvatarComponent {
    */
   openLogin(): void {
     this.router.navigate(['login']);
+    this.userData.userImage = this.selectedAvatar;
+    this.userData.uploadUserData();
+    console.log([
+      this.userData.userImage,
+      this.userData.userName,
+      this.userData.email,
+      this.userData.password,
+      this.userData.confirmPassword,
+    ]);
   }
 
   /**
