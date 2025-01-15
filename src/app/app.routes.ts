@@ -8,12 +8,14 @@ import { PasswordResetSendMailComponent } from './password-reset-send-mail/passw
 import { PasswordResetComponent } from './password-reset/password-reset.component';
 import { HomeComponent } from './home/home.component';
 import { ProfileWindowComponent } from './contacts/profile-window/profile-window.component';
+import { EditChannelComponent } from './slide-side-bar/edit-channel/edit-channel.component';
+import { CreateChannelComponent } from './contacts/create-channel/create-channel.component';
 export const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'header', component: HeaderComponent },
   { path: 'register', component: CreateAccountComponent },
   { path: 'avatar', component: ChooseAvatarComponent },
-  { path: 'profile-window', component: ProfileWindowComponent },
+  { path: 'channel', component: CreateChannelComponent },
   { path: 'reset-password', component: PasswordResetSendMailComponent },
   { path: 'reset-password-id', component: PasswordResetComponent },
   { path: 'home', component: HomeComponent },
