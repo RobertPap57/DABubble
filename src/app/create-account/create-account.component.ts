@@ -130,9 +130,6 @@ export class CreateAccountComponent {
     } else if (field === 'password') {
       this.passwordText = value;
       this.lockImg = value ? '/lock-black.png' : '/lock-grey.png';
-
-      this.passwordRegex =
-        /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/;
       this.showError = !this.passwordRegex.test(value);
     } else if (field === 'confirm') {
       this.confirmPasswordText = value;
