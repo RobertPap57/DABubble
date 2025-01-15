@@ -104,10 +104,18 @@ export class UserService {
   }
 
   /**
+   * Prepares and uploads new user data to Firestore.
+   */
+  uploadUserData(): void {
+    const newUser = this.prepareNewUser();
+    this.saveUserToFirestore(newUser);
+  }
+
+  /**
    * Prepares a new user object based on the current input data.
    * @returns {User} - The new user object to be uploaded.
    */
-  public prepareNewUser(): User {
+  private prepareNewUser(): User {
     return {
       id: '',
       name: this.userName,
