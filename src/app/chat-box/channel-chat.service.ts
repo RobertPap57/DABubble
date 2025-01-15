@@ -21,10 +21,12 @@ export class ChannelChatService {
           { sender: 'Alice', text: 'Hi there!', time: '15:00', senderImg: '2' }
         ],
         reactions: [
-          { emoji: '🚀', count: 3, users: ['Elena', 'Maria', 'Ionut'] },
-          { emoji: '✅', count: 1, users: ['Elena'] },
+          { emoji: '🚀', users: ['Elena', 'Maria', 'Ionut'] },
+          { emoji: '✅', users: ['Elena'] },
 
         ],
+        recentEmojis: ['✅', '🙌'],
+
       },
 
     ];

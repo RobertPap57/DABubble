@@ -1,9 +1,6 @@
 import { Component, Input, Inject, inject, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { ChannelChatService } from './channel-chat.service';
-import { ThreadChatService } from './thread-chat.service';
-import { PrivateChatService } from './private-chat.service';
-import { NewChatService } from './new-chat.service';
 import { MatIconModule } from '@angular/material/icon';
 import { PickerComponent } from '@ctrl/ngx-emoji-mart';
 import { CommonModule } from '@angular/common';
@@ -30,12 +27,12 @@ import { MessageComponent } from './message/message.component';
     AutosizeModule,
     ClickOutsideDirective,
     MessageComponent
-    ],
+  ],
   templateUrl: './chat-box.component.html',
   styleUrl: './chat-box.component.scss'
 })
 export class ChatBoxComponent {
-  
+
   isBrowser: boolean;
   emojiPickerOn: boolean = false;
   @Input() chatType: 'private' | 'channel' | 'thread' | 'new' = 'new';
@@ -44,16 +41,14 @@ export class ChatBoxComponent {
   users: any[] = [
     { name: 'Noah Braun', avatar: '3' },
     { name: 'Sofia Müller', avatar: '2' },
-    { name: 'Frederik Beck', avatar: '1' },  
+    { name: 'Frederik Beck', avatar: '1' },
   ];
   userName = 'Sofia Müller';
   messages: any[] = [];
   message: string = '';
 
   private channelChatService = inject(ChannelChatService);
-  private threadChatService = inject(ThreadChatService);
-  private privateChatService = inject(PrivateChatService);
-  private newChatService = inject(NewChatService);
+
 
 
   constructor(@Inject(PLATFORM_ID) private platformId: any) {
@@ -63,14 +58,29 @@ export class ChatBoxComponent {
   ngOnInit() {
     this.loadMessages();
   }
-  
+
   sendMessage(): void {
     if (this.message.trim() !== '') {
-      this.messages.push({ text: this.message, sender: 'Me', time: new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false }), senderImg: '1' });
-      this.message = '';
-      console.log(this.messages);
-      
+      this.messages.push(
+        {
+          sender: 'Me',
+          text: this.message,
+          time: new Date().toLocaleTimeString
+            ('en-US', { hour: '2-digit', minute: '2-digit', hour12: false }),
+          senderImg: '1',
+          thread: [
+            { sender: 'Bob', text: 'Hi there!', time: '13:00', senderImg: '1' },
+            { sender: 'Alice', text: 'Hi there!', time: '15:00', senderImg: '2' }
+          ],
+          reactions: [],
+          recentEmojis: [],
+        },
+
+      );
     }
+    this.message = '';
+    console.log(this.messages);
+
   }
 
   toggleEmojiPicker(): void {
@@ -87,24 +97,11 @@ export class ChatBoxComponent {
   }
 
   closeThread(): void {
-    
+
   }
 
   loadMessages() {
-    switch (this.chatType) {
-      case 'private':
-        this.messages = this.privateChatService.getMessages(this.chatId);
-        break;
-      case 'channel':
-        this.messages = this.channelChatService.getMessages(this.chatId);
-        break;
-      case 'thread':
-        this.messages = this.threadChatService.getMessages(this.chatId);
-        break;
-      case 'new':
-        this.messages = this.newChatService.getMessages(this.chatId);
-        break;
-    }
-  }
+    this.messages = this.channelChatService.getMessages(this.chatId);
 
+  }
 }

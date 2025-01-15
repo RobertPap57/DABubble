@@ -1,36 +1,28 @@
 import { Component, Input, Inject } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { PickerComponent } from '@ctrl/ngx-emoji-mart';
-import { ClickOutsideDirective } from '../click-outside.directive';
+import { ClickOutsideDirective } from '../../click-outside.directive';
 import { CommonModule } from '@angular/common';
-import { AutosizeModule } from 'ngx-autosize';
-import { ReactionBarComponent } from './reaction-bar/reaction-bar.component';
-
-
-
 
 
 @Component({
-  selector: 'app-message',
+  selector: 'app-reaction-bar',
   standalone: true,
   imports: [
     MatIconModule,
-    AutosizeModule,
     PickerComponent,
     ClickOutsideDirective,
     CommonModule,
-    ReactionBarComponent
   ],
-  templateUrl: './message.component.html',
-  styleUrl: './message.component.scss'
+  templateUrl: './reaction-bar.component.html',
+  styleUrl: './reaction-bar.component.scss'
 })
+export class ReactionBarComponent {
 
-export class MessageComponent {
-  loggedUser: string = 'Me';
-  emojiPickerOn: boolean = false;
   @Input() message: any;
-
-
+  loggedUser: string = 'Me';
+  optionsOpen: boolean = false;
+  emojiPickerOn: boolean = false;
 
 
   toggleEmojiPicker(): void {
@@ -42,11 +34,12 @@ export class MessageComponent {
       (reaction: { emoji: string; users: string[] }) => reaction.emoji === event.emoji.native
     );
 
-    if (existingReaction) {
+    if (existingReaction && !this.alreadyReacted(event.emoji.native)) {
+
       if (!existingReaction.users.includes(this.loggedUser)) {
         existingReaction.users.push(this.loggedUser);
       }
-    } else {
+    } else if (!this.alreadyReacted(event.emoji.native)) {
 
       this.message.reactions.push({
         emoji: event.emoji.native,
@@ -67,39 +60,52 @@ export class MessageComponent {
       this.message.recentEmojis.shift();
     }
   }
-
   closeEmojiPicker(): void {
     this.emojiPickerOn = false;
   }
 
+  toggleOptions(): void {
+    this.optionsOpen = !this.optionsOpen;
+  }
 
-  addExistingEmoji(existingEmoji: string): void {
+  closeOptions(): void {
+    this.optionsOpen = false;
+  }
+
+  addRecentEmoji(recentEmoji: string): void {
     const existingReaction = this.message.reactions.find(
-      (reaction: { emoji: string; users: string[] }) => reaction.emoji === existingEmoji
+      (reaction: { emoji: string; users: string[] }) => reaction.emoji === recentEmoji
     );
-
-    if (existingReaction && !this.alreadyReacted(existingEmoji)) {
+  
+    if (existingReaction && !this.alreadyReacted(recentEmoji)) {
       existingReaction.users.push(this.loggedUser);
-    } else if (this.alreadyReacted(existingEmoji)) {
-      this.removeEmoji(existingEmoji);
+    } else if (!existingReaction) {
+      this.message.reactions.push({
+        emoji: recentEmoji,
+        users: [this.loggedUser]
+      });
+    } else if (this.alreadyReacted(recentEmoji)) {
+      this.removeEmoji(recentEmoji);
     }
   }
 
-  removeEmoji(emoji: string): void {
-    const reactionIndex = this.message.reactions.findIndex(
-      (reaction: { emoji: string; users: string[] }) => reaction.emoji === emoji
-    );
 
-    if (reactionIndex !== -1) {
-      const reaction = this.message.reactions[reactionIndex];
+removeEmoji(emoji: string): void {
+  const reactionIndex = this.message.reactions.findIndex(
+    (reaction: { emoji: string; users: string[] }) => reaction.emoji === emoji
+  );
 
-      reaction.users = reaction.users.filter((user: string) => user !== this.loggedUser);
+  if (reactionIndex !== -1) {
+    const reaction = this.message.reactions[reactionIndex];
 
-      if (reaction.users.length === 0) {
-        this.message.reactions.splice(reactionIndex, 1);
-      }
+    reaction.users = reaction.users.filter((user: string) => user !== this.loggedUser);
+
+    if (reaction.users.length === 0) {
+      this.message.reactions.splice(reactionIndex, 1);
     }
   }
+}
+
 
   alreadyReacted(reactedEmoji: string): boolean {
     return this.message.reactions.some(
@@ -111,12 +117,15 @@ export class MessageComponent {
 
 
 
-
-
-
-
-
 }
+
+
+
+
+
+
+
+
 
 
 

@@ -27,3 +27,26 @@ body {
   align-items: center;
   justify-content: center;
 }
+
+emoji-mart {
+  position: absolute;
+  z-index: 10;
+}
+
+.emoji-mart {
+  border-radius: 20px;
+  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.0784313725);
+}
+
+.emoji-mart-category .emoji-mart-emoji span {
+  cursor: pointer !important;
+}
+
+.emoji-mart-anchors svg,
+.emoji-mart-anchors img {
+  cursor: pointer !important;
+}
+
+.emoji-mart-skin {
+  cursor: pointer !important;
+}
