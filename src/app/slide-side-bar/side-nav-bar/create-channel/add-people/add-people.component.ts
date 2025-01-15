@@ -58,11 +58,8 @@ export class AddPeopleComponent {
       return
     } else {
       this.channelData.userIds = this.selectedUser;
-
-
-
-
-
+      const channel = this.channelData.getCurChanObj();
+      this.channelData.createChannel(channel);
       this.openDialog.closeCreateChan();
     }
   }

@@ -16,7 +16,7 @@
             </div>
 
             @if (selectedOption === 'selectedUser') {
-            <div class="dropdownInput">
+            <div class="dropdownInput" (blur)="dropdownActive = false">
                 <input (focus)="dropdownActive = true" class="searchUser" type="search" placeholder="Name eingeben">
 
                 @if (dropdownActive) {
