@@ -9,13 +9,12 @@ import { PasswordResetComponent } from './password-reset/password-reset.componen
 import { HomeComponent } from './home/home.component';
 import { ProfileWindowComponent } from './contacts/profile-window/profile-window.component';
 import { EditChannelComponent } from './slide-side-bar/edit-channel/edit-channel.component';
-import { CreateChannelComponent } from './contacts/create-channel/create-channel.component';
 export const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'header', component: HeaderComponent },
   { path: 'register', component: CreateAccountComponent },
   { path: 'avatar', component: ChooseAvatarComponent },
-  { path: 'channel', component: CreateChannelComponent },
+  { path: 'profile', component: ContactWindowComponent },
   { path: 'reset-password', component: PasswordResetSendMailComponent },
   { path: 'reset-password-id', component: PasswordResetComponent },
   { path: 'home', component: HomeComponent },
