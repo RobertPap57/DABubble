@@ -15,7 +15,7 @@ export class ChannelService {
   chanCreatedByUser: string = '';
   userIds: string[] = [];
   textIds: {} = {};
-  threadIDs: [] = [];
+  thread: [] = [];
   
   
   unsubChannelList;
@@ -89,7 +89,7 @@ export class ChannelService {
       chanCreatedByUser: obj.chanCreatedByUser,
       userIds: obj.userIds,
       textIds: obj.textId,
-      threadIDs: obj.threadIDs,
+      thread: obj.threadIDs,
     }
   }
 
@@ -101,7 +101,7 @@ export class ChannelService {
       chanCreatedByUser: this.chanCreatedByUser,
       userIds: this.userIds,
       textId: this.textIds,
-      threadIDs: this.threadIDs,
+      thread: this.thread,
     }
   }
 
