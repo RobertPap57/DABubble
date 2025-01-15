@@ -15,6 +15,10 @@ section {
   }
 }
 
+.password-input {
+  margin-bottom: 48px !important;
+}
+
 .section-content {
   display: flex;
   flex-direction: column;
@@ -78,11 +82,11 @@ section {
     color: #444df2;
     font-size: 46px;
     margin-top: 0;
-    margin-bottom: 32px;
+    margin-bottom: 24px;
   }
   span {
     font-size: 20px;
-    margin-bottom: 40px;
+    margin-bottom: 24px;
   }
 }
 
@@ -171,8 +175,14 @@ section {
       left: 16px;
     }
   }
+  .password-input {
+    margin-bottom: 48px !important;
+  }
   .section-content {
     padding: 32px 40px;
+    .input {
+      height: 40px;
+    }
   }
   .headline {
     h2 {
@@ -187,6 +197,9 @@ section {
 }
 
 @media (max-width: 375px) {
+  .password-input {
+    margin-bottom: 80px !important;
+  }
   .section-content {
     form {
       .input {
