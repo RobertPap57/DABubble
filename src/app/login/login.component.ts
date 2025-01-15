@@ -2,6 +2,8 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import { UserService } from '../services/user.service';
+
 
 @Component({
   selector: 'app-login',
@@ -11,13 +13,17 @@ import { Router } from '@angular/router';
   styleUrl: './login.component.scss',
 })
 export class LoginComponent {
-  constructor(private router: Router) {}
+  constructor(private router: Router, private userService: UserService) {}
 
   emailImg: string = '/mail-grey.png';
   lockImg: string = '/lock-grey.png';
 
   emailText: string = '';
   passwordText: string = '';
+
+  async onLogin() {
+    await this.userService.loginUser(this.emailText, this.passwordText);
+  }
 
   /**
    * Handles the focus event for an input field.
