@@ -20,10 +20,15 @@
                 <input (focus)="dropdownActive = true" class="searchUser" type="search" placeholder="Name eingeben">
 
                 <div class="invisibleOverlay">
-                @for (select of selectedUser; track $index) {
-                    <p><img src="./{{select[$index]}}">{{select}}<span>+</span></p>
-                }
-            </div>
+                    @for (select of selectedUser; track $index) {
+
+                    @if ($index < 2) { <p><img src="./{{userImg[$index]}}">{{select}}<span (click)="selectUser(select)">+</span></p>
+                        }
+                        @if ($index === 2) {
+                            <p>+ {{ selectedUser.length - 2 }} Users</p>
+                          }
+                        }
+                </div>
 
                 @if (dropdownActive) {
                 <div class="dropdown" #focusdropdown>

@@ -18,9 +18,9 @@ export class AddPeopleComponent {
   @ViewChild('focusdropdown') focusDropdown!: ElementRef;
   selectedOption: string | null = null;
   dropdownActive: boolean = false;
-  users = ['Lars', 'Alex', 'Alex2'];
-  userImg = ['steffen-hoffmann-avatar.png', '01.Charaters.png', '02.Charaters.png'];
-  userOnline = [true, false, false,];
+  users = ['Lars', 'Alex', 'Alex2', 'Alex3', 'Alex4', 'Alex5', 'Alex6'];
+  userImg = ['steffen-hoffmann-avatar.png', '01.Charaters.png', '02.Charaters.png', '01.Charaters.png', '02.Charaters.png', '01.Charaters.png', '02.Charaters.png'];
+  userOnline = [true, false, false, true, false, true, false,];
   onlineColor = '#92c73e';
   offlineColor = '#696969';
   selectedUser: string[] = [];

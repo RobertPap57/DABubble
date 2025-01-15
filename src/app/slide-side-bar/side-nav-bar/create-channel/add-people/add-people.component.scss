@@ -122,6 +122,12 @@ button {
         padding-right: 28px;
         margin-right: 8px;
 
+        >img {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+        }
+
         >span {
             font-size: 22px;
             position: absolute;
