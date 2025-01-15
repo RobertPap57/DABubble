@@ -19,8 +19,7 @@ export interface Channel {
             }
         }
     }[],
-    threadIDs?: {
-        threadId: string,
+    thread?: {
         threadUpdatedAt: number,
         threadTextIds: {
             threadText: string,
