@@ -42,27 +42,11 @@ export class UserService {
       (list: QuerySnapshot<DocumentData>) => {
         this.users = [];
         list.forEach((element) => {
-          console.log(this.setUserObject(element.data(), element.id));
+          // console.log(this.setUserObject(element.data(), element.id));
           this.users.push(this.setUserObject(element.data(), element.id));
         });
       }
     );
-  }
-
-  /**
-   * sets the User id for the specific array
-   *
-   * @param id the specific User ID
-   */
-  setUserId(id: string) {
-    this.userId = id;
-  }
-
-  /**
-   * unsubscribe the onsnapshotFunction
-   */
-  ngOnDestroy() {
-    this.unsubUserList;
   }
 
   /**
@@ -78,56 +62,6 @@ export class UserService {
       .then((docRef) => {
         console.log('Document written with ID: ', docRef);
       });
-  }
-
-  /**
-   * updates one or more specific keys for the User
-   *
-   * @param 'user' the id of the collection i.e. 'user'
-   * @param docId the document id
-   * @param user the keys that get changed
-   */
-  async updateUser(user: User) {
-    if (user.id) {
-      let docRef = this.getSingleUserDocRef('user', user.id);
-      await updateDoc(docRef, this.getCleanJSON(user))
-        .catch((err) => {
-          console.error(err);
-        })
-        .then(
-          () => {} //Hier Update Funktioniert Modul
-        );
-    }
-  }
-
-  /**
-   * deletes the User from the database
-   */
-  async deleteUser(docId: string) {
-    await deleteDoc(this.getSingleUserDocRef('user', docId))
-      .catch((err) => {
-        console.error(err);
-      })
-      .then(
-        () => {} //Hier Update Funktioniert Modul
-      );
-  }
-
-  /**
-   * get a clean JSON for the user
-   *
-   * @param user the object from the input
-   * @returns a complete user-object
-   */
-  getCleanJSON(user: User): {} {
-    return {
-      id: user.id,
-      name: user.name,
-      userImage: user.userImage,
-      email: user.email,
-      status: user.status,
-      lastSeen: user.lastSeen,
-    };
   }
 
   /**
@@ -170,18 +104,10 @@ export class UserService {
   }
 
   /**
-   * Prepares and uploads new user data to Firestore.
-   */
-  uploadUserData(): void {
-    const newUser = this.prepareNewUser();
-    this.saveUserToFirestore(newUser);
-  }
-
-  /**
    * Prepares a new user object based on the current input data.
    * @returns {User} - The new user object to be uploaded.
    */
-  private prepareNewUser(): User {
+  public prepareNewUser(): User {
     return {
       id: '',
       name: this.userName,
@@ -197,7 +123,7 @@ export class UserService {
    * Saves the user object to Firestore and handles success or error responses.
    * @param {User} user - The user object to be saved in Firestore.
    */
-  private saveUserToFirestore(user: User): void {
+  public saveUserToFirestore(user: User): void {
     this.createUser(user)
       .then(() => {
         console.log('User data successfully uploaded.');
