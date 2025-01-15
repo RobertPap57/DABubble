@@ -44,8 +44,6 @@ export class AddPeopleComponent {
 
   selectUser(user: string) {
     if (this.isSelected(user)) {
-      console.log(this.selectedUser);
-
       this.selectedUser.forEach((element, index) => {
         if (element === user) {
           this.selectedUser.splice(index, 1);

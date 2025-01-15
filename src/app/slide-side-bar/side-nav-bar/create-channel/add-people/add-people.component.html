@@ -19,6 +19,12 @@
             <div class="dropdownInput">
                 <input (focus)="dropdownActive = true" class="searchUser" type="search" placeholder="Name eingeben">
 
+                <div class="invisibleOverlay">
+                @for (select of selectedUser; track $index) {
+                    <p><img src="./{{select[$index]}}">{{select}}<span>+</span></p>
+                }
+            </div>
+
                 @if (dropdownActive) {
                 <div class="dropdown" #focusdropdown>
                     @for (user of users; track $index) {
