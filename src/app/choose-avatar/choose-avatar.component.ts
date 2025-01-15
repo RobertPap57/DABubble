@@ -40,7 +40,7 @@ export class ChooseAvatarComponent {
   openLogin(): void {
     this.router.navigate(['login']);
     this.userData.userImage = this.selectedAvatar;
-    this.userData.prepareNewUser();
+    this.userData.uploadUserData();
     console.log([
       this.userData.userImage,
       this.userData.userName,
