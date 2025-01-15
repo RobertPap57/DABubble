@@ -46,7 +46,7 @@
         />
         <div
         class="error-message"
-        *ngIf="passwortInput.invalid && passwortInput.touched"
+        *ngIf="(passwortInput.invalid && passwortInput.touched) || showError"
       >
         *Falsches Passwort oder E-Mail. Bitte noch einmal versuchen. 
       </div>

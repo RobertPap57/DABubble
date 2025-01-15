@@ -4,7 +4,6 @@ import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { UserService } from '../services/user.service';
 
-
 @Component({
   selector: 'app-login',
   standalone: true,
@@ -20,9 +19,22 @@ export class LoginComponent {
 
   emailText: string = '';
   passwordText: string = '';
+  showError: boolean = false;
 
   async onLogin() {
-    await this.userService.loginUser(this.emailText, this.passwordText);
+    try {
+      this.showError = false;
+      const loginSuccessful = await this.userService.loginUser(
+        this.emailText,
+        this.passwordText
+      );
+      if (!loginSuccessful) {
+        this.showError = true;
+      }
+    } catch (error) {
+      console.error('Fehler beim Login:', error);
+      this.showError = true;
+    }
   }
 
   /**
