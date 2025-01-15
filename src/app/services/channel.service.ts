@@ -9,7 +9,15 @@ import { addDoc, updateDoc, deleteDoc, collection, doc, DocumentData, Firestore,
 export class ChannelService {
   channels: Channel[] = [];
   firestore: Firestore = inject(Firestore);
-  channelId: string = '';
+  chanId: string = '';
+  chanName: string = '';
+  chanDescription: string = '';
+  chanCreatedByUser: string = '';
+  userIds: string[] = [];
+  textId: {} = {};
+  threadIDs: [] = [];
+  
+  
   unsubChannelList;
 
   constructor() {
@@ -28,7 +36,7 @@ export class ChannelService {
   }
 
   setChannelId(id: string) {
-    this.channelId = id;
+    this.chanId = id;
   }
 
   ngOnDestroy() {

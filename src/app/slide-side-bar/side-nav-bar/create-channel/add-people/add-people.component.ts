@@ -2,6 +2,7 @@ import { Component, ElementRef, HostListener, inject, ViewChild } from '@angular
 import { SideNavBarComponent } from '../../side-nav-bar.component';
 import { CreateChannelComponent } from '../create-channel.component';
 import { NgStyle } from '@angular/common';
+import { ChannelService } from '../../../../services/channel.service';
 
 @Component({
   selector: 'app-add-people',
@@ -11,6 +12,7 @@ import { NgStyle } from '@angular/common';
   styleUrl: './add-people.component.scss'
 })
 export class AddPeopleComponent {
+  channelData = inject(ChannelService);
   openDialog = inject(CreateChannelComponent);
   closeDialog = inject(SideNavBarComponent);
   @ViewChild('createPeopleBox') createPeopleBox!: ElementRef<HTMLDivElement>;
