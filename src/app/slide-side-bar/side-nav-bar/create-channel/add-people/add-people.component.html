@@ -16,11 +16,11 @@
             </div>
 
             @if (selectedOption === 'selectedUser') {
-            <div class="dropdownInput" (blur)="dropdownActive = false">
+            <div class="dropdownInput">
                 <input (focus)="dropdownActive = true" class="searchUser" type="search" placeholder="Name eingeben">
 
                 @if (dropdownActive) {
-                <div class="dropdown">
+                <div class="dropdown" #focusdropdown>
                     @for (user of users; track $index) {
                     <div (click)="selectUser(user)" [class.active]="isSelected(user)" class="users">
                         <div>
