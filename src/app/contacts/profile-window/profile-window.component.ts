@@ -26,4 +26,12 @@ export class ProfileWindowComponent {
   // Diese Methode könnte verwendet werden, um den Status von einer Datenbank abzurufen
   fetchStatusFromDatabase() {
   }
+
+  save() {
+    this.toggleEditMode();
+  }
+
+  cancel() {
+    this.toggleEditMode();
+  }
 }

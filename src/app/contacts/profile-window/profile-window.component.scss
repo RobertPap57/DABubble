@@ -22,6 +22,7 @@ h2 {
     img {
         cursor: pointer;
         transition: transform 0.3s ease;
+
         &:hover {
             transform: scale(1.5);
         }
@@ -48,6 +49,7 @@ h2 {
     h1 {
         font-size: 28px;
     }
+
     a {
         font-size: 18px;
         text-decoration: none;
@@ -104,4 +106,57 @@ h2 {
     align-items: center;
     margin-left: 64px;
     gap: 20px;
+}
+
+.edit-section {
+    margin-left: 64px;
+    margin-top: 45px;
+}
+
+.description {
+    display: flex;
+    gap: 20px;
+}
+
+.input {
+    border-radius: 30px;
+    width: 332px;
+    height: 25px;
+    padding: 15px 20px 15px 20px;
+    &::placeholder {
+        font-size: 18px;
+    }
+
+    &:focus {
+        font-size: 18px;
+    }
+}
+
+.buttons {
+    margin-top: 45px;
+    display: flex;
+    justify-content: center;
+    gap: 32px;
+
+    button {
+        width: 133px;
+        height: 49px;
+        background-color: transparent;
+        border: 1px solid #444DF2;
+        border-radius: 30px;
+        &:hover {
+            cursor: pointer;
+            filter: brightness(1.5);
+        }
+        span {
+            font-size: 18px;
+            color: #444DF2;
+        }
+        &:last-child {
+            background-color: #444DF2;
+            span {
+                color: white;
+            }
+        }
+    }
 }

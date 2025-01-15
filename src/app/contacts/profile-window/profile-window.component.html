@@ -31,10 +31,25 @@
     <div *ngIf="isEditMode" class="edit-view">
         <div class="top">
             <h2>Profil bearbeiten</h2>
-            <img src="/close.svg" alt="close icon" (click)="toggleEditMode()">
+            <img src="/close.svg" alt="close icon">
         </div>
         <div class="avatar">
             <img src="/steffen-hoffmann-avatar.png">
+        </div>
+        <div class="edit-section">
+            <div class="description">
+                <img src="/account_circle.svg">
+                <h2>Vollständiger Name</h2>
+            </div>
+            <input type="text" class="input" [placeholder]="name">
+        </div>
+        <div class="buttons">
+            <button class="cancel" (click)="cancel()">
+                <span>Abbrechen</span>
+            </button>
+            <button class="save" (click)="save()">
+                <span>Speichern</span>
+            </button>
         </div>
     </div>
 </section>
