@@ -1,3 +1,18 @@
 section {
-    
+    width: 872px;
+    height: 616px;
+    width: 872px;
+    border-radius: 0px 30px 30px 30px;
+    box-shadow: 0px 6px 10px 0px #00000033;
+    padding: 40px;
+}
+
+.top {
+    display: flex;
+    justify-content: space-between;
+}
+
+.left {
+    display: flex;
+    gap: 15px;
 }
