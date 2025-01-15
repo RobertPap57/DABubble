@@ -14,7 +14,7 @@ export class ChannelService {
   chanDescription: string = '';
   chanCreatedByUser: string = '';
   userIds: string[] = [];
-  textId: {} = {};
+  textIds: {} = {};
   threadIDs: [] = [];
   
   
@@ -77,7 +77,7 @@ export class ChannelService {
       chanDescription: channel.chanDescription,
       chanCreatedByUser: channel.chanCreatedByUser,
       userIds: channel.userIds,
-      textId: channel.textId,
+      textId: channel.textIds,
     }
   }
 
@@ -88,8 +88,20 @@ export class ChannelService {
       chanDescription: obj.chanDescription,
       chanCreatedByUser: obj.chanCreatedByUser,
       userIds: obj.userIds,
-      textId: obj.textId,
+      textIds: obj.textId,
       threadIDs: obj.threadIDs,
+    }
+  }
+
+  getCurChanObj() {
+    return {
+      chanId: '',
+      chanName: this.chanName,
+      chanDescription: this.chanDescription,
+      chanCreatedByUser: this.chanCreatedByUser,
+      userIds: this.userIds,
+      textId: this.textIds,
+      threadIDs: this.threadIDs,
     }
   }
 

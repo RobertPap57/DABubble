@@ -1,10 +1,11 @@
 export interface Channel {
     chanId: string,
     chanName: string,
-    chanDescription: string,
+    chanDescription?: string,
     chanCreatedByUser: string,
-    userIds: [],
-    textId: {
+    userIds: string[],
+    textIds?: {
+        textId: string,
         text: string,
         senderId: string,
         timestamp: number,
@@ -17,25 +18,23 @@ export interface Channel {
                 reactCount: number
             }
         }
-    },
-    threadIDs: [
-        {
-            threadId: string,
-            threadUpdatedAt: number,
-            threadTextIds: {
-                threadText: string,
-                threadSenderId: string,
-                threadTimestamp: number,
-                threadAddedFiles: string,
-                threadTaggedUser: [],
-                threadAddedReactions: {
-                    threadEmoticon: {
-                        threadIconURL: string,
-                        threadReactAddFrom: [],
-                        threadReactCount: number,
-                    }
+    }[],
+    threadIDs?: {
+        threadId: string,
+        threadUpdatedAt: number,
+        threadTextIds: {
+            threadText: string,
+            threadSenderId: string,
+            threadTimestamp: number,
+            threadAddedFiles: string,
+            threadTaggedUser: [],
+            threadAddedReactions: {
+                threadEmoticon: {
+                    threadIconURL: string,
+                    threadReactAddFrom: [],
+                    threadReactCount: number,
                 }
             }
         }
-    ]
+    }[]
 }

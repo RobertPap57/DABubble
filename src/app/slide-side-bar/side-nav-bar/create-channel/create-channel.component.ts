@@ -20,7 +20,7 @@ export class CreateChannelComponent {
   @ViewChild('createdChannelBox') createdChannelBox!: ElementRef<HTMLDivElement>;
   channelName: string = '';
   channelDescription: string = '';
-
+  chanCreatedByUser: string = ''
 
 
 /**
@@ -57,13 +57,8 @@ export class CreateChannelComponent {
       }
       this.channelData.chanName = newName;
       this.channelData.chanDescription = this.channelDescription;
+      this.channelData.chanCreatedByUser = this.chanCreatedByUser; // user ID oder Username???
       this.creatingChannel = true;
     }
-  }
-
-  finalizeChannel() {
-    this.closeCreateChan();
-    // this.closeDialog.createChannel(newName, this.channelDescription);
-    // check if empty
   }
 }

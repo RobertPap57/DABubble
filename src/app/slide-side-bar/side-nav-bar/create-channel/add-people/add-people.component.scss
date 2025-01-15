@@ -17,12 +17,6 @@ section {
         box-sizing: border-box;
         width: 710px;
         max-height: 364px;
-
-        >div {
-            margin-block: 10px;
-            display: flex;
-            align-items: center;
-        }
     }
 
     h2 {
@@ -46,6 +40,15 @@ section {
                 background-color: #edefff;
             }
         }
+    }
+}
+
+form {
+
+    >div {
+        margin-block: 10px;
+        display: flex;
+        align-items: center;
     }
 }
 
@@ -161,4 +164,9 @@ button {
     color: #535AF1;
     background-color: #ECEEFE;
     font-weight: 700;
+}
+
+.greyButton {
+    background-color: #686868!important;
+    cursor: not-allowed;
 }

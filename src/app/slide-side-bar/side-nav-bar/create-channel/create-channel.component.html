@@ -14,7 +14,7 @@
                 <img src="./tag_grey.png" alt="#">
                 <input #name="ngModel" placeholder="z.B. Kooperationsprojekte" type="text" [(ngModel)]="channelName"
                     name="channelName" [ngClass]="{'redBorder': !name.valid && name.touched && !name.disabled}"
-                    required>
+                    minlength="3" required>
             </div>
 
             <h3>Channel-Beschreibung <p class="optional">(optional)</p>
@@ -27,8 +27,7 @@
 
         </form>
 
-        <button [ngClass]="{'greyButton': !name.valid && !name.disabled}"
-            (click)="checkChanName()">Erstellen</button>
+        <button [ngClass]="{'greyButton': !name.valid && !name.disabled}" (click)="checkChanName()">Erstellen</button>
     </div>
 </section>
 }
