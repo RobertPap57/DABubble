@@ -45,15 +45,19 @@ export class SideNavBarComponent {
     this.createNewChannel = true;
   }
 
-  openSearchChannel() { }
+  openNewMsgChannel() {
+    //opens a new Msg Box with search bar for #channel or @Alex or Email
+  }
 
   openDirectMsg(i: number) {
     this.openedChannel = this.addedUsers[i];
-    // Übergebe Kanal an Chat-box
+    // Übergebe Kanal an Chat-box für direkte Nachrcht an User[i]
   }
+
+  opendirecMsgMyself() {}
 
   openChannel(i: number) {
     this.openedChannel = this.channels[i];
-    // Übergebe Kanal an Chat-box
+    // Übergebe Kanal an Chat-box Kanal[i]
   }
 }
