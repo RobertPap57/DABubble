@@ -1,9 +1,9 @@
-<div>
-<input #search type="text" placeholder="Devspace durchsuchen" name="search">
+<section>
+    <input #search type="text" placeholder="Devspace durchsuchen" name="search">
 
-<a (click)="searchResults(search.value)">
-    <svg width="27" height="27" viewBox="0 0 27 27" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M23.5625 26.1042L15.3958 17.9375C14.6667 18.5208 13.8281 18.9826 12.8802 19.3229C11.9323
+    <a (click)="searchResults(search.value)">
+        <svg width="27" height="27" viewBox="0 0 27 27" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M23.5625 26.1042L15.3958 17.9375C14.6667 18.5208 13.8281 18.9826 12.8802 19.3229C11.9323
             19.6632 10.9236 19.8333 9.85417 19.8333C7.20486 19.8333 4.96292 18.916 3.12833 17.0815C1.29278
             15.2459 0.375 13.0035 0.375 10.3542C0.375 7.70486 1.29278 5.46243 3.12833 3.62687C4.96292 1.79229
             7.20486 0.875 9.85417 0.875C12.5035 0.875 14.7459 1.79229 16.5815 3.62687C18.416 5.46243 19.3333
@@ -15,7 +15,13 @@
             6.98153 14.5033 5.705C13.2268 4.42944 11.6771 3.79167 9.85417 3.79167C8.03125 3.79167
             6.48153 4.42944 5.205 5.705C3.92944 6.98153 3.29167 8.53125 3.29167 10.3542C3.29167
             12.1771 3.92944 13.7268 5.205 15.0033C6.48153 16.2789 8.03125 16.9167 9.85417 16.9167Z" fill="#686868" />
-    </svg>
+        </svg>
+    </a>
 
-</a>
-</div>
+    <div>
+        @for (item of filteredArr; track $index) {
+        <p>{{item}}</p>
+        }
+    </div>
+
+</section>

@@ -40,8 +40,9 @@ export class SearchbarComponent {
   }
 
   checkNoFindings() {
-    if (this.filteredArr === null) {
+    if (this.filteredArr.length === 0) {
       //Show nothing found
+      console.log(this.filteredArr);
     }
   }
 }
