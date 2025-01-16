@@ -10,6 +10,7 @@ import { FormsModule } from '@angular/forms';
 })
 export class SearchbarComponent {
   filteredArr: string[] = [];
+  dropdownActive: boolean = false;
   searchBar: string = '';
   chatsFromService: string[] = [];
   threadsFromService: string[] = [];
@@ -26,6 +27,7 @@ export class SearchbarComponent {
   }
 
   searchResults(userInput: string) {
+    this.dropdownActive = true;
     if (!userInput) this.filteredArr = [];// return empty container user muss sehen das nichts gefunden werden kann
     else {
       const input = userInput.toLowerCase();
