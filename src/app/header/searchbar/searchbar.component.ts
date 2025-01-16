@@ -14,7 +14,7 @@ export class SearchbarComponent {
   searchBar: string = '';
   chatsFromService: string[] = [];
   threadsFromService: string[] = [];
-  privMsgFromService: string[] = [];
+  messageFromService: string[] = [];
   usersFromService: string[] = ['Lars Schumacher', 'Alexander Hardtke', 'Alex2', 'Alex3', 'Alex4', 'Alex5', 'Alex6'];
   filteredUsers: string[] = [];
 
@@ -33,7 +33,7 @@ export class SearchbarComponent {
       const input = userInput.toLowerCase();
       this.filteredArr = [
         ...this.usersFromService.filter(user => user.toLowerCase().includes(input)),
-        ...this.privMsgFromService.filter(privMsg => privMsg.toLowerCase().includes(input)),
+        ...this.messageFromService.filter(message => message.toLowerCase().includes(input)),
         ...this.threadsFromService.filter(threads => threads.toLowerCase().includes(input)),
         ...this.chatsFromService.filter(chats => chats.toLowerCase().includes(input))
       ];

@@ -20,19 +20,39 @@
 
     @if (dropdownActive) {
     <div>
+
         <h3>Found User</h3>
-        @for (item of filteredArr; track $index) {
         @if (filteredArr.length === 0) {
         <span>No User with that Name found</span>
         }
+        @for (item of filteredArr; track $index) {
         <p>{{item}}</p>
         }
+
         <h3>Found Channels</h3>
+        @if (filteredArr.length === 0) {
         <span>No Channel with that Name found</span>
-        <h3>Found Threads</h3>
-        <span>No Thread with that Name found</span>
+        }
+        @for (item of filteredArr; track $index) {
+        <p><b># </b>{{item}}</p>
+        }
+
+        <h3>Found Messages</h3>
+        @if (filteredArr.length === 0) {
+        <span>No Message with that Name found</span>
+        }
+        @for (item of filteredArr; track $index) {
+        <p>{{item}}</p>
+        }
+
         <h3>Found Private Messages</h3>
+        @if (filteredArr.length === 0) {
         <span>No Private Message with that Name found</span>
+        }
+        @for (item of filteredArr; track $index) {
+        <p>{{item}}</p>
+        }
+
     </div>
     }
 
