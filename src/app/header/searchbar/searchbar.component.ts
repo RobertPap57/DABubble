@@ -9,9 +9,39 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './searchbar.component.scss'
 })
 export class SearchbarComponent {
-  search = 'Devspace durchsuchen';
+  filteredArr: string[] = [];
+  searchBar: string = '';
+  chatsFromService: string[] = [];
+  threadsFromService: string[] = [];
+  privMsgFromService: string[] = [];
+  usersFromService: string[] = ['Lars Schumacher', 'Alexander Hardtke', 'Alex2', 'Alex3', 'Alex4', 'Alex5', 'Alex6'];
+  filteredUsers: string[] = [];
 
-  searchInChat() {
-    //Search Channels and Threads
+
+  constructor() {
+    // this.chatsFromService = [...this.importService.getData];
+    // this.threadsFromService = [...this.importService.getData];
+    // this.privMsgFromService = [...this.importService.getData];
+    // this.usersFromService = [...this.importService.getData];
+  }
+
+  searchResults(userInput: string) {
+    if (!userInput) this.filteredArr = [];// return empty container user muss sehen das nichts gefunden werden kann
+    else {
+      const input = userInput.toLowerCase();
+      this.filteredArr = [
+        ...this.usersFromService.filter(user => user.toLowerCase().includes(input)),
+        ...this.privMsgFromService.filter(privMsg => privMsg.toLowerCase().includes(input)),
+        ...this.threadsFromService.filter(threads => threads.toLowerCase().includes(input)),
+        ...this.chatsFromService.filter(chats => chats.toLowerCase().includes(input))
+      ];
+    }
+    this.checkNoFindings();
+  }
+
+  checkNoFindings() {
+    if (this.filteredArr === null) {
+      //Show nothing found
+    }
   }
 }

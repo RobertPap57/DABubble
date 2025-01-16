@@ -1,7 +1,7 @@
 <div>
-<input type="text" placeholder="Devspace durchsuchen" name="search">
+<input #search type="text" placeholder="Devspace durchsuchen" name="search">
 
-<a (click)="searchInChat()">
+<a (click)="searchResults(search.value)">
     <svg width="27" height="27" viewBox="0 0 27 27" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M23.5625 26.1042L15.3958 17.9375C14.6667 18.5208 13.8281 18.9826 12.8802 19.3229C11.9323
             19.6632 10.9236 19.8333 9.85417 19.8333C7.20486 19.8333 4.96292 18.916 3.12833 17.0815C1.29278
