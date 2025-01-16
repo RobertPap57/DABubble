@@ -21,12 +21,13 @@ export class AddPeopleComponent {
   users = ['Lars', 'Alex', 'Alex2', 'Alex3', 'Alex4', 'Alex5', 'Alex6'];
   userImg = ['steffen-hoffmann-avatar.png', '01.Charaters.png', '02.Charaters.png', '01.Charaters.png', '02.Charaters.png', '01.Charaters.png', '02.Charaters.png'];
   userOnline = [true, false, false, true, false, true, false,];
+  inputPlaceholder = 'Name eingeben';
   onlineColor = '#92c73e';
   offlineColor = '#696969';
   selectedUser: string[] = [];
 
 
-  @HostListener('document:click', ['$event.target'])
+  @HostListener('document:mouseup', ['$event.target'])
   onClickOutsidePpl(target: HTMLElement): void {
     if (this.createPeopleBox) {
       let clickInsidePpl = this.createPeopleBox.nativeElement.contains(target); {
@@ -43,14 +44,20 @@ export class AddPeopleComponent {
   }
 
   selectUser(user: string) {
+    this.inputPlaceholder = '';
     if (this.isSelected(user)) {
       this.selectedUser.forEach((element, index) => {
         if (element === user) {
           this.selectedUser.splice(index, 1);
+          this.checkInputEmpty();
         }
       });
-    } else {
-      this.selectedUser.push(user);
+    } else this.selectedUser.push(user);
+  }
+
+  checkInputEmpty() {
+    if (this.selectedUser.length === 0) {
+      this.inputPlaceholder = 'Name eingeben';
     }
   }
 

@@ -28,7 +28,7 @@ export class CreateChannelComponent {
  * 
  * @param target The Box with the inputs for the channel
  */
-  @HostListener('document:click', ['$event.target'])
+  @HostListener('document:mouseup', ['$event.target'])
   onClickOutsideChan(target: HTMLElement): void {
     if (this.createdChannelBox) {
       let clickInsideChan = this.createdChannelBox.nativeElement.contains(target); {
