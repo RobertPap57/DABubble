@@ -19,9 +19,19 @@
     </a>
 
     <div>
+        <h3>Found User</h3>
         @for (item of filteredArr; track $index) {
+            @if (filteredArr.length === 0) {
+                <span>No User with that Name found</span>
+            }
         <p>{{item}}</p>
         }
+        <h3>Found Channels</h3>
+        <span>No Channel with that Name found</span>
+        <h3>Found Threads</h3>
+        <span>No Thread with that Name found</span>
+        <h3>Found Private Messages</h3>
+        <span>No Private Message with that Name found</span>
     </div>
 
 </section>
