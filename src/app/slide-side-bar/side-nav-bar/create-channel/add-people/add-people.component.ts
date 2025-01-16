@@ -18,14 +18,19 @@ export class AddPeopleComponent {
   @ViewChild('focusdropdown') focusDropdown!: ElementRef;
   selectedOption: string | null = null;
   dropdownActive: boolean = false;
-  users = ['Lars', 'Alex', 'Alex2', 'Alex3', 'Alex4', 'Alex5', 'Alex6'];
+  usersFromService: string[] = ['Lars Schumacher', 'Alexander Hardtke', 'Alex2', 'Alex3', 'Alex4', 'Alex5', 'Alex6'];
+  filteredUsers: string[] = [];
   userImg = ['steffen-hoffmann-avatar.png', '01.Charaters.png', '02.Charaters.png', '01.Charaters.png', '02.Charaters.png', '01.Charaters.png', '02.Charaters.png'];
   userOnline = [true, false, false, true, false, true, false,];
   inputPlaceholder = 'Name eingeben';
   onlineColor = '#92c73e';
   offlineColor = '#696969';
   selectedUser: string[] = [];
+  searchUser: string = '';
 
+  constructor() {
+    this.filteredUsers = [...this.usersFromService];
+  }
 
   @HostListener('document:mouseup', ['$event.target'])
   onClickOutsidePpl(target: HTMLElement): void {
@@ -66,14 +71,24 @@ export class AddPeopleComponent {
   }
 
   createChanel() {
-    if (this.selectedUser.length === 0 || this.selectedOption !== 'all') return;
+    if (this.selectedUser.length === 0 && this.selectedOption !== 'all') return;
     if (this.selectedOption === 'all') {
-      this.channelService.userIds = this.users;
+      this.channelService.userIds = this.usersFromService;
     } else {
       this.channelService.userIds = this.selectedUser;
     }
     const channel = this.channelService.getCurChanObj();
     this.channelService.createChannel(channel);
     this.openDialog.closeCreateChan();
+  }
+
+  updateField() {
+    let input = this.searchUser.toLowerCase();
+    if (input.length >= 3) {
+      this.filteredUsers = this.usersFromService.filter(user =>
+        user.toLowerCase().includes(input));
+    } else {
+      this.filteredUsers = [...this.usersFromService];
+    }
   }
 }

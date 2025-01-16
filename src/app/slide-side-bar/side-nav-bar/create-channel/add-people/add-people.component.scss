@@ -109,6 +109,7 @@ button {
     position: absolute;
     left: 20px;
     display: flex;
+    top: -9px;
 
     >p {
         position: relative;
@@ -214,4 +215,5 @@ button {
 
 .click {
     cursor: pointer;
+    padding-inline: 12px !important;
 }

@@ -14,10 +14,10 @@
                     id="selectedUser" />
                 <label for="selectedUser">Bestimmte Leute hinzufügen</label>
             </div>
-
+        </form>
             @if (selectedOption === 'selectedUser') {
             <div class="dropdownInput">
-                <input (focus)="dropdownActive = true" class="searchUser" type="search" placeholder="{{inputPlaceholder}}">
+                <input (keyup)="updateField()" [(ngModel)]="searchUser" (focus)="dropdownActive = true" class="searchUser" type="search" placeholder="{{inputPlaceholder}}">
 
                 <div class="invisibleOverlay">
                     @for (select of selectedUser; track $index) {
@@ -32,7 +32,7 @@
 
                 @if (dropdownActive) {
                 <div class="dropdown" #focusdropdown>
-                    @for (user of users; track $index) {
+                    @for (user of filteredUsers; track $index) {
                     <div (click)="selectUser(user)" [class.active]="isSelected(user)" class="users">
                         <div>
                             <img src="./{{userImg[$index]}}">
@@ -55,7 +55,7 @@
             </div>
             }
 
-        </form>
+        
         <button
             [ngClass]="{'greyButton': !selectedOption || selectedOption === 'selectedUser' && selectedUser.length === 0}"
             (click)="createChanel()">Erstellen</button>
