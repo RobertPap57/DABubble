@@ -103,23 +103,6 @@ export class PasswordResetSendMailComponent {
     this.sendMail = !!isValid;
   }
 
-  // onSendResetEmail(): void {
-  //   if (this.sendMail && this.emailText) {
-  //     let body = { email: this.emailText };
-  //     console.log("E-Mail wird gesendet:", body);  // Debugging
-  //     this.http
-  //       .post('https://dabubble.lars-schumacher.com/send-reset-link.php', body)
-  //       .subscribe(
-  //         (response) => {
-  //           console.log('E-Mail wurde gesendet', response);
-  //         },
-  //         (error) => {
-  //           console.error('Fehler beim Senden der E-Mail', error);
-  //         }
-  //       );
-  //   }
-  // }
-
   post = {
     endPoint: 'https://dabubble.lars-schumacher.com/send-reset-link.php',
     body: (payload: any) => JSON.stringify(payload),
@@ -134,19 +117,16 @@ export class PasswordResetSendMailComponent {
   onSubmit() {
     if (this.sendMail && this.emailText) {
       let body = { email: this.emailText };
-      this.http
-        .post(this.post.endPoint, this.post.body(body))
-        .subscribe({
-          next: (response) => {
-            console.log('E-Mail wurde gesendet', response);
-            setTimeout(() => {
-            }, 1500);
-          },
-          error: (error) => {
-            console.error(error);
-          },
-          complete: () => console.info('send post complete'),
-        });
+      this.http.post(this.post.endPoint, this.post.body(body)).subscribe({
+        next: (response) => {
+          console.log('E-Mail wurde gesendet', response);
+          setTimeout(() => {}, 1500);
+        },
+        error: (error) => {
+          console.error(error);
+        },
+        complete: () => console.info('send post complete'),
+      });
     }
   }
 }
