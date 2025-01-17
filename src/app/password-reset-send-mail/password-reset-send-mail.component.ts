@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import { UserService } from '../services/user.service';
 
 @Component({
   selector: 'app-password-reset-send-mail',
@@ -11,7 +12,7 @@ import { Router } from '@angular/router';
   styleUrl: './password-reset-send-mail.component.scss',
 })
 export class PasswordResetSendMailComponent {
-  constructor(private router: Router) {}
+  constructor(private router: Router, private userService: UserService) {}
 
   emailImg: string = '/mail-grey.png';
 
@@ -98,18 +99,11 @@ export class PasswordResetSendMailComponent {
     }
   }
 
-  /**
-   * Sends an email when the submit button is clicked.
-   *
-   */
-  sendEmail(): void {
-    if (this.sendMail) {
-      console.log('E-Mail wird gesendet:', this.emailText);
-      // add Overlay response
-    }
-  }
-
   enableButton(isValid: boolean | null | undefined): void {
     this.sendMail = !!isValid;
+  }
+
+  async onSendResetEmail(): Promise<void> {
+    await this.userService.sendPasswordResetEmail(this.emailText);
   }
 }
