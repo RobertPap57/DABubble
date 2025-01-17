@@ -17,11 +17,8 @@ section {
     }
 }
 
-div {
+.profilePic {
     cursor: pointer;
-    position: relative;
-    display: flex;
-    align-items: center;
 
     >img {
         height: 70px;
@@ -29,12 +26,53 @@ div {
 
     span {
         position: absolute;
-        right: 0px;
-        bottom: 6px;
+        right: 30px;
+        bottom: 10px;
         border-radius: 50%;
         width: 13px;
         height: 13px;
         border: 2px #edefff solid;
+    }
+}
+
+.overlay {
+    position: absolute;
+    z-index: 4;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.4);
+
+    >div {
+        position: absolute;
+        top: 130px;
+        right: 20px;
+        width: 222px;
+        height: 121px;
+        background-color: white;
+        border-radius: 30px 0 30px 30px;
+        display: flex;
+        flex-direction: column;
+        padding: 30px;
+
+        h3 {
+            font-weight: 600;
+            font-size: 24px;
+            text-align: center;
+            margin-block: 10px;
+        }
+
+        a {
+            cursor: pointer;
+            width: 100%;
+            border-radius: 35px;
+
+            &:hover {
+                background-color: #ECEEFE;
+                color: #535AF1;
+            }
+        }
     }
 }
 

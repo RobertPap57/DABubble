@@ -1,5 +1,5 @@
 import { NgStyle } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, ElementRef, HostListener, ViewChild } from '@angular/core';
 import { UserService } from '../../services/user.service';
 import { UserIdService } from '../../services/user-id.service';
 
@@ -11,15 +11,26 @@ import { UserIdService } from '../../services/user-id.service';
   styleUrl: './profile.component.scss'
 })
 export class ProfileComponent {
-  onlineColor = '#92c73e';
-  offlineColor = '#696969';
-  userOnline = true;
-  userName = 'Max Mustermann';
+  @ViewChild('logoutBox') logoutBox!: ElementRef<HTMLDivElement>;
+  onlineColor:string = '#92c73e';
+  offlineColor:string = '#696969';
+  openLogoutBox = false;
 
   constructor(public userIdService: UserIdService, public userService: UserService) { }
 
+    @HostListener('document:mouseup', ['$event.target'])
+    onClickOutsideChan(target: HTMLElement): void {
+      if (this.logoutBox) {
+        let clickInsideChan = this.logoutBox.nativeElement.contains(target); {
+        } if (!clickInsideChan) this.closeLogoutBox();
+      }
+    }
 
-  openEditUser() {
-    //open the Edit User Component
+  openLogoutUser() {
+    this.openLogoutBox = true;
+  }
+
+  closeLogoutBox() {
+    this.openLogoutBox = false;
   }
 }

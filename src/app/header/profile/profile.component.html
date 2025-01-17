@@ -1,18 +1,17 @@
 <section>
 
     @for (user of userService.users; track user.id) {
-        @if (user.id === userIdService.id) {
-            <h1>{{user.name}}</h1>
-        }
-    }
+    @if (user.id === userIdService.id) {
+    <h1>{{user.name}}</h1>
 
 
-    <div (click)="openEditUser()">
+
+    <div class="profilePic dFlexCenter" (click)="openLogoutUser()">
         <img src="./00.Charaters.png">
-        <span [ngStyle]="{'background-color': userOnline ? onlineColor : offlineColor}"></span>
+        <span [ngStyle]="{'background-color': user.status === 'online' ? onlineColor : offlineColor}"></span>
     </div>
 
-    <a (click)="openEditUser()"><svg width="14" height="9" viewBox="0 0 14 9" fill="none"
+    <a (click)="openLogoutUser()"><svg width="14" height="9" viewBox="0 0 14 9" fill="none"
             xmlns="http://www.w3.org/2000/svg">
             <path d="M7 8.71875C6.83333 8.71875 6.67208 8.6875 6.51625 8.625C6.35958 8.5625 6.22917
                 8.47917 6.125 8.375L0.375 2.625C0.145833 2.39583 0.03125 2.10417 0.03125 1.75C0.03125
@@ -23,5 +22,15 @@
                 7.46875 8.64C7.32292 8.6925 7.16667 8.71875 7 8.71875Z" fill="black" />
         </svg>
     </a>
+    }
+    }
 
 </section>
+@if (openLogoutBox) {
+<div class="overlay">
+    <div #logoutBox class="dFlexCenter">
+        <a><h3>Profil</h3></a>
+        <a><h3>Logout</h3></a>
+    </div>
+</div>
+}
