@@ -21,10 +21,7 @@ export class SideNavBarComponent {
   channels = ['Entwicklerteam', 'Kekse essen']
   channelsVisible = true;
   users: User[] = [];
-  addedUsers = ['Plato', 'Friedrich Nietzsche', 'Carl Jung', 'Sigmund Freud']
   directMsgVisible = true;
-  addedUserImg = ['steffen-hoffmann-avatar.png', '01.Charaters.png', '02.Charaters.png', '03.Charaters.png']
-  addedUserOnline = [true, false, false, true]
   onlineColor = '#92c73e';
   offlineColor = '#696969';
   openedChannel: string = '';
@@ -42,7 +39,6 @@ export class SideNavBarComponent {
       console.log('Benutzer geladen:', this.users);
     });
   }
-
 
   ngOnDestroy(): void {
     this.routeSub.unsubscribe();
@@ -83,12 +79,11 @@ export class SideNavBarComponent {
     //opens a new Msg Box with search bar for #channel or @Alex or Email
   }
 
-  openDirectMsg(i: number) {
-    this.openedChannel = this.addedUsers[i];
+  openDirectMsg(id: string) {
+    // this.openedChannel = id;
+    // Geht auch mit self, muss aber gechecked werden mit if
     // Übergebe Kanal an Chat-box für direkte Nachrcht an User[i]
   }
-
-  opendirecMsgMyself() { }
 
   openChannel(i: number) {
     this.openedChannel = this.channels[i];

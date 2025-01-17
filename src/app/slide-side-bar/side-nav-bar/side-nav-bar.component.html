@@ -125,7 +125,7 @@
     @for (user of users; track user.id) {
     @if (user.id === this.id) {
 
-    <div (click)="openDirectMsg($index)" [class.active]="user.name === openedChannel" class="users">
+    <div (click)="openDirectMsg(user.id)" [class.active]="user.name === openedChannel" class="users">
         <div>
             <img src=".{{user.userImage}}" alt="User Image">
             <span [ngStyle]="{'background-color': user.status === 'online' ? onlineColor : offlineColor}"></span>
@@ -138,7 +138,7 @@
     @for (user of users; track user.id) {
     @if (user.id !== this.id) {
         
-    <div (click)="openDirectMsg($index)" [class.active]="user.name === openedChannel" class="users">
+    <div (click)="openDirectMsg(user.id)" [class.active]="user.name === openedChannel" class="users">
         <div>
             <img src=".{{user.userImage}}" alt="User Image">
             <span [ngStyle]="{'background-color': user.status ? onlineColor : offlineColor}"></span>
