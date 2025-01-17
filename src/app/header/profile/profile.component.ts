@@ -2,11 +2,12 @@ import { NgStyle } from '@angular/common';
 import { Component, ElementRef, HostListener, ViewChild } from '@angular/core';
 import { UserService } from '../../services/user.service';
 import { UserIdService } from '../../services/user-id.service';
+import { ContactWindowComponent } from '../../contacts/contact-window/contact-window.component';
 
 @Component({
   selector: 'app-profile',
   standalone: true,
-  imports: [NgStyle],
+  imports: [NgStyle, ContactWindowComponent],
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.scss'
 })
@@ -24,7 +25,7 @@ export class ProfileComponent {
     onClickOutsideLogoutBox(target: HTMLElement): void {
       if (this.logoutBox) {
         let clickInsideChan = this.logoutBox.nativeElement.contains(target); {
-        } if (!clickInsideChan) this.closeLogoutBox();
+        } if (!clickInsideChan) this.closeBoxes();
       }
     }
 
@@ -32,7 +33,7 @@ export class ProfileComponent {
     onClickOutsideProfileBox(target: HTMLElement): void {
       if (this.profileBox) {
         let clickInsideChan = this.profileBox.nativeElement.contains(target); {
-        } if (!clickInsideChan) this.closeLogoutBox();
+        } if (!clickInsideChan) this.closeBoxes();
       }
     }
 
@@ -40,8 +41,9 @@ export class ProfileComponent {
     this.openLogoutBox = true;
   }
 
-  closeLogoutBox() {
+  closeBoxes() {
     this.openLogoutBox = false;
+    this.openProfileBox = false;
   }
 
   openProfile(id: string) {
