@@ -23,13 +23,13 @@ export class PasswordResetSendMailComponent {
   isArrowHovered: boolean = false;
   backArrowImage: string = '/back-arrow.png';
 
-  sendMail: boolean = true;
+  sendMail: boolean = false;
 
   /**
    * Navigates the user back to the login page.
    */
   backToLogin(): void {
-    this.router.navigate(['']);
+    this.router.navigate(['/login']);
   }
 
   /**
@@ -103,15 +103,13 @@ export class PasswordResetSendMailComponent {
    *
    */
   sendEmail(): void {
-    // add overlay submit here
+    if (this.sendMail) {
+      console.log('E-Mail wird gesendet:', this.emailText);
+      // add Overlay response
+    }
   }
 
-  /**
-   * Enables or disables the email submission button based on a condition.
-   * The button is enabled when the condition is true and disabled otherwise.
-   * @param {boolean} condition - A condition that determines if the button should be enabled.
-   */
-  enableButton(condition: boolean): void {
-    this.sendMail = !condition;
+  enableButton(isValid: boolean | null | undefined): void {
+    this.sendMail = !!isValid;
   }
 }
