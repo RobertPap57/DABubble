@@ -106,8 +106,9 @@ export class PasswordResetSendMailComponent {
   onSendResetEmail(): void {
     if (this.sendMail && this.emailText) {
       let body = { email: this.emailText };
+      console.log("E-Mail wird gesendet:", body);  // Debugging
       this.http
-        .post('https://dabubble.com/send-reset-link.php', body)
+        .post('https://dabubble.lars-schumacher.com/send-reset-link.php', body)
         .subscribe(
           (response) => {
             console.log('E-Mail wurde gesendet', response);
