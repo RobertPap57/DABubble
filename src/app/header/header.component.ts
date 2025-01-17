@@ -15,7 +15,8 @@ import { filter } from 'rxjs';
 })
 export class HeaderComponent {
   isLoginRoute: boolean = false;
-  isHomeRoute:boolean = false;
+  isNotLoggedInRoute: boolean = false;
+  isHomeRoute: boolean = false;
   animationPlayed: boolean = false;
   isMobile: boolean = false;
   server: string = 'Devspace';
@@ -26,12 +27,17 @@ export class HeaderComponent {
 
   ngOnInit() {
     this.router.events
-    .pipe(filter(event => event instanceof NavigationEnd))
-    .subscribe((event: NavigationEnd) => {
-      this.isHomeRoute = event.url.includes('/home');
-      this.isLoginRoute = event.url.endsWith('/login');
-      setTimeout(() => this.animationPlayed = true, 3000);
-    });
+      .pipe(filter(event => event instanceof NavigationEnd))
+      .subscribe((event: NavigationEnd) => {
+        this.isHomeRoute = event.url.includes('/home');
+        this.isLoginRoute = event.url.endsWith('/login');
+        this.isNotLoggedInRoute = ['/register', '/avatar', '/reset-password'].some(route => event.url.includes(route));
+        setTimeout(() => this.animationPlayed = true, 3000);
+      });
+  }
+
+  checkRoutes() {
+
   }
 
   /**
