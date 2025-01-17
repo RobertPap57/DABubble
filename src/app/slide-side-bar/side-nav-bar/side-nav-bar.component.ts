@@ -1,6 +1,9 @@
 import { NgClass, NgStyle } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { CreateChannelComponent } from './create-channel/create-channel.component';
+import { UserService } from '../../services/user.service';
+import { ActivatedRoute } from '@angular/router';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-side-nav-bar',
@@ -10,6 +13,8 @@ import { CreateChannelComponent } from './create-channel/create-channel.componen
   styleUrl: './side-nav-bar.component.scss'
 })
 export class SideNavBarComponent {
+  private sub!: Subscription;
+  id: string = '';
   @Input() slideOut = false;
   channels = ['Entwicklerteam', 'Kekse essen']
   channelsVisible = true;
@@ -21,6 +26,23 @@ export class SideNavBarComponent {
   offlineColor = '#696969';
   openedChannel: string = '';
   createNewChannel = false;
+
+  constructor(private route: ActivatedRoute, private userService: UserService) {
+  }
+
+  ngOnInit(): void {
+    this.sub = this.route.params.subscribe(params => {
+      this.id = params['userId'];
+      console.log(params);
+      console.log(this.id);
+    });
+  }
+
+
+  ngOnDestroy(): void {
+    console.log("Kekse kaputt");
+    this.sub.unsubscribe();
+  }
 
   /**
    * toggles the visibility of the channels
@@ -54,7 +76,7 @@ export class SideNavBarComponent {
     // Übergebe Kanal an Chat-box für direkte Nachrcht an User[i]
   }
 
-  opendirecMsgMyself() {}
+  opendirecMsgMyself() { }
 
   openChannel(i: number) {
     this.openedChannel = this.channels[i];

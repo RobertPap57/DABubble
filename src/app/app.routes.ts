@@ -18,4 +18,5 @@ export const routes: Routes = [
   { path: 'reset-password', component: PasswordResetSendMailComponent },
   { path: 'reset-password-id', component: PasswordResetComponent },
   { path: 'home', component: HomeComponent },
+  { path: 'home/:userId', component: HomeComponent },
 ];
