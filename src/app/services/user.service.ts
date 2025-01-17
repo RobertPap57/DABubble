@@ -15,13 +15,11 @@ import {
   DocumentReference,
 } from '@angular/fire/firestore';
 import { Router } from '@angular/router';
-import { Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserService {
-  usersUpdated = new Subject<User[]>();
   users: User[] = [];
   firestore: Firestore = inject(Firestore);
   userId: string = '';
@@ -75,7 +73,6 @@ export class UserService {
           // console.log(this.setUserObject(element.data(), element.id));
           this.users.push(this.setUserObject(element.data(), element.id));
         });
-        this.usersUpdated.next([...this.users]);
       }
     );
   }

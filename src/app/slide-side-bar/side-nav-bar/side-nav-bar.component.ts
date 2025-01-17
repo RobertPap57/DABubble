@@ -15,7 +15,6 @@ import { User } from '../../interfaces/user.model';
 })
 export class SideNavBarComponent {
   private routeSub!: Subscription;
-  private userSub!: Subscription;
   id: string = '';
   @Input() slideOut = false;
   channels = ['Entwicklerteam', 'Kekse essen']
@@ -27,24 +26,17 @@ export class SideNavBarComponent {
   openedChannel: string = '';
   createNewChannel = false;
 
-  constructor(private route: ActivatedRoute, private userService: UserService) { }
+  constructor(private route: ActivatedRoute, public userService: UserService) { }
 
   ngOnInit(): void {
     this.routeSub = this.route.params.subscribe(params => {
       this.id = params['userId'];
       console.log(this.userService.users);
     });
-    this.userSub = this.userService.usersUpdated.subscribe((users) => {
-      this.users = users;
-      console.log('Benutzer geladen:', this.users);
-    });
   }
 
   ngOnDestroy(): void {
     this.routeSub.unsubscribe();
-    if (this.userSub) {
-      this.userSub.unsubscribe();
-    }
   }
 
   getUserList() {

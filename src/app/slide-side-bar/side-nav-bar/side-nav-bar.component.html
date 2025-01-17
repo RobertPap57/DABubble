@@ -122,7 +122,7 @@
     </h1>
 
     @if (directMsgVisible) {
-    @for (user of users; track user.id) {
+    @for (user of userService.users; track user.id) {
     @if (user.id === this.id) {
 
     <div (click)="openDirectMsg(user.id)" [class.active]="user.id === openedChannel" class="users">
@@ -135,7 +135,7 @@
 
     }
     }
-    @for (user of users; track user.id) {
+    @for (user of userService.users; track user.id) {
     @if (user.id !== this.id) {
         
     <div (click)="openDirectMsg(user.id)" [class.active]="user.id === openedChannel" class="users">
