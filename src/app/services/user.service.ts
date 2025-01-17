@@ -208,7 +208,7 @@ export class UserService {
    */
   private async finalizeLogin(userId: string): Promise<void> {
     await this.updateUserStatus(userId, 'online');
-    this.router.navigate(['/home']);
+    this.router.navigate(['/home', userId]);
   }
 
   /**
