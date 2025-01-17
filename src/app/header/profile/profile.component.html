@@ -29,8 +29,8 @@
 @if (openLogoutBox) {
 <div class="overlay">
     <div #logoutBox class="dFlexCenter">
-        <a><h3>Profil</h3></a>
-        <a><h3>Logout</h3></a>
+        <a (click)="userService.logoutUser(userIdService.id)"><h3>Profil</h3></a>
+        <a (click)="userService.logoutUser(userIdService.id)"><h3>Logout</h3></a>
     </div>
 </div>
 }
