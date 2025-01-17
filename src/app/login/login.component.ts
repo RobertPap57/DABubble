@@ -14,8 +14,8 @@ import { UserService } from '../services/user.service';
 export class LoginComponent {
   constructor(private router: Router, private userService: UserService) {}
 
-  emailImg: string = '/mail-grey.png';
-  lockImg: string = '/lock-grey.png';
+  emailImg: string = './mail-grey.png';
+  lockImg: string = './lock-grey.png';
 
   emailText: string = '';
   passwordText: string = '';

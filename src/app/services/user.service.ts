@@ -35,35 +35,6 @@ export class UserService {
     this.unsubUserList = this.subUserList();
   }
 
-  private generatePasswordResetToken(): string {
-    const array = new Uint8Array(32);
-    window.crypto.getRandomValues(array);
-    return array.toString();
-  }
-
-  async sendPasswordResetEmail(email: string): Promise<void> {
-    let emailExists = await this.getUserByEmail(email);
-    let resetLink = this.generatePasswordResetLink();
-    if (emailExists) {
-      await this.sendEmailToUser(email, resetLink);
-    }
-  }
-
-  private generatePasswordResetLink(): string {
-    let token = this.generatePasswordResetToken();
-    return `https://dabubble.com/reset-password?token=${encodeURIComponent(token)}`;
-  }
-
-  private async sendEmailToUser(
-    email: string,
-    resetLink: string
-  ): Promise<void> {
-    // Hier muss die Logik für das tatsächliche Senden einer E-Mail an den Benutzer hin
-    console.log(
-      `Eine E-Mail zum Zurücksetzen des Passworts wurde an ${email} gesendet: ${resetLink}`
-    );
-  }
-
   subUserList() {
     return onSnapshot(
       this.getallUsersdocRef(),

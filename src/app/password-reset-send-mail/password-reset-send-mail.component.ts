@@ -2,17 +2,17 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { UserService } from '../services/user.service';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 
 @Component({
   selector: 'app-password-reset-send-mail',
   standalone: true,
-  imports: [FormsModule, CommonModule],
+  imports: [FormsModule, CommonModule, HttpClientModule],
   templateUrl: './password-reset-send-mail.component.html',
   styleUrl: './password-reset-send-mail.component.scss',
 })
 export class PasswordResetSendMailComponent {
-  constructor(private router: Router, private userService: UserService) {}
+  constructor(private router: Router, private http: HttpClient) {}
 
   emailImg: string = '/mail-grey.png';
 
@@ -103,7 +103,20 @@ export class PasswordResetSendMailComponent {
     this.sendMail = !!isValid;
   }
 
-  async onSendResetEmail(): Promise<void> {
-    await this.userService.sendPasswordResetEmail(this.emailText);
+  onSendResetEmail(): void {
+    if (this.sendMail && this.emailText) {
+      let body = { email: this.emailText };
+      console.log("E-Mail wird gesendet:", body);  // Debugging
+      this.http
+        .post('https://dabubble.lars-schumacher.com/send-reset-link.php', body)
+        .subscribe(
+          (response) => {
+            console.log('E-Mail wurde gesendet', response);
+          },
+          (error) => {
+            console.error('Fehler beim Senden der E-Mail', error);
+          }
+        );
+    }
   }
 }

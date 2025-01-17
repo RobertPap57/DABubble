@@ -5,6 +5,7 @@ import { UserService } from '../../services/user.service';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { User } from '../../interfaces/user.model';
+import { UserIdService } from '../../services/user-id.service';
 
 @Component({
   selector: 'app-side-nav-bar',
@@ -26,11 +27,12 @@ export class SideNavBarComponent {
   openedChannel: string = '';
   createNewChannel = false;
 
-  constructor(private route: ActivatedRoute, public userService: UserService) { }
+  constructor(private route: ActivatedRoute, public userService: UserService, public userIdService: UserIdService) { }
 
   ngOnInit(): void {
     this.routeSub = this.route.params.subscribe(params => {
       this.id = params['userId'];
+      this.userIdService.id = params['userId'];
       console.log(this.userService.users);
     });
   }

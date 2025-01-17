@@ -1,5 +1,7 @@
 import { NgStyle } from '@angular/common';
 import { Component } from '@angular/core';
+import { UserService } from '../../services/user.service';
+import { UserIdService } from '../../services/user-id.service';
 
 @Component({
   selector: 'app-profile',
@@ -13,6 +15,9 @@ export class ProfileComponent {
   offlineColor = '#696969';
   userOnline = true;
   userName = 'Max Mustermann';
+
+  constructor(public userIdService: UserIdService, public userService: UserService) { }
+
 
   openEditUser() {
     //open the Edit User Component

@@ -1,5 +1,11 @@
 <section>
-    <h1>{{userName}}n</h1>
+
+    @for (user of userService.users; track user.id) {
+        @if (user.id === userIdService.id) {
+            <h1>{{user.name}}</h1>
+        }
+    }
+
 
     <div (click)="openEditUser()">
         <img src="./00.Charaters.png">
