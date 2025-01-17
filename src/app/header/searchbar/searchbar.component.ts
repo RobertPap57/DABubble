@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, HostListener, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 @Component({
@@ -9,6 +9,7 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './searchbar.component.scss'
 })
 export class SearchbarComponent {
+  @ViewChild('searchbarDropdown') searchbarDropdown!: ElementRef<HTMLDivElement>;
   filteredArr: string[] = [];
   dropdownActive: boolean = false;
   searchBar: string = '';
@@ -26,9 +27,22 @@ export class SearchbarComponent {
     // this.usersFromService = [...this.importService.getData];
   }
 
+  @HostListener('document:mouseup', ['$event.target'])
+  onClickOutsideChan(target: HTMLElement): void {
+    if (this.searchbarDropdown) {
+      let clickInsideChan = this.searchbarDropdown.nativeElement.contains(target); {
+      } if (!clickInsideChan) this.closesearchbarDropdown();
+    }
+  }
+
+  closesearchbarDropdown() {
+    this.dropdownActive = false;
+    this.searchBar = '';
+  }
+
   searchResults(userInput: string) {
     this.dropdownActive = true;
-    if (!userInput) this.filteredArr = [];// return empty container user muss sehen das nichts gefunden werden kann
+    if (!userInput) this.filteredArr = [];
     else {
       const input = userInput.toLowerCase();
       this.filteredArr = [
@@ -43,7 +57,6 @@ export class SearchbarComponent {
 
   checkNoFindings() {
     if (this.filteredArr.length === 0) {
-      //Show nothing found
       console.log(this.filteredArr);
     }
   }
