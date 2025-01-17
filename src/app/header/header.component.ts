@@ -28,7 +28,7 @@ export class HeaderComponent {
     this.router.events
     .pipe(filter(event => event instanceof NavigationEnd))
     .subscribe((event: NavigationEnd) => {
-      this.isHomeRoute = event.url.endsWith('/home');
+      this.isHomeRoute = event.url.includes('/home');
       this.isLoginRoute = event.url.endsWith('/login');
       setTimeout(() => this.animationPlayed = true, 3000);
     });
