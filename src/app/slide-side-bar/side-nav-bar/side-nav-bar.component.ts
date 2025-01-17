@@ -16,7 +16,6 @@ import { UserIdService } from '../../services/user-id.service';
 })
 export class SideNavBarComponent {
   private routeSub!: Subscription;
-  id: string = '';
   @Input() slideOut = false;
   channels = ['Entwicklerteam', 'Kekse essen']
   channelsVisible = true;
@@ -31,9 +30,7 @@ export class SideNavBarComponent {
 
   ngOnInit(): void {
     this.routeSub = this.route.params.subscribe(params => {
-      this.id = params['userId'];
       this.userIdService.id = params['userId'];
-      console.log(this.userService.users);
     });
   }
 
@@ -42,7 +39,6 @@ export class SideNavBarComponent {
   }
 
   getUserList() {
-    console.log(this.userService.users);
     return this.userService.users;
   }
 
