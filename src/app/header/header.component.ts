@@ -17,7 +17,7 @@ export class HeaderComponent {
   isLoginRoute: boolean = false;
   isHomeRoute:boolean = false;
   animationPlayed: boolean = false;
-  serverOpen: boolean = false;
+  isMobile: boolean = false;
   server: string = 'Devspace';
 
   constructor(private router: Router) {
@@ -38,13 +38,13 @@ export class HeaderComponent {
    * checks if the servertab is open
    */
   handleResize() {
-    if (this.serverOpen) this.serverOpen = window.innerWidth < 1024;
+    if (this.isMobile) this.isMobile = window.innerWidth < 768;
   }
 
   /**
    * opens back the startScreen in the header for mobile
    */
   backToServer() {
-    this.serverOpen = false;
+    this.isMobile = false;
   }
 }

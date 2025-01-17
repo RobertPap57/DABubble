@@ -1,7 +1,7 @@
 <div class="colorCountainer" [ngClass]="{ 'animation-done': !isLoginRoute || animationPlayed && isLoginRoute }"></div>
 <section>
 
-    @if (serverOpen) {
+    @if (isMobile) {
     <h2><a (click)="backToServer()" class="backArrow"><svg width="14" height="9" viewBox="0 0 14 9" fill="none"
                 xmlns="http://www.w3.org/2000/svg">
                 <path d="M7 8.71875C6.83333 8.71875 6.67208 8.6875 6.51625 8.625C6.35958 8.5625 6.22917
@@ -67,6 +67,7 @@
     </div>
     }
 
+    @if (isLoginRoute && isMobile) {}
     @if (isLoginRoute) {
     <app-link-create></app-link-create>
     }
