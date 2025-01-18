@@ -30,7 +30,7 @@ export class HeaderComponent {
       .pipe(filter(event => event instanceof NavigationEnd))
       .subscribe((event: NavigationEnd) => {
         this.isHomeRoute = event.url.includes('/home');
-        this.isLoginRoute = event.url.endsWith('/login');
+        this.isLoginRoute = event.url === '/'
         this.isNotLoggedInRoute = ['/register', '/avatar', '/reset-password'].some(route => event.url.includes(route));
         setTimeout(() => this.animationPlayed = true, 3000);
       });
