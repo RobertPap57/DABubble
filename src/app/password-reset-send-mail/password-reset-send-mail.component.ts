@@ -3,6 +3,9 @@ import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { UserService } from '../services/user.service';
+import { getDocs, query, updateDoc } from '@angular/fire/firestore';
+import { where } from '@firebase/firestore';
 
 @Component({
   selector: 'app-password-reset-send-mail',
@@ -12,7 +15,11 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
   styleUrl: './password-reset-send-mail.component.scss',
 })
 export class PasswordResetSendMailComponent {
-  constructor(private router: Router, private http: HttpClient) {}
+  constructor(
+    private router: Router,
+    private http: HttpClient,
+    private userService: UserService
+  ) {}
 
   emailImg: string = '/mail-grey.png';
 
@@ -114,19 +121,76 @@ export class PasswordResetSendMailComponent {
     },
   };
 
-  onSubmit() {
+  /**
+   * Handles the form submission, generates a token, and updates the user in Firestore.
+   */
+  onSubmit(): void {
     if (this.sendMail && this.emailText) {
-      let body = { email: this.emailText };
-      this.http.post(this.post.endPoint, this.post.body(body)).subscribe({
-        next: (response) => {
-          console.log('E-Mail wurde gesendet', response);
-          setTimeout(() => {}, 1500);
-        },
-        error: (error) => {
-          console.error(error);
-        },
-        complete: () => console.info('send post complete'),
+      let token = this.generateToken();
+      this.sendEmailWithToken(this.emailText, token);
+      this.updateUserWithToken(this.emailText, token);
+    }
+  }
+  /**
+   * Generates a random 32-byte token as a hexadecimal string.
+   * @returns {string} - The generated token.
+   */
+  private generateToken(): string {
+    let randomBytes = new Uint8Array(32);
+    crypto.getRandomValues(randomBytes);
+    return Array.from(randomBytes)
+      .map((byte) => byte.toString(16).padStart(2, '0'))
+      .join('');
+  }
+  /**
+   * Sends an email with the token to the specified address.
+   * @param {string} email - The email address to send the token to.
+   * @param {string} token - The generated token to include in the email.
+   */
+  private sendEmailWithToken(email: string, token: string): void {
+    let body = {
+      email: email,
+      token: token,
+    };
+
+    this.http.post(this.post.endPoint, this.post.body(body)).subscribe({
+      next: (response) => {
+        console.log('Email sent successfully:', response);
+      },
+      error: (error) => {
+        console.error('Error sending email:', error);
+      },
+      complete: () => {
+        console.info('Email send operation complete.');
+      },
+    });
+  }
+  /**
+   * Updates the user in Firestore by adding the generated token based on their email address.
+   * @param {string} email - The email address of the user to update.
+   * @param {string} token - The generated token to assign to the user.
+   */
+  private async updateUserWithToken(
+    email: string,
+    token: string
+  ): Promise<void> {
+    try {
+      let userRef = this.userService.getallUsersdocRef();
+      let emailQuery = query(userRef, where('email', '==', email));
+      let querySnapshot = await getDocs(emailQuery);
+
+      if (querySnapshot.empty) {
+        console.error('User not found for the provided email address.');
+        return;
+      }
+
+      querySnapshot.forEach(async (doc) => {
+        let userDocRef = this.userService.getSingleUserDocRef('user', doc.id);
+        await updateDoc(userDocRef, { token });
+        console.log(`Token added successfully to user: ${email}`);
       });
+    } catch (error) {
+      console.error('Error updating user with token:', error);
     }
   }
 }

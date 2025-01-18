@@ -10,7 +10,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
         $json = file_get_contents('php://input');
         $params = json_decode($json);
         $email = $params->email;
-        $token = bin2hex(random_bytes(32));
+        $token = $params->token;
         $resetLink = "https://dabubble.lars-schumacher.com/reset-password?token=" . urlencode($token);
         $recipient = $email;
         $subject = "Passwort zurücksetzen";
