@@ -28,9 +28,10 @@
 </section>
 @if (openLogoutBox) {
 <div class="overlay">
-    <div #logoutBox class="dFlexCenter">
-        <a (click)="openProfile(userIdService.id)"><h3>Profil</h3></a>
-        <a (click)="userService.logoutUser(userIdService.id)"><h3>Logout</h3></a>
+    <div #logoutBox class="dFlexCenter" [ngClass]="{'slideOut': slideOut}">
+        <hr (click)="closeBoxes()">
+        <a (click)="openProfile(userIdService.id)"><img class="respBtn" src="./account_circle.png"><h3>Profil</h3></a>
+        <a (click)="userService.logoutUser(userIdService.id)"><img class="respBtn" src="./logout.png"><h3>Logout</h3></a>
     </div>
 </div>
 }
