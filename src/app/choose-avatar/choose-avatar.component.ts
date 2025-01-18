@@ -38,7 +38,7 @@ export class ChooseAvatarComponent {
    * Navigates the user back to the login page.
    */
   openLogin(): void {
-    this.router.navigate(['login']);
+    this.router.navigate(['']);
     this.userData.userImage = this.selectedAvatar;
     this.userData.uploadUserData();
     console.log([

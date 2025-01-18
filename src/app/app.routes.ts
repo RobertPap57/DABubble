@@ -10,13 +10,13 @@ import { HomeComponent } from './home/home.component';
 import { ProfileWindowComponent } from './contacts/profile-window/profile-window.component';
 import { EditChannelComponent } from './slide-side-bar/edit-channel/edit-channel.component';
 export const routes: Routes = [
-  { path: 'login', component: LoginComponent },
+  { path: '', component: LoginComponent },
   { path: 'header', component: HeaderComponent },
   { path: 'register', component: CreateAccountComponent },
   { path: 'avatar', component: ChooseAvatarComponent },
   { path: 'profile', component: ContactWindowComponent },
   { path: 'reset-password', component: PasswordResetSendMailComponent },
-  { path: 'reset-password-id', component: PasswordResetComponent },
+  { path: 'reset-password/:token', component: PasswordResetComponent },
   { path: 'home', component: HomeComponent },
   { path: 'home/:userId', component: HomeComponent },
 ];

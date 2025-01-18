@@ -306,6 +306,6 @@ export class UserService {
    * Navigates the user to the login page.
    */
   private navigateToLogin(): void {
-    this.router.navigate(['/login']);
+    this.router.navigate(['']);
   }
 }

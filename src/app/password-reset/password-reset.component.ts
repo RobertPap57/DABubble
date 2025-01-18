@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-password-reset',
@@ -10,8 +10,9 @@ import { Router } from '@angular/router';
   templateUrl: './password-reset.component.html',
   styleUrl: './password-reset.component.scss',
 })
-export class PasswordResetComponent {
-  constructor(private router: Router) {}
+export class PasswordResetComponent implements OnInit {
+  constructor(private router: Router, private route: ActivatedRoute) {}
+  token: string | null = null;
 
   lockImg: string = '/lock-grey.png';
   confirmLockImg: string = '/lock-grey.png';
@@ -25,6 +26,15 @@ export class PasswordResetComponent {
 
   isPasswordValid: boolean = true;
 
+  ngOnInit(): void {
+    this.route.paramMap.subscribe((params) => {
+      this.token = params.get('token');
+      console.log('Token:', this.token); // Token aus der URL extrahieren
+      if (this.token) {
+        // Führe hier die Logik für das Zurücksetzen des Passworts aus
+      }
+    });
+  }
   /**
    * Updates the icon color of an input field when it gains focus.
    * Changes the icon to black if the field is focused and empty.

@@ -37,7 +37,7 @@ export class PasswordResetSendMailComponent {
    * Navigates the user back to the login page.
    */
   backToLogin(): void {
-    this.router.navigate(['/login']);
+    this.router.navigate(['']);
   }
 
   /**

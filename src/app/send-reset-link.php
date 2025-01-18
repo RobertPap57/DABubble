@@ -11,7 +11,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
         $params = json_decode($json);
         $email = $params->email;
         $token = $params->token;
-        $resetLink = "https://dabubble.lars-schumacher.com/reset-password?token=" . urlencode($token);
+        $resetLink = "https://dabubble.lars-schumacher.com/reset-password/" . urlencode($token);
         $recipient = $email;
         $subject = "Passwort zurücksetzen";
         $message = "
