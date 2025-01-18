@@ -100,8 +100,16 @@ section {
             display: none;
         }
 
-        img {
+        span {
+            display: none;
+        }
+    }
+
+    .profilePic {
+
+        >img {
             height: 50px;
         }
     }
+
 }

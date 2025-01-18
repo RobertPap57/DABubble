@@ -1,5 +1,9 @@
-.animation-done {
+.animationDone {
     animation: none !important;
+}
+
+.dNone {
+    display: none !important;
 }
 
 .colorCountainer {
@@ -55,8 +59,22 @@ section {
     }
 }
 
-.smallLogo {
-    width: 100%;
+.homeLogo {
+    margin-left: 50px;
+    display: flex;
+    align-items: center;
+    min-width: 296px;
+    width: 296px;
+    height: 70px;
+    font-size: 30px;
+    font-weight: 700;
+    gap: 16px;
+    cursor: pointer;
+
+    >svg {
+        height: 70px;
+        width: 70px;
+    }
 }
 
 app-searchbar {
@@ -68,6 +86,33 @@ app-profile {
 }
 
 @media screen and (max-width: 768px) {
+    .homeLogo {
+        margin-left: 16px;
+        display: flex;
+        align-items: center;
+        min-width: 176px;
+        width: 176px;
+        height: 50px;
+        font-size: 22px;
+        font-weight: 700;
+        gap: 11px;
+        cursor: pointer;
+
+        >svg {
+            height: 45px;
+            width: 45px;
+        }
+
+        .backArrow {
+            rotate: 90deg;
+        }
+
+        img {
+            height: 50px;
+            width: 50px;
+        }
+    }
+
     section {
         height: 80px;
 
@@ -103,13 +148,6 @@ app-profile {
 
     app-profile {
         width: auto;
-    }
-
-    .backArrow {
-
-        >svg {
-            rotate: 90deg;
-        }
     }
 
     h2 {

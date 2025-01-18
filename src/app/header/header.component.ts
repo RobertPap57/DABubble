@@ -1,4 +1,4 @@
-import { Component, HostListener } from '@angular/core';
+import { Component } from '@angular/core';
 import { ProfileComponent } from './profile/profile.component';
 import { SearchbarComponent } from './searchbar/searchbar.component';
 import { LinkCreateComponent } from './link-create/link-create.component';
@@ -18,23 +18,11 @@ export class HeaderComponent {
   isNotLoggedInRoute: boolean = false;
   isHomeRoute: boolean = false;
   animationPlayed: boolean = false;
-  isMobile: boolean = false;
+  isServer: boolean = false;
   server: string = 'Devspace';
 
   constructor(private router: Router) {
     this.ngOnInit();
-  }
-
-  /**
-   * checks the size of the innerwidth of the window
-   * 
-   * @param width 
-   */
-  @HostListener('window:resize', ['$event.target.innerWidth'])
-  handleResize(width: number) {
-    console.log(width);
-    if (width < 769) this.isMobile = true;
-    else this.isMobile = false;
   }
 
   /**
@@ -55,6 +43,6 @@ export class HeaderComponent {
    * opens back the startScreen in the header for mobile
    */
   backToServer() {
-    this.isMobile = false;
+    this.isServer = true;
   }
 }
