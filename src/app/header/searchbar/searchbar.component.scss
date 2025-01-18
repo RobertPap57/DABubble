@@ -84,15 +84,21 @@ section {
     }
 }
 
-@media screen and (max-width: 1024px) {
+@media screen and (max-width: 768px) {
     section {
-        margin-top: 37px;
-        margin-left: 20px;
-        margin-right: 20px;
-        width: calc(100% - 64px);
+        margin-block: 12px;
+        width: 100%;
         padding-left: 24px;
         height: 48px;
         border: 1px solid #ADB0D9;
+
+        .searchbarDropdown {
+            top: 36px;
+            left: 24px;
+            width: 70%;
+            height: 306px;
+            padding: 12px;
+        }
 
         a {
             right: 24px;

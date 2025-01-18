@@ -5,4 +5,5 @@ import { Injectable } from '@angular/core';
 })
 export class UserIdService {
     id:string = '';
+    isServer: boolean = true;
 }

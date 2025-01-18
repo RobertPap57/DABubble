@@ -187,7 +187,7 @@ section {
     border-radius: 35px;
     width: fit-content;
 
-    &:hover{
+    &:hover {
         background-color: #ECEEFE;
     }
 
@@ -240,10 +240,9 @@ section {
     }
 }
 
-@media screen and (max-width: 1024px) {
+@media screen and (max-width: 768px) {
     section {
-        width: calc(100% - 100px);
-        height: calc(100vh - 252px);
+        width: 100%;
         padding: 7px 30px 32px 30px;
 
         h2 {
@@ -252,7 +251,6 @@ section {
 
         >span {
             width: 166px;
-            background-color: white;
             font-size: 18px;
             font-weight: 400;
             color: black;
@@ -273,14 +271,10 @@ section {
             gap: 15px;
             padding: 4px 20px 4px 20px;
 
-            >img {
-                filter: invert(38%) sepia(80%) saturate(2932%) hue-rotate(225deg) brightness(107%) contrast(94%);
+            .channels path {
+                fill: #535AF1;
             }
         }
-    }
-
-    .addBtn {
-        filter: invert(38%) sepia(80%) saturate(2932%) hue-rotate(225deg) brightness(107%) contrast(94%);
     }
 
     .editChannelResp {
@@ -301,12 +295,14 @@ section {
             filter: invert(1);
         }
     }
+
+    .addBtn {
+        color: #535AF1;
+    }
 }
 
 @media screen and (max-width: 375px) {
     section {
-        width: calc(100% - 50px);
-        height: calc(100vh - 232px);
         padding: 7px 5px 12px 5px;
     }
 }

@@ -28,16 +28,27 @@ export class SideNavBarComponent {
 
   constructor(private route: ActivatedRoute, public userService: UserService, public userIdService: UserIdService) { }
 
+  /**
+   * subscribes to the routeSub and pushes the userID to the useridservice
+   */
   ngOnInit(): void {
     this.routeSub = this.route.params.subscribe(params => {
       this.userIdService.id = params['userId'];
     });
   }
 
+  /**
+   * unsubscribes from the routeSub
+   */
   ngOnDestroy(): void {
     this.routeSub.unsubscribe();
   }
 
+  /**
+   * gets all Users from the userservice
+   * 
+   * @returns all users on the server
+   */
   getUserList() {
     return this.userService.users;
   }
@@ -61,14 +72,26 @@ export class SideNavBarComponent {
     this.channels.push(channel);
   }
 
+  /**
+   * opens the create Channel Box
+   */
   openCreateChannel() {
     this.createNewChannel = true;
   }
 
+  /**
+   * opens a new blank message box
+   */
   openNewMsgChannel() {
+    this.userIdService.isServer = false;
     //opens a new Msg Box with search bar for #channel or @Alex or Email
   }
 
+  /**
+   * opens a direct Message with another user
+   * 
+   * @param id the id of the other user
+   */
   openDirectMsg(id: string) {
     this.openedChannel = id;
     // this.openedChannel = id;
