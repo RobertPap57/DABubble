@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { ProfileComponent } from './profile/profile.component';
 import { SearchbarComponent } from './searchbar/searchbar.component';
 import { LinkCreateComponent } from './link-create/link-create.component';
@@ -17,12 +17,28 @@ export class HeaderComponent {
   isLoginRoute: boolean = false;
   isNotLoggedInRoute: boolean = false;
   isHomeRoute: boolean = false;
+  isMobile: boolean = false;
   animationPlayed: boolean = false;
-  isServer: boolean = false;
+  isServer: boolean = true;
   server: string = 'Devspace';
 
   constructor(private router: Router) {
     this.ngOnInit();
+  }
+
+
+  /**
+   * checks the size of the innerwidth of the window
+   * 
+   * @param width the inner width of the browser window
+   */
+  @HostListener('window:resize', ['$event.target.innerWidth'])
+  handleResize(width: number) {
+    if (width < 769) {
+      this.isMobile = true;
+    } else {
+      this.isMobile = false;
+    }
   }
 
   /**
@@ -35,6 +51,7 @@ export class HeaderComponent {
         this.isHomeRoute = event.url.includes('/home');
         this.isLoginRoute = event.url === '/'
         this.isNotLoggedInRoute = ['/register', '/avatar', '/reset-password'].some(route => event.url.includes(route));
+        this.handleResize(window.innerWidth);
         setTimeout(() => this.animationPlayed = true, 3000);
       });
   }
