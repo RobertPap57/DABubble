@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { ProfileComponent } from './profile/profile.component';
 import { SearchbarComponent } from './searchbar/searchbar.component';
 import { LinkCreateComponent } from './link-create/link-create.component';
@@ -25,6 +25,21 @@ export class HeaderComponent {
     this.ngOnInit();
   }
 
+  /**
+   * checks the size of the innerwidth of the window
+   * 
+   * @param width 
+   */
+  @HostListener('window:resize', ['$event.target.innerWidth'])
+  handleResize(width: number) {
+    console.log(width);
+    if (width < 769) this.isMobile = true;
+    else this.isMobile = false;
+  }
+
+  /**
+   * checks on which route the user currently is to display the correct header items and animations
+   */
   ngOnInit() {
     this.router.events
       .pipe(filter(event => event instanceof NavigationEnd))
@@ -34,17 +49,6 @@ export class HeaderComponent {
         this.isNotLoggedInRoute = ['/register', '/avatar', '/reset-password'].some(route => event.url.includes(route));
         setTimeout(() => this.animationPlayed = true, 3000);
       });
-  }
-
-  checkRoutes() {
-
-  }
-
-  /**
-   * checks if the servertab is open
-   */
-  handleResize() {
-    if (this.isMobile) this.isMobile = window.innerWidth < 768;
   }
 
   /**

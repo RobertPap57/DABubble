@@ -36,4 +36,15 @@ section {
   }
 }
 
-@media screen and (max-width: 768px) {}
+@media screen and (max-width: 768px) {
+  section {
+    padding-right: 0;
+    padding-bottom: 40px;
+    position: absolute;
+    top: 760px;
+    left: 0;
+    right: 0;
+    display: flex;
+    align-items: center;
+  }
+}
