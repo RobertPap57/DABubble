@@ -8,6 +8,7 @@ section {
     scrollbar-width: none;
     animation: slideInBar 0.2s ease-in-out;
     box-sizing: border-box;
+    position: absolute;
 
     h2 {
         padding-block: 18px;

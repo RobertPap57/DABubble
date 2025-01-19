@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { SideNavBarComponent } from './side-nav-bar/side-nav-bar.component';
 import { SearchbarComponent } from '../header/searchbar/searchbar.component';
+import { ChatService } from '../services/chat.service';
+
 
 @Component({
   selector: 'app-slide-side-bar',
@@ -13,16 +15,22 @@ export class SlideSideBarComponent {
   sideNavOpen = true;
   slideOut = false;
 
+  constructor(private chatService: ChatService) { }
+
   /**
    * toggles the sideBar in and out of the screen
    */
   toggleSideBar() {
     if (this.sideNavOpen) {
       this.slideOut = true;
+      this.chatService.slideOutNavBar = !this.chatService.slideOutNavBar;
       setTimeout(() => {
         this.sideNavOpen = !this.sideNavOpen;
         this.slideOut = false;
       }, 200);
-    } else { this.sideNavOpen = !this.sideNavOpen; }
+    } else {
+      this.sideNavOpen = !this.sideNavOpen;
+      this.chatService.slideOutNavBar = !this.chatService.slideOutNavBar;
+    }
   }
 }

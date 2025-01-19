@@ -96,7 +96,7 @@ export class SideNavBarComponent {
   openDirectMsg(id: string) {
     this.openedChannel = id;
     this.chatService.currentChatId = id;
-    this.chatService.chatOpened = 'directMsg';
+    this.chatService.chatOpened = 'directMsg'
     // Geht auch mit self, muss aber gechecked werden mit if
     // Übergebe Kanal an Chat-box für direkte Nachrcht an User[i]
   }
