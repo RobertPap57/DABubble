@@ -1,5 +1,5 @@
-<section class="dFlexCenter">
-    <div #createdChannelBox class="createBox">
+<section class="dFlexCenter" [ngClass]="{'dNone': addingUsers}">
+    <div #createdChannelBox class="nameBox createBox">
         <h2>Channel erstellen<span class="dFlexCenter" (click)="closeCreateChan()">+</span></h2>
         <p>Channels dienen deinem Team zur Kommunikation. Am besten sollten sie themenbezogen sein #marketing zum
             Beispiel.</p>
@@ -30,10 +30,10 @@
 
 
 
-<section class="dFlexCenter">
-    <div #createPeopleBox class="addPeopleBox">
-        <hr>
-        <h2>Leute hinzufügen<span class="dFlexCenter" (click)="closeCreateChan()">+</span></h2>
+<section class="dFlexCenter" [ngClass]="{'dNone': !addingUsers, 'invisibleOverlay': !addingUsers}">
+    <div #createPeopleBox class="addPeopleBox createBox" [ngClass]="{'slideOut': !addingUsers, 'slideIn': addingUsers}">
+        <hr (click)="closeAddUsers()">
+        <h2>Leute hinzufügen<span class="dFlexCenter" (click)="closeAddUsers()">+</span></h2>
 
         <form #form="ngForm">
 
@@ -51,8 +51,8 @@
             @if (selectedOption === 'selectedUser') {
             <div class="dropdownInput">
                 <input (keyup)="updateField()" [(ngModel)]="searchUser" (focus)="dropdownActive = true" class="searchUser" type="search" placeholder="{{inputPlaceholder}}">
-
-                <div class="invisibleOverlay">
+                <!-- class="invisibleOverlay" -->
+                <div>
                     @for (select of selectedUser; track $index) {
 
                     @if ($index < 2) { <p><img src="./{{userImg[$index]}}">{{select}}<span (click)="selectUser(select)">+</span></p>
@@ -88,7 +88,6 @@
             </div>
             }
 
-        
         <button
             [ngClass]="{'greyButton': !selectedOption || selectedOption === 'selectedUser' && selectedUser.length === 0}"
             (click)="createChanel()">Erstellen</button>

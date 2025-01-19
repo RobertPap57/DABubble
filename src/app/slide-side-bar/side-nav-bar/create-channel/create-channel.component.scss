@@ -8,7 +8,7 @@ section {
     background-color: rgba(0, 0, 0, 0.4);
     padding: 100px;
 
-    >div {
+    .createBox {
         display: flex;
         flex-direction: column;
         background-color: white;
@@ -88,13 +88,17 @@ input {
     }
 }
 
-.createChanInput {
-    padding-left: 58px;
+.dNone {
+    display: none !important;
 }
 
-.createBox {
+.createChanInput {
+    padding: 0 0 0 58px;
+}
+
+.nameBox {
     max-width: 872px;
-    max-height: 539px;
+    max-height: 560px;
 }
 
 .addPeopleBox {
@@ -255,7 +259,7 @@ button {
     section {
         padding: 0;
 
-        >div {
+        .createBox {
             border-radius: 0;
             padding-block: 40px;
             padding-inline: 20px;
@@ -264,9 +268,52 @@ button {
             box-shadow: none
         }
 
+        .addPeopleBox {
+            position: absolute;
+            bottom: 0;
+            max-height: 50vh;
+            width: 100%;
+            border-radius: 30px 30px 0 0;
+            padding-block: 40px;
+            padding-inline: 20px;
+            box-shadow: none;
+        }
+
         p {
             font-size: 17px;
             margin-top: 25px;
         }
+
+        hr {
+            width: 56px;
+            border: 3px solid rgba(217, 217, 217, 1);
+            display: block;
+            cursor: pointer;
+        }
+    }
+
+    .dNone {
+        display: block !important;
+    }
+
+    .invisibleOverlay {
+        background-color: transparent !important;
+        pointer-events: none !important;
+    }
+
+    .dropdown {
+        border-radius: 20px 20px 20px 0px;
+        bottom: 38px;
+        left: 36px;
+    }
+
+    .slideOut {
+        transform: translateY(100%);
+        transition: transform 0.2s ease-in-out;
+    }
+
+    .slideIn {
+        transform: translateY(0);
+        transition: transform 0.2s ease-in-out;
     }
 }

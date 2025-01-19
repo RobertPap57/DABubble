@@ -14,7 +14,7 @@ import { ChatService } from '../../../services/chat.service';
 })
 export class CreateChannelComponent {
   channelData = inject(ChannelService);
-  creatingChannel: boolean = false;
+  addingUsers: boolean = false;
   @ViewChild('createdChannelBox') createdChannelBox!: ElementRef<HTMLDivElement>;
   @ViewChild('createPeopleBox') createPeopleBox!: ElementRef<HTMLDivElement>;
   @ViewChild('focusdropdown') focusDropdown!: ElementRef;
@@ -110,6 +110,10 @@ export class CreateChannelComponent {
     this.chatService.createChannel = false;
   }
 
+  closeAddUsers() {
+    this.addingUsers = false;
+  }
+
   /**
    * checks if the Channel has a correct name and is no duplicate, if it is create Channel with a number before the name
    */
@@ -125,7 +129,7 @@ export class CreateChannelComponent {
       this.channelData.chanName = newName;
       this.channelData.chanDescription = this.channelDescription;
       this.channelData.chanCreatedByUser = this.chanCreatedByUser; // user ID oder Username???
-      this.creatingChannel = true;
+      this.addingUsers = true;
     }
   }
 }
