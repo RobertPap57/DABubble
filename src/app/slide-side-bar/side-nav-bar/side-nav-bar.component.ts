@@ -1,6 +1,5 @@
 import { NgClass, NgStyle } from '@angular/common';
 import { Component } from '@angular/core';
-import { CreateChannelComponent } from './create-channel/create-channel.component';
 import { UserService } from '../../services/user.service';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
@@ -11,7 +10,7 @@ import { ChatService } from '../../services/chat.service';
 @Component({
   selector: 'app-side-nav-bar',
   standalone: true,
-  imports: [NgStyle, NgClass, CreateChannelComponent],
+  imports: [NgStyle, NgClass],
   templateUrl: './side-nav-bar.component.html',
   styleUrl: './side-nav-bar.component.scss'
 })
@@ -24,7 +23,6 @@ export class SideNavBarComponent {
   onlineColor = '#92c73e';
   offlineColor = '#696969';
   openedChannel: string = '';
-  createNewChannel = false;
 
   constructor(private route: ActivatedRoute, public userService: UserService, public userIdService: UserIdService, public chatService: ChatService) { }
 
@@ -76,7 +74,7 @@ export class SideNavBarComponent {
    * opens the create Channel Box
    */
   openCreateChannel() {
-    this.createNewChannel = true;
+    this.chatService.createChannel = true;
   }
 
   /**

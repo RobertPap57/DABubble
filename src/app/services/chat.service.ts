@@ -4,10 +4,11 @@ import { Injectable } from '@angular/core';
     providedIn: 'root',
 })
 export class ChatService {
-    currentChatId:string = '';
-    channelChatId:string = '';
+    currentChatId: string = '';
+    channelChatId: string = '';
 
-    slideOutNavBar:boolean = false;
+    slideOutNavBar: boolean = false;
+    createChannel: boolean = false;
 
-    chatOpened:string = ''; //channel, directMsg, threadmsg
+    chatOpened: string = ''; //channel, directMsg, threadmsg
 }

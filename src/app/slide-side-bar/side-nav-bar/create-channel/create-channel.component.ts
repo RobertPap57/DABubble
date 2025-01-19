@@ -2,9 +2,9 @@
 import { Component, ElementRef, HostListener, inject, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { SideNavBarComponent } from '../side-nav-bar.component';
 import { AddPeopleComponent } from './add-people/add-people.component';
 import { ChannelService } from '../../../services/channel.service';
+import { ChatService } from '../../../services/chat.service';
 
 @Component({
   selector: 'app-create-channel',
@@ -15,13 +15,13 @@ import { ChannelService } from '../../../services/channel.service';
 })
 export class CreateChannelComponent {
   channelData = inject(ChannelService);
-  closeDialog = inject(SideNavBarComponent);
   creatingChannel: boolean = false;
   @ViewChild('createdChannelBox') createdChannelBox!: ElementRef<HTMLDivElement>;
   channelName: string = '';
   channelDescription: string = '';
   chanCreatedByUser: string = ''
 
+  constructor(public chatService: ChatService) {}
 
 /**
  * closes the Module if the user clicks outside the input box
@@ -40,7 +40,7 @@ export class CreateChannelComponent {
    * closes the module
    */
   closeCreateChan() {
-    this.closeDialog.createNewChannel = false;
+    this.chatService.createChannel = false;
   }
 
   /**
@@ -51,10 +51,10 @@ export class CreateChannelComponent {
       let baseName = this.channelName;
       let newName = baseName;
       let counter = 1;
-      while (this.closeDialog.channels.includes(newName)) {
+      // while (this.closeDialog.channels.includes(newName)) {
         newName = `${counter} ${baseName}`;
         counter++;
-      }
+      // }
       this.channelData.chanName = newName;
       this.channelData.chanDescription = this.channelDescription;
       this.channelData.chanCreatedByUser = this.chanCreatedByUser; // user ID oder Username???
