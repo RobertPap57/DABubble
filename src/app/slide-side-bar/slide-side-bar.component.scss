@@ -37,6 +37,11 @@ app-searchbar {
     display: none;
 }
 
+app-side-nav-bar {
+    position: absolute;
+    height: calc(80vh - 40px);
+}
+
 @media screen and (max-width: 768px) {
     section {
         display: none;

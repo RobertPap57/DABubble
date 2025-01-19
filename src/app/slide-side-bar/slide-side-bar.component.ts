@@ -12,25 +12,13 @@ import { ChatService } from '../services/chat.service';
   styleUrl: './slide-side-bar.component.scss'
 })
 export class SlideSideBarComponent {
-  sideNavOpen = true;
-  slideOut = false;
 
-  constructor(private chatService: ChatService) { }
+  constructor(public chatService: ChatService) { }
 
   /**
    * toggles the sideBar in and out of the screen
    */
   toggleSideBar() {
-    if (this.sideNavOpen) {
-      this.slideOut = true;
-      this.chatService.slideOutNavBar = !this.chatService.slideOutNavBar;
-      setTimeout(() => {
-        this.sideNavOpen = !this.sideNavOpen;
-        this.slideOut = false;
-      }, 200);
-    } else {
-      this.sideNavOpen = !this.sideNavOpen;
-      this.chatService.slideOutNavBar = !this.chatService.slideOutNavBar;
-    }
+    this.chatService.slideOutNavBar = !this.chatService.slideOutNavBar;
   }
 }
