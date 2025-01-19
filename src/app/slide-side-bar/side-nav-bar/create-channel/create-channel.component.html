@@ -1,8 +1,5 @@
-@if (creatingChannel) {
-<app-add-people></app-add-people>
-} @else {
 <section class="dFlexCenter">
-    <div #createdChannelBox>
+    <div #createdChannelBox class="createBox">
         <h2>Channel erstellen<span class="dFlexCenter" (click)="closeCreateChan()">+</span></h2>
         <p>Channels dienen deinem Team zur Kommunikation. Am besten sollten sie themenbezogen sein #marketing zum
             Beispiel.</p>
@@ -14,7 +11,7 @@
                 <img src="./tag_grey.png" alt="#">
                 <input #name="ngModel" placeholder="z.B. Kooperationsprojekte" type="text" [(ngModel)]="channelName"
                     name="channelName" [ngClass]="{'redBorder': !name.valid && name.touched && !name.disabled}"
-                    minlength="3" required>
+                    minlength="3" class="createChanInput" required>
             </div>
 
             <h3>Channel-Beschreibung <p class="optional">(optional)</p>
@@ -30,4 +27,71 @@
         <button [ngClass]="{'greyButton': !name.valid && !name.disabled}" (click)="checkChanName()">Erstellen</button>
     </div>
 </section>
-}
+
+
+
+<section class="dFlexCenter">
+    <div #createPeopleBox class="addPeopleBox">
+        <hr>
+        <h2>Leute hinzufügen<span class="dFlexCenter" (click)="closeCreateChan()">+</span></h2>
+
+        <form #form="ngForm">
+
+            <div>
+                <input [(ngModel)]="selectedOption" name="selection" class="radio" type="radio" value="all" id="all" />
+                <label for="all">Alle Mitglieder von Devspace hinzufügen</label>
+            </div>
+
+            <div>
+                <input [(ngModel)]="selectedOption" name="selection" class="radio" type="radio" value="selectedUser"
+                    id="selectedUser" />
+                <label for="selectedUser">Bestimmte Leute hinzufügen</label>
+            </div>
+        </form>
+            @if (selectedOption === 'selectedUser') {
+            <div class="dropdownInput">
+                <input (keyup)="updateField()" [(ngModel)]="searchUser" (focus)="dropdownActive = true" class="searchUser" type="search" placeholder="{{inputPlaceholder}}">
+
+                <div class="invisibleOverlay">
+                    @for (select of selectedUser; track $index) {
+
+                    @if ($index < 2) { <p><img src="./{{userImg[$index]}}">{{select}}<span (click)="selectUser(select)">+</span></p>
+                        }
+                        @if ($index === 2) {
+                            <p class="click" (click)="dropdownActive = true">+ {{ selectedUser.length - 2 }} Users</p>
+                          }
+                        }
+                </div>
+
+                @if (dropdownActive) {
+                <div class="dropdown" #focusdropdown>
+                    @for (user of filteredUsers; track $index) {
+                    <div (click)="selectUser(user)" [class.active]="isSelected(user)" class="users">
+                        <div>
+                            <img src="./{{userImg[$index]}}">
+                            <span
+                                [ngStyle]="{'background-color': userOnline[$index] ? onlineColor : offlineColor}"></span>
+                        </div>
+                        <p>{{user}}</p>
+                    </div>
+                    } @empty {
+                    <div class="users">
+                        <div>
+                            <img src="">
+                            <span></span>
+                        </div>
+                        <p>No Users found</p>
+                    </div>
+                    }
+                </div>
+                }
+            </div>
+            }
+
+        
+        <button
+            [ngClass]="{'greyButton': !selectedOption || selectedOption === 'selectedUser' && selectedUser.length === 0}"
+            (click)="createChanel()">Erstellen</button>
+
+    </div>
+</section>
