@@ -51,6 +51,7 @@ export class HeaderComponent {
         this.isHomeRoute = event.url.includes('/home');
         this.isLoginRoute = event.url === '/'
         this.isNotLoggedInRoute = ['/register', '/avatar', '/reset-password'].some(route => event.url.includes(route));
+        if (window.innerWidth < 769) this.isMobile = true;
         setTimeout(() => this.animationPlayed = true, 3000);
       });
   }
