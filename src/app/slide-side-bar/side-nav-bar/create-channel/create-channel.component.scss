@@ -149,3 +149,25 @@ button {
         background-color: #444df2;
     }
 }
+
+@media screen and (max-width: 768px) {
+    section {
+        padding: 0;
+
+        >div {
+            background-color: white;
+            border-radius: 0;
+            padding-block: 40px;
+            padding-inline: 20px;
+            max-width: 872px;
+            max-height: 100vh;
+            height: 100vh;
+            box-shadow: none
+        }
+    
+        p {
+            font-size: 17px;
+            margin-top: 25px;
+        }
+    }
+}
