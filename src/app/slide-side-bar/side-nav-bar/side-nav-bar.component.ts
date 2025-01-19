@@ -6,6 +6,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { User } from '../../interfaces/user.model';
 import { UserIdService } from '../../services/user-id.service';
+import { ChatService } from '../../services/chat.service';
 
 @Component({
   selector: 'app-side-nav-bar',
@@ -26,7 +27,7 @@ export class SideNavBarComponent {
   openedChannel: string = '';
   createNewChannel = false;
 
-  constructor(private route: ActivatedRoute, public userService: UserService, public userIdService: UserIdService) { }
+  constructor(private route: ActivatedRoute, public userService: UserService, public userIdService: UserIdService, private chatService: ChatService) { }
 
   /**
    * subscribes to the routeSub and pushes the userID to the useridservice
@@ -94,6 +95,7 @@ export class SideNavBarComponent {
    */
   openDirectMsg(id: string) {
     this.openedChannel = id;
+    this.chatService.currentChatId = id;
     // this.openedChannel = id;
     // Geht auch mit self, muss aber gechecked werden mit if
     // Übergebe Kanal an Chat-box für direkte Nachrcht an User[i]
