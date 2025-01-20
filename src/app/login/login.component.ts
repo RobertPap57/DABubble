@@ -21,72 +21,91 @@ export class LoginComponent {
   passwordText: string = '';
   showError: boolean = false;
 
-  async onLogin() {
+  /**
+   * Handles the login process, showing errors if login fails.
+   */
+  async onLogin(): Promise<void> {
     try {
       this.showError = false;
-      const loginSuccessful = await this.userService.loginUser(
+      let loginSuccessful = await this.userService.loginUser(
         this.emailText,
         this.passwordText
       );
+
       if (!loginSuccessful) {
         this.showError = true;
       }
     } catch (error) {
-      console.error('Fehler beim Login:', error);
+      console.error('Error during login:', error);
       this.showError = true;
     }
   }
 
   /**
-   * Handles the focus event for an input field.
-   * Updates the icon color to black when the input field is focused,
-   * provided the corresponding field is empty.
+   * Updates the input field's icon color when it gains focus.
+   * Changes the icon to black if the input field is empty.
    *
    * @param {string} field - The name of the input field ('email' or 'password').
    */
   onFocus(field: string): void {
     if (field === 'email' && !this.emailText) {
-      this.emailImg = '/mail-black.png';
+      this.updateIcon('email', true);
     } else if (field === 'password' && !this.passwordText) {
-      this.lockImg = '/lock-black.png';
+      this.updateIcon('password', true);
     }
   }
 
   /**
-   * Handles the blur event for an input field.
-   * Resets the icon color to gray when the input field loses focus,
-   * provided the corresponding field is empty.
+   * Resets the input field's icon color when it loses focus.
+   * Changes the icon to gray if the input field is empty.
    *
    * @param {string} field - The name of the input field ('email' or 'password').
    */
   onBlur(field: string): void {
     if (field === 'email' && !this.emailText) {
-      this.emailImg = '/mail-grey.png';
+      this.updateIcon('email', false);
     } else if (field === 'password' && !this.passwordText) {
-      this.lockImg = '/lock-grey.png';
+      this.updateIcon('password', false);
     }
   }
 
   /**
-   * Handles the input event for an input field.
-   * Updates the text and icon color dynamically as the user types.
-   * If the field is empty, the icon is reset to gray; otherwise, it is set to black.
+   * Handles user input and dynamically updates the icon color based on the field's content.
    *
    * @param {string} field - The name of the input field ('email' or 'password').
    * @param {Event} event - The input event containing the user's input.
    */
   onInput(field: string, event: Event): void {
-    const value = (event.target as HTMLInputElement).value;
+    let value = (event.target as HTMLInputElement).value;
 
     if (field === 'email') {
       this.emailText = value;
-      this.emailImg = value ? '/mail-black.png' : '/mail-grey.png';
+      this.updateIcon('email', !!value);
     } else if (field === 'password') {
       this.passwordText = value;
-      this.lockImg = value ? '/lock-black.png' : '/lock-grey.png';
+      this.updateIcon('password', !!value);
     }
   }
 
+  /**
+   * Updates the icon for the specified input field based on its state.
+   *
+   * @param {string} field - The name of the input field ('email' or 'password').
+   * @param {boolean} isFocusedOrFilled - Whether the field is focused or filled.
+   */
+  private updateIcon(field: string, isFocusedOrFilled: boolean): void {
+    let color = isFocusedOrFilled ? 'black' : 'grey';
+
+    if (field === 'email') {
+      this.emailImg = `/mail-${color}.png`;
+    } else if (field === 'password') {
+      this.lockImg = `/lock-${color}.png`;
+    }
+  }
+
+  /**
+   * Navigates to the reset password page.
+   */
   openResetPassword(): void {
     this.router.navigate(['/reset-password']);
   }
