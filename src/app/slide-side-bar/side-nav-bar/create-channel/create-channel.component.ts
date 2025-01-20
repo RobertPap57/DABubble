@@ -4,6 +4,8 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ChannelService } from '../../../services/channel.service';
 import { ChatService } from '../../../services/chat.service';
+import { UserService } from '../../../services/user.service';
+import { UserIdService } from '../../../services/user-id.service';
 
 @Component({
   selector: 'app-create-channel',
@@ -23,17 +25,24 @@ export class CreateChannelComponent {
   chanCreatedByUser: string = '';
   selectedOption: string | null = null;
   dropdownActive: boolean = false;
-  usersFromService: string[] = ['Lars Schumacher', 'Alexander Hardtke', 'Alex2', 'Alex3', 'Alex4', 'Alex5', 'Alex6'];
+  usersFromService: string[] = [];
   filteredUsers: string[] = [];
-  userImg = ['steffen-hoffmann-avatar.png', '01.Charaters.png', '02.Charaters.png', '01.Charaters.png', '02.Charaters.png', '01.Charaters.png', '02.Charaters.png'];
+  userImg: string[] = [];
   userOnline = [true, false, false, true, false, true, false,];
   inputPlaceholder = 'Name eingeben';
   onlineColor = '#92c73e';
   offlineColor = '#696969';
   selectedUser: string[] = [];
   searchUser: string = '';
+  users: {} = {}
 
-  constructor(public chatService: ChatService) {
+  constructor(public chatService: ChatService, public userService: UserService, public userIdService: UserIdService) {
+    this.users = [...this.userService.users];
+    for (let i = 0; i < this.userService.users.length; i++) {
+      let singelUser = this.userService.users[i];
+      this.usersFromService.push(singelUser.name);
+      this.userImg.push(singelUser.userImage);
+    }
     this.filteredUsers = [...this.usersFromService];
   }
 
@@ -48,7 +57,7 @@ export class CreateChannelComponent {
       let clickInsideChan = this.createdChannelBox.nativeElement.contains(target);
       let clickInsidePpl = this.createPeopleBox.nativeElement.contains(target);
       if (!clickInsideChan && !clickInsidePpl) this.closeCreateChan();
-    } 
+    }
   }
 
   @HostListener('document:mousedown', ['$event.target'])

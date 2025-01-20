@@ -54,7 +54,7 @@
                 <div class="invisibleInputOverlay">
                     @for (select of selectedUser; track $index) {
 
-                    @if ($index < 2) { <p><img src="./{{userImg[$index]}}"><p>{{select}}</p><span (click)="selectUser(select)">+</span></p>
+                    @if ($index < 2) { <p><img src=".{{userImg[$index]}}"><p>{{select}}</p><span (click)="selectUser(select)">+</span></p>
                         }
                         @if ($index === 2) {
                             <p class="click" (click)="dropdownActive = true">+ {{ selectedUser.length - 2 }} Users</p>
@@ -67,7 +67,7 @@
                     @for (user of filteredUsers; track $index) {
                     <div (click)="selectUser(user)" [class.active]="isSelected(user)" class="users">
                         <div>
-                            <img src="./{{userImg[$index]}}">
+                            <img src=".{{userImg[$index]}}">
                             <span
                                 [ngStyle]="{'background-color': userOnline[$index] ? onlineColor : offlineColor}"></span>
                         </div>

@@ -3,7 +3,6 @@ import { Component } from '@angular/core';
 import { UserService } from '../../services/user.service';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { User } from '../../interfaces/user.model';
 import { UserIdService } from '../../services/user-id.service';
 import { ChatService } from '../../services/chat.service';
 
@@ -18,7 +17,6 @@ export class SideNavBarComponent {
   private routeSub!: Subscription;
   channels = ['Entwicklerteam', 'Kekse essen']
   channelsVisible = true;
-  users: User[] = [];
   directMsgVisible = true;
   onlineColor = '#92c73e';
   offlineColor = '#696969';
