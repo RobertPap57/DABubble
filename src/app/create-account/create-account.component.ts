@@ -34,17 +34,14 @@ export class CreateAccountComponent {
 
   passwordRegex = /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/;
 
+  /**
+   * Creates a new user by setting the properties in the `userData` service.
+   */
   createUser() {
     this.userData.userName = this.userNameText;
     this.userData.email = this.emailText;
     this.userData.password = this.passwordText;
     this.userData.confirmPassword = this.confirmPasswordText;
-    console.log([
-      this.userData.userName,
-      this.userData.email,
-      this.userData.password,
-      this.userData.confirmPassword,
-    ]);
   }
 
   /**
@@ -59,14 +56,13 @@ export class CreateAccountComponent {
    * Displays error messages if fields are invalid or passwords do not match.
    */
   openAvatar(): void {
-    const allFieldsFilled =
+    let allFieldsFilled =
       this.emailText &&
       this.passwordText &&
       this.confirmPasswordText &&
       this.userNameText;
-    const passwordsMatch = this.passwordText === this.confirmPasswordText;
-
-    const isPasswordStrong = this.passwordRegex.test(this.passwordText);
+    let passwordsMatch = this.passwordText === this.confirmPasswordText;
+    let isPasswordStrong = this.passwordRegex.test(this.passwordText);
 
     if (
       !allFieldsFilled ||
@@ -84,7 +80,7 @@ export class CreateAccountComponent {
 
   /**
    * Updates the icon color of an input field when it gains focus.
-   * @param {string} field - The input field name ('email', 'password', or 'userName').
+   * @param {string} field - The input field name ('email', 'password', 'confirm', or 'userName').
    */
   onFocus(field: string): void {
     if (field === 'email' && !this.emailText) {
@@ -101,7 +97,7 @@ export class CreateAccountComponent {
   /**
    * Updates the icon color of an input field when it loses focus.
    * Resets the icon to gray if the field is empty.
-   * @param {string} field - The input field name ('email', 'password', or 'userName').
+   * @param {string} field - The input field name ('email', 'password', 'confirm', or 'userName').
    */
   onBlur(field: string): void {
     if (field === 'email' && !this.emailText) {
@@ -118,11 +114,11 @@ export class CreateAccountComponent {
   /**
    * Updates the text and icon of an input field as the user types.
    * Includes password strength validation.
-   * @param {string} field - The input field name ('email', 'password', or 'userName').
+   * @param {string} field - The input field name ('email', 'password', 'confirm', or 'userName').
    * @param {Event} event - The input event containing the user's input.
    */
   onInput(field: string, event: Event): void {
-    const value = (event.target as HTMLInputElement).value;
+    let value = (event.target as HTMLInputElement).value;
 
     if (field === 'email') {
       this.emailText = value;

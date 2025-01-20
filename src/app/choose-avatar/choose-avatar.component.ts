@@ -36,18 +36,12 @@ export class ChooseAvatarComponent {
 
   /**
    * Navigates the user back to the login page.
+   * Also uploads the selected user image and updates the user data.
    */
   openLogin(): void {
     this.router.navigate(['']);
     this.userData.userImage = this.selectedAvatar;
     this.userData.uploadUserData();
-    console.log([
-      this.userData.userImage,
-      this.userData.userName,
-      this.userData.email,
-      this.userData.password,
-      this.userData.confirmPassword,
-    ]);
   }
 
   /**
@@ -62,8 +56,7 @@ export class ChooseAvatarComponent {
 
   /**
    * Updates the back arrow icon image based on its hover state.
-   * If the back arrow is hovered, the hover image is shown.
-   * Otherwise, the default image is displayed.
+   * Displays the hover image if the back arrow is hovered; otherwise, displays the default image.
    */
   updateArrowImage(): void {
     if (this.isArrowHovered) {
@@ -76,7 +69,7 @@ export class ChooseAvatarComponent {
   /**
    * Updates the selected avatar with the clicked image.
    *
-   * @param {string} avatarImage - The URL of the clicked avatar.
+   * @param {string} avatarImage - The URL of the clicked avatar image.
    */
   selectAvatar(avatarImage: string): void {
     this.selectedAvatar = avatarImage;
