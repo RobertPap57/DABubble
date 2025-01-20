@@ -20,7 +20,7 @@ import { CommonModule } from '@angular/common';
 export class ReactionBarComponent {
 
   @Input() message: any;
-  loggedUser: string = 'Me';
+  @Input() loggedUser: string = '';
   optionsOpen: boolean = false;
   emojiPickerOn: boolean = false;
 

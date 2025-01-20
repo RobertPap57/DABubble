@@ -16,7 +16,6 @@ h1 {
     background-color: white;
     display: flex;
     flex-direction: column;
-    gap: 20px;
 }
 
 
@@ -280,8 +279,8 @@ h1 {
 .messages-container {
     flex: 1;
     display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
+    flex-direction: column-reverse;
+    overflow-y: auto;
     gap: 20px;
 }
 

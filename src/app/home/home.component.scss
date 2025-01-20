@@ -1,6 +1,6 @@
 .home-container {
     display: flex;
-    flex-direction: row; 
+    flex-direction: row;
     gap: 20px;
     width: 100vw;
     height: 80vh;
@@ -13,8 +13,40 @@
 .channel-container {
     flex: 1;
     height: 100%;
+    margin-left: -20px;
+
 }
+.slide-out {
+    margin-left: 306px;
+    animation: slideOut 0.2s ease-in-out;
+}
+.slide-in {
+    margin-left: -20;
+    animation: slideIn 0.2s ease-in-out;
+
+}
+
 .thread-container {
     width: 485px;
     height: 100%;
+}
+
+@keyframes slideIn {
+    0% {
+        margin-left: 306px;
+    }
+
+    100% {
+        margin-left: -20px;
+    }
+}
+
+@keyframes slideOut {
+    0% {
+        margin-left: -20px;
+    }
+
+    100% {
+        margin-left: 306px;
+    }
 }

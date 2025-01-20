@@ -1,13 +1,13 @@
-<div [class.my-message]="loggedUser === message.sender" class="message-container">
+<div [class.my-message]="loggedUser === message.senderId" class="message-container">
    
-    <app-reaction-bar class="reaction-bar" [message]="message"></app-reaction-bar>
+    <app-reaction-bar [loggedUser]="loggedUser" class="reaction-bar" [message]="message"></app-reaction-bar>
 
-    <img class="sender-img" src="chat-box/character_{{message.senderImg}}.svg" alt="">
+    <img class="sender-img" src="{{message.senderImg}}" alt="">
 
     <div class="message">
 
         <div class="sender">
-            <h2>{{message.sender}}</h2>
+            <h2>{{message.senderName}}</h2>
             <p>{{message.time}} Uhr</p>
         </div>
 
@@ -39,9 +39,9 @@
                         }
                 </div>
             </div>
-            <div *ngIf="message.thread.length > 0" class="thread-responses">
-                <p>{{message.thread.length}} Antworten</p>
-                <p>Letzte Antwort {{message.thread[message.thread.length - 1].time}}</p>
+            <div *ngIf="message.threadMessages.length > 0" class="thread-responses">
+                <p>{{message.threadMessages.length}} Antworten</p>
+                <p>Letzte Antwort {{message.threadMessages[message.threadMessages.length - 1].time}}</p>
             </div>
         </div>
     </div>

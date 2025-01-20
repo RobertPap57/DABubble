@@ -1,17 +1,27 @@
 <div class="chat-box">
 
     <div class="chat-header">
-        @if (chatType === 'private') {
+        @switch (chatType) {
+        @case('new') {
+        <div class="new-chat">
+            <div class="title">
+                <h1>Neue Nachricht</h1>
+            </div>
+            <input type="search" placeholder="An: #channel, oder @jemand oder E-Mail Adresse">
+        </div>
+        }
+        @case('private') {
         <div class="private-chat">
             <div class="title">
                 <div class="avatar-image">
                     <img src="chat-box/character_2.svg" alt="">
                     <mat-icon fontSet="material-symbols-sharp" class="status-icon">fiber_manual_record</mat-icon>
                 </div>
-                <h1>{{userName}}</h1>
+                <h1>{{users[0].name}}</h1>
             </div>
         </div>
-        } @else if (chatType === 'channel') {
+        }
+        @case('channel') {
         <div class="channel-chat">
             <div class="title">
                 <h2>#</h2>
@@ -21,8 +31,8 @@
             <div class="members-container">
                 <div class="members">
                     <div>
-                        @for(member of users; track member.name) {
-                        <img src="chat-box/character_{{member.avatar}}.svg" alt="">
+                        @for(user of users; track user.id) {
+                        <img src="{{user.userImage}}" alt="">
                         }
                     </div>
 
@@ -31,7 +41,8 @@
                 <mat-icon class="add-member" fontSet="material-symbols-rounded">person_add</mat-icon>
             </div>
         </div>
-        } @else if (chatType === 'thread') {
+        }
+        @case('thread') {
         <div class="thread-chat">
             <div class="title">
                 <h1>Thread</h1>
@@ -39,23 +50,16 @@
                 <h2>{{channelName}}</h2>
             </div>
             <mat-icon class="close-btn" fontSet="material-symbols-rounded">close</mat-icon>
-
-        </div>
-        } @else if (chatType === 'new') {
-        <div class="new-chat">
-            <div class="title">
-                <h1>Neue Nachricht</h1>
-            </div>
-            <input type="search" placeholder="An: #channel, oder @jemand oder E-Mail Adresse">
         </div>
         }
-
-
+        }
 
     </div>
 
     <div class="messages-container">
-        <app-message *ngFor="let message of messages" [message]="message"></app-message>
+        @if(messagesLoaded) {
+            <app-message *ngFor="let message of messages" [message]="message"></app-message>
+        } 
     </div>
 
     <div class="input-container">
@@ -64,7 +68,7 @@
             set="twitter" (emojiClick)="addEmoji($event)"></emoji-mart>
         }
 
-        <textarea [(ngModel)]="message" [placeholder]="chatType === 'private' ? 'Nachricht an '+userName
+        <textarea [(ngModel)]="messageText" [placeholder]="chatType === 'private' ? 'Nachricht an '+users[0].name
         : chatType === 'channel' ? 'Nachricht an #'+channelName
         : chatType === 'thread' ? 'Antworten...'
         : 'Starte eine neue Nachricht'" rows="2" *ngIf="isBrowser" autosize></textarea>
