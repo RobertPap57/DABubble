@@ -1,7 +1,17 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, ParamMap, Router } from '@angular/router';
+import {
+  Firestore,
+  doc,
+  updateDoc,
+  getDocs,
+  query,
+  where,
+  collection,
+  QueryDocumentSnapshot,
+} from '@angular/fire/firestore';
 
 @Component({
   selector: 'app-password-reset',
@@ -11,65 +21,90 @@ import { ActivatedRoute, Router } from '@angular/router';
   styleUrl: './password-reset.component.scss',
 })
 export class PasswordResetComponent implements OnInit {
-  constructor(private router: Router, private route: ActivatedRoute) {}
-  token: string | null = null;
+  constructor(
+    private router: Router,
+    private route: ActivatedRoute,
+    private firestore: Firestore
+  ) {}
 
+  token: string | null = null;
   lockImg: string = '/lock-grey.png';
   confirmLockImg: string = '/lock-grey.png';
-
   passwordText: string = '';
   confirmPasswordText: string = '';
-
-  isHovered: boolean = false;
-
-  isArrowHovered: boolean = false;
-
   isPasswordValid: boolean = true;
 
   ngOnInit(): void {
-    this.route.paramMap.subscribe((params) => {
-      this.token = params.get('token');
-      console.log('Token:', this.token); // Token aus der URL extrahieren
-      if (this.token) {
-        // Führe hier die Logik für das Zurücksetzen des Passworts aus
-      }
-    });
+    this.route.paramMap.subscribe((params) => this.setToken(params));
   }
+
+  /**
+   * Sets the token from route parameters.
+   * @param params The route parameters.
+   */
+  private setToken(params: ParamMap): void {
+    this.token = params.get('token');
+  }
+
   /**
    * Updates the icon color of an input field when it gains focus.
-   * Changes the icon to black if the field is focused and empty.
-   * @param {string} field - The input field name ('email', 'password', or 'userName').
+   * @param field The name of the field (password or confirm).
    */
   onFocus(field: string): void {
-    if (field === 'password' && !this.passwordText) {
+    if (this.isPasswordField(field)) {
       this.lockImg = '/lock-black.png';
-    } else if (field === 'confirm' && !this.confirmPasswordText) {
+    } else if (this.isConfirmField(field)) {
       this.confirmLockImg = '/lock-black.png';
     }
   }
 
   /**
+   * Checks if the field is password.
+   * @param field The name of the field.
+   * @returns True if the field is password.
+   */
+  private isPasswordField(field: string): boolean {
+    return field === 'password' && !this.passwordText;
+  }
+
+  /**
+   * Checks if the field is confirm password.
+   * @param field The name of the field.
+   * @returns True if the field is confirm password.
+   */
+  private isConfirmField(field: string): boolean {
+    return field === 'confirm' && !this.confirmPasswordText;
+  }
+
+  /**
    * Updates the icon color of an input field when it loses focus.
-   * Resets the icon to gray if the field is empty.
-   * @param {string} field - The input field name ('email', 'password', or 'userName').
+   * @param field The name of the field (password or confirm).
    */
   onBlur(field: string): void {
-    if (field === 'password' && !this.passwordText) {
+    if (this.isPasswordField(field)) {
       this.lockImg = '/lock-grey.png';
-    } else if (field === 'confirm' && !this.confirmPasswordText) {
+    } else if (this.isConfirmField(field)) {
       this.confirmLockImg = '/lock-grey.png';
     }
   }
 
   /**
    * Updates the text and icon of an input field as the user types.
-   * Changes the icon to black if the field is not empty, otherwise resets to gray.
-   * @param {string} field - The input field name ('email', 'password', or 'userName').
-   * @param {Event} event - The input event containing the user's input.
+   * @param field The name of the field (password or confirm).
+   * @param event The input event.
    */
   onInput(field: string, event: Event): void {
     const value = (event.target as HTMLInputElement).value;
+    this.updatePasswordField(field, value);
+    this.enableButton(this.isFormValid());
+  }
 
+  /**
+   * Updates the password or confirm field and icon based on input.
+   * @param field The name of the field.
+   * @param value The current input value.
+   */
+  private updatePasswordField(field: string, value: string): void {
     if (field === 'password') {
       this.passwordText = value;
       this.lockImg = value ? '/lock-black.png' : '/lock-grey.png';
@@ -80,28 +115,63 @@ export class PasswordResetComponent implements OnInit {
   }
 
   /**
-   * Toggles the hover state of the checkbox and updates the checkbox image.
-   * @param {boolean} hoverState - Whether the checkbox is hovered.
+   * Checks if the form is valid based on password length and match.
+   * @returns True if the passwords are valid and match.
    */
-  onHover(hoverState: boolean): void {
-    this.isHovered = hoverState;
+  private isFormValid(): boolean {
+    return (
+      this.passwordText.length >= 8 &&
+      this.passwordText === this.confirmPasswordText
+    );
   }
 
   /**
-   * Handles the process of updating the password when the submit button is clicked.
-   * Adds an overlay during submission and navigates to the login page upon success.
-   */
-  updatePw(): void {
-    // Add overlay submit functionality here.
-    this.router.navigate(['']);
-  }
-
-  /**
-   * Enables or disables the password submission button based on a condition.
-   * The button is enabled when the condition is true and disabled otherwise.
-   * @param {boolean} condition - A condition that determines if the button should be enabled.
+   * Enables or disables the password submission button.
+   * @param condition The condition to enable the button.
    */
   enableButton(condition: boolean): void {
     this.isPasswordValid = !condition;
+  }
+
+  /**
+   * Updates the user's password in Firestore if the token is valid.
+   */
+  async updatePw(): Promise<void> {
+    if (!this.token) return;
+    try {
+      await this.processPasswordUpdate();
+    } catch (error) {
+      console.error('Error updating password:', error);
+    }
+  }
+
+  /**
+   * Processes the password update in Firestore.
+   */
+  private async processPasswordUpdate(): Promise<void> {
+    const usersRef = collection(this.firestore, 'user');
+    const tokenQuery = query(usersRef, where('token', '==', this.token));
+    const querySnapshot = await getDocs(tokenQuery);
+
+    if (querySnapshot.empty) return;
+
+    querySnapshot.forEach(async (docSnap) => {
+      await this.updateUserPassword(docSnap);
+    });
+  }
+
+  /**
+   * Updates the user's password in Firestore and navigates to home.
+   * @param docSnap The document snapshot of the user.
+   */
+  private async updateUserPassword(
+    docSnap: QueryDocumentSnapshot
+  ): Promise<void> {
+    const userDocRef = doc(this.firestore, 'user', docSnap.id);
+    await updateDoc(userDocRef, {
+      password: this.passwordText,
+      token: null,
+    });
+    this.router.navigate(['']);
   }
 }

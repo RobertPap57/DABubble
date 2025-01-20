@@ -1,9 +1,11 @@
 <section (click)="toggleSideBar()">
-        <p>Workspace-Menü {{ sideNavOpen ? 'schließen' : 'öffnen' }}
-                <img src="{{ sideNavOpen ? './Group 2.png' : './Group 1.png' }}"></p>
+        <p>Workspace-Menü {{ chatService.slideOutNavBar ? 'schließen' : 'öffnen' }}
+                <img src="{{ chatService.slideOutNavBar ? './Group 2.png' : './Group 1.png' }}"></p>
 </section>
 
-@if (sideNavOpen) {
 <app-searchbar></app-searchbar>
-<app-side-nav-bar [slideOut]="slideOut"></app-side-nav-bar>
+<app-side-nav-bar></app-side-nav-bar>
+
+@if (chatService.createChannel) {
+ <app-create-channel></app-create-channel>
 }

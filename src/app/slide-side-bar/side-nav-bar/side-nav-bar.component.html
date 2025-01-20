@@ -1,8 +1,5 @@
-<section [ngClass]="{'slideOut': slideOut}">
+<section [ngClass]="{'slideOut': chatService.slideOutNavBar}">
 
-    @if (createNewChannel) {
-    <app-create-channel></app-create-channel>
-    }
 
     <h2><img src="./Workspace_logo.png">Devspace<div><img (click)="openNewMsgChannel()" class="editChannel"
                 src="./edit_square.png"></div>

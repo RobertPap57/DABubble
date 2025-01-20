@@ -6,10 +6,10 @@ section {
     padding: 0px 26px 32px 30px;
     overflow-y: auto;
     scrollbar-width: none;
-    animation: slideInBar 0.2s ease-in-out;
     box-sizing: border-box;
     position: absolute;
-
+    transform: translateX(0%);
+    transition: transform 0.2s ease-in-out;
     h2 {
         padding-block: 18px;
         margin: 0;
@@ -223,22 +223,12 @@ section {
 }
 
 .slideOut {
-    transform: translateX(-110%);
+    transform: translateX(-110%)!important;
     transition: transform 0.2s ease-in-out;
 }
 
 .rotateArrow {
     transform: rotate(-90deg);
-}
-
-@keyframes slideInBar {
-    0% {
-        transform: translateX(-110%);
-    }
-
-    100% {
-        transform: translateX(0%);
-    }
 }
 
 @media screen and (max-width: 768px) {

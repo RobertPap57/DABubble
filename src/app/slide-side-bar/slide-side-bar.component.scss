@@ -6,7 +6,6 @@ section {
     position: fixed;
     left: -150px;
     top: 60%;
-    display: flex;
     z-index: 2;
     background-color: white;
     rotate: -90deg;
@@ -35,6 +34,11 @@ section:hover {
 
 app-searchbar {
     display: none;
+}
+
+app-side-nav-bar {
+    position: absolute;
+    height: calc(80vh - 40px);
 }
 
 @media screen and (max-width: 768px) {

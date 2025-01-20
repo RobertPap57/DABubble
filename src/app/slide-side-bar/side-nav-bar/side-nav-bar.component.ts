@@ -1,33 +1,28 @@
 import { NgClass, NgStyle } from '@angular/common';
-import { Component, Input } from '@angular/core';
-import { CreateChannelComponent } from './create-channel/create-channel.component';
+import { Component } from '@angular/core';
 import { UserService } from '../../services/user.service';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { User } from '../../interfaces/user.model';
 import { UserIdService } from '../../services/user-id.service';
 import { ChatService } from '../../services/chat.service';
 
 @Component({
   selector: 'app-side-nav-bar',
   standalone: true,
-  imports: [NgStyle, NgClass, CreateChannelComponent],
+  imports: [NgStyle, NgClass],
   templateUrl: './side-nav-bar.component.html',
   styleUrl: './side-nav-bar.component.scss'
 })
 export class SideNavBarComponent {
   private routeSub!: Subscription;
-  @Input() slideOut = false;
   channels = ['Entwicklerteam', 'Kekse essen']
   channelsVisible = true;
-  users: User[] = [];
   directMsgVisible = true;
   onlineColor = '#92c73e';
   offlineColor = '#696969';
   openedChannel: string = '';
-  createNewChannel = false;
 
-  constructor(private route: ActivatedRoute, public userService: UserService, public userIdService: UserIdService, private chatService: ChatService) { }
+  constructor(private route: ActivatedRoute, public userService: UserService, public userIdService: UserIdService, public chatService: ChatService) { }
 
   /**
    * subscribes to the routeSub and pushes the userID to the useridservice
@@ -77,7 +72,7 @@ export class SideNavBarComponent {
    * opens the create Channel Box
    */
   openCreateChannel() {
-    this.createNewChannel = true;
+    this.chatService.createChannel = true;
   }
 
   /**
@@ -97,8 +92,6 @@ export class SideNavBarComponent {
     this.openedChannel = id;
     this.chatService.currentChatId = id;
     this.chatService.chatOpened = 'directMsg'
-    // Geht auch mit self, muss aber gechecked werden mit if
-    // Übergebe Kanal an Chat-box für direkte Nachrcht an User[i]
   }
 
   openChannel(i: number) {

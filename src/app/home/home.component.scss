@@ -50,3 +50,9 @@
         margin-left: 306px;
     }
 }
+
+app-slide-side-bar {
+    position: fixed;
+    z-index: 3;
+    height: 100vh;
+}

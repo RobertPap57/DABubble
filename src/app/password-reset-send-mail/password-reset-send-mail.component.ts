@@ -33,83 +33,6 @@ export class PasswordResetSendMailComponent {
 
   sendMail: boolean = false;
 
-  /**
-   * Navigates the user back to the login page.
-   */
-  backToLogin(): void {
-    this.router.navigate(['']);
-  }
-
-  /**
-   * Updates the icon color of an input field when it gains focus.
-   * Changes the icon to black if the field is focused and empty.
-   * @param {string} field - The input field name ('email', 'password', or 'userName').
-   */
-  onFocus(field: string): void {
-    if (field === 'email' && !this.emailText) {
-      this.emailImg = '/mail-black.png';
-    }
-  }
-
-  /**
-   * Updates the icon color of an input field when it loses focus.
-   * Resets the icon to gray if the field is empty.
-   * @param {string} field - The input field name ('email', 'password', or 'userName').
-   */
-  onBlur(field: string): void {
-    if (field === 'email' && !this.emailText) {
-      this.emailImg = '/mail-grey.png';
-    }
-  }
-
-  /**
-   * Updates the text and icon of an input field as the user types.
-   * Changes the icon to black if the field is not empty, otherwise resets to gray.
-   * @param {string} field - The input field name ('email', 'password', or 'userName').
-   * @param {Event} event - The input event containing the user's input.
-   */
-  onInput(field: string, event: Event): void {
-    const value = (event.target as HTMLInputElement).value;
-
-    if (field === 'email') {
-      this.emailText = value;
-      this.emailImg = value ? '/mail-black.png' : '/mail-grey.png';
-    }
-  }
-
-  /**
-   * Toggles the hover state of the checkbox and updates the checkbox image.
-   * @param {boolean} hoverState - Whether the checkbox is hovered.
-   */
-  onHover(hoverState: boolean): void {
-    this.isHovered = hoverState;
-  }
-
-  /**
-   * Toggles the hover state of the back arrow icon and updates its image.
-   * @param {boolean} hoverState - Whether the back arrow is hovered.
-   */
-  onHoverArrow(hoverState: boolean): void {
-    this.isArrowHovered = hoverState;
-    this.updateArrowImage();
-  }
-
-  /**
-   * Updates the back arrow icon image based on its hover state.
-   * Displays a hover-specific image if hovered, otherwise displays the default image.
-   */
-  updateArrowImage(): void {
-    if (this.isArrowHovered) {
-      this.backArrowImage = '/back-arrow-hover.png';
-    } else {
-      this.backArrowImage = '/back-arrow.png';
-    }
-  }
-
-  enableButton(isValid: boolean | null | undefined): void {
-    this.sendMail = !!isValid;
-  }
-
   post = {
     endPoint: 'https://dabubble.lars-schumacher.com/send-reset-link.php',
     body: (payload: any) => JSON.stringify(payload),
@@ -122,6 +45,80 @@ export class PasswordResetSendMailComponent {
   };
 
   /**
+   * Navigates the user back to the login page.
+   */
+  backToLogin(): void {
+    this.router.navigate(['']);
+  }
+
+  /**
+   * Updates the icon color of an input field when it gains focus.
+   * @param {string} field - The name of the input field.
+   */
+  onFocus(field: string): void {
+    if (field === 'email' && !this.emailText) {
+      this.emailImg = '/mail-black.png';
+    }
+  }
+
+  /**
+   * Updates the icon color of an input field when it loses focus.
+   * @param {string} field - The name of the input field.
+   */
+  onBlur(field: string): void {
+    if (field === 'email' && !this.emailText) {
+      this.emailImg = '/mail-grey.png';
+    }
+  }
+
+  /**
+   * Updates the text and icon of an input field as the user types.
+   * @param {string} field - The input field name.
+   * @param {Event} event - The input event.
+   */
+  onInput(field: string, event: Event): void {
+    let value = (event.target as HTMLInputElement).value;
+    if (field === 'email') {
+      this.emailText = value;
+      this.emailImg = value ? '/mail-black.png' : '/mail-grey.png';
+    }
+  }
+
+  /**
+   * Toggles the hover state of the checkbox and updates its image.
+   * @param {boolean} hoverState - The hover state of the checkbox.
+   */
+  onHover(hoverState: boolean): void {
+    this.isHovered = hoverState;
+  }
+
+  /**
+   * Toggles the hover state of the back arrow icon and updates its image.
+   * @param {boolean} hoverState - The hover state of the back arrow icon.
+   */
+  onHoverArrow(hoverState: boolean): void {
+    this.isArrowHovered = hoverState;
+    this.updateArrowImage();
+  }
+
+  /**
+   * Updates the back arrow icon image based on its hover state.
+   */
+  updateArrowImage(): void {
+    this.backArrowImage = this.isArrowHovered
+      ? '/back-arrow-hover.png'
+      : '/back-arrow.png';
+  }
+
+  /**
+   * Enables or disables the email submission button.
+   * @param {boolean} isValid - Whether the email is valid.
+   */
+  enableButton(isValid: boolean | null | undefined): void {
+    this.sendMail = !!isValid;
+  }
+
+  /**
    * Handles the form submission, generates a token, and updates the user in Firestore.
    */
   onSubmit(): void {
@@ -129,8 +126,10 @@ export class PasswordResetSendMailComponent {
       let token = this.generateToken();
       this.sendEmailWithToken(this.emailText, token);
       this.updateUserWithToken(this.emailText, token);
+      this.router.navigate(['']);
     }
   }
+
   /**
    * Generates a random 32-byte token as a hexadecimal string.
    * @returns {string} - The generated token.
@@ -142,33 +141,21 @@ export class PasswordResetSendMailComponent {
       .map((byte) => byte.toString(16).padStart(2, '0'))
       .join('');
   }
+
   /**
    * Sends an email with the token to the specified address.
-   * @param {string} email - The email address to send the token to.
-   * @param {string} token - The generated token to include in the email.
+   * @param {string} email - The recipient's email address.
+   * @param {string} token - The token to include in the email.
    */
   private sendEmailWithToken(email: string, token: string): void {
-    let body = {
-      email: email,
-      token: token,
-    };
-
-    this.http.post(this.post.endPoint, this.post.body(body)).subscribe({
-      next: (response) => {
-        console.log('Email sent successfully:', response);
-      },
-      error: (error) => {
-        console.error('Error sending email:', error);
-      },
-      complete: () => {
-        console.info('Email send operation complete.');
-      },
-    });
+    let body = { email, token };
+    this.http.post(this.post.endPoint, this.post.body(body)).subscribe({});
   }
+
   /**
-   * Updates the user in Firestore by adding the generated token based on their email address.
-   * @param {string} email - The email address of the user to update.
-   * @param {string} token - The generated token to assign to the user.
+   * Updates the user in Firestore by assigning a token to their account.
+   * @param {string} email - The email address of the user.
+   * @param {string} token - The token to assign to the user.
    */
   private async updateUserWithToken(
     email: string,
@@ -178,16 +165,12 @@ export class PasswordResetSendMailComponent {
       let userRef = this.userService.getallUsersdocRef();
       let emailQuery = query(userRef, where('email', '==', email));
       let querySnapshot = await getDocs(emailQuery);
-
       if (querySnapshot.empty) {
-        console.error('User not found for the provided email address.');
         return;
       }
-
       querySnapshot.forEach(async (doc) => {
         let userDocRef = this.userService.getSingleUserDocRef('user', doc.id);
         await updateDoc(userDocRef, { token });
-        console.log(`Token added successfully to user: ${email}`);
       });
     } catch (error) {
       console.error('Error updating user with token:', error);
