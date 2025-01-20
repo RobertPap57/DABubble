@@ -56,13 +56,13 @@ export class CreateAccountComponent {
    * Displays error messages if fields are invalid or passwords do not match.
    */
   openAvatar(): void {
-    const allFieldsFilled =
+    let allFieldsFilled =
       this.emailText &&
       this.passwordText &&
       this.confirmPasswordText &&
       this.userNameText;
-    const passwordsMatch = this.passwordText === this.confirmPasswordText;
-    const isPasswordStrong = this.passwordRegex.test(this.passwordText);
+    let passwordsMatch = this.passwordText === this.confirmPasswordText;
+    let isPasswordStrong = this.passwordRegex.test(this.passwordText);
 
     if (
       !allFieldsFilled ||
@@ -118,7 +118,7 @@ export class CreateAccountComponent {
    * @param {Event} event - The input event containing the user's input.
    */
   onInput(field: string, event: Event): void {
-    const value = (event.target as HTMLInputElement).value;
+    let value = (event.target as HTMLInputElement).value;
 
     if (field === 'email') {
       this.emailText = value;
