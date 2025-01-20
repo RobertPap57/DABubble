@@ -129,6 +129,7 @@ export class PasswordResetSendMailComponent {
       let token = this.generateToken();
       this.sendEmailWithToken(this.emailText, token);
       this.updateUserWithToken(this.emailText, token);
+      this.router.navigate(['']);
     }
   }
   /**
