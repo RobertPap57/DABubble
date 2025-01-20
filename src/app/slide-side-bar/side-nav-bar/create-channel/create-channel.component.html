@@ -51,11 +51,10 @@
             @if (selectedOption === 'selectedUser') {
             <div class="dropdownInput">
                 <input (keyup)="updateField()" [(ngModel)]="searchUser" (focus)="dropdownActive = true" class="searchUser" type="search" placeholder="{{inputPlaceholder}}">
-                <!-- class="invisibleOverlay" -->
-                <div>
+                <div class="invisibleInputOverlay">
                     @for (select of selectedUser; track $index) {
 
-                    @if ($index < 2) { <p><img src="./{{userImg[$index]}}">{{select}}<span (click)="selectUser(select)">+</span></p>
+                    @if ($index < 2) { <p><img src="./{{userImg[$index]}}"><p>{{select}}</p><span (click)="selectUser(select)">+</span></p>
                         }
                         @if ($index === 2) {
                             <p class="click" (click)="dropdownActive = true">+ {{ selectedUser.length - 2 }} Users</p>

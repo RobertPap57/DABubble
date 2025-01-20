@@ -23,6 +23,7 @@ section {
         justify-content: space-between;
         align-items: center;
         margin: 0;
+        margin-bottom: 20px;
 
         span {
             cursor: pointer;
@@ -42,8 +43,7 @@ section {
 
     p {
         font-size: 18px;
-        margin-top: 20px;
-        margin-bottom: 0;
+        margin-block: 0;
     }
 
     h3 {
@@ -57,7 +57,6 @@ section {
 form {
 
     >div {
-        margin-block: 10px;
         display: flex;
         align-items: center;
     }
@@ -67,6 +66,58 @@ form {
     color: #686868;
     font-weight: 400;
     margin: 0 !important;
+}
+
+.invisibleInputOverlay {
+    position: absolute;
+    left: 20px;
+    top: 7px;
+    display: flex;
+    max-width: 96%;
+
+    >p {
+        position: relative;
+        display: flex;
+        align-items: center;
+        background-color: #ECEEFE;
+        border-radius: 35px;
+        height: 34px;
+        padding-block: 3px;
+        padding-left: 18px;
+        padding-right: 28px;
+        margin-right: 8px;
+        font-size: 16px;
+
+        >p {
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
+            max-width: 156px;
+            font-size: 16px;
+        }
+
+        >span {
+            font-size: 22px;
+            position: absolute;
+            right: 3px;
+            top: 8px;
+            cursor: pointer;
+            rotate: 45deg;
+            width: 12px;
+            height: 12px;
+
+            &:hover {
+                color: #444df2;
+            }
+        }
+
+        img {
+            border-radius: 50%;
+            width: 36px;
+            height: 36px;
+            margin-right: 3px;
+        }
+    }
 }
 
 input {
@@ -102,7 +153,7 @@ input {
 }
 
 .addPeopleBox {
-    width: 710px;
+    min-width: 710px;
     max-height: 416px;
 }
 
@@ -171,6 +222,7 @@ form {
 
 .dropdownInput {
     position: relative;
+    margin-top: 16px;
 }
 
 .dropdown {
@@ -272,6 +324,7 @@ button {
             position: absolute;
             bottom: 0;
             max-height: 50vh;
+            min-width: auto;
             width: 100%;
             border-radius: 30px 30px 0 0;
             padding-block: 40px;
@@ -281,7 +334,6 @@ button {
 
         p {
             font-size: 17px;
-            margin-top: 25px;
         }
 
         hr {
@@ -293,7 +345,7 @@ button {
     }
 
     .dNone {
-        display: block !important;
+        display: flex !important;
     }
 
     .invisibleOverlay {
@@ -303,6 +355,7 @@ button {
 
     .dropdown {
         border-radius: 20px 20px 20px 0px;
+        top: auto;
         bottom: 38px;
         left: 36px;
     }
@@ -315,5 +368,33 @@ button {
     .slideIn {
         transform: translateY(0);
         transition: transform 0.2s ease-in-out;
+    }
+
+    .invisibleInputOverlay {
+        max-width: 94%;
+        left: 12px;
+
+        >p {
+            min-width: 61px;
+            padding-left: 12px;
+            font-size: 14px;
+
+            >p {
+                max-width: 100px;
+                font-size: 14px;
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 400px) {
+    .invisibleInputOverlay {
+        >p {
+            min-width: 46px;
+
+            img {
+                display: none;
+            }
+        }
     }
 }
