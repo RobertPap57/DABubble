@@ -13,6 +13,8 @@ import {
   where,
   getDocs,
   DocumentReference,
+  Unsubscribe,
+  CollectionReference,
 } from '@angular/fire/firestore';
 import { Router } from '@angular/router';
 
@@ -35,84 +37,84 @@ export class UserService {
     this.unsubUserList = this.subUserList();
   }
 
-  subUserList() {
+  /**
+   * Subscribes to changes in the 'user' Firestore collection and updates the user list.
+   * @returns {Unsubscribe} - A function to unsubscribe from the snapshot listener.
+   */
+  subUserList(): Unsubscribe {
     return onSnapshot(
       this.getallUsersdocRef(),
-      (list: QuerySnapshot<DocumentData>) => {
-        this.users = [];
-        list.forEach((element) => {
-          // console.log(this.setUserObject(element.data(), element.id));
-          this.users.push(this.setUserObject(element.data(), element.id));
-        });
+      (snapshot: QuerySnapshot<DocumentData>) => {
+        this.users = snapshot.docs.map((doc) =>
+          this.setUserObject(doc.data(), doc.id)
+        );
       }
     );
   }
 
   /**
-   * Add a new document with a generated id to the firestore
-   *
-   * @param user the User Array
+   * Adds a new user document to Firestore with a generated ID.
+   * @param {User} user - The user data to add.
    */
-  async createUser(user: User) {
-    await addDoc(this.getallUsersdocRef(), user)
-      .catch((err) => {
-        console.error(err);
-      })
-      .then((docRef) => {
-        console.log('Document written with ID: ', docRef);
-      });
+  async createUser(user: User): Promise<void> {
+    try {
+      let docRef = await addDoc(this.getallUsersdocRef(), user);
+      console.log('User Data doc:', docRef.id);
+    } catch (error) {
+      console.error('Error creating user:', error);
+    }
   }
 
   /**
-   * checks if the Object has all the User-Object
-   *
-   * @param obj The Object from the input
-   * @param id the id that is generated from the object
-   * @returns an User-Object
+   * Converts Firestore document data into a User object.
+   * @param {any} obj - The Firestore document data.
+   * @param {string} id - The document ID.
+   * @returns {User} - The constructed User object.
    */
   setUserObject(obj: any, id: string): User {
     return {
       id: id || '',
-      name: obj.name,
-      userImage: obj.userImage,
-      email: obj.email,
-      password: obj.password,
-      status: obj.status,
-      lastSeen: obj.lastSeen,
+      name: obj.name || '',
+      userImage: obj.userImage || '',
+      email: obj.email || '',
+      password: obj.password || '',
+      status: obj.status || '',
+      lastSeen: obj.lastSeen || new Date(),
     };
   }
 
   /**
-   * gets the reference for the 'user' collection
-   *
-   * @returns
+   * Retrieves the Firestore reference for the 'user' collection.
+   * @returns {CollectionReference<DocumentData>} - The Firestore collection reference.
    */
-  getallUsersdocRef() {
+  getallUsersdocRef(): CollectionReference<DocumentData> {
     return collection(this.firestore, 'user');
   }
 
   /**
-   * gets the reference of a specific user in the collection 'user'
-   *
-   * @param colId
-   * @param docId
-   * @returns
+   * Retrieves a specific Firestore document reference in the 'user' collection.
+   * @param {string} colId - The Firestore collection ID.
+   * @param {string} docId - The Firestore document ID.
+   * @returns {DocumentReference<DocumentData>} - The Firestore document reference.
    */
-  getSingleUserDocRef(colId: string, docId: string) {
+  getSingleUserDocRef(
+    colId: string,
+    docId: string
+  ): DocumentReference<DocumentData> {
     return doc(collection(this.firestore, colId), docId);
   }
 
   /**
-   * Prepares and uploads new user data to Firestore.
+   * Prepares and uploads a new user object to Firestore.
    */
   uploadUserData(): void {
-    const newUser = this.prepareNewUser();
+    let newUser = this.prepareNewUser();
     this.saveUserToFirestore(newUser);
   }
 
   /**
-   * Prepares a new user object based on the current input data.
-   * @returns {User} - The new user object to be uploaded.
+   * Creates a new user object based on input data.
+   * @returns {User} - The constructed user object.
    */
   private prepareNewUser(): User {
     return {
@@ -127,39 +129,36 @@ export class UserService {
   }
 
   /**
-   * Saves the user object to Firestore and handles success or error responses.
-   * @param {User} user - The user object to be saved in Firestore.
+   * Saves the user object to Firestore.
+   * @param {User} user - The user object to save.
    */
-  public saveUserToFirestore(user: User): void {
-    this.createUser(user)
-      .then(() => {
-        console.log('User data successfully uploaded.');
-      })
-      .catch((error) => {
-        console.error('Error uploading user data:', error);
-      });
+  public async saveUserToFirestore(user: User): Promise<void> {
+    try {
+      await this.createUser(user);
+      console.log('User data successfully uploaded.');
+    } catch (error) {
+      console.error('Error uploading user data:', error);
+    }
   }
 
   /**
-   * Handles user login by validating email and password.
-   * @param {string} email - The email of the user.
-   * @param {string} password - The password of the user.
-   * @returns {Promise<boolean>} - Returns true if login is successful, otherwise false.
+   * Logs in a user by validating their email and password.
+   * @param {string} email - The user's email.
+   * @param {string} password - The user's password.
+   * @returns {Promise<boolean>} - True if login is successful, false otherwise.
    */
   async loginUser(email: string, password: string): Promise<boolean> {
     try {
-      const querySnapshot = await this.getUserByEmail(email);
+      let querySnapshot = await this.getUserByEmail(email);
       if (querySnapshot.empty) {
-        this.handleLoginError('User not found. Please try again.');
         return false;
       }
 
-      const loginSuccessful = await this.processLogin(querySnapshot, password);
-      if (!loginSuccessful) {
-        this.handleLoginError('Incorrect password.');
+      let isLoginSuccessful = await this.processLogin(querySnapshot, password);
+      if (!isLoginSuccessful) {
       }
 
-      return loginSuccessful;
+      return isLoginSuccessful;
     } catch (error) {
       console.error('Error during login:', error);
       return false;
@@ -167,32 +166,31 @@ export class UserService {
   }
 
   /**
-   * Retrieves user documents from Firestore by email.
-   * @param {string} email - The email of the user to query.
-   * @returns {Promise<QuerySnapshot>} - A snapshot of matching user documents.
+   * Retrieves a user document from Firestore by email.
+   * @param {string} email - The email to query.
+   * @returns {Promise<QuerySnapshot<DocumentData>>} - The query result.
    */
   private async getUserByEmail(
     email: string
   ): Promise<QuerySnapshot<DocumentData>> {
-    const userRef = this.getallUsersdocRef();
-    const emailQuery = query(userRef, where('email', '==', email));
+    let userRef = this.getallUsersdocRef();
+    let emailQuery = query(userRef, where('email', '==', email));
     return await getDocs(emailQuery);
   }
 
   /**
-   * Processes login by validating the password and updating user status.
-   * @param {QuerySnapshot<DocumentData>} querySnapshot - The snapshot of user documents.
-   * @param {string} password - The provided password to validate.
-   * @returns {Promise<boolean>} - Returns true if login is successful, otherwise false.
+   * Validates user credentials and updates their status if successful.
+   * @param {QuerySnapshot<DocumentData>} querySnapshot - The user query result.
+   * @param {string} password - The password to validate.
+   * @returns {Promise<boolean>} - True if credentials are valid, false otherwise.
    */
   private async processLogin(
     querySnapshot: QuerySnapshot<DocumentData>,
     password: string
   ): Promise<boolean> {
-    for (const doc of querySnapshot.docs) {
-      const userData = doc.data();
+    for (let doc of querySnapshot.docs) {
+      let userData = doc.data();
       if (userData['password'] === password) {
-        console.log('Login successful.');
         await this.finalizeLogin(doc.id);
         return true;
       }
@@ -201,9 +199,8 @@ export class UserService {
   }
 
   /**
-   * Finalizes the login process by updating user status and navigating to the home page.
-   * @param {string} userId - The Firestore document ID of the logged-in user.
-   * @returns {Promise<void>}
+   * Finalizes login by updating the user's status and navigating to the home page.
+   * @param {string} userId - The logged-in user's Firestore document ID.
    */
   private async finalizeLogin(userId: string): Promise<void> {
     await this.updateUserStatus(userId, 'online');
@@ -211,101 +208,32 @@ export class UserService {
   }
 
   /**
-   * Handles login errors by logging the error message.
-   * @param {string} message - The error message to display.
-   */
-  private handleLoginError(message: string): void {
-    console.error(message);
-  }
-
-  /**
-   * Updates the status and ID of a user in Firestore.
-   * @param {string} id - The Firestore document ID of the user.
-   * @param {string} status - The new status to set for the user.
+   * Updates a user's status and ID in Firestore.
+   * @param {string} id - The user's Firestore document ID.
+   * @param {string} status - The status to set.
    */
   async updateUserStatus(id: string, status: string): Promise<void> {
     try {
-      const userDocRef = this.getSingleUserDocRef('user', id);
-      await this.updateStatus(userDocRef, status);
-      await this.updateId(userDocRef, id);
-      this.logStatusUpdate(status);
+      let userDocRef = this.getSingleUserDocRef('user', id);
+      await Promise.all([
+        updateDoc(userDocRef, { status }),
+        updateDoc(userDocRef, { id }),
+      ]);
     } catch (error) {
-      this.handleUpdateError(error);
+      console.error('Error updating user status:', error);
     }
   }
 
   /**
-   * Updates the status field of a Firestore document.
-   * @param {DocumentReference} userDocRef - The reference to the Firestore document.
-   * @param {string} status - The new status to set.
-   * @returns {Promise<void>}
-   */
-  private async updateStatus(
-    userDocRef: DocumentReference<DocumentData>,
-    status: string
-  ): Promise<void> {
-    await updateDoc(userDocRef, { status });
-  }
-
-  /**
-   * Updates the ID field of a Firestore document.
-   * @param {DocumentReference} userDocRef - The reference to the Firestore document.
-   * @param {string} id - The new ID to set.
-   * @returns {Promise<void>}
-   */
-  private async updateId(
-    userDocRef: DocumentReference<DocumentData>,
-    id: string
-  ): Promise<void> {
-    await updateDoc(userDocRef, { id });
-  }
-
-  /**
-   * Logs a successful status update to the console.
-   * @param {string} status - The updated status to log.
-   */
-  private logStatusUpdate(status: string): void {
-    console.log(`Status successfully updated: ${status}`);
-  }
-
-  /**
-   * Handles errors that occur during the update process.
-   * @param {any} error - The error to handle.
-   */
-  private handleUpdateError(error: any): void {
-    console.error('Error updating status:', error);
-  }
-
-  /**
-   * Logs out the user by updating their status and navigating to the login page.
-   * @param {string} id - The Firestore document ID of the user.
+   * Logs out the user by setting their status to 'offline' and navigating to login.
+   * @param {string} id - The user's Firestore document ID.
    */
   async logoutUser(id: string): Promise<void> {
-    await this.setOfflineStatus(id);
-    this.logLogoutMessage();
-    this.navigateToLogin();
-  }
-
-  /**
-   * Updates the user's status to 'offline' in Firestore.
-   * @param {string} id - The Firestore document ID of the user.
-   * @returns {Promise<void>}
-   */
-  private async setOfflineStatus(id: string): Promise<void> {
-    await this.updateUserStatus(id, 'offline');
-  }
-
-  /**
-   * Logs a logout success message to the console.
-   */
-  private logLogoutMessage(): void {
-    console.log('User successfully logged out.');
-  }
-
-  /**
-   * Navigates the user to the login page.
-   */
-  private navigateToLogin(): void {
-    this.router.navigate(['']);
+    try {
+      await this.updateUserStatus(id, 'offline');
+      this.router.navigate(['']);
+    } catch (error) {
+      console.error('Error during logout:', error);
+    }
   }
 }
