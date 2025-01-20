@@ -15,41 +15,33 @@ import { UserIdService } from '../../../services/user-id.service';
   styleUrl: './create-channel.component.scss'
 })
 export class CreateChannelComponent {
-  channelData = inject(ChannelService);
-  addingUsers: boolean = false;
-  @ViewChild('createdChannelBox') createdChannelBox!: ElementRef<HTMLDivElement>;
-  @ViewChild('createPeopleBox') createPeopleBox!: ElementRef<HTMLDivElement>;
-  @ViewChild('focusdropdown') focusDropdown!: ElementRef;
-  channelName: string = '';
-  channelDescription: string = '';
-  chanCreatedByUser: string = '';
-  selectedOption: string | null = null;
-  dropdownActive: boolean = false;
-  usersFromService: string[] = [];
-  filteredUsers: string[] = [];
-  userImg: string[] = [];
-  userOnline = [true, false, false, true, false, true, false,];
   inputPlaceholder = 'Name eingeben';
   onlineColor = '#92c73e';
   offlineColor = '#696969';
-  selectedUser: string[] = [];
-  searchUser: string = '';
-  users: {} = {}
+  @ViewChild('createdChannelBox') createdChannelBox!: ElementRef<HTMLDivElement>;
+  @ViewChild('createPeopleBox') createPeopleBox!: ElementRef<HTMLDivElement>;
+  @ViewChild('focusdropdown') focusDropdown!: ElementRef;
 
-  constructor(public chatService: ChatService, public userService: UserService, public userIdService: UserIdService) {
-    this.users = [...this.userService.users];
-    for (let i = 0; i < this.userService.users.length; i++) {
-      let singelUser = this.userService.users[i];
-      this.usersFromService.push(singelUser.name);
-      this.userImg.push(singelUser.userImage);
-    }
-    this.filteredUsers = [...this.usersFromService];
+  addingUsers: boolean = false;
+  dropdownActive: boolean = false;
+
+  channelName: string = '';
+  channelDescription: string = '';
+  selectedUserId: string[] = [];
+  selectedOption: string | null = null;
+
+  searchInput: string = '';
+  searchUser: string = '';
+  searchIds: string[] = [];
+
+  constructor(public chatService: ChatService, public userService: UserService, public userIdService: UserIdService, private channelService: ChannelService) {
+    this.searchIds = this.userService.users.map(user => user.id);
   }
 
   /**
    * closes the Module if the user clicks outside the input box
    * 
-   * @param target The Box with the inputs for the channel
+   * @param target The Box with the inputs for the channela
    */
   @HostListener('document:mouseup', ['$event.target'])
   onClickOutsideChan(target: HTMLElement): void {
@@ -68,76 +60,93 @@ export class CreateChannelComponent {
     }
   }
 
-  selectUser(user: string) {
+  /**
+   * adds the User to the channel that is created
+   * 
+   * @param id the user id that is to be added
+   */
+  selectUser(id: string) {
     this.inputPlaceholder = '';
-    if (this.isSelected(user)) {
-      this.selectedUser.forEach((element, index) => {
-        if (element === user) {
-          this.selectedUser.splice(index, 1);
+    if (this.isSelected(id)) {
+      this.selectedUserId.forEach((element, index) => {
+        if (element === id) {
+          this.selectedUserId.splice(index, 1);
           this.checkInputEmpty();
         }
       });
-    } else this.selectedUser.push(user);
+    } else this.selectedUserId.push(id);
   }
 
+  /**
+   * checks if no user is selected and changes the placeholder of the input
+   */
   checkInputEmpty() {
-    if (this.selectedUser.length === 0) {
+    if (this.selectedUserId.length === 0) {
       this.inputPlaceholder = 'Name eingeben';
     }
   }
 
-  isSelected(user: string): boolean {
-    return this.selectedUser.includes(user);
-  }
-
-  createChanel() {
-    if (this.selectedUser.length === 0 && this.selectedOption !== 'all') return;
-    if (this.selectedOption === 'all') {
-      this.channelData.userIds = this.usersFromService;
-    } else {
-      this.channelData.userIds = this.selectedUser;
-    }
-    const channel = this.channelData.getCurChanObj();
-    this.channelData.createChannel(channel);
-    this.closeCreateChan();
-  }
-
-  updateField() {
-    let input = this.searchUser.toLowerCase();
-    if (input.length >= 3) {
-      this.filteredUsers = this.usersFromService.filter(user =>
-        user.toLowerCase().includes(input));
-    } else {
-      this.filteredUsers = [...this.usersFromService];
-    }
+  /**
+   * checks if the user is already selected
+   * 
+   * @param id user id
+   * @returns true if User is already selected
+   */
+  isSelected(id: string): boolean {
+    return this.selectedUserId.includes(id);
   }
 
   /**
-   * closes the module
+   * checks the inputfield and updates the dropwdownmenu for the result
+   */
+  updateField() {
+    const input = this.searchInput.toLowerCase();
+    if (input.length >= 3) {
+      this.searchIds = this.userService.users
+        .filter(user => user.name.toLowerCase().includes(input))
+        .map(user => user.id);
+    } else this.searchIds = this.userService.users.map(user => user.id);
+  }
+
+  /**
+   * closes the module Create Channel
    */
   closeCreateChan() {
     this.chatService.createChannel = false;
   }
 
+  /**
+   * closes the AddUser Box
+   */
   closeAddUsers() {
     this.addingUsers = false;
   }
 
   /**
-   * checks if the Channel has a correct name and is no duplicate, if it is create Channel with a number before the name
+   * 
+   * @returns 
    */
+  createChanel() {
+    if (this.selectedUserId.length === 0 && this.selectedOption !== 'all') return;
+    if (this.selectedOption === 'all') this.selectedUserId = this.userService.users.map(user => user.id);
+    this.channelService.userIds = this.selectedUserId;
+    this.channelService.chanCreatedByUser = this.userIdService.id;
+    const channel = this.channelService.getCurChanObj();
+    this.channelService.createChannel(channel);
+    this.closeCreateChan();
+  }
+
   checkChanName() {
     if (this.channelName.length > 2) {
       let baseName = this.channelName;
       let newName = baseName;
       let counter = 1;
-      // while (this.closeDialog.channels.includes(newName)) {
-      newName = `${counter} ${baseName}`;
-      counter++;
-      // }
-      this.channelData.chanName = newName;
-      this.channelData.chanDescription = this.channelDescription;
-      this.channelData.chanCreatedByUser = this.chanCreatedByUser; // user ID oder Username???
+      while (this.channelService.channels.some(channel => channel.chanName === newName)) {
+        newName = `${counter} ${baseName}`;
+        counter++;
+      }
+      this.channelService.chanName = newName;
+      this.channelService.chanDescription = this.channelDescription;
       this.addingUsers = true;
     }
   }
