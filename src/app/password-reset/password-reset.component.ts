@@ -172,7 +172,6 @@ export class PasswordResetComponent implements OnInit {
       password: this.passwordText,
       token: null,
     });
-    console.log('Password successfully updated');
     this.router.navigate(['']);
   }
 }
