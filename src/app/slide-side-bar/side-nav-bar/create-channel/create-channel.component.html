@@ -48,47 +48,58 @@
                 <label for="selectedUser">Bestimmte Leute hinzufügen</label>
             </div>
         </form>
-            @if (selectedOption === 'selectedUser') {
-            <div class="dropdownInput">
-                <input (keyup)="updateField()" [(ngModel)]="searchUser" (focus)="dropdownActive = true" class="searchUser" type="search" placeholder="{{inputPlaceholder}}">
-                <div class="invisibleInputOverlay">
-                    @for (select of selectedUser; track $index) {
+        @if (selectedOption === 'selectedUser') {
+        <div class="dropdownInput">
+            <input (keyup)="updateField()" [(ngModel)]="searchInput" (focus)="dropdownActive = true" class="searchUser"
+                type="search" placeholder="{{inputPlaceholder}}">
+            <div class="invisibleInputOverlay">
+                @for (user of userService.users; track user.id) {
 
-                    @if ($index < 2) { <p><img src=".{{userImg[$index]}}"><p>{{select}}</p><span (click)="selectUser(select)">+</span></p>
-                        }
-                        @if ($index === 2) {
-                            <p class="click" (click)="dropdownActive = true">+ {{ selectedUser.length - 2 }} Users</p>
-                          }
-                        }
-                </div>
+                @for (select of selectedUserId; track $index) {
 
-                @if (dropdownActive) {
-                <div class="dropdown" #focusdropdown>
-                    @for (user of filteredUsers; track $index) {
-                    <div (click)="selectUser(user)" [class.active]="isSelected(user)" class="users">
-                        <div>
-                            <img src=".{{userImg[$index]}}">
-                            <span
-                                [ngStyle]="{'background-color': userOnline[$index] ? onlineColor : offlineColor}"></span>
-                        </div>
-                        <p>{{user}}</p>
-                    </div>
-                    } @empty {
-                    <div class="users">
-                        <div>
-                            <img src="">
-                            <span></span>
-                        </div>
-                        <p>No Users found</p>
-                    </div>
+                @if (select === user.id) {
+
+                @if ($index < 2) {
+                    <p><img src=".{{user.userImage}}"><p>{{user.name}}</p><span (click)="selectUser(user.id)">+</span></p>
                     }
+                    @if ($index === 2) {
+                    <p class="click" (click)="dropdownActive = true">+ {{ selectedUserId.length - 2 }} Users</p>
+                    }
+                    }
+                    }
+                    }
+            </div>
+
+            @if (dropdownActive) {
+            <div class="dropdown" #focusdropdown>
+                @for (user of userService.users; track user.id) {
+
+                @if (user.id !== userIdService.id && searchIds.includes(user.id)) {
+                <div (click)="selectUser(user.id)" [class.active]="isSelected(user.id)" class="users">
+                    <div>
+                        <img src=".{{user.userImage}}">
+                        <span
+                            [ngStyle]="{'background-color': user.status === 'online' ? onlineColor : offlineColor}"></span>
+                    </div>
+                    <p>{{user.name}}</p>
+                </div>
+                }
+
+                } @empty {
+                <div class="users">
+                    <div>
+                        <span></span>
+                    </div>
+                    <p>No Users found</p>
                 </div>
                 }
             </div>
             }
+        </div>
+        }
 
         <button
-            [ngClass]="{'greyButton': !selectedOption || selectedOption === 'selectedUser' && selectedUser.length === 0}"
+            [ngClass]="{'greyButton': !selectedOption || selectedOption === 'selectedUser' && selectedUserId.length === 0}"
             (click)="createChanel()">Erstellen</button>
 
     </div>
