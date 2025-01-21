@@ -1,17 +1,21 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { UserService } from '../services/user.service';
+import { FeedbackOverlayComponent } from '../feedback-overlay/feedback-overlay.component';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [FormsModule, CommonModule],
+  imports: [FormsModule, CommonModule, FeedbackOverlayComponent],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
 })
 export class LoginComponent {
+  @ViewChild(FeedbackOverlayComponent)
+  feedbackOverlay!: FeedbackOverlayComponent;
+
   constructor(private router: Router, private userService: UserService) {}
 
   emailImg: string = './mail-grey.png';
@@ -31,7 +35,10 @@ export class LoginComponent {
         this.emailText,
         this.passwordText
       );
-
+      if (loginSuccessful) {
+        setTimeout(() => {}, 1500);
+        this.feedbackOverlay.showFeedback('Anmelden');
+      }
       if (!loginSuccessful) {
         this.showError = true;
       }

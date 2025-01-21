@@ -153,11 +153,7 @@ export class UserService {
       if (querySnapshot.empty) {
         return false;
       }
-
       let isLoginSuccessful = await this.processLogin(querySnapshot, password);
-      if (!isLoginSuccessful) {
-      }
-
       return isLoginSuccessful;
     } catch (error) {
       console.error('Error during login:', error);
@@ -204,7 +200,9 @@ export class UserService {
    */
   private async finalizeLogin(userId: string): Promise<void> {
     await this.updateUserStatus(userId, 'online');
-    this.router.navigate(['/home', userId]);
+    setTimeout(() => {
+      this.router.navigate(['/home', userId]);
+    }, 1500);
   }
 
   /**

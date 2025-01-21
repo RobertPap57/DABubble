@@ -1,20 +1,28 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { UserService } from '../services/user.service';
 import { getDocs, query, updateDoc } from '@angular/fire/firestore';
 import { where } from '@firebase/firestore';
+import { FeedbackOverlayComponent } from '../feedback-overlay/feedback-overlay.component';
 
 @Component({
   selector: 'app-password-reset-send-mail',
   standalone: true,
-  imports: [FormsModule, CommonModule, HttpClientModule],
+  imports: [
+    FormsModule,
+    CommonModule,
+    HttpClientModule,
+    FeedbackOverlayComponent,
+  ],
   templateUrl: './password-reset-send-mail.component.html',
   styleUrl: './password-reset-send-mail.component.scss',
 })
 export class PasswordResetSendMailComponent {
+  @ViewChild(FeedbackOverlayComponent)
+  feedbackOverlay!: FeedbackOverlayComponent;
   constructor(
     private router: Router,
     private http: HttpClient,
@@ -126,7 +134,10 @@ export class PasswordResetSendMailComponent {
       let token = this.generateToken();
       this.sendEmailWithToken(this.emailText, token);
       this.updateUserWithToken(this.emailText, token);
-      this.router.navigate(['']);
+      this.feedbackOverlay.showFeedback('E-Mail gesendet');
+      setTimeout(() => {
+        this.router.navigate(['']);
+      }, 1500);
     }
   }
 
