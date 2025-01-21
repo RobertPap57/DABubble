@@ -14,11 +14,11 @@ import { ChannelService } from '../../services/channel.service';
 })
 export class SideNavBarComponent {
   private routeSub!: Subscription;
-  channels = ['Entwicklerteam', 'Kekse essen']
-  channelsVisible = true;
-  directMsgVisible = true;
-  onlineColor = '#92c73e';
-  offlineColor = '#696969';
+  channels: string[] = []
+  channelsVisible: boolean = true;
+  directMsgVisible: boolean = true;
+  onlineColor: string = '#92c73e';
+  offlineColor: string = '#696969';
 
   constructor(private route: ActivatedRoute, public userService: UserService, public channelService: ChannelService) { }
 
