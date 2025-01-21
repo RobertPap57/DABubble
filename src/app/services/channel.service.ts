@@ -7,20 +7,18 @@ import { addDoc, updateDoc, deleteDoc, collection, doc, DocumentData, Firestore,
   providedIn: 'root'
 })
 export class ChannelService {
+  channels: Channel[] = [];
   isServer: boolean = true;
   slideOutNavBar: boolean = false;
   createChannelBox: boolean = false;
   channelChatId: string = '';
-
-  channels: Channel[] = [];
+  
   firestore: Firestore = inject(Firestore);
   chanId: string = '';
   chanName: string = '';
   chanDescription: string = '';
   chanCreatedByUser: string = '';
   userIds: string[] = [];
-  textIds: {} = {};
-  thread: [] = [];
 
 
   unsubChannelList;
@@ -29,26 +27,44 @@ export class ChannelService {
     this.unsubChannelList = this.subChannelList();
   }
 
+  /**
+   * Subscribes to changes in the 'channel' Firestore collection and updates the channels in the list
+   *
+   * @returns A function to unsubscribe from the snapshot listener
+   */
   subChannelList() {
-    return onSnapshot(this.getallChannelsdocRef(),
-      (list: QuerySnapshot<DocumentData>) => {
-        this.channels = [];
-        list.forEach(element => {
-          console.log(this.setChannelObject(element.data(), element.id));
-          this.channels.push(this.setChannelObject(element.data(), element.id));
-        });
-      });
+    return onSnapshot
+    (this.getallChannelsdocRef(),
+    (snapshot: QuerySnapshot<DocumentData>) => {
+      this.channels = snapshot.docs.map((doc) =>
+        this.setChannelObject(doc.data(), doc.id)
+    );
   }
+);
+}
 
+/**
+ * sets the channel id
+ * 
+ * @param id the id from the channel
+ */
   setChannelId(id: string) {
     this.chanId = id;
   }
 
+  /**
+   * unsubsribes the channels
+   */
   ngOnDestroy() {
     this.unsubChannelList;
   }
 
-  async createChannel(channel: Channel) {
+  /**
+   * Adds a new channel document to firestore with a generated ID
+   * 
+   * @param channel the channel data to add
+   */
+  async createChannel(channel: Channel): Promise<void> {
     await addDoc(this.getallChannelsdocRef(), channel).catch(
       (err) => { console.error(err) }
     ).then(
@@ -67,6 +83,11 @@ export class ChannelService {
     }
   }
 
+  /**
+   * deletes the channel from the firestore
+   * 
+   * @param docId 
+   */
   async deleteChannel(docId: string) {
     await deleteDoc(this.getSingleChannelDocRef('channel', docId)).catch(
       (err) => { console.error(err); }
@@ -82,7 +103,6 @@ export class ChannelService {
       chanDescription: channel.chanDescription,
       chanCreatedByUser: channel.chanCreatedByUser,
       userIds: channel.userIds,
-      textId: channel.textIds,
     }
   }
 
@@ -93,8 +113,6 @@ export class ChannelService {
       chanDescription: obj.chanDescription,
       chanCreatedByUser: obj.chanCreatedByUser,
       userIds: obj.userIds,
-      textIds: obj.textId,
-      thread: obj.threadIDs,
     }
   }
 
@@ -105,8 +123,6 @@ export class ChannelService {
       chanDescription: this.chanDescription,
       chanCreatedByUser: this.chanCreatedByUser,
       userIds: this.userIds,
-      textId: this.textIds,
-      thread: this.thread,
     }
   }
 

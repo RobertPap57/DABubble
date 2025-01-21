@@ -92,8 +92,13 @@ export class SideNavBarComponent {
     this.channelService.channelChatId = id;
   }
 
-  openChannel(i: number) {
-    this.openedChannel = this.channels[i];
-    // Übergebe Kanal an Chat-box Kanal[i]
+  /**
+   * opens a new channeltab
+   * 
+   * @param i 
+   * @param id the id of the channel
+   */
+  openChannel(id: string) {
+    this.channelService.channelChatId = id;
   }
 }
