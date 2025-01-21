@@ -10,7 +10,7 @@ export class ChannelService {
   isServer: boolean = true;
   slideOutNavBar: boolean = false;
   createChannelBox: boolean = false;
-  channelChatId: string = '';
+  channelChatId: string = '123';
 
   channels: Channel[] = [];
   firestore: Firestore = inject(Firestore);

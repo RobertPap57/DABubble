@@ -16,6 +16,12 @@ export interface Message {
     threadMessages: ThreadMessage[];
 }
 
+export interface Sender {
+    id: string; 
+    name: string; 
+    img: string;
+}
+
 
 
 export interface Reaction {

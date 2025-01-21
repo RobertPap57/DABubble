@@ -1,6 +1,6 @@
-<div [class.my-message]="loggedUser === message.senderId" class="message-container">
+<div [class.my-message]="userService.loggedUserId === message.senderId" class="message-container">
    
-    <app-reaction-bar [loggedUser]="loggedUser" class="reaction-bar" [message]="message"></app-reaction-bar>
+    <app-reaction-bar [loggedUser]="userService.loggedUserId" class="reaction-bar" [message]="message"></app-reaction-bar>
 
     <img class="sender-img" src="{{message.senderImg}}" alt="">
 

@@ -1,3 +1,5 @@
+
+import { ChannelService } from '../../services/channel.service';
 import { Injectable, inject } from '@angular/core';
 import { Message } from '../../interfaces/message.interface';
 import { addDoc, query, Timestamp, where, orderBy, limit, updateDoc, deleteDoc, collection, doc, DocumentData, Firestore, onSnapshot, QuerySnapshot, } from '@angular/fire/firestore';
@@ -8,22 +10,21 @@ import { UserService } from '../../services/user.service';
     providedIn: 'root'
 })
 export class MessageService {
-    messagesLoaded: boolean = false;
-    messages: Message[] = [];
+    userService = inject(UserService);
+    channelService = inject(ChannelService);
+    firestore: Firestore = inject(Firestore);
     channelMessages: Message[] = [];
     privateMessages: Message[] = [];
     threadMessages: Message[] = [];
-    firestore: Firestore = inject(Firestore);
-    userService = inject(UserService);
-    curentChannelId: string = '123';
-    curentUserId: string = '1234';
+
+
 
     unsubChannelMessageList;
     unsubPrivateMessageList;
 
     constructor() {
-        this.unsubChannelMessageList = this.subChannelMessageList(this.curentChannelId, () => {});
-        this.unsubPrivateMessageList = this.subPrivateMessageList(this.curentChannelId, () => {});
+        this.unsubChannelMessageList = this.subChannelMessageList(this.channelService.channelChatId, () => {});
+        this.unsubPrivateMessageList = this.subPrivateMessageList(this.userService.privMsgUserId, () => {});
     }
 
 

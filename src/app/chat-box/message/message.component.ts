@@ -27,7 +27,7 @@ import { UserService } from '../../services/user.service';
 })
 
 export class MessageComponent {
-  loggedUser= inject(UserService).loggedUserId;
+  userService= inject(UserService);
   emojiPickerOn: boolean = false;
   @Input() message!: Message;
   
@@ -47,14 +47,14 @@ export class MessageComponent {
       );
 
       if (existingReaction) {
-        if (!existingReaction.users.includes(this.loggedUser)) {
-          existingReaction.users.push(this.loggedUser);
+        if (!existingReaction.users.includes(this.userService.loggedUserId)) {
+          existingReaction.users.push(this.userService.loggedUserId);
         }
       } else {
 
         this.message.reactions.push({
           emoji: event.emoji.native,
-          users: [this.loggedUser]
+          users: [this.userService.loggedUserId]
         });
       }
       this.pushToRecentEmojis(event.emoji.native);
@@ -88,7 +88,7 @@ export class MessageComponent {
       );
 
       if (existingReaction && !this.alreadyReacted(existingEmoji)) {
-        existingReaction.users.push(this.loggedUser);
+        existingReaction.users.push(this.userService.loggedUserId);
       } else if (this.alreadyReacted(existingEmoji)) {
         this.removeEmoji(existingEmoji);
       }
@@ -104,7 +104,7 @@ export class MessageComponent {
       if (reactionIndex !== -1) {
         const reaction = this.message.reactions[reactionIndex];
 
-        reaction.users = reaction.users.filter((user: string) => user !== this.loggedUser);
+        reaction.users = reaction.users.filter((user: string) => user !== this.userService.loggedUserId);
 
         if (reaction.users.length === 0) {
           this.message.reactions.splice(reactionIndex, 1);
@@ -117,7 +117,7 @@ export class MessageComponent {
     return this.message.reactions
       ? this.message.reactions.some(
         (reaction: { emoji: string; users: string[] }) =>
-          reaction.users.includes(this.loggedUser) && reaction.emoji === reactedEmoji
+          reaction.users.includes(this.userService.loggedUserId) && reaction.emoji === reactedEmoji
       )
       : false; 
   }
