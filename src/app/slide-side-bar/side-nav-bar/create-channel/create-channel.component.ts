@@ -127,6 +127,7 @@ export class CreateChannelComponent {
   createChanel() {
     if (this.selectedUserId.length === 0 && this.selectedOption !== 'all') return;
     if (this.selectedOption === 'all') this.selectedUserId = this.userService.users.map(user => user.id);
+    this.selectedUserId + this.userService.loggedUserId;;
     this.channelService.userIds = this.selectedUserId;
     this.channelService.chanCreatedByUser = this.userService.loggedUserId;
     const channel = this.channelService.getCurChanObj();

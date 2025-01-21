@@ -14,12 +14,10 @@ import { ChannelService } from '../../services/channel.service';
 })
 export class SideNavBarComponent {
   private routeSub!: Subscription;
-  channels = ['Entwicklerteam', 'Kekse essen']
-  channelsVisible = true;
-  directMsgVisible = true;
-  onlineColor = '#92c73e';
-  offlineColor = '#696969';
-  openedChannel: string = '';
+  channelsVisible: boolean = true;
+  directMsgVisible: boolean = true;
+  onlineColor: string = '#92c73e';
+  offlineColor: string = '#696969';
 
   constructor(private route: ActivatedRoute, public userService: UserService, public channelService: ChannelService) { }
 
@@ -62,11 +60,6 @@ export class SideNavBarComponent {
     this.directMsgVisible = !this.directMsgVisible;
   }
 
-  createChannel(name: string, description: string) {
-    let channel = name;
-    this.channels.push(channel);
-  }
-
   /**
    * opens the create Channel Box
    */
@@ -88,17 +81,17 @@ export class SideNavBarComponent {
    * @param id the id of the other user
    */
   openDirectMsg(id: string) {
-    this.openedChannel = id;
-    this.channelService.channelChatId = id;
+    this.userService.privMsgUserId = id;
+    this.channelService.channelChatId = '';
   }
 
   /**
    * opens a new channeltab
    * 
-   * @param i 
    * @param id the id of the channel
    */
   openChannel(id: string) {
     this.channelService.channelChatId = id;
+    this.userService.privMsgUserId = '';
   }
 }
