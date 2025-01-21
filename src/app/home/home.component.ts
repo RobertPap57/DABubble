@@ -17,12 +17,10 @@ export class HomeComponent {
 
   channelService = inject(ChannelService);
   slideOutNavBar: boolean = false;
-  selectedChannelId: string = '123'; // Aktueller Channel
-  threadOpen: boolean = false;    // Aktueller Thread (leer, wenn kein Thread ausgewählt)
+  threadOpen: boolean = false;    
 
 
 
-  // Methode zum Ändern des Threads
 }
 
 

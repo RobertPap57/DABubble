@@ -57,11 +57,22 @@
 
     </div>
 
+
+
+    
+
     <div class="messages-container">
-        @if(messagesLoaded) {
-            <app-message *ngFor="let message of messages" [message]="message"></app-message>
+        @for(message of messageService.messages; track message.id) {
+            @if (message.channelId === channelService.channelChatId) {
+                <app-message [message]="message"></app-message>
+            }
         } 
     </div>
+
+
+
+
+
 
     <div class="input-container">
         @if (emojiPickerOn) {

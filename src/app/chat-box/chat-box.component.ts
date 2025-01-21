@@ -54,7 +54,6 @@ export class ChatBoxComponent {
   isBrowser: boolean;
   emojiPickerOn: boolean = false;
   @Input() chatType: 'private' | 'channel' | 'thread' | 'new' = 'new';
-  @Input() channelId: string = '';
   @Input() threadId: string = '';
   @Input() userId: string = '';
   channelName = 'Entwicklerteam';
@@ -63,12 +62,9 @@ export class ChatBoxComponent {
   loggedUserId: string = '';
   
   users: User[] = this.userService.users;
-  messages!: Message[];
   messageText: string = '';
-  messagesLoaded = false;
 
-  private unsubChannelMessageList: () => void = () => { };
-  private unsubPrivateMessageList: () => void = () => { };
+
 
 
 
@@ -80,73 +76,16 @@ export class ChatBoxComponent {
   }
 
 
-
-  ngOnInit(): void {
-    if (this.channelId) {
-      this.fetchChannelMessages()
-    }
-    if (this.userId) {
-      this.fetchPrivateMessages()
-    }
-    this.userService.subUserList();
-    this.loggedUserId = this.userService.loggedUserId
-  }
-
-
-
-
-
-
-
-  fetchChannelMessages(): void {
-    this.unsubChannelMessageList = this.messageService.subChannelMessageList(this.channelId, (messages) => {
-      this.messages = messages;
-      this.messagesLoaded = true;
-
-    });
-  }
-
-  fetchPrivateMessages(): void {
-    this.unsubPrivateMessageList = this.messageService.subPrivateMessageList(this.userId, (messages) => {
-      this.messages = messages;
-      this.messagesLoaded = true;
-
-    });
-  }
-
-  ngOnDestroy(): void {
-    this.unsubChannelMessageList();
-    this.unsubPrivateMessageList();
-  }
-
-
-  getUserInfoById(userId: string): void {
-    const user = this.userService.users.find((u) => u.id === userId);
-
-    if (user) {
-      this.senderName = user.name;
-      this.senderImg = user.userImage;
-    } else {
-      console.log('User not found');
-    }
-
-  }
-
-
-
   sendMessage(): void {
     if (this.messageText.trim() !== '') {
-      this.getUserInfoById(this.userService.loggedUserId);
       const newMessage: Message = {
         id: '',
         senderId: this.userService.loggedUserId,
-        senderImg: this.senderImg,
-        senderName: this.senderName,
         text: this.messageText,
         time: Timestamp.now(),
         reactions: [],
         recentEmojis: [],
-        channelId: this.channelId,
+        channelId: this.channelService.channelChatId,
         userId: '',
         threadMessages: []
       };

@@ -1,13 +1,22 @@
 <div [class.my-message]="userService.loggedUserId === message.senderId" class="message-container">
-   
-    <app-reaction-bar [loggedUser]="userService.loggedUserId" class="reaction-bar" [message]="message"></app-reaction-bar>
 
-    <img class="sender-img" src="{{message.senderImg}}" alt="">
+    <app-reaction-bar [loggedUser]="userService.loggedUserId" class="reaction-bar"
+        [message]="message"></app-reaction-bar>
+
+    @for(user of userService.users; track user.id) {
+    @if(user.id === message.senderId) {
+    <img class="sender-img" src="{{user.userImage}}" alt="">
+    }
+    }
 
     <div class="message">
 
         <div class="sender">
-            <h2>{{message.senderName}}</h2>
+            @for(user of userService.users; track user.id) {
+            @if(user.id === message.senderId) {
+            <h2>{{user.name}}</h2>
+            }
+            }
             <p>{{message.time}} Uhr</p>
         </div>
 
@@ -15,7 +24,7 @@
 
         <div class="reactions-container">
             <div *ngIf="message.reactions.length > 0" class="emoji-reaction">
-                <div *ngFor="let emoji of message.reactions"  (click)="addExistingEmoji(emoji.emoji)" class="emoji-icon">
+                <div *ngFor="let emoji of message.reactions" (click)="addExistingEmoji(emoji.emoji)" class="emoji-icon">
                     <p>{{emoji.emoji}}</p>
                     <p>{{emoji.users.length}}</p>
                     <div class="emoji-popup">
@@ -31,12 +40,13 @@
                         <p>hat reagiert</p>
                     </div>
                 </div>
-                <div >
-                    <mat-icon (click)="toggleEmojiPicker()" class="add-emoji" fontSet="material-symbols-rounded">add_reaction</mat-icon>
+                <div>
+                    <mat-icon (click)="toggleEmojiPicker()" class="add-emoji"
+                        fontSet="material-symbols-rounded">add_reaction</mat-icon>
                     @if (emojiPickerOn) {
-                        <emoji-mart appClickOutside (clickOutside)="closeEmojiPicker()" title="Pick your emoji…" emoji="point_up"
-                            set="twitter" (emojiClick)="addEmoji($event)"></emoji-mart>
-                        }
+                    <emoji-mart appClickOutside (clickOutside)="closeEmojiPicker()" title="Pick your emoji…"
+                        emoji="point_up" set="twitter" (emojiClick)="addEmoji($event)"></emoji-mart>
+                    }
                 </div>
             </div>
             <div *ngIf="message.threadMessages.length > 0" class="thread-responses">

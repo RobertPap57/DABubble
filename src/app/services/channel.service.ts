@@ -11,7 +11,7 @@ export class ChannelService {
   isServer: boolean = true;
   slideOutNavBar: boolean = false;
   createChannelBox: boolean = false;
-  channelChatId: string = '123';
+  channelChatId: string = '';
 
   firestore: Firestore = inject(Firestore);
   chanId: string = '';

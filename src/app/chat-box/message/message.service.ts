@@ -13,74 +13,55 @@ export class MessageService {
     userService = inject(UserService);
     channelService = inject(ChannelService);
     firestore: Firestore = inject(Firestore);
-    channelMessages: Message[] = [];
-    privateMessages: Message[] = [];
-    threadMessages: Message[] = [];
+    messages: Message[]=[];
 
 
 
-    unsubChannelMessageList;
-    unsubPrivateMessageList;
+ unsubMessageList;
 
     constructor() {
-        this.unsubChannelMessageList = this.subChannelMessageList(this.channelService.channelChatId, () => {});
-        this.unsubPrivateMessageList = this.subPrivateMessageList(this.userService.privMsgUserId, () => {});
+        this.unsubMessageList = this.subMessageList();
+       
     }
 
 
 
-    subChannelMessageList(channelId: string, callback: (messages: Message[]) => void): () => void {
+    subMessageList() {
         const q = query(
           collection(this.firestore, 'messages'),
-          where('channelId', '==', channelId),
-          limit(100)
         );
-        return onSnapshot(q, (snapshot) => {
-            const channelMessages: Message[] = [];
-            snapshot.forEach((doc) => {
+        return onSnapshot(q, (list) => {
+            this.messages = [];
+            list.forEach((doc) => {
                 const messageData = doc.data();
                 const message = this.setMessageObject(messageData, doc.id);
           
-                channelMessages.push(message);
+                this.messages.push(message);
               });
           
               // Sort messages based on the 'time' field before converting to string
-              channelMessages.sort((a, b) => {
+              this.messages.sort((a, b) => {
                 const timeA = a.time instanceof Timestamp ? a.time.toMillis() : new Date(a.time).getTime();
                 const timeB = b.time instanceof Timestamp ? b.time.toMillis() : new Date(b.time).getTime();
                 return timeB - timeA; // Ascending order: oldest to newest
               });
           
               // Convert the 'time' to string after sorting
-              channelMessages.forEach(message => {
+              this.messages.forEach(message => {
                 if (message.time instanceof Timestamp) {
                   const date = message.time.toDate();
-                  message.time = date.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' });  // Format it as string
+                  message.time = date.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' });  
                 }
               });
           
-              callback(channelMessages);
+              console.log(this.messages);
           });
       }
     
-      subPrivateMessageList(userId: string, callback: (messages: Message[]) => void): () => void {
-        const q = query(
-          collection(this.firestore, 'messages'),
-          where('userId', '==', userId),
-          limit(100)
-        );
-        return onSnapshot(q, (snapshot) => {
-          const privateMessages: Message[] = [];
-          snapshot.forEach((doc) => {
-            privateMessages.push(this.setMessageObject(doc.data(), doc.id));
-          });
-          callback(privateMessages);
-        });
-      }
 
     ngOnDestroy() {
-        this.unsubChannelMessageList;
-        this.unsubPrivateMessageList;
+        this.unsubMessageList;
+
     }
 
     async createMessage(message: Message) {
@@ -121,8 +102,6 @@ export class MessageService {
         return {
             id: message.id || '', 
             senderId: message.senderId,
-            senderName: message.senderName,
-            senderImg: message.senderImg,
             text: message.text,
             time: message.time,
             reactions: message.reactions, 
@@ -139,8 +118,6 @@ export class MessageService {
         return {
             id: id ,
             senderId: obj.senderId,
-            senderName: obj.senderName,
-            senderImg: obj.senderImg,
             text: obj.text,
             time: obj.time,
             reactions: obj.reactions,
