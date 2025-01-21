@@ -47,12 +47,12 @@
     </div>
 
     @if (channelsVisible) {
-    @for (channel of channels; track $index) {
-    <span class="channel" [class.active]="channel === openedChannel" (click)="openChannel($index)">
-        <img src="./tag.png">{{channel}}
+    @for (channel of channelService.channels; track $index) {
+    <span class="channel" [class.active]="channel.chanId === channelService.channelChatId" (click)="openChannel(channel.chanId)">
+        <img src="./tag.png">{{channel.chanName}}
     </span>
     } @empty {
-    <span>No Channel created</span>
+    <span class="channel">No Channel created</span>
     }
     }
 

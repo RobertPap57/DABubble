@@ -25,7 +25,7 @@ export class UserService {
   users: User[] = [];
   firestore: Firestore = inject(Firestore);
   userId: string = '';
-  userName: string = '';
+  userName: string = '';                       
   email: string = '';
   password: string = '';
   confirmPassword: string = '';
