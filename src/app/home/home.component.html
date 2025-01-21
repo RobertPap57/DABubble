@@ -2,7 +2,7 @@
     <app-slide-side-bar></app-slide-side-bar>
 
 
-    <div class="channel-container" [ngClass]="{ 'slide-out': !chatService.slideOutNavBar, 'slide-in': chatService.slideOutNavBar }">
+    <div class="channel-container" [ngClass]="{ 'slide-out': !channelService.slideOutNavBar, 'slide-in': channelService.slideOutNavBar }">
         <app-chat-box [chatType]="'channel'" [channelId]="selectedChannelId"></app-chat-box>
     </div>
     @if(selectedThreadId) {

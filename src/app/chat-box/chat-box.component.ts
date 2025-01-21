@@ -12,7 +12,6 @@ import { MessageComponent } from './message/message.component';
 import { MessageService } from './message/message.service';
 import { Message } from '../interfaces/message.interface';
 import { Timestamp } from '@angular/fire/firestore';
-import { UserIdService } from '../services/user-id.service';
 import { UserService } from '../services/user.service';
 import { user } from '@angular/fire/auth';
 
