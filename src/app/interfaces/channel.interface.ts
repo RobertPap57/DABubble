@@ -1,9 +1,9 @@
 
 
 export interface Channel {
-id: string;
-name: string;
-description: string;
-createdBy: string;
-users: string[];
+    chanId: string;
+    chanName: string;
+    chanDescription: string;
+    chanCreatedByUser: string;
+    userIds: string[];
 }

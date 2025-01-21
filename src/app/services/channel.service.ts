@@ -12,7 +12,7 @@ export class ChannelService {
   slideOutNavBar: boolean = false;
   createChannelBox: boolean = false;
   channelChatId: string = '';
-  
+
   firestore: Firestore = inject(Firestore);
   chanId: string = '';
   chanName: string = '';
@@ -34,20 +34,20 @@ export class ChannelService {
    */
   subChannelList() {
     return onSnapshot
-    (this.getallChannelsdocRef(),
-    (snapshot: QuerySnapshot<DocumentData>) => {
-      this.channels = snapshot.docs.map((doc) =>
-        this.setChannelObject(doc.data(), doc.id)
-    );
+      (this.getallChannelsdocRef(),
+        (snapshot: QuerySnapshot<DocumentData>) => {
+          this.channels = snapshot.docs.map((doc) =>
+            this.setChannelObject(doc.data(), doc.id)
+          );
+        }
+      );
   }
-);
-}
 
-/**
- * sets the channel id
- * 
- * @param id the id from the channel
- */
+  /**
+   * sets the channel id
+   * 
+   * @param id the id from the channel
+   */
   setChannelId(id: string) {
     this.chanId = id;
   }
@@ -65,12 +65,23 @@ export class ChannelService {
    * @param channel the channel data to add
    */
   async createChannel(channel: Channel): Promise<void> {
-    await addDoc(this.getallChannelsdocRef(), channel).catch(
-      (err) => { console.error(err) }
-    ).then(
-      (docRef) => { console.log("Document written with ID: ", docRef); }
-    )
+    try {
+      const docRef = await addDoc(this.getallChannelsdocRef(), channel);
+      this.finalizeChannel(docRef.id);
+    } catch (err) {
+      console.error(err);
+    }
   }
+
+  async finalizeChannel(chanId: string): Promise<void> {
+    try {
+      let channelDocRef = this.getSingleChannelDocRef('channel', chanId);
+      await updateDoc(channelDocRef, { chanId });
+    } catch (error) {
+      console.error('Error updating channel status:', error);
+    }
+  }
+
 
   async updateChannel(channel: Channel) {
     if (channel.chanId) {
