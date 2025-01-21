@@ -14,6 +14,7 @@ import { Message } from '../interfaces/message.interface';
 import { Timestamp } from '@angular/fire/firestore';
 import { UserIdService } from '../services/user-id.service';
 import { UserService } from '../services/user.service';
+import { user } from '@angular/fire/auth';
 
 
 
@@ -55,7 +56,7 @@ export class ChatBoxComponent {
   @Input() userId: string = '';
   channelName = 'Entwicklerteam';
   userService = inject(UserService);
-  loggedUser = inject(UserIdService);
+  loggedUser = this.userService.loggedUserId;
   messageService = inject(MessageService);
   senderName: string = '';
   senderImg: string = '';
@@ -88,7 +89,7 @@ export class ChatBoxComponent {
       this.fetchPrivateMessages()
     }
     this.userService.subUserList();
-    this.loggedUserId = this.loggedUser.id
+    this.loggedUserId = this.loggedUser
   }
 
 
@@ -135,10 +136,10 @@ export class ChatBoxComponent {
 
   sendMessage(): void {
     if (this.messageText.trim() !== '') {
-      this.getUserInfoById(this.loggedUser.id);
+      this.getUserInfoById(this.loggedUser);
       const newMessage: Message = {
         id: '',
-        senderId: this.loggedUser.id,
+        senderId: this.loggedUser,
         senderImg: this.senderImg,
         senderName: this.senderName,
         text: this.messageText,

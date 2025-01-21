@@ -6,7 +6,7 @@ import { CommonModule } from '@angular/common';
 import { AutosizeModule } from 'ngx-autosize';
 import { ReactionBarComponent } from './reaction-bar/reaction-bar.component';
 import { Message } from '../../interfaces/message.interface';
-import { UserIdService } from '../../services/user-id.service';
+import { UserService } from '../../services/user.service';
 
 
 
@@ -27,7 +27,7 @@ import { UserIdService } from '../../services/user-id.service';
 })
 
 export class MessageComponent {
-  loggedUser= inject(UserIdService).id;
+  loggedUser= inject(UserService).loggedUserId;
   emojiPickerOn: boolean = false;
   @Input() message!: Message;
   
