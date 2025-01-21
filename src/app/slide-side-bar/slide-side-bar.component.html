@@ -1,11 +1,11 @@
 <section (click)="toggleSideBar()">
-        <p>Workspace-Menü {{ chatService.slideOutNavBar ? 'schließen' : 'öffnen' }}
-                <img src="{{ chatService.slideOutNavBar ? './Group 2.png' : './Group 1.png' }}"></p>
+        <p>Workspace-Menü {{ channelService.slideOutNavBar ? 'schließen' : 'öffnen' }}
+                <img src="{{ channelService.slideOutNavBar ? './Group 2.png' : './Group 1.png' }}"></p>
 </section>
 
 <app-searchbar></app-searchbar>
 <app-side-nav-bar></app-side-nav-bar>
 
-@if (chatService.createChannel) {
+@if (channelService.createChannelBox) {
  <app-create-channel></app-create-channel>
 }

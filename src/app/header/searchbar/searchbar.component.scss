@@ -87,10 +87,10 @@ section {
 @media screen and (max-width: 768px) {
     section {
         margin-block: 12px;
-        width: 100%;
         padding-left: 24px;
         height: 48px;
         border: 1px solid #ADB0D9;
+        margin-left: 20px;
 
         .searchbarDropdown {
             top: 36px;

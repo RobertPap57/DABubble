@@ -46,6 +46,11 @@ app-side-nav-bar {
         display: none;
     }
 
+    app-side-nav-bar {
+        width: 100%;
+        height: calc(80vh - 20px);
+    }
+    
     app-searchbar {
         display: block;
     }

@@ -7,6 +7,11 @@ import { addDoc, updateDoc, deleteDoc, collection, doc, DocumentData, Firestore,
   providedIn: 'root'
 })
 export class ChannelService {
+  isServer: boolean = true;
+  slideOutNavBar: boolean = false;
+  createChannelBox: boolean = false;
+  channelChatId: string = '';
+
   channels: Channel[] = [];
   firestore: Firestore = inject(Firestore);
   chanId: string = '';
@@ -16,8 +21,8 @@ export class ChannelService {
   userIds: string[] = [];
   textIds: {} = {};
   thread: [] = [];
-  
-  
+
+
   unsubChannelList;
 
   constructor() {

@@ -5,7 +5,7 @@ import { LinkCreateComponent } from './link-create/link-create.component';
 import { NgClass } from '@angular/common';
 import { NavigationEnd, Router, RouterLink } from '@angular/router';
 import { filter } from 'rxjs';
-import { UserIdService } from '../services/user-id.service';
+import { ChannelService } from '../services/channel.service';
 
 @Component({
   selector: 'app-header',
@@ -22,7 +22,7 @@ export class HeaderComponent {
   animationPlayed: boolean = false;
   server: string = 'Devspace';
 
-  constructor(private router: Router, public userIdService: UserIdService) {
+  constructor(private router: Router, public channelService: ChannelService) {
     this.ngOnInit();
   }
 
@@ -62,6 +62,6 @@ export class HeaderComponent {
    * opens back the startScreen in the header for mobile
    */
   backToServer() {
-    this.userIdService.isServer = true;
+    this.channelService.isServer = true;
   }
 }

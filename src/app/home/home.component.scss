@@ -16,10 +16,12 @@
     margin-left: -20px;
 
 }
+
 .slide-out {
     margin-left: 326px;
     animation: slideOut 0.2s ease-in-out;
 }
+
 .slide-in {
     margin-left: 0;
     animation: slideIn 0.2s ease-in-out;
@@ -55,4 +57,12 @@ app-slide-side-bar {
     position: fixed;
     z-index: 3;
     height: 100vh;
+}
+
+@media screen and (max-width: 768px) {
+    app-slide-side-bar {
+        left: 0;
+        width: 100%;
+        background-color: white;
+    }
 }

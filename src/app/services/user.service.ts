@@ -31,6 +31,9 @@ export class UserService {
   confirmPassword: string = '';
   userImage: string = '';
 
+  loggedUserId: string = '';
+  privMsgUserId: string = '';
+
   unsubUserList;
 
   constructor(private router: Router) {

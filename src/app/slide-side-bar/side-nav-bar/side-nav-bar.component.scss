@@ -276,11 +276,11 @@ section {
         cursor: pointer;
         background-color: #535AF1;
         border-radius: 50%;
-        position: absolute;
+        position: sticky;
+        left: calc(100% - 20px);
+        bottom: 8px;
         height: 60px;
         width: 60px;
-        right: 16px;
-        bottom: 41px;
 
         >img {
             filter: invert(1);
@@ -292,7 +292,7 @@ section {
     }
 }
 
-@media screen and (max-width: 375px) {
+@media screen and (max-width: 350px) {
     section {
         padding: 7px 5px 12px 5px;
     }

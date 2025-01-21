@@ -3,8 +3,7 @@ import { Component } from '@angular/core';
 import { UserService } from '../../services/user.service';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { UserIdService } from '../../services/user-id.service';
-import { ChatService } from '../../services/chat.service';
+import { ChannelService } from '../../services/channel.service';
 
 @Component({
   selector: 'app-side-nav-bar',
@@ -22,14 +21,14 @@ export class SideNavBarComponent {
   offlineColor = '#696969';
   openedChannel: string = '';
 
-  constructor(private route: ActivatedRoute, public userService: UserService, public userIdService: UserIdService, public chatService: ChatService) { }
+  constructor(private route: ActivatedRoute, public userService: UserService, public channelService: ChannelService) { }
 
   /**
-   * subscribes to the routeSub and pushes the userID to the useridservice
+   * subscribes to the routeSub and pushes the userID to the userService
    */
   ngOnInit(): void {
     this.routeSub = this.route.params.subscribe(params => {
-      this.userIdService.id = params['userId'];
+      this.userService.loggedUserId = params['userId'];
     });
   }
 
@@ -72,14 +71,14 @@ export class SideNavBarComponent {
    * opens the create Channel Box
    */
   openCreateChannel() {
-    this.chatService.createChannel = true;
+    this.channelService.createChannelBox = true;
   }
 
   /**
    * opens a new blank message box
    */
   openNewMsgChannel() {
-    this.userIdService.isServer = false;
+    this.channelService.isServer = false;
     //opens a new Msg Box with search bar for #channel or @Alex or Email
   }
 
@@ -90,8 +89,7 @@ export class SideNavBarComponent {
    */
   openDirectMsg(id: string) {
     this.openedChannel = id;
-    this.chatService.currentChatId = id;
-    this.chatService.chatOpened = 'directMsg'
+    this.channelService.channelChatId = id;
   }
 
   openChannel(i: number) {

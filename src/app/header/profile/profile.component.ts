@@ -1,7 +1,6 @@
 import { NgClass, NgStyle } from '@angular/common';
 import { Component, ElementRef, HostListener, ViewChild } from '@angular/core';
 import { UserService } from '../../services/user.service';
-import { UserIdService } from '../../services/user-id.service';
 import { ContactWindowComponent } from '../../contacts/contact-window/contact-window.component';
 
 @Component({
@@ -20,7 +19,7 @@ export class ProfileComponent {
   openProfileBox: boolean = false;
   slideOut: boolean = false;
 
-  constructor(public userIdService: UserIdService, public userService: UserService) { }
+  constructor(public userService: UserService) { }
 
   @HostListener('document:mouseup', ['$event.target'])
   onClickOutsideLogoutBox(target: HTMLElement): void {

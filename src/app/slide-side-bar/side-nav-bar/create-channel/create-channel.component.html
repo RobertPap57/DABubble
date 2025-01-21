@@ -74,7 +74,7 @@
             <div class="dropdown" #focusdropdown>
                 @for (user of userService.users; track user.id) {
 
-                @if (user.id !== userIdService.id && searchIds.includes(user.id)) {
+                @if (user.id !== userService.loggedUserId && searchIds.includes(user.id)) {
                 <div (click)="selectUser(user.id)" [class.active]="isSelected(user.id)" class="users">
                     <div>
                         <img src=".{{user.userImage}}">

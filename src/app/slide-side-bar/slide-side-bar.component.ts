@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { SideNavBarComponent } from './side-nav-bar/side-nav-bar.component';
 import { SearchbarComponent } from '../header/searchbar/searchbar.component';
-import { ChatService } from '../services/chat.service';
 import { CreateChannelComponent } from './side-nav-bar/create-channel/create-channel.component';
+import { ChannelService } from '../services/channel.service';
 
 
 @Component({
@@ -14,12 +14,12 @@ import { CreateChannelComponent } from './side-nav-bar/create-channel/create-cha
 })
 export class SlideSideBarComponent {
 
-  constructor(public chatService: ChatService) { }
+  constructor(public channelService: ChannelService) { }
 
   /**
    * toggles the sideBar in and out of the screen
    */
   toggleSideBar() {
-    this.chatService.slideOutNavBar = !this.chatService.slideOutNavBar;
+    this.channelService.slideOutNavBar = !this.channelService.slideOutNavBar;
   }
 }

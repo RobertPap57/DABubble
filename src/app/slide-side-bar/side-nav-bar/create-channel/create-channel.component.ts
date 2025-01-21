@@ -1,11 +1,9 @@
 
-import { Component, ElementRef, HostListener, inject, ViewChild } from '@angular/core';
+import { Component, ElementRef, HostListener, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ChannelService } from '../../../services/channel.service';
-import { ChatService } from '../../../services/chat.service';
 import { UserService } from '../../../services/user.service';
-import { UserIdService } from '../../../services/user-id.service';
 
 @Component({
   selector: 'app-create-channel',
@@ -34,7 +32,7 @@ export class CreateChannelComponent {
   searchUser: string = '';
   searchIds: string[] = [];
 
-  constructor(public chatService: ChatService, public userService: UserService, public userIdService: UserIdService, private channelService: ChannelService) {
+  constructor(public userService: UserService, private channelService: ChannelService) {
     this.searchIds = this.userService.users.map(user => user.id);
   }
 
@@ -112,7 +110,7 @@ export class CreateChannelComponent {
    * closes the module Create Channel
    */
   closeCreateChan() {
-    this.chatService.createChannel = false;
+    this.channelService.createChannelBox = false;
   }
 
   /**
@@ -130,7 +128,7 @@ export class CreateChannelComponent {
     if (this.selectedUserId.length === 0 && this.selectedOption !== 'all') return;
     if (this.selectedOption === 'all') this.selectedUserId = this.userService.users.map(user => user.id);
     this.channelService.userIds = this.selectedUserId;
-    this.channelService.chanCreatedByUser = this.userIdService.id;
+    this.channelService.chanCreatedByUser = this.userService.loggedUserId;
     const channel = this.channelService.getCurChanObj();
     this.channelService.createChannel(channel);
     this.closeCreateChan();
