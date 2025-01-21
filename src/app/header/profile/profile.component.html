@@ -7,7 +7,7 @@
 
 
     <div class="profilePic dFlexCenter" (click)="openLogoutUser()">
-        <img src="./00.Charaters.png">
+        <img src=".{{user.userImage}}">
         <span [ngStyle]="{'background-color': user.status === 'online' ? onlineColor : offlineColor}"></span>
     </div>
 
