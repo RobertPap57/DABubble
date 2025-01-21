@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-contact-window',
@@ -9,7 +10,7 @@ import { Component } from '@angular/core';
   styleUrl: './contact-window.component.scss'
 })
 export class ContactWindowComponent {
-  
+  userService= inject(UserService);
   name: string = 'Steffen Hoffmann';  // Beispielname
   email: string = 'thehoffman@beispiel.com'; // Beispiel-E-Mail
   isActive: boolean = false; // Status standardmäßig 'abwesend'
@@ -17,6 +18,8 @@ export class ContactWindowComponent {
   constructor() { }
 
   ngOnInit(): void {
+    this.name = this.userService.userName;
+    this.name = this.userService.email;
   }
 
   // Diese Methode könnte verwendet werden, um den Status von einer Datenbank abzurufen
