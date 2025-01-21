@@ -122,7 +122,7 @@
     @for (user of userService.users; track user.id) {
     @if (user.id === userService.loggedUserId) {
 
-    <div (click)="openDirectMsg(user.id)" [class.active]="user.id === openedChannel" class="users">
+    <div (click)="openDirectMsg(user.id)" [class.active]="user.id === userService.privMsgUserId" class="users">
         <div>
             <img src=".{{user.userImage}}" alt="User Image">
             <span [ngStyle]="{'background-color': user.status === 'online' ? onlineColor : offlineColor}"></span>
@@ -135,7 +135,7 @@
     @for (user of userService.users; track user.id) {
     @if (user.id !== userService.loggedUserId) {
         
-    <div (click)="openDirectMsg(user.id)" [class.active]="user.id === openedChannel" class="users">
+    <div (click)="openDirectMsg(user.id)" [class.active]="user.id === userService.privMsgUserId" class="users">
         <div>
             <img src=".{{user.userImage}}" alt="User Image">
             <span [ngStyle]="{'background-color': user.status ? onlineColor : offlineColor}"></span>

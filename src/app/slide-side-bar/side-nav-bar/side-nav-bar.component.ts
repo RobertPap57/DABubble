@@ -19,7 +19,6 @@ export class SideNavBarComponent {
   directMsgVisible = true;
   onlineColor = '#92c73e';
   offlineColor = '#696969';
-  openedChannel: string = '';
 
   constructor(private route: ActivatedRoute, public userService: UserService, public channelService: ChannelService) { }
 
@@ -88,17 +87,17 @@ export class SideNavBarComponent {
    * @param id the id of the other user
    */
   openDirectMsg(id: string) {
-    this.openedChannel = id;
-    this.channelService.channelChatId = id;
+    this.userService.privMsgUserId = id;
+    this.channelService.channelChatId = '';
   }
 
   /**
    * opens a new channeltab
    * 
-   * @param i 
    * @param id the id of the channel
    */
   openChannel(id: string) {
     this.channelService.channelChatId = id;
+    this.userService.privMsgUserId = '';
   }
 }
