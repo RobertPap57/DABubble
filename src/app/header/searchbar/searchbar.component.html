@@ -23,22 +23,25 @@
         <div>
 
             <h3>Found User</h3>
-            @if (filteredArr.length === 0) {
+            @if (filteredUsers.length === 0) {
             <span>No User with that Name found</span>
             }
-            @for (item of filteredArr; track $index) {
-            <p>{{item}}</p>
+            @for (user of userService.users; track user.id) {
+
+            @if (filteredUsers.includes(user.id)) {
+            <p>{{user}}</p>
+            }
             }
 
             <h3>Found Channels</h3>
-            @if (filteredArr.length === 0) {
+            @if (filteredChannels.length === 0) {
             <span>No Channel with that Name found</span>
             }
-            @for (item of filteredArr; track $index) {
-            <p><b># </b>{{item}}</p>
+            @for (channel of filteredChannels; track $index) {
+            <p><b># </b>{{channel}}</p>
             }
 
-            <h3>Found Messages</h3>
+            <!-- <h3>Found Messages</h3>
             @if (filteredArr.length === 0) {
             <span>No Message with that Name found</span>
             }
@@ -52,7 +55,7 @@
             }
             @for (item of filteredArr; track $index) {
             <p>{{item}}</p>
-            }
+            } -->
 
         </div>
     </div>
