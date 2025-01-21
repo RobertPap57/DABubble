@@ -29,7 +29,7 @@
             @for (user of userService.users; track user.id) {
 
             @if (filteredUsers.includes(user.id)) {
-            <p>{{user}}</p>
+            <p><img src=".{{user.userImage}}">{{user.name}}</p>
             }
             }
 
@@ -37,21 +37,16 @@
             @if (filteredChannels.length === 0) {
             <span>No Channel with that Name found</span>
             }
-            @for (channel of filteredChannels; track $index) {
-            <p><b># </b>{{channel}}</p>
+            @for (channel of channelService.channels; track channel.chanId) {
+
+            @if (filteredChannels.includes(channel.chanId)) {
+            <p><b>#</b>{{channel.chanName}}</p>
+            }
             }
 
             <!-- <h3>Found Messages</h3>
             @if (filteredArr.length === 0) {
             <span>No Message with that Name found</span>
-            }
-            @for (item of filteredArr; track $index) {
-            <p>{{item}}</p>
-            }
-
-            <h3>Found Private Messages</h3>
-            @if (filteredArr.length === 0) {
-            <span>No Private Message with that Name found</span>
             }
             @for (item of filteredArr; track $index) {
             <p>{{item}}</p>

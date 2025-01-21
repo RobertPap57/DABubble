@@ -35,18 +35,19 @@ export class SearchbarComponent {
   }
 
   searchResults(userInput: string) {
+    this.dropdownActive = true;
     const input = userInput.toLowerCase();
     if (input.length >= 3) {
       this.filteredUsers = this.userService.users
         .filter(users => users.name.toLowerCase().includes(input))
         .map(user => user.id);
-        console.log(this.filteredUsers);
-
       this.filteredChannels = this.channelService.channels
-        .filter(channels => channels.chanName.toLowerCase().includes(input))
-        .map(channel => channel.chanId);
-        console.log(this.filteredChannels);
-
+        .filter(channel => {
+          const matchesChannelName = channel.chanName.toLowerCase().includes(input);
+          const hasMatchingUser = this.filteredUsers.some(userId => channel.userIds.includes(userId));
+          return matchesChannelName || hasMatchingUser;
+        })
+        .map(channel => channel.chanId)
     }
     this.checkNoFindings();
   }

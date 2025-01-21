@@ -27,6 +27,8 @@ section {
             height: 100%;
 
             >p {
+                display: flex;
+                align-items: center;
                 cursor: pointer;
                 border-radius: 30px;
                 padding-block: 2px;
@@ -68,6 +70,17 @@ section {
             color: black;
         }
     }
+}
+
+img {
+    height: 30px;
+    width: 30px;
+    border-radius: 50%;
+    margin-right: 4px;
+}
+
+b {
+    margin-right: 4px;
 }
 
 @media screen and (max-width: 1250px) {
