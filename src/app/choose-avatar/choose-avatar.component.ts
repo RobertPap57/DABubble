@@ -1,16 +1,20 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { UserService } from '../services/user.service';
+import { FeedbackOverlayComponent } from '../feedback-overlay/feedback-overlay.component';
 
 @Component({
   selector: 'app-choose-avatar',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FeedbackOverlayComponent],
   templateUrl: './choose-avatar.component.html',
   styleUrl: './choose-avatar.component.scss',
 })
 export class ChooseAvatarComponent {
+  @ViewChild(FeedbackOverlayComponent)
+  feedbackOverlay!: FeedbackOverlayComponent;
+
   constructor(private router: Router, public userData: UserService) {}
 
   isArrowHovered: boolean = false;
@@ -39,9 +43,12 @@ export class ChooseAvatarComponent {
    * Also uploads the selected user image and updates the user data.
    */
   openLogin(): void {
-    this.router.navigate(['']);
     this.userData.userImage = this.selectedAvatar;
     this.userData.uploadUserData();
+    this.feedbackOverlay.showFeedback('Konto erfolgreich erstellt!');
+    setTimeout(() => {
+      this.router.navigate(['']);
+    }, 1500);
   }
 
   /**

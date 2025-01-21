@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import {
@@ -12,15 +12,18 @@ import {
   collection,
   QueryDocumentSnapshot,
 } from '@angular/fire/firestore';
+import { FeedbackOverlayComponent } from '../feedback-overlay/feedback-overlay.component';
 
 @Component({
   selector: 'app-password-reset',
   standalone: true,
-  imports: [FormsModule, CommonModule],
+  imports: [FormsModule, CommonModule, FeedbackOverlayComponent],
   templateUrl: './password-reset.component.html',
   styleUrl: './password-reset.component.scss',
 })
 export class PasswordResetComponent implements OnInit {
+  @ViewChild(FeedbackOverlayComponent)
+  feedbackOverlay!: FeedbackOverlayComponent;
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -94,7 +97,7 @@ export class PasswordResetComponent implements OnInit {
    * @param event The input event.
    */
   onInput(field: string, event: Event): void {
-    const value = (event.target as HTMLInputElement).value;
+    let value = (event.target as HTMLInputElement).value;
     this.updatePasswordField(field, value);
     this.enableButton(this.isFormValid());
   }
@@ -149,9 +152,9 @@ export class PasswordResetComponent implements OnInit {
    * Processes the password update in Firestore.
    */
   private async processPasswordUpdate(): Promise<void> {
-    const usersRef = collection(this.firestore, 'user');
-    const tokenQuery = query(usersRef, where('token', '==', this.token));
-    const querySnapshot = await getDocs(tokenQuery);
+    let usersRef = collection(this.firestore, 'user');
+    let tokenQuery = query(usersRef, where('token', '==', this.token));
+    let querySnapshot = await getDocs(tokenQuery);
 
     if (querySnapshot.empty) return;
 
@@ -167,11 +170,14 @@ export class PasswordResetComponent implements OnInit {
   private async updateUserPassword(
     docSnap: QueryDocumentSnapshot
   ): Promise<void> {
-    const userDocRef = doc(this.firestore, 'user', docSnap.id);
+    let userDocRef = doc(this.firestore, 'user', docSnap.id);
     await updateDoc(userDocRef, {
       password: this.passwordText,
       token: null,
     });
-    this.router.navigate(['']);
+    this.feedbackOverlay.showFeedback('Passwort neu vergeben!');
+    setTimeout(() => {
+      this.router.navigate(['']);
+    }, 1500);
   }
 }
