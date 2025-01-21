@@ -14,7 +14,6 @@ import { ChannelService } from '../../services/channel.service';
 })
 export class SideNavBarComponent {
   private routeSub!: Subscription;
-  channels: string[] = []
   channelsVisible: boolean = true;
   directMsgVisible: boolean = true;
   onlineColor: string = '#92c73e';
@@ -59,11 +58,6 @@ export class SideNavBarComponent {
    */
   toggleDirectMsgs() {
     this.directMsgVisible = !this.directMsgVisible;
-  }
-
-  createChannel(name: string, description: string) {
-    let channel = name;
-    this.channels.push(channel);
   }
 
   /**
