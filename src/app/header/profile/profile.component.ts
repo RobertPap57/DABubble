@@ -21,21 +21,21 @@ export class ProfileComponent {
 
   constructor(public userService: UserService) { }
 
-  @HostListener('document:mouseup', ['$event.target'])
-  onClickOutsideLogoutBox(target: HTMLElement): void {
-    if (this.logoutBox) {
-      let clickInsideChan = this.logoutBox.nativeElement.contains(target); {
-      } if (!clickInsideChan) this.closeBoxes();
-    }
-  }
+  // @HostListener('document:mouseup', ['$event.target'])
+  // onClickOutsideLogoutBox(target: HTMLElement): void {
+  //   if (this.logoutBox) {
+  //     let clickInsideChan = this.logoutBox.nativeElement.contains(target); {
+  //     } if (!clickInsideChan) this.closeBoxes();
+  //   }
+  // }
 
-  @HostListener('document:click', ['$event.target'])
-  onClickOutsideProfileBox(target: HTMLElement): void {
-    if (this.profileBox) {
-      let clickInsideChan = this.profileBox.nativeElement.contains(target); {
-      } if (!clickInsideChan) this.closeBoxes();
-    }
-  }
+  // @HostListener('document:click', ['$event.target'])
+  // onClickOutsideProfileBox(target: HTMLElement): void {
+  //   if (this.profileBox) {
+  //     let clickInsideChan = this.profileBox.nativeElement.contains(target); {
+  //     } if (!clickInsideChan) this.closeBoxes();
+  //   }
+  // }
 
   openLogoutUser() {
     this.openLogoutBox = true;
