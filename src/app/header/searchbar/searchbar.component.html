@@ -40,18 +40,18 @@
             @for (channel of channelService.channels; track channel.chanId) {
 
             @if (filteredChannels.includes(channel.chanId)) {
-            <p><b>#</b>{{channel.chanName}}</p>
+            <p class="searchResult"><b>#</b>{{channel.chanName}}</p>
             }
             }
 
             <h3>Found Messages</h3>
-            @if (filterMessages.length === 0) {
+            @if (filteredMsgs.length === 0) {
                 <span>No Message with that User or Text found</span>
             }
             @for (msg of messageService.messages; track msg.id) {
 
             @if (filteredMsgs.includes(msg.id)) {
-            <p>{{msg.text}}</p>
+            <p class="searchResult">{{msg.text}}</p>
             }
             }
 

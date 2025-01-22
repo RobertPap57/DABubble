@@ -34,11 +34,17 @@ section {
                 padding-block: 2px;
                 padding-inline: 12px;
                 margin-block: 4px;
-                width: fit-content;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                overflow: hidden;
 
                 &:hover {
                     background-color: #edefff;
                 }
+            }
+
+            .searchResult {
+                display: block;
             }
         }
     }

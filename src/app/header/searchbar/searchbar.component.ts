@@ -40,6 +40,7 @@ export class SearchbarComponent {
     if (input.length >= 3) {
       this.filterUsers(input);
       this.filterChannels(input);
+      this.filterMessages(input);
     } else this.checkNoFindings();
   }
 
