@@ -11,8 +11,11 @@
             <div class="edit">
                 @for (user of userService.users; track user.id) {
                 @if (user.id === userService.loggedUserId) {
-                <h1>{{user.name}}</h1>}}
-                <a href="#" (click)="toggleEditMode()">Bearbeiten</a>
+                <h1>{{user.name}}</h1>
+                }
+                }
+                <a (click)="toggleEditMode()">Bearbeiten</a>
+
             </div>
             <div class="status-container">
                 <div class="status" [ngClass]="{ active: isActive, inactive: !isActive }"></div>

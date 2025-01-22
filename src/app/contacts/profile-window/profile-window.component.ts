@@ -10,7 +10,7 @@ import { UserService } from '../../services/user.service';
   styleUrl: './profile-window.component.scss'
 })
 export class ProfileWindowComponent {
-  isEditMode: boolean = true;
+  isEditMode: boolean = false;
   name: string = 'Steffen Hoffmann';  // Beispielname
   email: string = 'thehoffman@beispiel.com'; // Beispiel-E-Mail
   picture: string =  '/steffen-hoffmann-avatar.png';
