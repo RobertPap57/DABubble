@@ -13,44 +13,42 @@ import { ProfileWindowComponent } from "../../contacts/profile-window/profile-wi
 export class ProfileComponent {
   @ViewChild('logoutBox') logoutBox!: ElementRef<HTMLDivElement>;
   @ViewChild('profileBox') profileBox!: ElementRef<HTMLDivElement>;
-  onlineColor: string = '#92c73e';
-  offlineColor: string = '#696969';
   openLogoutBox: boolean = false;
   openProfileBox: boolean = false;
   slideOut: boolean = false;
 
   constructor(public userService: UserService) { }
 
-  // @HostListener('document:mouseup', ['$event.target'])
-  // onClickOutsideLogoutBox(target: HTMLElement): void {
-  //   if (this.logoutBox) {
-  //     let clickInsideChan = this.logoutBox.nativeElement.contains(target); {
-  //     } if (!clickInsideChan) this.closeBoxes();
-  //   }
-  // }
+  @HostListener('document:mouseup', ['$event.target'])
+  onClickOutsideLogoutBox(target: HTMLElement): void {
+    if (this.logoutBox && !this.openProfileBox) {
+      let clickInsideChan = this.logoutBox.nativeElement.contains(target); {
+      } if (!clickInsideChan) this.closeLogoutBox();
+    }
+  }
 
-  // @HostListener('document:click', ['$event.target'])
-  // onClickOutsideProfileBox(target: HTMLElement): void {
-  //   if (this.profileBox) {
-  //     let clickInsideChan = this.profileBox.nativeElement.contains(target); {
-  //     } if (!clickInsideChan) this.closeBoxes();
-  //   }
-  // }
+  @HostListener('document:click', ['$event.target'])
+  onClickOutsideProfileBox(target: HTMLElement): void {
+    if (this.profileBox) {
+      let clickInsideChan = this.profileBox.nativeElement.contains(target); {
+      } if (!clickInsideChan) this.closeProfilBox();
+    }
+  }
 
   openLogoutUser() {
     this.openLogoutBox = true;
     this.slideOut = false;
   }
 
-  closeBoxes() {
-    this.openProfileBox = false;
-    this.slideOut = true;
-    setTimeout(() => {
-      this.openLogoutBox = false;
-    }, 200);
+  closeLogoutBox() {
+    this.openLogoutBox = false;
   }
 
-  openProfile(id: string) {
+  closeProfilBox() {
+    this.openProfileBox = false;
+  }
+
+  openProfile() {
     this.openProfileBox = true;
   }
 }

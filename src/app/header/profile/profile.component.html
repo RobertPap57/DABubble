@@ -8,7 +8,7 @@
 
     <div class="profilePic dFlexCenter" (click)="openLogoutUser()">
         <img src=".{{user.userImage}}">
-        <span [ngStyle]="{'background-color': user.status === 'online' ? onlineColor : offlineColor}"></span>
+        <span [ngStyle]="{'background-color': user.status === 'online' ? '#92c73e' : '#696969'}"></span>
     </div>
 
     <a (click)="openLogoutUser()"><svg width="14" height="9" viewBox="0 0 14 9" fill="none"
@@ -29,14 +29,20 @@
 @if (openLogoutBox) {
 <div class="overlay">
     <div #logoutBox class="dFlexCenter" [ngClass]="{'slideOut': slideOut}">
-        <hr (click)="closeBoxes()">
-        <a (click)="openProfile(userService.loggedUserId)"><img class="respBtn" src="./account_circle.png"><h3>Profil</h3></a>
-        <a (click)="userService.logoutUser(userService.loggedUserId)"><img class="respBtn" src="./logout.png"><h3>Logout</h3></a>
+        <hr (click)="closeLogoutBox()">
+        <a (click)="openProfile()"><img class="respBtn" src="./account_circle.png">
+            <h3>Profil</h3>
+        </a>
+        <a (click)="userService.logoutUser(userService.loggedUserId)"><img class="respBtn" src="./logout.png">
+            <h3>Logout</h3>
+        </a>
     </div>
 </div>
 }
 @if(openProfileBox) {
-    <div class="overlay">
+<div class="overlay">
+    <p #profileBox>
         <app-profile-window></app-profile-window>
-    </div>
+    </p>
+</div>
 }
