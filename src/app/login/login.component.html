@@ -24,13 +24,15 @@
           email
         />
         <div
-        class="error-message"
-        *ngIf="emailInput.invalid && emailInput.touched"
-      >
-        *Diese E-Mail-Adresse ist leider ungültig.
+          class="error-message"
+          *ngIf="
+            (emailInput.invalid && emailInput.touched && showError)
+          "
+        >
+          *Diese E-Mail-Adresse ist leider ungültig.
+        </div>
       </div>
-      </div>
-      
+
       <div class="input">
         <img [src]="lockImg" alt="Lock Icon" />
         <input
@@ -46,14 +48,19 @@
           password
         />
         <div
-        class="error-message"
-        *ngIf="(passwortInput.invalid && passwortInput.touched) || showError"
-      >
-        *Falsches Passwort oder E-Mail. Bitte noch einmal versuchen. 
-      </div>
+          class="error-message"
+          *ngIf="
+            (passwortInput.invalid && passwortInput.touched && showError) ||
+            showError
+          "
+        >
+          *Falsches Passwort oder E-Mail. Bitte noch einmal versuchen.
+        </div>
       </div>
     </form>
-    <span class="forgot-pw"  (click)="openResetPassword()">Passwort vergessen?</span>
+    <span class="forgot-pw" (click)="openResetPassword()"
+      >Passwort vergessen?</span
+    >
     <div class="or-div">
       <div class="div-line"></div>
       <span>ODER</span>
@@ -63,8 +70,10 @@
       <span>Anmelden mit Google</span>
     </div>
     <div class="login-btns">
-      <button (click)="onLogin()" class="primary-btn">Anmelden</button>
-      <button class="secondary-btn">Gäste-Login</button>
+      <button [disabled]="!loginUser"
+      [ngClass]="{ 'primary-btn': loginUser, 'disabled-btn': !loginUser }" (click)="onLogin()" class="primary-btn">Anmelden</button>
+      <button [disabled]="!loginGuest"
+      [ngClass]="{ 'secondary-btn': loginGuest, 'disabled-btn': !loginGuest }" (click)="guestLogin()" class="secondary-btn">Gäste-Login</button>
     </div>
   </div>
 </section>

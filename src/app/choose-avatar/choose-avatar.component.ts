@@ -30,6 +30,7 @@ export class ChooseAvatarComponent {
   ];
 
   selectedAvatar: string = '/default-user-avatar.png';
+  createUser: boolean = true;
 
   /**
    * Navigates the user to the register page.
@@ -45,6 +46,7 @@ export class ChooseAvatarComponent {
   openLogin(): void {
     this.userData.userImage = this.selectedAvatar;
     this.userData.uploadUserData();
+    this.enableButton(true);
     this.feedbackOverlay.showFeedback('Konto erfolgreich erstellt!');
     setTimeout(() => {
       this.router.navigate(['']);
@@ -81,4 +83,12 @@ export class ChooseAvatarComponent {
   selectAvatar(avatarImage: string): void {
     this.selectedAvatar = avatarImage;
   }
+
+    /**
+   * Enables or disables the password submission button.
+   * @param condition The condition to enable the button.
+   */
+    enableButton(condition: boolean): void {
+      this.createUser = !condition;
+    }
 }

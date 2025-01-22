@@ -32,7 +32,11 @@
     </div>
 
     <div class="next-btn">
-      <button (click)="openLogin()" class="primary-btn">Anmelden</button>
+      <button [disabled]="!createUser"
+      [ngClass]="{
+        'primary-btn': createUser,
+        'disabled-btn': !createUser
+      }" (click)="openLogin()" class="primary-btn">Anmelden</button>
     </div>
   </div>
 </section>

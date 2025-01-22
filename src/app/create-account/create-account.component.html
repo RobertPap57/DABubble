@@ -133,7 +133,8 @@
       </div>
     </div>
     <div class="next-btn">
-      <button (click)="openAvatar()" class="primary-btn">Weiter</button>
+      <button [disabled]="!next"
+      [ngClass]="{ 'primary-btn': next, 'disabled-btn': !next }" (click)="openAvatar()" class="primary-btn">Weiter</button>
     </div>
   </div>
 </section>

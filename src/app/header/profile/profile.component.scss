@@ -49,6 +49,12 @@ section {
         display: none;
     }
 
+    p {
+        position: absolute;
+        right: 20px;
+        top: 114px;
+    }
+
     >div {
         box-shadow: 0px 6px 10px 0px rgba(0, 0, 0, 0.2);
         position: absolute;

@@ -73,6 +73,11 @@ export class ChannelService {
     }
   }
 
+  /**
+   * adds the channel id to the channel after creating it 
+   * 
+   * @param chanId the id that firestore has given to the channel
+   */
   async finalizeChannel(chanId: string): Promise<void> {
     try {
       let channelDocRef = this.getSingleChannelDocRef('channel', chanId);
@@ -82,7 +87,11 @@ export class ChannelService {
     }
   }
 
-
+  /**
+   * updates the channel with all the new inputs given by the user
+   * 
+   * @param channel 
+   */
   async updateChannel(channel: Channel) {
     if (channel.chanId) {
       let docRef = this.getSingleChannelDocRef('channel', channel.chanId);
@@ -107,6 +116,12 @@ export class ChannelService {
     );
   }
 
+  /**
+   * gets a clean JSON Array for channel
+   * 
+   * @param channel the channel that the user submits
+   * @returns a clean JSON Array
+   */
   getCleanJSON(channel: Channel): {} {
     return {
       chanId: channel.chanId,
@@ -117,6 +132,13 @@ export class ChannelService {
     }
   }
 
+  /**
+   * Sets a new Channel Object and puts it into an array
+   * 
+   * @param obj the object with the informations from the user
+   * @param id the id given by the firebase
+   * @returns a compelte Channel Array
+   */
   setChannelObject(obj: any, id: string): Channel {
     return {
       chanId: id || '',
@@ -127,6 +149,11 @@ export class ChannelService {
     }
   }
 
+  /**
+   * gets the Current Channel Object stored as values and puts them into an Object
+   * 
+   * @returns returns the channel Object for Creating the channel
+   */
   getCurChanObj() {
     return {
       chanId: '',
@@ -137,10 +164,22 @@ export class ChannelService {
     }
   }
 
+  /**
+   * get all the channels reference from the firestore
+   * 
+   * @returns collection of all references of 'channel'
+   */
   getallChannelsdocRef() {
     return collection(this.firestore, 'channel');
   }
 
+  /**
+   * gets a single document reference from the firestore
+   * 
+   * @param colId the id of the collection
+   * @param docId the document id
+   * @returns the document with the given id from the firestore
+   */
   getSingleChannelDocRef(colId: string, docId: string) {
     return doc(collection(this.firestore, colId), docId);
   }

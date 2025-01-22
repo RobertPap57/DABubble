@@ -1,5 +1,5 @@
 <section>
-    <input [(ngModel)]="searchBar" type="text" placeholder="Devspace durchsuchen" name="search">
+    <input [(ngModel)]="searchBar" type="text" placeholder="Devspace durchsuchen" name="search" (keyup.enter)="searchResults(searchBar)">
 
     <a (click)="searchResults(searchBar)">
         <svg width="27" height="27" viewBox="0 0 27 27" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -29,7 +29,7 @@
             @for (user of userService.users; track user.id) {
 
             @if (filteredUsers.includes(user.id)) {
-            <p>{{user}}</p>
+            <p (click)="opendirectMsg(user.id)"><img src=".{{user.userImage}}">{{user.name}}</p>
             }
             }
 
@@ -37,25 +37,23 @@
             @if (filteredChannels.length === 0) {
             <span>No Channel with that Name found</span>
             }
-            @for (channel of filteredChannels; track $index) {
-            <p><b># </b>{{channel}}</p>
+            @for (channel of channelService.channels; track channel.chanId) {
+
+            @if (filteredChannels.includes(channel.chanId)) {
+            <p (click)="openChannel(channel.chanId)" class="searchResult"><b>#</b>{{channel.chanName}}</p>
+            }
             }
 
-            <!-- <h3>Found Messages</h3>
-            @if (filteredArr.length === 0) {
-            <span>No Message with that Name found</span>
+            <h3>Found Messages</h3>
+            @if (filteredMsgs.length === 0) {
+                <span>No Message with that User or Text found</span>
             }
-            @for (item of filteredArr; track $index) {
-            <p>{{item}}</p>
-            }
+            @for (msg of messageService.messages; track msg.id) {
 
-            <h3>Found Private Messages</h3>
-            @if (filteredArr.length === 0) {
-            <span>No Private Message with that Name found</span>
+            @if (filteredMsgs.includes(msg.id)) {
+            <p (click)="openMessage()" class="searchResult">{{msg.text}}</p>
             }
-            @for (item of filteredArr; track $index) {
-            <p>{{item}}</p>
-            } -->
+            }
 
         </div>
     </div>
