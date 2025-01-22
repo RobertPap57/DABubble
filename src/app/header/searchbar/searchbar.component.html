@@ -1,5 +1,5 @@
 <section>
-    <input [(ngModel)]="searchBar" type="text" placeholder="Devspace durchsuchen" name="search">
+    <input [(ngModel)]="searchBar" type="text" placeholder="Devspace durchsuchen" name="search" (keyup.enter)="searchResults(searchBar)">
 
     <a (click)="searchResults(searchBar)">
         <svg width="27" height="27" viewBox="0 0 27 27" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -44,13 +44,16 @@
             }
             }
 
-            <!-- <h3>Found Messages</h3>
-            @if (filteredArr.length === 0) {
-            <span>No Message with that Name found</span>
+            <h3>Found Messages</h3>
+            @if (filterMessages.length === 0) {
+                <span>No Message with that User or Text found</span>
             }
-            @for (item of filteredArr; track $index) {
-            <p>{{item}}</p>
-            } -->
+            @for (msg of messageService.messages; track msg.id) {
+
+            @if (filteredMsgs.includes(msg.id)) {
+            <p>{{msg.text}}</p>
+            }
+            }
 
         </div>
     </div>

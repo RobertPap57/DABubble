@@ -2,6 +2,7 @@ import { Component, ElementRef, HostListener, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ChannelService } from '../../services/channel.service';
 import { UserService } from '../../services/user.service';
+import { MessageService } from '../../chat-box/message/message.service';
 
 @Component({
   selector: 'app-searchbar',
@@ -16,10 +17,9 @@ export class SearchbarComponent {
   searchBar: string = '';
   filteredUsers: string[] = [];
   filteredChannels: string[] = [];
-  filteredThreads: string[] = [];
   filteredMsgs: string[] = [];
 
-  constructor(public channelService: ChannelService, public userService: UserService) { }
+  constructor(public channelService: ChannelService, public userService: UserService, public messageService: MessageService) { }
 
   @HostListener('document:mouseup', ['$event.target'])
   onClickOutsideChan(target: HTMLElement): void {
@@ -59,9 +59,20 @@ export class SearchbarComponent {
       .map(channel => channel.chanId)
   }
 
+  filterMessages(input: string) {
+    this.filteredMsgs = this.messageService.messages
+      .filter(message => {
+        const messageText = message.text.toLowerCase().includes(input);
+        const messageSenderID = this.filteredUsers.some(userId => message.senderId.includes(userId));
+        const messageReceiverID = this.filteredUsers.some(userId => message.userId.includes(userId));
+        return messageText || messageSenderID || messageReceiverID;
+      })
+      .map(msg => msg.id);
+  }
+
   checkNoFindings() {
-    if (this.filteredUsers.length === 0) {
-      console.log(this.filteredUsers);
-    }
+    this.filteredUsers.length = 0;
+    this.filteredChannels.length = 0;
+    this.filteredMsgs.length = 0;
   }
 }
