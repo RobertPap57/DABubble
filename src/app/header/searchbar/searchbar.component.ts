@@ -21,6 +21,11 @@ export class SearchbarComponent {
 
   constructor(public channelService: ChannelService, public userService: UserService, public messageService: MessageService) { }
 
+  /**
+   * a listener for mouseup event if the searchbarDropdown is active, if you click anywhere on the overlay it closes the logout box
+   * 
+   * @param target #searchbarDropdown
+   */
   @HostListener('document:mouseup', ['$event.target'])
   onClickOutsideChan(target: HTMLElement): void {
     if (this.searchbarDropdown) {
@@ -29,11 +34,19 @@ export class SearchbarComponent {
     }
   }
 
+  /**
+   * closes the searchbar dropdown and clears the search bar
+   */
   closesearchbarDropdown() {
     this.dropdownActive = false;
     this.searchBar = '';
   }
 
+  /**
+   * filters all the search result for the input
+   * 
+   * @param userInput the input the user types in the searchbar
+   */
   searchResults(userInput: string) {
     this.dropdownActive = true;
     const input = userInput.toLowerCase();
@@ -44,12 +57,23 @@ export class SearchbarComponent {
     } else this.checkNoFindings();
   }
 
+  /**
+   * filters all users and check if the input matches one of them or includes the input
+   * 
+   * @param input the input the user types in the searchbar
+   */
   filterUsers(input: string) {
     this.filteredUsers = this.userService.users
       .filter(users => users.name.toLowerCase().includes(input))
       .map(user => user.id);
   }
 
+  /**
+   * filters all channels and check if the input matches one of them or includes the input,
+   * then checks if the input matches the users that are included on the channel
+   * 
+   * @param input the input the user types in the searchbar
+   */
   filterChannels(input: string) {
     this.filteredChannels = this.channelService.channels
       .filter(channel => {
@@ -60,6 +84,12 @@ export class SearchbarComponent {
       .map(channel => channel.chanId)
   }
 
+  /**
+   * filters all messages and check if the input matches one of them or includes the input,
+   * then checks if the input matches the users that are included on the messages
+   * 
+   * @param input the input the user types in the searchbar
+   */
   filterMessages(input: string) {
     this.filteredMsgs = this.messageService.messages
       .filter(message => {
@@ -71,6 +101,9 @@ export class SearchbarComponent {
       .map(msg => msg.id);
   }
 
+  /**
+   * sets the filtered arrays empty if nothing matches the input from the searchbar
+   */
   checkNoFindings() {
     this.filteredUsers.length = 0;
     this.filteredChannels.length = 0;

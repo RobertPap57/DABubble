@@ -121,8 +121,9 @@ export class CreateChannelComponent {
   }
 
   /**
+   * Creates a new Channel based on the inputs given by the user and closes the create channel box
    * 
-   * @returns 
+   * @returns none if no user is selected
    */
   createChanel() {
     if (this.selectedUserId.length === 0 && this.selectedOption !== 'all') return;
@@ -135,6 +136,9 @@ export class CreateChannelComponent {
     this.closeCreateChan();
   }
 
+  /**
+   * checks if the channelname the user wants to create already exists and adds a number to it if it has the same name
+   */
   checkChanName() {
     if (this.channelName.length > 2) {
       let baseName = this.channelName;

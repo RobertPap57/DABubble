@@ -11,6 +11,9 @@ import { Router } from '@angular/router';
 export class LinkCreateComponent {
   constructor(private router: Router) {}
 
+  /**
+   * routes the user to 'register' to create a new account
+   */
   openCreateAccount(): void {
     this.router.navigate(['/register']);
   }

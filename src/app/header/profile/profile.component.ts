@@ -19,6 +19,11 @@ export class ProfileComponent {
 
   constructor(public userService: UserService) { }
 
+  /**
+   * a listener for mouseup event if the openprofilebox is active, if you click anywhere on the overlay it closes the logout box
+   * 
+   * @param target #openProfileBox
+   */
   @HostListener('document:mouseup', ['$event.target'])
   onClickOutsideLogoutBox(target: HTMLElement): void {
     if (this.logoutBox && !this.openProfileBox) {
@@ -27,6 +32,11 @@ export class ProfileComponent {
     }
   }
 
+  /**
+   * a listener for mouseup event if the profileBox is active, if you click anywhere on the overlay it closes the profile box
+   * 
+   * @param target #profileBox
+   */
   @HostListener('document:click', ['$event.target'])
   onClickOutsideProfileBox(target: HTMLElement): void {
     if (this.profileBox) {
@@ -35,20 +45,32 @@ export class ProfileComponent {
     }
   }
 
+  /**
+   * opens the logout Box
+   */
   openLogoutUser() {
     this.openLogoutBox = true;
     this.slideOut = false;
   }
 
+  /**
+   * closes the logout box
+   */
   closeLogoutBox() {
     this.openLogoutBox = false;
   }
 
-  closeProfilBox() {
-    this.openProfileBox = false;
-  }
-
+  /**
+  * opens the profile box
+  */
   openProfile() {
     this.openProfileBox = true;
+  }
+
+  /**
+   * closes the profile box
+   */
+  closeProfilBox() {
+    this.openProfileBox = false;
   }
 }
