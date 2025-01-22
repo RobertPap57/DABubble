@@ -10,7 +10,6 @@ import { UserService } from '../../services/user.service';
   styleUrl: './contact-window.component.scss'
 })
 export class ContactWindowComponent {
-  
   name: string = 'Steffen Hoffmann';  // Beispielname
   email: string = 'thehoffman@beispiel.com'; // Beispiel-E-Mail
   isActive: boolean = false; // Status standardmäßig 'abwesend'
