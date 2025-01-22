@@ -11,6 +11,8 @@ import { UserService } from '../../services/user.service';
 })
 export class ProfileWindowComponent {
   isEditMode: boolean = false;
+  onlineColor: string = '#92c73e';
+  offlineColor: string = '#696969';
   name: string = 'Steffen Hoffmann';  // Beispielname
   email: string = 'thehoffman@beispiel.com'; // Beispiel-E-Mail
   picture: string =  '/steffen-hoffmann-avatar.png';

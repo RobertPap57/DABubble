@@ -1,4 +1,7 @@
 <section>
+    @for (user of userService.users; track user.id) {
+    @if (user.id === userService.loggedUserId) {
+
     <div *ngIf="!isEditMode" class="view">
         <div class="top">
             <h2>Profil</h2>
@@ -9,19 +12,25 @@
         </div>
         <div class="name">
             <div class="edit">
-                @for (user of userService.users; track user.id) {
-                @if (user.id === userService.loggedUserId) {
+
                 <h1>{{user.name}}</h1>
-                }
-                }
+
                 <a (click)="toggleEditMode()">Bearbeiten</a>
 
             </div>
             <div class="status-container">
-                <div class="status" [ngClass]="{ active: isActive, inactive: !isActive }"></div>
-                <span class="status-text" [ngStyle]="{ color: isActive ? 'green' : 'gray' }">
-                    {{ isActive ? 'Aktiv' : 'Abwesend' }}
+
+                <div class="status"
+                    [ngStyle]="{'background-color': user.status === 'online' ? onlineColor : offlineColor}">
+                </div>
+                @if (user.status === "online") {
+                <span class="status-text" [ngStyle]="{ color: 'green'}">
+                    Aktiv
                 </span>
+                }@else {
+                <span class="status-text" [ngStyle]="{ color: 'grey'}"></span>
+                    Abwesend
+                }
             </div>
         </div>
         <div class="mail">
@@ -29,7 +38,7 @@
                 <img src="mail-black.png" alt="Mail Icon">
                 <h2>E-Mail-Adresse</h2>
             </div>
-            <a [href]="'mailto:' + email">{{ email }}</a>
+            <a [href]="'mailto:' + email">{{user.email}}</a>
         </div>
     </div>
 
@@ -57,4 +66,6 @@
             </button>
         </div>
     </div>
+    }
+    }
 </section>
