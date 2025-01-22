@@ -184,6 +184,17 @@ section {
   }
 }
 
+.disabled-btn {
+  cursor: pointer;
+  width: 137px;
+  height: 48px;
+  border-radius: 25px;
+  background-color: #686868;
+  color: #ffffff;
+  font-size: 18px;
+  font-weight: 700;
+}
+
 @media (max-width: 1920px) {
   section {
     height: 650px;

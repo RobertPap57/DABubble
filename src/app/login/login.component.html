@@ -70,8 +70,10 @@
       <span>Anmelden mit Google</span>
     </div>
     <div class="login-btns">
-      <button (click)="onLogin()" class="primary-btn">Anmelden</button>
-      <button class="secondary-btn">Gäste-Login</button>
+      <button [disabled]="!loginUser"
+      [ngClass]="{ 'primary-btn': loginUser, 'disabled-btn': !loginUser }" (click)="onLogin()" class="primary-btn">Anmelden</button>
+      <button [disabled]="!loginGuest"
+      [ngClass]="{ 'secondary-btn': loginGuest, 'disabled-btn': !loginGuest }" (click)="guestLogin()" class="secondary-btn">Gäste-Login</button>
     </div>
   </div>
 </section>

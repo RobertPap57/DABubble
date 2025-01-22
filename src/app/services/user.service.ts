@@ -201,7 +201,7 @@ export class UserService {
    * Finalizes login by updating the user's status and navigating to the home page.
    * @param {string} userId - The logged-in user's Firestore document ID.
    */
-  private async finalizeLogin(userId: string): Promise<void> {
+  public async finalizeLogin(userId: string): Promise<void> {
     await this.updateUserStatus(userId, 'online');
     setTimeout(() => {
       this.router.navigate(['/home', userId]);

@@ -24,6 +24,11 @@ export class LoginComponent {
   emailText: string = '';
   passwordText: string = '';
   showError: boolean = false;
+  loginUser: boolean = false;
+  loginGuest: boolean = true;
+  regexp = new RegExp(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
+
+  guestUrl: string = '0LxX4SgAJLMdrMynLbem';
 
   /**
    * Handles the login process, showing errors if login fails.
@@ -39,6 +44,7 @@ export class LoginComponent {
         this.emailText = '';
         this.passwordText = '';
         this.showError = false;
+        this.loginUser = false;
         this.feedbackOverlay.showFeedback('Anmelden');
       }
       if (!loginSuccessful) {
@@ -94,7 +100,24 @@ export class LoginComponent {
       this.passwordText = value;
       this.updateIcon('password', !!value);
     }
+    this.enableButton(this.isFormValid());
   }
+
+    /**
+   * Enables or disables the email submission button.
+   * @param {boolean} isValid - Whether the email is valid.
+   */
+    enableButton(isValid: boolean | null | undefined): void {
+      this.loginUser = !!isValid;
+    }
+
+    /**
+   * Checks if the form is valid based on password length and match.
+   * @returns True if the passwords are valid and match.
+   */
+    private isFormValid(): boolean {
+      return this.regexp.test(this.emailText); // Überprüft die E-Mail-Adresse
+    }
 
   /**
    * Updates the icon for the specified input field based on its state.
@@ -117,5 +140,11 @@ export class LoginComponent {
    */
   openResetPassword(): void {
     this.router.navigate(['/reset-password']);
+  }
+
+  guestLogin(): void {
+    this.loginGuest = false;
+    this.userService.finalizeLogin(this.guestUrl)
+    this.feedbackOverlay.showFeedback('Anmelden');
   }
 }
