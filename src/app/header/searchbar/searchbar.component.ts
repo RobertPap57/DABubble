@@ -109,4 +109,26 @@ export class SearchbarComponent {
     this.filteredChannels.length = 0;
     this.filteredMsgs.length = 0;
   }
+
+  /**
+   * opens a direct Message with another user
+   * 
+   * @param id the id of the other user selected
+   */
+  opendirectMsg(id: string) {
+    this.userService.privMsgUserId = id;
+    this.channelService.channelChatId = '';
+  }
+
+  /**
+   * opens a new channeltab
+   * 
+   * @param id the id of the channel selected
+   */
+  openChannel(id: string) {
+    this.channelService.channelChatId = id;
+    this.userService.privMsgUserId = '';
+  }
+
+  openMessage() { }// hier noch etwas hinzufügen was ich genau suchen soll
 }

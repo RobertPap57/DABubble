@@ -29,7 +29,7 @@
             @for (user of userService.users; track user.id) {
 
             @if (filteredUsers.includes(user.id)) {
-            <p><img src=".{{user.userImage}}">{{user.name}}</p>
+            <p (click)="opendirectMsg(user.id)"><img src=".{{user.userImage}}">{{user.name}}</p>
             }
             }
 
@@ -40,7 +40,7 @@
             @for (channel of channelService.channels; track channel.chanId) {
 
             @if (filteredChannels.includes(channel.chanId)) {
-            <p class="searchResult"><b>#</b>{{channel.chanName}}</p>
+            <p (click)="openChannel(channel.chanId)" class="searchResult"><b>#</b>{{channel.chanName}}</p>
             }
             }
 
@@ -51,7 +51,7 @@
             @for (msg of messageService.messages; track msg.id) {
 
             @if (filteredMsgs.includes(msg.id)) {
-            <p class="searchResult">{{msg.text}}</p>
+            <p (click)="openMessage()" class="searchResult">{{msg.text}}</p>
             }
             }
 
