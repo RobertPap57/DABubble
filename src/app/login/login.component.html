@@ -24,13 +24,15 @@
           email
         />
         <div
-        class="error-message"
-        *ngIf="emailInput.invalid && emailInput.touched"
-      >
-        *Diese E-Mail-Adresse ist leider ungültig.
+          class="error-message"
+          *ngIf="
+            (emailInput.invalid && emailInput.touched && showError)
+          "
+        >
+          *Diese E-Mail-Adresse ist leider ungültig.
+        </div>
       </div>
-      </div>
-      
+
       <div class="input">
         <img [src]="lockImg" alt="Lock Icon" />
         <input
@@ -46,14 +48,19 @@
           password
         />
         <div
-        class="error-message"
-        *ngIf="(passwortInput.invalid && passwortInput.touched) || showError"
-      >
-        *Falsches Passwort oder E-Mail. Bitte noch einmal versuchen. 
-      </div>
+          class="error-message"
+          *ngIf="
+            (passwortInput.invalid && passwortInput.touched && showError) ||
+            showError
+          "
+        >
+          *Falsches Passwort oder E-Mail. Bitte noch einmal versuchen.
+        </div>
       </div>
     </form>
-    <span class="forgot-pw"  (click)="openResetPassword()">Passwort vergessen?</span>
+    <span class="forgot-pw" (click)="openResetPassword()"
+      >Passwort vergessen?</span
+    >
     <div class="or-div">
       <div class="div-line"></div>
       <span>ODER</span>

@@ -36,7 +36,9 @@ export class LoginComponent {
         this.passwordText
       );
       if (loginSuccessful) {
-        setTimeout(() => {}, 1500);
+        this.emailText = '';
+        this.passwordText = '';
+        this.showError = false;
         this.feedbackOverlay.showFeedback('Anmelden');
       }
       if (!loginSuccessful) {

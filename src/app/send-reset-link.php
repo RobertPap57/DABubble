@@ -22,7 +22,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
         <body>
         <p>Sie haben eine Anfrage zum Zurücksetzen Ihres Passworts gestellt.</p>
         <p>Um fortzufahren, klicken Sie auf den folgenden Link:</p>
-        <a href='$resetLink'>$resetLink</a>
+        <a href='$resetLink'>Passwort zurücksetzen</a>
         </body>
         </html>
         ";

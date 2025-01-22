@@ -39,7 +39,9 @@ export class PasswordResetSendMailComponent {
   isArrowHovered: boolean = false;
   backArrowImage: string = '/back-arrow.png';
 
+  showError: boolean = false;
   sendMail: boolean = false;
+  regexp = new RegExp(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
 
   post = {
     endPoint: 'https://dabubble.lars-schumacher.com/send-reset-link.php',
@@ -90,6 +92,15 @@ export class PasswordResetSendMailComponent {
       this.emailText = value;
       this.emailImg = value ? '/mail-black.png' : '/mail-grey.png';
     }
+    this.enableButton(this.isFormValid());
+  }
+
+  /**
+   * Checks if the form is valid based on password length and match.
+   * @returns True if the passwords are valid and match.
+   */
+  private isFormValid(): boolean {
+    return this.regexp.test(this.emailText); // Überprüft die E-Mail-Adresse
   }
 
   /**
@@ -134,6 +145,9 @@ export class PasswordResetSendMailComponent {
       let token = this.generateToken();
       this.sendEmailWithToken(this.emailText, token);
       this.updateUserWithToken(this.emailText, token);
+      this.emailText = '';
+      this.enableButton(false)
+      this.showError = false;
       this.feedbackOverlay.showFeedback('E-Mail gesendet');
       setTimeout(() => {
         this.router.navigate(['']);

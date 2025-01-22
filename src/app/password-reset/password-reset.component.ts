@@ -36,6 +36,7 @@ export class PasswordResetComponent implements OnInit {
   passwordText: string = '';
   confirmPasswordText: string = '';
   isPasswordValid: boolean = true;
+  showError: boolean = false;
 
   ngOnInit(): void {
     this.route.paramMap.subscribe((params) => this.setToken(params));
@@ -143,6 +144,10 @@ export class PasswordResetComponent implements OnInit {
     if (!this.token) return;
     try {
       await this.processPasswordUpdate();
+      this.enableButton(false);
+      this.showError = false;
+      this.passwordText = '';
+      this.confirmPasswordText = '';
     } catch (error) {
       console.error('Error updating password:', error);
     }
