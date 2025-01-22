@@ -66,3 +66,10 @@ app-slide-side-bar {
         background-color: white;
     }
 }
+
+@media screen and (min-width: 1921px) {
+    .home-container {
+        max-width: 1920px;
+        justify-self: center;
+    }
+}

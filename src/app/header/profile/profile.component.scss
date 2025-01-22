@@ -103,6 +103,12 @@ section {
     }
 }
 
+@media screen and (max-width: 1024px) {
+    section {
+        width: 176px;
+    }
+}
+
 @media screen and (max-width: 768px) {
     section {
         margin-right: 16px;
