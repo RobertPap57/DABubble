@@ -32,6 +32,11 @@ export class CreateAccountComponent {
   isArrowHovered: boolean = false;
   backArrowImage: string = '/back-arrow.png';
 
+  next: boolean = false;
+  regexp = new RegExp(
+    /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+  );
+
   passwordRegex = /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/;
 
   /**
@@ -76,6 +81,25 @@ export class CreateAccountComponent {
       this.router.navigate(['avatar']);
       this.createUser();
     }
+  }
+
+  /**
+   * Enables or disables the email submission button.
+   * @param {boolean} isValid - Whether the email is valid.
+   */
+  enableButton(isValid: boolean | null | undefined): void {
+    this.next =
+    !!isValid && 
+    this.userNameText.length >= 3 && 
+    this.passwordText === this.confirmPasswordText; 
+  }
+
+  /**
+   * Checks if the form is valid based on password length and match.
+   * @returns True if the passwords are valid and match.
+   */
+  private isFormValid(): boolean {
+    return this.regexp.test(this.emailText);
   }
 
   /**
@@ -139,6 +163,7 @@ export class CreateAccountComponent {
         ? '/user-name-icon-black.png'
         : '/user-name-icon-grey.png';
     }
+    this.enableButton(this.isFormValid());
   }
 
   /**
