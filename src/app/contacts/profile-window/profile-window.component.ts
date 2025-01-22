@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-profile-window',
@@ -12,15 +13,19 @@ export class ProfileWindowComponent {
   isEditMode: boolean = true;
   name: string = 'Steffen Hoffmann';  // Beispielname
   email: string = 'thehoffman@beispiel.com'; // Beispiel-E-Mail
+  picture: string =  '/steffen-hoffmann-avatar.png';
   isActive: boolean = false; // Status standardmäßig 'abwesend'
 
-  constructor() { }
+  constructor(public userService: UserService) { }
 
   toggleEditMode() {
     this.isEditMode = !this.isEditMode;
   }
 
   ngOnInit(): void {
+    this.name = this.userService.userName;
+    this.email = this.userService.email;
+    this.picture = this.userService.userImage;
   }
 
   // Diese Methode könnte verwendet werden, um den Status von einer Datenbank abzurufen

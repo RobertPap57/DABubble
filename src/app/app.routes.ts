@@ -14,7 +14,7 @@ export const routes: Routes = [
   { path: 'header', component: HeaderComponent },
   { path: 'register', component: CreateAccountComponent },
   { path: 'avatar', component: ChooseAvatarComponent },
-  { path: 'profile', component: ContactWindowComponent },
+  { path: 'profile', component: ProfileWindowComponent },
   { path: 'reset-password', component: PasswordResetSendMailComponent },
   { path: 'reset-password/:token', component: PasswordResetComponent },
   { path: 'home', component: HomeComponent },

@@ -12,6 +12,7 @@ import { UserService } from '../../services/user.service';
 export class ContactWindowComponent {
   name: string = 'Steffen Hoffmann';  // Beispielname
   email: string = 'thehoffman@beispiel.com'; // Beispiel-E-Mail
+  picture: string =  '/steffen-hoffmann-avatar.png';
   isActive: boolean = false; // Status standardmäßig 'abwesend'
 
   constructor(public userSerice: UserService) { }
@@ -19,6 +20,7 @@ export class ContactWindowComponent {
   ngOnInit(): void {
     this.name = this.userSerice.userName;
     this.email = this.userSerice.email;
+    this.picture = this.userSerice.userImage;
   }
 
   // Diese Methode könnte verwendet werden, um den Status von einer Datenbank abzurufen

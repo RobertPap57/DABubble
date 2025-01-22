@@ -9,7 +9,9 @@
         </div>
         <div class="name">
             <div class="edit">
-                <h1>{{ name }}</h1>
+                @for (user of userService.users; track user.id) {
+                @if (user.id === userService.loggedUserId) {
+                <h1>{{user.name}}</h1>}}
                 <a href="#" (click)="toggleEditMode()">Bearbeiten</a>
             </div>
             <div class="status-container">
