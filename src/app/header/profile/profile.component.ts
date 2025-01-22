@@ -1,12 +1,12 @@
 import { NgClass, NgStyle } from '@angular/common';
 import { Component, ElementRef, HostListener, ViewChild } from '@angular/core';
 import { UserService } from '../../services/user.service';
-import { ContactWindowComponent } from '../../contacts/contact-window/contact-window.component';
+import { ProfileWindowComponent } from "../../contacts/profile-window/profile-window.component";
 
 @Component({
   selector: 'app-profile',
   standalone: true,
-  imports: [NgStyle, ContactWindowComponent, NgClass],
+  imports: [NgStyle, ProfileWindowComponent, NgClass, ProfileWindowComponent],
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.scss'
 })
