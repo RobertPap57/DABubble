@@ -38,18 +38,25 @@ export class SearchbarComponent {
     this.dropdownActive = true;
     const input = userInput.toLowerCase();
     if (input.length >= 3) {
-      this.filteredUsers = this.userService.users
-        .filter(users => users.name.toLowerCase().includes(input))
-        .map(user => user.id);
-      this.filteredChannels = this.channelService.channels
-        .filter(channel => {
-          const matchesChannelName = channel.chanName.toLowerCase().includes(input);
-          const hasMatchingUser = this.filteredUsers.some(userId => channel.userIds.includes(userId));
-          return matchesChannelName || hasMatchingUser;
-        })
-        .map(channel => channel.chanId)
-    }
-    this.checkNoFindings();
+      this.filterUsers(input);
+      this.filterChannels(input);
+    } else this.checkNoFindings();
+  }
+
+  filterUsers(input: string) {
+    this.filteredUsers = this.userService.users
+      .filter(users => users.name.toLowerCase().includes(input))
+      .map(user => user.id);
+  }
+
+  filterChannels(input: string) {
+    this.filteredChannels = this.channelService.channels
+      .filter(channel => {
+        const matchesChannelName = channel.chanName.toLowerCase().includes(input);
+        const hasMatchingUser = this.filteredUsers.some(userId => channel.userIds.includes(userId));
+        return matchesChannelName || hasMatchingUser;
+      })
+      .map(channel => channel.chanId)
   }
 
   checkNoFindings() {
