@@ -118,6 +118,7 @@ export class SearchbarComponent {
   opendirectMsg(id: string) {
     this.userService.privMsgUserId = id;
     this.channelService.channelChatId = '';
+    this.searchBar = '';
   }
 
   /**
@@ -128,6 +129,7 @@ export class SearchbarComponent {
   openChannel(id: string) {
     this.channelService.channelChatId = id;
     this.userService.privMsgUserId = '';
+    this.searchBar = '';
   }
 
   openMessage() { }// hier noch etwas hinzufügen was ich genau suchen soll

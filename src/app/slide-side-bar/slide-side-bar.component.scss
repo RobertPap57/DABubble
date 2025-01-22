@@ -55,3 +55,9 @@ app-side-nav-bar {
         display: block;
     }
 }
+
+@media screen and (min-width: 1921px) {
+    section {
+        left: calc(50vw - 1110px);
+    }
+}
