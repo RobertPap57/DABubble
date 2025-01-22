@@ -138,10 +138,10 @@
             set="twitter" (emojiClick)="addEmoji($event)"></emoji-mart>
         }
 
-        <textarea type="text" [(ngModel)]="messageText" [placeholder]="chatType === 'private' ? 'Nachricht an '+users[0].name
-        : chatType === 'channel' ? 'Nachricht an #'+channelService.channelChatId
-        : chatType === 'thread' ? 'Antworten...'
-        : 'Starte eine neue Nachricht'" rows="2" *ngIf="isBrowser" autosize (keyup.enter)="sendMessage()"></textarea>
+ 
+        <textarea type="text" [(ngModel)]="messageText"  [placeholder]="getPlaceholder()"
+        rows="2" *ngIf="isBrowser" autosize (keyup.enter)="sendMessage()">
+        </textarea>
         <div class="actions-container">
             <div>
                 <button (click)="toggleEmojiPicker()">

@@ -107,6 +107,42 @@ export class ChatBoxComponent {
     return 'new'; // Default case if no condition is met
   }
 
+  getPlaceholder(): string {
+    const chatType = this.determineChatType();
+    switch (chatType) {
+      case 'private':
+        const userName = this.getUserName();
+        return `Nachricht an ${userName || 'unbekannter User'}`;
+      case 'channel':
+        const channelName = this.getChannelName();
+      return `Nachricht an #${channelName || 'unbekannter Kanal'}`;
+      case 'thread':
+        return 'Antworten...';
+      case 'new':
+      default:
+        return 'Starte eine neue Nachricht';
+    }
+  }
+
+  getChannelName(): string | null {
+    const channel = this.channelService.channels.find(
+      (channel) => channel.chanId === this.channelService.channelChatId
+    );
+    return channel ? channel.chanName : null;
+  }
+  getUserName(): string | null {
+    const user = this.userService.users.find(
+      (user) => user.id === this.userService.privMsgUserId
+    );
+    
+    if (user) {
+      if (this.userService.privMsgUserId === this.userService.loggedUserId) {
+        return `${user.name} (Du)`;
+      }
+      return user.name;
+    }
+    return null;
+  }
 
   sendMessage(): void {
     if (this.messageText.trim() !== '') {
