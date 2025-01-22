@@ -28,31 +28,21 @@ export class MessageService {
 
     subMessageList() {
         const q = query(
-          collection(this.firestore, 'messages'),
+          collection(this.firestore, 'messages'),orderBy('time', 'desc')
         );
         return onSnapshot(q, (list) => {
-            this.messages = [];
-            list.forEach((doc) => {
-                const messageData = doc.data();
-                const message = this.setMessageObject(messageData, doc.id);
+            this.messages = list.docs.map(doc => {
+              const messageData = doc.data();
+              const message = this.setMessageObject(messageData, doc.id);
           
-                this.messages.push(message);
-              });
+              // Convert Timestamp to string (if necessary)
+              if (message.time instanceof Timestamp) {
+                const date = message.time.toDate();
+                message.time = date.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' });
+              }
           
-              // Sort messages based on the 'time' field before converting to string
-              this.messages.sort((a, b) => {
-                const timeA = a.time instanceof Timestamp ? a.time.toMillis() : new Date(a.time).getTime();
-                const timeB = b.time instanceof Timestamp ? b.time.toMillis() : new Date(b.time).getTime();
-                return timeB - timeA; // Ascending order: oldest to newest
-              });
-          
-              // Convert the 'time' to string after sorting
-              this.messages.forEach(message => {
-                if (message.time instanceof Timestamp) {
-                  const date = message.time.toDate();
-                  message.time = date.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' });  
-                }
-              });
+              return message;
+            });
           
               console.log(this.messages);
           });

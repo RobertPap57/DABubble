@@ -1,5 +1,6 @@
-import { User } from './../interfaces/user.model';
 
+import { User } from './../interfaces/user.model';
+import { serverTimestamp } from 'firebase/firestore';
 import { Component, Input, Inject, inject, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
@@ -51,6 +52,12 @@ export class ChatBoxComponent {
   messageService = inject(MessageService);
   channelService = inject(ChannelService);
 
+
+  @Input() channelId: string = '';
+  @Input() privateChatId: string = '';
+  @Input() threadOpen: boolean = false;
+  @Input() newMessage: boolean = false;
+
   isBrowser: boolean;
   emojiPickerOn: boolean = false;
   @Input() chatType: 'private' | 'channel' | 'thread' | 'new' = 'new';
@@ -76,17 +83,42 @@ export class ChatBoxComponent {
   }
 
 
+  get filteredChannelMessages(): Message[] {
+    return this.messageService.messages.filter(
+      message => message.channelId === this.channelService.channelChatId
+    );
+  }
+  get filteredPrivateMessages(): Message[] {
+    return this.messageService.messages.filter(
+      message => message.userId === this.userService.privMsgUserId
+    );
+  }
+
+  determineChatType(): 'private' | 'channel' | 'thread' | 'new' {
+    if (this.newMessage) {
+      return 'new';
+    } else if (this.threadOpen) {
+      return 'thread';
+    } else if (this.channelService.channelChatId) {
+      return 'channel';
+    } else if (this.userService.privMsgUserId) {
+      return 'private';
+    }
+    return 'new'; // Default case if no condition is met
+  }
+
+
   sendMessage(): void {
     if (this.messageText.trim() !== '') {
       const newMessage: Message = {
         id: '',
         senderId: this.userService.loggedUserId,
         text: this.messageText,
-        time: Timestamp.now(),
+        time: serverTimestamp(),
         reactions: [],
         recentEmojis: [],
         channelId: this.channelService.channelChatId,
-        userId: '',
+        userId: this.userService.privMsgUserId,
         threadMessages: []
       };
 

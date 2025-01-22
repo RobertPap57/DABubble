@@ -45,6 +45,10 @@ h1 {
             cursor: pointer;
         }
 
+        .you{
+            margin-left: -10px;
+        }
+
     }
 }
 
@@ -266,11 +270,11 @@ h1 {
         overflow: visible;
 
         &.online {
-            background-color: #92C83E;
-        }
+            background-color: #92C83E !important;
+        } 
 
         &.offline {
-            background-color: #686868;
+            background-color: #686868 !important;
         }
     }
 }
@@ -301,7 +305,7 @@ h1 {
 
     textarea {
         all: unset;
-        word-break: break-all;
+        word-break: break-word;
     }
 
     .actions-container {

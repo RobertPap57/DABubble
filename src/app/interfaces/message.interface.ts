@@ -6,7 +6,7 @@ export interface Message {
     id: string; 
     senderId: string; 
     text: string; 
-    time: Timestamp | string;
+    time: Timestamp | any;
     reactions: Reaction[]; 
     recentEmojis: string[];
     channelId: string;
@@ -31,7 +31,7 @@ export interface Reaction {
     id: string; 
     senderId: string; 
     text: string; 
-    time: Timestamp | string;
+    time: Timestamp | any;
     reactions: Reaction[]; 
     recentEmojis: string[];
   }

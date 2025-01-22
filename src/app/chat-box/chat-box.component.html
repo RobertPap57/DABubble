@@ -2,7 +2,8 @@
 
 
     <div class="chat-header">
-        @switch (chatType) {
+        @switch (determineChatType()) {
+
         @case('new') {
         <div class="new-chat">
             <div class="title">
@@ -11,38 +12,62 @@
             <input type="search" placeholder="An: #channel, oder @jemand oder E-Mail Adresse">
         </div>
         }
+
         @case('private') {
         <div class="private-chat">
             <div class="title">
+                @for(user of userService.users; track user.id) {
+                @if(user.id === userService.privMsgUserId) {
                 <div class="avatar-image">
-                    <img src="chat-box/character_2.svg" alt="">
-                    <mat-icon fontSet="material-symbols-sharp" class="status-icon">fiber_manual_record</mat-icon>
+                    <img src="{{user.userImage}}" alt="">
+                    <mat-icon fontSet="material-symbols-sharp" class="status-icon"
+                        [ngClass]="{'offline': user.status === 'offline', 'online': user.status === 'online'}">
+                        fiber_manual_record
+                    </mat-icon>
                 </div>
-                <h1>{{users[0].name}}</h1>
+                <h1>{{user.name}}</h1>
+                @if(user.id === userService.loggedUserId) {
+                <h1 class="you">(Du)</h1>
+                }
+                }}
             </div>
         </div>
         }
+
         @case('channel') {
         <div class="channel-chat">
             <div class="title">
                 <h2>#</h2>
-                <h1>{{channelName}}</h1>
+                @for(channel of channelService.channels; track channel.chanId) {
+                @if(channel.chanId === channelService.channelChatId) {
+                <h1>{{channel.chanName}}</h1>
+                }
+                }
                 <mat-icon class="arrow-down" fontSet="material-symbols-rounded">keyboard_arrow_down</mat-icon>
             </div>
             <div class="members-container">
                 <div class="members">
                     <div>
-                        @for(user of users; track user.id) {
+                        @for(channel of channelService.channels; track channel.chanId) {
+                        @if(channel.chanId === channelService.channelChatId) {
+                        @for(user of userService.users; track user.id) {
+                        @if(channel.userIds.includes(user.id)) {
                         <img src="{{user.userImage}}" alt="">
                         }
+                        }
+                        }
+                        }
                     </div>
-
-                    <p>{{users.length}}</p>
+                    @for(channel of channelService.channels; track channel.chanId) {
+                    @if(channel.chanId === channelService.channelChatId) {
+                    <p>{{channel.userIds.length}}</p>
+                    }}
                 </div>
                 <mat-icon class="add-member" fontSet="material-symbols-rounded">person_add</mat-icon>
             </div>
         </div>
         }
+
         @case('thread') {
         <div class="thread-chat">
             <div class="title">
@@ -59,14 +84,47 @@
 
 
 
-    
+
 
     <div class="messages-container">
-        @for(message of messageService.messages; track message.id) {
-            @if (message.channelId === channelService.channelChatId) {
-                <app-message [message]="message"></app-message>
-            }
-        } 
+        @switch (determineChatType()) {
+
+        @case('channel') {
+        @for(message of filteredChannelMessages; track message.id) {
+        <app-message [message]="message"></app-message>
+        }@empty {
+        <div class="no-messages">
+            <h1>no mesages</h1>
+        </div>
+        }
+        }
+
+        @case('private') {
+        @for(message of filteredPrivateMessages; track message.id) {
+        <app-message [message]="message"></app-message>
+        }@empty {
+        <div class="no-messages">
+            <h1>bennebbe</h1>
+        </div>
+        }
+
+        <!-- @for ( message of messageService.messages; track message.id) {
+        @if (message.channelId === channelService.channelChatId) {
+        <app-message [message]="message"></app-message>
+        }
+        } @empty {
+        <div class="no-messages">
+            <h1>Keine Nachrichten</h1>
+        </div>
+        }}} -->
+        }
+
+
+
+
+
+
+        }
     </div>
 
 
@@ -80,10 +138,10 @@
             set="twitter" (emojiClick)="addEmoji($event)"></emoji-mart>
         }
 
-        <textarea [(ngModel)]="messageText" [placeholder]="chatType === 'private' ? 'Nachricht an '+users[0].name
-        : chatType === 'channel' ? 'Nachricht an #'+channelName
+        <textarea type="text" [(ngModel)]="messageText" [placeholder]="chatType === 'private' ? 'Nachricht an '+users[0].name
+        : chatType === 'channel' ? 'Nachricht an #'+channelService.channelChatId
         : chatType === 'thread' ? 'Antworten...'
-        : 'Starte eine neue Nachricht'" rows="2" *ngIf="isBrowser" autosize></textarea>
+        : 'Starte eine neue Nachricht'" rows="2" *ngIf="isBrowser" autosize (keyup.enter)="sendMessage()"></textarea>
         <div class="actions-container">
             <div>
                 <button (click)="toggleEmojiPicker()">
