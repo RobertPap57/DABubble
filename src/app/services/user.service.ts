@@ -25,7 +25,7 @@ export class UserService {
   users: User[] = [];
   firestore: Firestore = inject(Firestore);
   userId: string = '';
-  userName: string = '';                       
+  userName: string = '';
   email: string = '';
   password: string = '';
   confirmPassword: string = '';
@@ -206,6 +206,20 @@ export class UserService {
     setTimeout(() => {
       this.router.navigate(['/home', userId]);
     }, 1500);
+  }
+
+  async updateUserInfo(id: string, name: string, avatar: string): Promise<void> {
+    try {
+      console.log(id);
+      let userDocRef = this.getSingleUserDocRef('user', id);
+      await updateDoc(userDocRef, {
+        name: name,
+        userImage: avatar
+      });
+      console.log('User info updated successfully.');
+    } catch (error) {
+      console.error('Error updating user info:', error);
+    }
   }
 
   /**

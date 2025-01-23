@@ -1,19 +1,16 @@
 <section>
-    @for (user of userService.users; track user.id) {
-    @if (user.id === userService.loggedUserId) {
-
     <div *ngIf="!isEditMode" class="view">
         <div class="top">
             <h2>Profil</h2>
             <img src="/close.svg" alt="close icon">
         </div>
         <div class="avatar">
-            <img src="/steffen-hoffmann-avatar.png">
+            <img src="{{picture}}">
         </div>
         <div class="name">
             <div class="edit">
 
-                <h1>{{user.name}}</h1>
+                <h1>{{name}}</h1>
 
                 <a (click)="toggleEditMode()">Bearbeiten</a>
 
@@ -21,9 +18,9 @@
             <div class="status-container">
 
                 <div class="status"
-                    [ngStyle]="{'background-color': user.status === 'online' ? onlineColor : offlineColor}">
+                    [ngStyle]="{'background-color': status === 'online' ? onlineColor : offlineColor}">
                 </div>
-                @if (user.status === "online") {
+                @if (status === "online") {
                 <span class="status-text" [ngStyle]="{ color: 'green'}">
                     Aktiv
                 </span>
@@ -38,7 +35,7 @@
                 <img src="mail-black.png" alt="Mail Icon">
                 <h2>E-Mail-Adresse</h2>
             </div>
-            <a [href]="'mailto:' + email">{{user.email}}</a>
+            <a [href]="'mailto:' + email">{{email}}</a>
         </div>
     </div>
 
@@ -48,14 +45,14 @@
             <img src="/close.svg" alt="close icon">
         </div>
         <div class="avatar">
-            <img src="/steffen-hoffmann-avatar.png">
+            <img src="{{picture}}">
         </div>
         <div class="edit-section">
             <div class="description">
                 <img src="/account_circle.svg">
                 <h2>Vollständiger Name</h2>
             </div>
-            <input type="text" class="input" [placeholder]="name">
+            <input type="text" class="input" [(ngModel)]="name">
         </div>
         <div class="buttons">
             <button class="cancel" (click)="cancel()">
@@ -66,6 +63,4 @@
             </button>
         </div>
     </div>
-    }
-    }
 </section>
