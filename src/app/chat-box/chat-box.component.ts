@@ -1,4 +1,5 @@
 
+
 import { User } from './../interfaces/user.model';
 import { serverTimestamp } from 'firebase/firestore';
 import { Component, Input, Inject, inject, PLATFORM_ID } from '@angular/core';
@@ -11,8 +12,7 @@ import { AutosizeModule } from 'ngx-autosize';
 import { ClickOutsideDirective } from './click-outside.directive';
 import { MessageComponent } from './message/message.component';
 import { MessageService } from './message/message.service';
-import { Message } from '../interfaces/message.interface';
-import { Timestamp } from '@angular/fire/firestore';
+import { Message, ThreadMessage, Reaction } from '../interfaces/message.interface';
 import { UserService } from '../services/user.service';
 import { ChannelService } from '../services/channel.service';
 
@@ -90,7 +90,9 @@ export class ChatBoxComponent {
   }
   get filteredPrivateMessages(): Message[] {
     return this.messageService.messages.filter(
-      message => message.userId === this.userService.privMsgUserId
+      message =>
+        (message.senderId === this.userService.loggedUserId && message.userId === this.userService.privMsgUserId) ||
+        (message.senderId === this.userService.privMsgUserId && message.userId === this.userService.loggedUserId)
     );
   }
 
@@ -124,12 +126,15 @@ export class ChatBoxComponent {
     }
   }
 
+
+
   getChannelName(): string | null {
     const channel = this.channelService.channels.find(
       (channel) => channel.chanId === this.channelService.channelChatId
     );
     return channel ? channel.chanName : null;
   }
+
   getUserName(): string | null {
     const user = this.userService.users.find(
       (user) => user.id === this.userService.privMsgUserId
@@ -138,10 +143,40 @@ export class ChatBoxComponent {
     if (user) {
       if (this.userService.privMsgUserId === this.userService.loggedUserId) {
         return `${user.name} (Du)`;
+
       }
       return user.name;
     }
     return null;
+  }
+  getUserImg(): string | null {
+    const user = this.userService.users.find(
+      (user) => user.id === this.userService.privMsgUserId
+    );
+    return user ? user.userImage : null;
+  }
+
+  getUserStatus(): string | null {
+    const user = this.userService.users.find(
+      (user) => user.id === this.userService.privMsgUserId
+    );
+    return user ? user.status : null;
+  }
+
+  getChannelMembers(): [] | any {
+    const currentChannel = this.channelService.channels.find(
+      (channel) => channel.chanId === this.channelService.channelChatId
+    );
+    if (!currentChannel || !currentChannel.userIds) {
+      return []; // Return an empty array if the channel or its user IDs are not defined
+    }
+  
+    const members = this.userService.users.filter((user) =>
+      currentChannel.userIds.includes(user.id)
+    );
+  
+    return members;
+    
   }
 
   sendMessage(): void {

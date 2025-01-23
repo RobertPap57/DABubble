@@ -16,52 +16,34 @@
         @case('private') {
         <div class="private-chat">
             <div class="title">
-                @for(user of userService.users; track user.id) {
-                @if(user.id === userService.privMsgUserId) {
                 <div class="avatar-image">
-                    <img src="{{user.userImage}}" alt="">
+                    <img src="{{getUserImg()}}" alt="">
                     <mat-icon fontSet="material-symbols-sharp" class="status-icon"
-                        [ngClass]="{'offline': user.status === 'offline', 'online': user.status === 'online'}">
+                        [ngClass]="{'offline': getUserStatus() === 'offline', 'online': getUserStatus() === 'online'}">
                         fiber_manual_record
                     </mat-icon>
                 </div>
-                <h1>{{user.name}}</h1>
-                @if(user.id === userService.loggedUserId) {
-                <h1 class="you">(Du)</h1>
-                }
-                }}
+                <h1>{{getUserName()}}</h1>
             </div>
         </div>
         }
 
         @case('channel') {
         <div class="channel-chat">
-            <div class="title">
+            <div class="channel-title">
                 <h2>#</h2>
-                @for(channel of channelService.channels; track channel.chanId) {
-                @if(channel.chanId === channelService.channelChatId) {
-                <h1>{{channel.chanName}}</h1>
-                }
-                }
+                <h1>{{getChannelName()}}</h1>
                 <mat-icon class="arrow-down" fontSet="material-symbols-rounded">keyboard_arrow_down</mat-icon>
             </div>
             <div class="members-container">
                 <div class="members">
                     <div>
-                        @for(channel of channelService.channels; track channel.chanId) {
-                        @if(channel.chanId === channelService.channelChatId) {
-                        @for(user of userService.users; track user.id) {
-                        @if(channel.userIds.includes(user.id)) {
-                        <img src="{{user.userImage}}" alt="">
-                        }
-                        }
-                        }
+                        @for(member of getChannelMembers(); track member.id) {
+
+                        <img src="{{member.userImage}}" alt="">
                         }
                     </div>
-                    @for(channel of channelService.channels; track channel.chanId) {
-                    @if(channel.chanId === channelService.channelChatId) {
-                    <p>{{channel.userIds.length}}</p>
-                    }}
+                    <p>{{getChannelMembers().length}}</p>
                 </div>
                 <mat-icon class="add-member" fontSet="material-symbols-rounded">person_add</mat-icon>
             </div>
@@ -93,8 +75,16 @@
         @for(message of filteredChannelMessages; track message.id) {
         <app-message [message]="message"></app-message>
         }@empty {
-        <div class="no-messages">
-            <h1>no mesages</h1>
+        <div class="channel-chat-empty">
+            <div class="channel-title">
+                <h2>#</h2>
+                <h1>{{getChannelName()}}</h1>
+
+
+                <mat-icon class="arrow-down" fontSet="material-symbols-rounded">keyboard_arrow_down</mat-icon>
+            </div>
+            <p>Du hast diesen Channel heute erstellt.Das ist der Anfang des Channels <span>#
+                    {{getChannelName()}}</span>.</p>
         </div>
         }
         }
@@ -103,28 +93,23 @@
         @for(message of filteredPrivateMessages; track message.id) {
         <app-message [message]="message"></app-message>
         }@empty {
-        <div class="no-messages">
-            <h1>bennebbe</h1>
+        <div class="private-chat-empty">
+            <div>
+                <img src="{{getUserImg()}}" alt="">
+                <h1>{{getUserName()}}</h1>
+            </div>
+            @if(userService.privMsgUserId === userService.loggedUserId){
+            <p><b>Dieser Raum ist nur für dich da.</b>Mache dier Notizen, liste deine To-dos auf oder bewahre Links und
+                Texten griffbereit auf. Du kannst hier auch gerne Dinge mit dir selbst beschprechen.</p>
+            }
+            @else{
+            <p>Diese Unterhaltung findet nur Zwichen <span>&#64;{{getUserName()}}</span> und dir statt</p>
+            }
         </div>
         }
-
-        <!-- @for ( message of messageService.messages; track message.id) {
-        @if (message.channelId === channelService.channelChatId) {
-        <app-message [message]="message"></app-message>
         }
-        } @empty {
-        <div class="no-messages">
-            <h1>Keine Nachrichten</h1>
-        </div>
-        }}} -->
-        }
-
-
-
-
-
-
-        }
+    }
+      
     </div>
 
 
@@ -138,9 +123,9 @@
             set="twitter" (emojiClick)="addEmoji($event)"></emoji-mart>
         }
 
- 
-        <textarea type="text" [(ngModel)]="messageText"  [placeholder]="getPlaceholder()"
-        rows="2" *ngIf="isBrowser" autosize (keyup.enter)="sendMessage()">
+
+        <textarea type="text" [(ngModel)]="messageText" [placeholder]="getPlaceholder()" rows="2" *ngIf="isBrowser"
+            autosize (keyup.enter)="sendMessage()">
         </textarea>
         <div class="actions-container">
             <div>
