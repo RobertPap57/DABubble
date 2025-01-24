@@ -10,124 +10,130 @@ section {
     position: absolute;
     transform: translateX(0%);
     opacity: 1;
-    visibility:visible;
+    visibility: visible;
     transition: transform 0.2s ease-in-out, visibility 0.2s linear, opacity 0.2s;
-    
-    h2 {
-        padding-block: 18px;
-        margin: 0;
-        font-size: 24px;
-        width: 100%;
-        z-index: 2;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        position: sticky;
-        top: 0;
-        background-color: white;
 
-        >div {
+    .wrapper {
+        height: calc(100vh - 176px);
+        overflow-y: auto;
+        scrollbar-width: none;
+
+        h2 {
+            padding-block: 18px;
+            margin: 0;
+            font-size: 24px;
+            width: 100%;
+            z-index: 2;
             display: flex;
-            justify-content: center;
             align-items: center;
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            background-color: white;
 
-            .editChannel {
-                cursor: pointer;
-                margin-right: -2px;
-                border-radius: 8px;
-                padding: 6px;
+            >div {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                border-radius: 50%;
+                width: 40px;
+                height: 40px;
+
+                .editChannel {
+                    cursor: pointer;
+                    margin-right: -2px;
+                    border-radius: 8px;
+                    padding: 6px;
+
+                    &:hover {
+                        filter: invert(38%) sepia(80%) saturate(2932%) hue-rotate(225deg) brightness(107%) contrast(94%);
+                    }
+                }
 
                 &:hover {
-                    filter: invert(38%) sepia(80%) saturate(2932%) hue-rotate(225deg) brightness(107%) contrast(94%);
+                    background-color: #ECEEFE;
                 }
             }
+        }
+
+        h3 {
+            font-size: 20px;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            position: relative;
+            cursor: pointer;
+            gap: 10px;
+            margin: 0;
+            margin-bottom: 25px;
 
             &:hover {
-                background-color: #ECEEFE;
+                color: #535AF1;
             }
-        }
-    }
 
-    h3 {
-        font-size: 20px;
-        width: 100%;
-        display: flex;
-        align-items: center;
-        position: relative;
-        cursor: pointer;
-        gap: 10px;
-        margin: 0;
-        margin-bottom: 25px;
+            &:hover .channels path {
+                fill: #535AF1;
+            }
 
-        &:hover {
-            color: #535AF1;
-        }
-
-        &:hover .channels path {
-            fill: #535AF1;
+            >a {
+                cursor: pointer;
+                width: 30px;
+                height: 30px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
         }
 
         >a {
             cursor: pointer;
-            width: 30px;
-            height: 30px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-    }
-
-    >a {
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        font-size: 18px;
-        margin-block: 25px;
-        margin-left: 25px;
-        gap: 15px;
-        padding: 4px 14px 4px 14px;
-
-        &:hover {
-            color: #535AF1;
-        }
-
-        &:hover .channels path {
-            fill: #535AF1;
-        }
-    }
-
-    h1 {
-        font-size: 20px;
-        width: 100%;
-        display: flex;
-        align-items: center;
-        position: relative;
-        cursor: pointer;
-
-        &:hover {
-            color: #535AF1;
-        }
-
-        &:hover .channels path {
-            fill: #535AF1;
-        }
-
-        div {
             display: flex;
             align-items: center;
-            gap: 10px;
+            font-size: 18px;
+            margin-block: 25px;
+            margin-left: 25px;
+            gap: 15px;
+            padding: 4px 14px 4px 14px;
+
+            &:hover {
+                color: #535AF1;
+            }
+
+            &:hover .channels path {
+                fill: #535AF1;
+            }
         }
 
-        >a {
-            width: 30px;
-            height: 30px;
-            margin-right: 9px;
+        h1 {
+            font-size: 20px;
+            width: 100%;
             display: flex;
-            justify-content: center;
             align-items: center;
+            position: relative;
+            cursor: pointer;
+
+            &:hover {
+                color: #535AF1;
+            }
+
+            &:hover .channels path {
+                fill: #535AF1;
+            }
+
+            div {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+            }
+
+            >a {
+                width: 30px;
+                height: 30px;
+                margin-right: 9px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
         }
     }
 }
