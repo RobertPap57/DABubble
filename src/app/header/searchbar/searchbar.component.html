@@ -1,5 +1,6 @@
 <section>
-    <input [(ngModel)]="searchBar" type="text" placeholder="Devspace durchsuchen" name="search" (keyup.enter)="searchResults(searchBar)">
+    <input [(ngModel)]="searchBar" type="text" placeholder="Devspace durchsuchen" name="search"
+        (keyup.enter)="searchResults(searchBar)">
 
     <a (click)="searchResults(searchBar)">
         <svg width="27" height="27" viewBox="0 0 27 27" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -33,6 +34,7 @@
             }
             }
 
+
             <h3>Found Channels</h3>
             @if (filteredChannels.length === 0) {
             <span>No Channel with that Name found</span>
@@ -44,14 +46,25 @@
             }
             }
 
-            <h3>Found Messages</h3>
-            @if (filteredMsgs.length === 0) {
-                <span>No Message with that User or Text found</span>
-            }
-            @for (msg of messageService.messages; track msg.id) {
 
-            @if (filteredMsgs.includes(msg.id)) {
-            <p (click)="openMessage()" class="searchResult">{{msg.text}}</p>
+            <h3>Found Messages</h3>
+            @if (filteredMessagesWithChannels.length === 0) {
+            <span>No Message with that User or Text found</span>
+            }
+            @for (textId of filteredMessagesWithChannels; track $index) {
+            @for (msg of messageService.messages; track msg.id) {
+            @for (channel of channelService.channels; track channel.chanId) {
+
+            @if (textId.messageId === msg.id) {
+            <div class="messageSearch">
+                <p class="searchResult">{{msg.text}}</p>
+                @if (msg.channelId === channel.chanId) {
+                <p (click)="openChannel(textId.channelId)" class="searchResult">{{channel.chanName}}</p>
+            }
+                <p (click)="openThread(textId.threadId)" class="searchResult">{{msg.threadId}}</p>
+            </div>
+            }
+            }
             }
             }
 
