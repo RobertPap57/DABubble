@@ -125,7 +125,7 @@
     <div (click)="openDirectMsg(user.id)" [class.active]="user.id === userService.privMsgUserId" class="users">
         <div>
             <img src=".{{user.userImage}}" alt="User Image">
-            <span [ngStyle]="{'background-color': user.status === 'online' ? onlineColor : offlineColor}"></span>
+            <span [ngStyle]="{'background-color': user.status === 'online' ? '#92c73e' : '#696969'}"></span>
         </div>
         <p>{{user.name}} (Du)</p>
     </div>
@@ -138,7 +138,7 @@
     <div (click)="openDirectMsg(user.id)" [class.active]="user.id === userService.privMsgUserId" class="users">
         <div>
             <img src=".{{user.userImage}}" alt="User Image">
-            <span [ngStyle]="{'background-color': user.status ? onlineColor : offlineColor}"></span>
+            <span [ngStyle]="{'background-color': user.status === 'online' ? '#92c73e' : '#696969'}"></span>
         </div>
         <p>{{user.name}}</p>
     </div>

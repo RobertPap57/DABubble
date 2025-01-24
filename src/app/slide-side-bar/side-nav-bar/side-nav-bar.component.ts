@@ -16,8 +16,6 @@ export class SideNavBarComponent {
   private routeSub!: Subscription;
   channelsVisible: boolean = true;
   directMsgVisible: boolean = true;
-  onlineColor: string = '#92c73e';
-  offlineColor: string = '#696969';
 
   constructor(private route: ActivatedRoute, public userService: UserService, public channelService: ChannelService) { }
 
