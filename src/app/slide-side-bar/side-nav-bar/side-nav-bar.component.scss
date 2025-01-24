@@ -247,59 +247,61 @@ section {
         width: 100%;
         padding: 7px 30px 32px 30px;
 
-        h2 {
-            display: none;
+        .wrapper {
+            h2 {
+                display: none;
+            }
+
+            >span {
+                width: 166px;
+                font-size: 18px;
+                font-weight: 400;
+                color: black;
+                padding: 4px 20px 4px 20px;
+
+                >img {
+                    filter: brightness(0) saturate(0);
+                    height: 16px;
+                    width: 16px;
+                }
+            }
+
+            >a {
+                color: #535AF1;
+                font-size: 18px;
+                margin-bottom: 25px;
+                margin-left: 25px;
+                gap: 15px;
+                padding: 4px 20px 4px 20px;
+
+                .channels path {
+                    fill: #535AF1;
+                }
+            }
         }
 
-        >span {
-            width: 166px;
-            font-size: 18px;
-            font-weight: 400;
-            color: black;
-            padding: 4px 20px 4px 20px;
+        .editChannelResp {
+            z-index: 2;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            background-color: #535AF1;
+            border-radius: 50%;
+            position: sticky;
+            left: calc(100% - 20px);
+            bottom: 8px;
+            height: 60px;
+            width: 60px;
 
             >img {
-                filter: brightness(0) saturate(0);
-                height: 16px;
-                width: 16px;
+                filter: invert(1);
             }
         }
 
-        >a {
+        .addBtn {
             color: #535AF1;
-            font-size: 18px;
-            margin-bottom: 25px;
-            margin-left: 25px;
-            gap: 15px;
-            padding: 4px 20px 4px 20px;
-
-            .channels path {
-                fill: #535AF1;
-            }
         }
-    }
-
-    .editChannelResp {
-        z-index: 2;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        cursor: pointer;
-        background-color: #535AF1;
-        border-radius: 50%;
-        position: sticky;
-        left: calc(100% - 20px);
-        bottom: 8px;
-        height: 60px;
-        width: 60px;
-
-        >img {
-            filter: invert(1);
-        }
-    }
-
-    .addBtn {
-        color: #535AF1;
     }
 }
 

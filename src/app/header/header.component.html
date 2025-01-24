@@ -63,7 +63,7 @@
 
     @if (isHomeRoute) {
 
-    <div class="homeLogo" [routerLink]="['']" [ngClass]="{ 'dNone': !channelService.isServer}">
+    <div class="homeLogo" [routerLink]="['']" [ngClass]="{ 'dNone': !channelService.isServer && isMobile}">
         <svg width="188" height="184" viewBox="0 0 188 184" fill="none" xmlns="http://www.w3.org/2000/svg">
             <g clip-path="url(#clip0_169_96)">
                 <path d="M173.488 0H87.6223C79.8556 0 73.6709 6.08615 73.6709 13.5877V83.5077H173.345C180.968 83.5077
@@ -114,7 +114,7 @@
     </div>
 
     @if (!channelService.isServer) {
-    <div class="homeLogo">
+    <div class="homeLogo" [ngClass]="{ 'dNone': !isMobile}">
         <a (click)="backToServer()" class="backArrow"><svg width="14" height="9" viewBox="0 0 14 9" fill="none"
                 xmlns="http://www.w3.org/2000/svg">
                 <path d="M7 8.71875C6.83333 8.71875 6.67208 8.6875 6.51625 8.625C6.35958 8.5625 6.22917

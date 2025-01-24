@@ -59,8 +59,9 @@ export class SearchbarComponent {
     if (input.length >= 3) {
       this.filterUsers(input);
       this.filterChannels(input);
-      this.filterMessages(input);
-      this.splitFilter();
+      this.filterMessagesInChannels(input);
+      this.filterMessagesInPrivate(input);
+      // this.splitFilter();
       console.log(this.filteredMessagesWithChannels, 'Alles');
     } else this.checkNoFindings();
   }
@@ -99,7 +100,7 @@ export class SearchbarComponent {
    * 
    * @param input the input the user types in the searchbar
    */
-  filterMessages(input: string) {
+  filterMessagesInChannels(input: string) {
     this.filteredMessagesWithChannels = this.messageService.messages
       .filter(message => {
         const channel = this.channelService.channels.find(chan => chan.chanId === message.channelId);
@@ -115,15 +116,17 @@ export class SearchbarComponent {
       }));
   }
 
-  splitFilter() {
-    this.filteredMessagesWithChannels.forEach(item => {
-      this.filteredMsgs.push(item.messageId || "");
-      this.filteredMsgsThread.push(item.threadId || "");
-      this.filteredMsgsChannel.push(item.channelId || "");
-      this.filteredMsgsUser.push(item.userId || "");
-      this.filteredMsgsUserSender.push(item.senderId || "");
-    });
-  }
+  filterMessagesInPrivate(input: string) {}
+
+  // splitFilter() {
+  //   this.filteredMessagesWithChannels.forEach(item => {
+  //     this.filteredMsgs.push(item.messageId || "");
+  //     this.filteredMsgsThread.push(item.threadId || "");
+  //     this.filteredMsgsChannel.push(item.channelId || "");
+  //     this.filteredMsgsUser.push(item.userId || "");
+  //     this.filteredMsgsUserSender.push(item.senderId || "");
+  //   });
+  // }
 
   filterThreads() { }
 
