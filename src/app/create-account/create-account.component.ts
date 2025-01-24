@@ -33,7 +33,6 @@ export class CreateAccountComponent {
   backArrowImage: string = '/back-arrow.png';
 
   visibilityIcon: string = './visibility_off.png';
-  visibilityOnIcon: string = './visibility.png';
   passwordFieldType: string = 'password';
   confirmPasswordFieldType: string = 'password';
   confirmVisibilityIcon: string = './visibility_off.png';
