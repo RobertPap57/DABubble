@@ -11,14 +11,10 @@ export interface Message {
     recentEmojis: string[];
     channelId: string;
     userId: string;
-    threadMessages: ThreadMessage[];
+    threadId: string | null;
 }
 
-export interface Sender {
-    id: string; 
-    name: string; 
-    img: string;
-}
+
 
 
 
@@ -27,14 +23,7 @@ export interface Reaction {
   users: string[];
 }
 
-  export interface ThreadMessage {
-    id: string; 
-    senderId: string; 
-    text: string; 
-    time: Timestamp | any;
-    reactions: Reaction[]; 
-    recentEmojis: string[];
-  }
+
 
 
 

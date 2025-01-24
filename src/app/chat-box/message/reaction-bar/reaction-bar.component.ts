@@ -1,8 +1,15 @@
-import { Component, Input, Inject } from '@angular/core';
+import { ChannelService } from './../../../services/channel.service';
+import { Component, Input, inject } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { PickerComponent } from '@ctrl/ngx-emoji-mart';
 import { ClickOutsideDirective } from '../../click-outside.directive';
 import { CommonModule } from '@angular/common';
+import { MessageService } from '../../../services/message.service';
+import { Message } from '../../../interfaces/message.interface';
+import { serverTimestamp } from '@angular/fire/firestore';
+
+
+
 
 
 @Component({
@@ -18,15 +25,49 @@ import { CommonModule } from '@angular/common';
   styleUrl: './reaction-bar.component.scss'
 })
 export class ReactionBarComponent {
-
+  @Input() chatType: 'private' | 'channel' | 'thread' | 'new' = 'new';
   @Input() message: any;
   @Input() loggedUser: string = '';
   optionsOpen: boolean = false;
   emojiPickerOn: boolean = false;
+  messageService = inject(MessageService);
+  channelService = inject(ChannelService);
 
 
   toggleEmojiPicker(): void {
     this.emojiPickerOn = !this.emojiPickerOn;
+  }
+
+  openThread(message: Message): void {
+    const channel = this.channelService.channels.find(
+      (channel) => channel.chanId === message.channelId
+    );
+    this.messageService.threadChannelName = channel?.chanName || '';
+    this.messageService.threadId = message.id;
+    this.messageService.threadOpen = true;
+    this.addFirstThreadMessage(message);
+
+  }
+
+   addFirstThreadMessage(message: Message): void {
+    const existingMessage = this.messageService.messages.find(
+      (msg) => msg.threadId === message.id
+    );
+    if (!existingMessage) {
+
+      const newMessage: Message = {
+        id: '',
+        senderId: message.senderId ,
+        text: message.text,
+        time: serverTimestamp(),
+        reactions: [],
+        recentEmojis: [],
+        channelId: '',
+        userId: '',
+        threadId: message.id
+      };
+      this.messageService.createMessage(newMessage);
+    }
   }
 
   addEmoji(event: { emoji: { native: string } }): void {

@@ -2,7 +2,7 @@
 
 
     <div class="chat-header">
-        @switch (determineChatType()) {
+        @switch (chatType) {
 
         @case('new') {
         <div class="new-chat">
@@ -54,10 +54,12 @@
         <div class="thread-chat">
             <div class="title">
                 <h1>Thread</h1>
+                @if (messageService.threadChannelName) {
                 <p>#</p>
-                <h2>{{channelName}}</h2>
+                <h2>{{messageService.threadChannelName}}</h2>
+                }
             </div>
-            <mat-icon class="close-btn" fontSet="material-symbols-rounded">close</mat-icon>
+            <mat-icon class="close-btn" (click)="closeThread()" fontSet="material-symbols-rounded">close</mat-icon>
         </div>
         }
         }
@@ -69,11 +71,11 @@
 
 
     <div class="messages-container">
-        @switch (determineChatType()) {
+        @switch (chatType) {
 
         @case('channel') {
         @for(message of filteredChannelMessages; track message.id) {
-        <app-message [message]="message"></app-message>
+        <app-message [message]="message" [chatType]="chatType"></app-message>
         }@empty {
         <div class="channel-chat-empty">
             <div class="channel-title">
@@ -83,7 +85,7 @@
 
                 <mat-icon class="arrow-down" fontSet="material-symbols-rounded">keyboard_arrow_down</mat-icon>
             </div>
-            <p>Du hast diesen Channel heute erstellt.Das ist der Anfang des Channels <span>#
+            <p>Du hast diesen Channel heute erstellt. Das ist der Anfang des Channels <span>#
                     {{getChannelName()}}</span>.</p>
         </div>
         }
@@ -91,7 +93,7 @@
 
         @case('private') {
         @for(message of filteredPrivateMessages; track message.id) {
-        <app-message [message]="message"></app-message>
+        <app-message [message]="message" [chatType]="chatType"></app-message>
         }@empty {
         <div class="private-chat-empty">
             <div>
@@ -108,25 +110,38 @@
         </div>
         }
         }
-    }
-      
+
+        @case('thread') {
+        @for(message of filteredThreadMessages; track message.id; let last = $last) {
+            @if(last && countThreadAnswers() > 1){
+            <div class="thread-separator">
+                <p>{{countThreadAnswers() - 1}} Antworten</p>
+                <span></span>
+            </div>}
+        <app-message [message]="message" [chatType]="chatType"></app-message>
+        }
+        }
+        }
+        
     </div>
 
 
 
 
 
+    <div class="input-container" [class]="{ 'thread-margin': chatType === 'thread' ,
+     'reduced-margin': messageService.threadOpen && !channelService.slideOutNavBar && chatType !== 'thread'}">
 
-    <div class="input-container">
+
         @if (emojiPickerOn) {
         <emoji-mart appClickOutside (clickOutside)="closeEmojiPicker()" title="Pick your emoji…" emoji="point_up"
             set="twitter" (emojiClick)="addEmoji($event)"></emoji-mart>
         }
 
-
         <textarea type="text" [(ngModel)]="messageText" [placeholder]="getPlaceholder()" rows="2" *ngIf="isBrowser"
             autosize (keyup.enter)="sendMessage()">
         </textarea>
+
         <div class="actions-container">
             <div>
                 <button (click)="toggleEmojiPicker()">

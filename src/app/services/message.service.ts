@@ -1,9 +1,9 @@
 
-import { ChannelService } from '../../services/channel.service';
+import { ChannelService } from './channel.service';
 import { Injectable, inject } from '@angular/core';
-import { Message } from '../../interfaces/message.interface';
+import { Message } from '../interfaces/message.interface';
 import { addDoc, query, Timestamp, where, orderBy, limit, updateDoc, deleteDoc, collection, doc, DocumentData, Firestore, onSnapshot, QuerySnapshot, } from '@angular/fire/firestore';
-import { UserService } from '../../services/user.service';
+import { UserService } from './user.service';
 
 
 @Injectable({
@@ -14,6 +14,9 @@ export class MessageService {
     channelService = inject(ChannelService);
     firestore: Firestore = inject(Firestore);
     messages: Message[]=[];
+    threadId: string | null = null;
+    threadOpen: boolean = false;
+    threadChannelName: string = '';
 
 
 
@@ -36,15 +39,11 @@ export class MessageService {
               const message = this.setMessageObject(messageData, doc.id);
           
               // Convert Timestamp to string (if necessary)
-              if (message.time instanceof Timestamp) {
-                const date = message.time.toDate();
-                message.time = date.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' });
-              }
+              
           
               return message;
             });
           
-              console.log(this.messages);
           });
       }
     
@@ -57,7 +56,7 @@ export class MessageService {
     async createMessage(message: Message) {
         try {
             const docRef = await addDoc(this.getMessagesDocRef(), message);
-            console.log("Document written with ID: ", docRef.id);
+          
     
             // Update the message with the auto-generated ID
             await updateDoc(docRef, { id: docRef.id });
@@ -98,7 +97,7 @@ export class MessageService {
             recentEmojis: message.recentEmojis,
             channelId: message.channelId,
             userId: message.userId,
-            threadMessages: message.threadMessages
+            threadId: message.threadId
             
            
         }
@@ -114,7 +113,7 @@ export class MessageService {
             recentEmojis: obj.recentEmojis,
             channelId: obj.channelId,
             userId: obj.userId,
-            threadMessages: obj.threadMessages
+            threadId: obj.threadId
 
         }
     }

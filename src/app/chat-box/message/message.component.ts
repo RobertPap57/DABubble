@@ -1,3 +1,4 @@
+
 import { Component, Input, inject } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { PickerComponent } from '@ctrl/ngx-emoji-mart';
@@ -7,6 +8,10 @@ import { AutosizeModule } from 'ngx-autosize';
 import { ReactionBarComponent } from './reaction-bar/reaction-bar.component';
 import { Message } from '../../interfaces/message.interface';
 import { UserService } from '../../services/user.service';
+import { MessageService } from '../../services/message.service';
+import { ChannelService } from '../../services/channel.service';
+import { Timestamp } from '@angular/fire/firestore';
+
 
 
 
@@ -27,11 +32,57 @@ import { UserService } from '../../services/user.service';
 })
 
 export class MessageComponent {
-  userService= inject(UserService);
+  userService = inject(UserService);
+  messageService = inject(MessageService);
+  channelService = inject(ChannelService);
   emojiPickerOn: boolean = false;
   @Input() message!: Message;
-  
+  @Input() chatType: 'private' | 'channel' | 'thread' | 'new' = 'new';
 
+
+
+  getTimeInHours(timestamp: Timestamp): any {
+    if (timestamp instanceof Timestamp) {
+      const date = timestamp.toDate();
+      const time = date.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' });
+      return time;
+    }
+  }
+
+  openThread(message: Message): void {
+    const channel = this.channelService.channels.find(
+      (channel) => channel.chanId === message.channelId
+    );
+    this.messageService.threadChannelName = channel?.chanName || '';
+    this.messageService.threadId = message.id;
+    this.messageService.threadOpen = true;
+  }
+
+  countThreadAnswers(messageId: string): number {
+    return this.messageService.messages.filter(
+      message => message.threadId === messageId
+    ).length;
+  }
+
+  getLastThreadTime(messageId: string): string | null {
+    // Filter messages belonging to the specified thread
+    const threadMessages = this.messageService.messages.filter(
+      message => message.threadId === messageId
+    );
+  
+    // Check if there are any messages in the thread
+    if (threadMessages.length === 0) {
+      return null; // No messages in the thread
+    }
+  
+    // Find the message with the latest timestamp
+    const latestMessage = threadMessages.reduce((latest, current) => {
+      return current.time > latest.time ? current : latest;
+    });
+  
+    // Use the existing getTimeInHours function to format the time
+    return this.getTimeInHours(latestMessage.time);
+  }
 
 
 
@@ -119,7 +170,7 @@ export class MessageComponent {
         (reaction: { emoji: string; users: string[] }) =>
           reaction.users.includes(this.userService.loggedUserId) && reaction.emoji === reactedEmoji
       )
-      : false; 
+      : false;
   }
 
 

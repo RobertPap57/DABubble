@@ -61,12 +61,12 @@ h1 {
 
 
 
-    
+
     .members-container {
         display: flex;
         align-items: center;
         gap: 10px;
-        
+
         .members {
             display: flex;
             align-items: center;
@@ -78,7 +78,7 @@ h1 {
             div {
                 height: 40px;
                 margin-left: 11px;
-                
+
                 img {
                     width: 40px;
                     height: 40px;
@@ -94,7 +94,7 @@ h1 {
                 font-weight: 600;
                 transition: all 125ms ease-in-out;
             }
-            
+
             &:hover {
                 p {
                     color: #535AF1;
@@ -104,7 +104,7 @@ h1 {
                 cursor: pointer;
             }
         }
-        
+
         .add-member {
             font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
             width: 40px;
@@ -115,7 +115,7 @@ h1 {
             font-size: 24px;
             border-radius: 30px;
             transition: all 125ms ease-in-out;
-            
+
             &:hover {
                 font-size: 26px;
                 cursor: pointer;
@@ -294,6 +294,18 @@ h1 {
 }
 
 
+
+.thread-margin {
+    margin: 25px 20px 40px 20px !important;
+    width: calc(100% - 40px) !important;
+}
+
+
+.reduced-margin {
+    margin: 40px 35px !important;
+    width: calc(100% - 70px) !important;
+}
+
 .input-container {
     position: relative;
     display: flex;
@@ -304,6 +316,7 @@ h1 {
     border: 1px solid #ADB0D9;
     border-radius: 20px;
     width: calc(100% - 90px);
+
 
     textarea {
         all: unset;
@@ -371,6 +384,7 @@ emoji-mart {
             width: 100px;
             border-radius: 100px;
         }
+
         h1 {
             &:hover {
                 cursor: pointer;
@@ -401,29 +415,47 @@ emoji-mart {
     flex-direction: column;
     gap: 15px;
 
-.channel-title {
-    width: fit-content;
-    .arrow-down {
-        display: none;
-    }
-    &:hover {
+    .channel-title {
+        width: fit-content;
+
         .arrow-down {
-            display: flex;
+            display: none;
+        }
+
+        &:hover {
+            .arrow-down {
+                display: flex;
+            }
         }
     }
-}
 
     p {
         font-size: 20px;
         margin: 0;
+
         span {
             color: #535AF1;
-
-            &:hover {
-                cursor: pointer;
-                font-weight: 700
-                
-            }
         }
+
+    }
+}
+
+.thread-separator {
+    width: 100%;
+    padding-inline: 35px;
+    display: flex;
+    gap: 20px;
+    p {
+        color: #ADB0D9;
+        font-size: 18px;
+        margin: 0;
+        width: fit-content;
+    }
+    span {
+        background-color: #ADB0D9;
+        height: 1px;
+        flex: 1;
+        align-self: center;
+
     }
 }
