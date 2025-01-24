@@ -53,16 +53,14 @@
             }
             @for (textId of filteredMessagesWithChannels; track $index) {
             @for (msg of messageService.messages; track msg.id) {
-            @for (channel of channelService.channels; track channel.chanId) {
 
             @if (textId.messageId === msg.id) {
-            <div class="messageSearch">
-                <p class="searchResult">{{msg.text}}</p>
-                @if (msg.channelId === channel.chanId) {
-                <p (click)="openChannel(textId.channelId)" class="searchResult">{{channel.chanName}}</p>
-            }
+                @if (msg.channelId === textId.channelId) {
+                <p (click)="openChannel(textId.channelId)" class="searchResult">{{msg.text}}</p>
+            } @else if (msg.channelId === textId.channelId) {
                 <p (click)="openThread(textId.threadId)" class="searchResult">{{msg.threadId}}</p>
-            </div>
+            } @else {
+                <p>Habe ??? gefunden</p>
             }
             }
             }

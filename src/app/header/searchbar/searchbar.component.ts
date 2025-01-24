@@ -18,7 +18,13 @@ export class SearchbarComponent {
   filteredUsers: string[] = [];
   filteredChannels: string[] = [];
   filteredMessagesWithChannels: { messageId: string; channelId: string; threadId: string | null; userId: string; senderId: string; }[] = [];
+  filteredMsgs: string[] = [];
+  filteredMsgsThread: string[] = [];
+  filteredMsgsChannel: string[] = [];
+  filteredMsgsUser: string[] = [];
+  filteredMsgsUserSender: string[] = [];
 
+  
   constructor(public channelService: ChannelService, public userService: UserService, public messageService: MessageService) { }
 
   /**
@@ -54,6 +60,7 @@ export class SearchbarComponent {
       this.filterUsers(input);
       this.filterChannels(input);
       this.filterMessages(input);
+      this.splitFilter();
       console.log(this.filteredMessagesWithChannels, 'Alles');
     } else this.checkNoFindings();
   }
@@ -112,7 +119,19 @@ export class SearchbarComponent {
       }));
   }
 
+  splitFilter() {
+    this.filteredMessagesWithChannels.forEach(item => {
+      this.filteredMsgs.push(item.messageId || "");
+      this.filteredMsgsThread.push(item.threadId || "");
+      this.filteredMsgsChannel.push(item.channelId || "");
+      this.filteredMsgsUser.push(item.userId || "");
+      this.filteredMsgsUserSender.push(item.senderId || "");
+    });
+  }
+
   filterThreads() { }
+
+
   /**
    * sets the filtered arrays empty if nothing matches the input from the searchbar
    */
