@@ -17,7 +17,7 @@ export class SearchbarComponent {
   searchBar: string = '';
   filteredUsers: string[] = [];
   filteredChannels: string[] = [];
-  filteredMessagesWithChannels: { messageId: string; channelId: string; threadId: string | null; userId: string; senderId: string; }[] = [];
+  filteredMessagesWithChannels: { messageId: string; channelId: string; chanName: string; }[] = [];
   filteredMsgs: string[] = [];
   filteredMsgsThread: string[] = [];
   filteredMsgsChannel: string[] = [];
@@ -96,28 +96,33 @@ export class SearchbarComponent {
 
   /**
    * filters all messages and check if the input matches one of them or includes the input,
-   * then checks if the input matches the users that are included on the messages
+   * puts back the Channel in where the text is
    * 
    * @param input the input the user types in the searchbar
    */
   filterMessagesInChannels(input: string) {
+
     this.filteredMessagesWithChannels = this.messageService.messages
       .filter(message => {
         const channel = this.channelService.channels.find(chan => chan.chanId === message.channelId);
         if (!channel || !channel.userIds.includes(this.userService.loggedUserId)) { return false; }
         const messageText = message.text.toLowerCase().includes(input);
-        const messageSenderID = this.filteredUsers.some(userId => message.senderId.includes(userId));
-        const messageReceiverID = this.filteredUsers.some(userId => message.userId.includes(userId));
-        return messageText || messageSenderID || messageReceiverID;
+        return messageText
       })
-      .map(message => ({
-        messageId: message.id, channelId: message.channelId,
-        threadId: message.threadId, userId: message.userId, senderId: message.senderId
-      }));
+      .map(message => {
+        const channel = this.channelService.channels.find(chan => chan.chanId === message.channelId);
+        return {
+          messageId: message.id, channelId: message.channelId,
+          chanName: channel ? channel.chanName : 'Unknown',
+        };
+      });
   }
 
-  filterMessagesInPrivate(input: string) {}
+  filterMessagesInPrivate(input: string) { }
 
+
+  // const messageSenderID = this.filteredUsers.some(userId => message.senderId.includes(userId));
+  // const messageReceiverID = this.filteredUsers.some(userId => message.userId.includes(userId));
   // splitFilter() {
   //   this.filteredMessagesWithChannels.forEach(item => {
   //     this.filteredMsgs.push(item.messageId || "");
@@ -127,9 +132,6 @@ export class SearchbarComponent {
   //     this.filteredMsgsUserSender.push(item.senderId || "");
   //   });
   // }
-
-  filterThreads() { }
-
 
   /**
    * sets the filtered arrays empty if nothing matches the input from the searchbar
@@ -168,15 +170,15 @@ export class SearchbarComponent {
    * 
    * @param id the id of the thread selected
    */
-  openThread(id: string | null) {
-    if (id) {
-      this.messageService.threadOpen = true;
-      this.channelService.channelChatId = '';
-      this.userService.privMsgUserId = '';
-      this.searchBar = '';
-      this.messageService.threadId = id;
-    }
-  }
+  // openThread(id: string | null) {
+  //   if (id) {
+  //     this.messageService.threadOpen = true;
+  //     this.channelService.channelChatId = '';
+  //     this.userService.privMsgUserId = '';
+  //     this.searchBar = '';
+  //     this.messageService.threadId = id;
+  //   }
+  // }
 
   openMessage() { }// hier noch etwas hinzufügen was ich genau suchen soll
 }

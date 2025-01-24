@@ -47,7 +47,7 @@
             }
 
 
-            <h3>Found Messages</h3>
+            <h3>Found Messages in Channels</h3>
             @if (filteredMessagesWithChannels.length === 0) {
             <span>No Message with that User or Text found</span>
             }
@@ -56,9 +56,9 @@
 
             @if (textId.messageId === msg.id) {
                 @if (msg.channelId === textId.channelId) {
-                <p (click)="openChannel(textId.channelId)" class="searchResult">{{msg.text}}</p>
+                <p (click)="openChannel(textId.channelId)" class="searchResult">{{msg.text}} in <b>{{textId.chanName}}</b></p>
             } @else if (msg.channelId === textId.channelId) {
-                <p (click)="openThread(textId.threadId)" class="searchResult">{{msg.threadId}}</p>
+                <!-- <p (click)="openThread(textId.threadId)" class="searchResult">{{msg.threadId}}</p> -->
             } @else {
                 <p>Habe ??? gefunden</p>
             }
