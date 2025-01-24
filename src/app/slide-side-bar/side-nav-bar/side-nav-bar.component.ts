@@ -4,6 +4,7 @@ import { UserService } from '../../services/user.service';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { ChannelService } from '../../services/channel.service';
+import { MessageService } from '../../services/message.service';
 
 @Component({
   selector: 'app-side-nav-bar',
@@ -17,7 +18,7 @@ export class SideNavBarComponent {
   channelsVisible: boolean = true;
   directMsgVisible: boolean = true;
 
-  constructor(private route: ActivatedRoute, public userService: UserService, public channelService: ChannelService) { }
+  constructor(private route: ActivatedRoute, public userService: UserService, public channelService: ChannelService, private messageService: MessageService) { }
 
   /**
    * subscribes to the routeSub and pushes the userID to the userService
@@ -72,6 +73,7 @@ export class SideNavBarComponent {
     this.channelService.isServer = false;
     this.channelService.channelChatId = '';
     this.userService.privMsgUserId = '';
+    this.messageService.threadOpen = false;
     //opens a new Msg Box with search bar for #channel or @Alex or Email
   }
 
@@ -83,6 +85,7 @@ export class SideNavBarComponent {
   openDirectMsg(id: string) {
     this.userService.privMsgUserId = id;
     this.channelService.channelChatId = '';
+    this.messageService.threadOpen = false;
   }
 
   /**
@@ -93,5 +96,6 @@ export class SideNavBarComponent {
   openChannel(id: string) {
     this.channelService.channelChatId = id;
     this.userService.privMsgUserId = '';
+    this.messageService.threadOpen = false;
   }
 }
