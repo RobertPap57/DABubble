@@ -27,8 +27,6 @@ export class ProfileWindowComponent {
   }
 
   ngOnInit(): void {
-    // @for (user of userService.users; track user.id) {
-    //   @if (user.id === userService.loggedUserId) {
     this.userService.users.forEach(user => {
       if (user.id === this.userService.loggedUserId) {
         this.userId = user.id;
@@ -38,8 +36,6 @@ export class ProfileWindowComponent {
         this.status = user.status
       }
     });
-
-
   }
 
   // Diese Methode könnte verwendet werden, um den Status von einer Datenbank abzurufen
