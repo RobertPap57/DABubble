@@ -56,7 +56,7 @@
 
             @if (textId.messageId === msg.id) {
                 @if (msg.channelId === textId.channelId) {
-                <p (click)="openChannel(textId.channelId)" class="searchResult">{{msg.text}} in #<b>{{textId.chanName}}</b></p>
+                <p (click)="openChannel(textId.channelId)" class="searchResult">{{msg.text}} in <b># {{textId.chanName}}</b></p>
             } @else if (msg.channelId === textId.channelId) {
                 <!-- <p (click)="openThread(textId.threadId)" class="searchResult">{{msg.threadId}}</p> -->
             } @else {
