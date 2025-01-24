@@ -8,6 +8,8 @@ h2 {
 }
 
 
+
+
 .message-container {
     display: flex;
     flex-direction: row;
@@ -216,6 +218,13 @@ h2 {
             background-color: #797EF3;
             color: white;
         }
+        .reactions-container{
+            justify-content: flex-end !important;
+            .thread-responses{
+                justify-content: flex-end !important;
+            }
+
+        }
     }
     .reaction-bar {
         left: 45px !important;
@@ -223,6 +232,11 @@ h2 {
     }
 
 
+}
+
+.thread-message {
+    padding: 10px 40px !important;
+    gap: 20px !important;
 }
 
 

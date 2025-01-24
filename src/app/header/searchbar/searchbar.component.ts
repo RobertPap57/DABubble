@@ -2,7 +2,7 @@ import { Component, ElementRef, HostListener, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ChannelService } from '../../services/channel.service';
 import { UserService } from '../../services/user.service';
-import { MessageService } from '../../chat-box/message/message.service';
+import { MessageService } from '../../services/message.service';
 
 @Component({
   selector: 'app-searchbar',

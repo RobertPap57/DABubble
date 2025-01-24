@@ -3,12 +3,12 @@
 
 
     <div class="channel-container" [ngClass]="{ 'slide-out': !channelService.slideOutNavBar, 'slide-in': channelService.slideOutNavBar }">
-        <app-chat-box [chatType]="'channel'"></app-chat-box>
+        <app-chat-box [threadId]="null" [chatType]="determineChatType()"></app-chat-box>
     </div>
 
-    @if(threadOpen) {
+    @if(messageService.threadOpen) {
         <div class="thread-container">
-            <app-chat-box [chatType]="'thread'"></app-chat-box>
+            <app-chat-box [threadId]="messageService.threadId" [chatType]="'thread'"></app-chat-box>
         </div>
     }
 </div>  

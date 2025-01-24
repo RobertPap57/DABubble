@@ -11,8 +11,8 @@ import { FormsModule } from '@angular/forms';
 import { AutosizeModule } from 'ngx-autosize';
 import { ClickOutsideDirective } from './click-outside.directive';
 import { MessageComponent } from './message/message.component';
-import { MessageService } from './message/message.service';
-import { Message, ThreadMessage, Reaction } from '../interfaces/message.interface';
+import { MessageService } from '../services/message.service';
+import { Message, Reaction } from '../interfaces/message.interface';
 import { UserService } from '../services/user.service';
 import { ChannelService } from '../services/channel.service';
 
@@ -52,22 +52,22 @@ export class ChatBoxComponent {
   messageService = inject(MessageService);
   channelService = inject(ChannelService);
 
+  @Input() threadId: string | null = null;
 
   @Input() channelId: string = '';
   @Input() privateChatId: string = '';
-  @Input() threadOpen: boolean = false;
   @Input() newMessage: boolean = false;
 
   isBrowser: boolean;
   emojiPickerOn: boolean = false;
   @Input() chatType: 'private' | 'channel' | 'thread' | 'new' = 'new';
-  @Input() threadId: string = '';
   @Input() userId: string = '';
   channelName = 'Entwicklerteam';
   senderName: string = '';
   senderImg: string = '';
   loggedUserId: string = '';
-  
+
+
   users: User[] = this.userService.users;
   messageText: string = '';
 
@@ -96,10 +96,29 @@ export class ChatBoxComponent {
     );
   }
 
+  get filteredThreadMessages(): Message[] {
+    return this.messageService.messages.filter(
+      message => message.threadId === this.threadId
+    );
+  }
+
+
+
+  closeThread(): void {
+    this.messageService.threadId = null;
+    this.messageService.threadOpen = false;
+  }
+
+  countThreadAnswers(): number {
+    return this.messageService.messages.filter(
+      message => message.threadId === this.messageService.threadId
+    ).length;
+  }
+
   determineChatType(): 'private' | 'channel' | 'thread' | 'new' {
     if (this.newMessage) {
       return 'new';
-    } else if (this.threadOpen) {
+    } else if (this.messageService.threadOpen) {
       return 'thread';
     } else if (this.channelService.channelChatId) {
       return 'channel';
@@ -110,14 +129,14 @@ export class ChatBoxComponent {
   }
 
   getPlaceholder(): string {
-    const chatType = this.determineChatType();
+    const chatType = this.chatType;
     switch (chatType) {
       case 'private':
         const userName = this.getUserName();
         return `Nachricht an ${userName || 'unbekannter User'}`;
       case 'channel':
         const channelName = this.getChannelName();
-      return `Nachricht an #${channelName || 'unbekannter Kanal'}`;
+        return `Nachricht an #${channelName || 'unbekannter Kanal'}`;
       case 'thread':
         return 'Antworten...';
       case 'new':
@@ -139,7 +158,7 @@ export class ChatBoxComponent {
     const user = this.userService.users.find(
       (user) => user.id === this.userService.privMsgUserId
     );
-    
+
     if (user) {
       if (this.userService.privMsgUserId === this.userService.loggedUserId) {
         return `${user.name} (Du)`;
@@ -149,6 +168,7 @@ export class ChatBoxComponent {
     }
     return null;
   }
+
   getUserImg(): string | null {
     const user = this.userService.users.find(
       (user) => user.id === this.userService.privMsgUserId
@@ -170,36 +190,58 @@ export class ChatBoxComponent {
     if (!currentChannel || !currentChannel.userIds) {
       return []; // Return an empty array if the channel or its user IDs are not defined
     }
-  
+
     const members = this.userService.users.filter((user) =>
       currentChannel.userIds.includes(user.id)
     );
-  
+
     return members;
-    
+
   }
 
   sendMessage(): void {
     if (this.messageText.trim() !== '') {
-      const newMessage: Message = {
-        id: '',
-        senderId: this.userService.loggedUserId,
-        text: this.messageText,
-        time: serverTimestamp(),
-        reactions: [],
-        recentEmojis: [],
-        channelId: this.channelService.channelChatId,
-        userId: this.userService.privMsgUserId,
-        threadMessages: []
-      };
-
-      this.messageService.createMessage(newMessage).then(() => {
-        this.messageText = '';
-      })
-
+      if (this.threadId) {
+        this.sendThreadMessage();
+      } else {
+        this.sendMainMessage();
+      }
+      this.messageText = ''; // Clear input
     }
-
   }
+
+
+
+  sendMainMessage(): void {
+    const newMessage: Message = {
+      id: '',
+      senderId: this.userService.loggedUserId,
+      text: this.messageText,
+      time: serverTimestamp(),
+      reactions: [],
+      recentEmojis: [],
+      channelId: this.channelService.channelChatId,
+      userId: this.userService.privMsgUserId,
+      threadId: ''
+    };
+    this.messageService.createMessage(newMessage);
+  }
+
+  sendThreadMessage(): void {
+    const newMessage: Message = {
+      id: '',
+      senderId: this.userService.loggedUserId,
+      text: this.messageText,
+      time: serverTimestamp(),
+      reactions: [],
+      recentEmojis: [],
+      channelId: '',
+      userId: '',
+      threadId: this.threadId
+    };
+    this.messageService.createMessage(newMessage);
+  }
+
 
   toggleEmojiPicker(): void {
     this.emojiPickerOn = !this.emojiPickerOn;
@@ -214,9 +256,7 @@ export class ChatBoxComponent {
     this.emojiPickerOn = false;
   }
 
-  closeThread(): void {
 
-  }
 
 
 

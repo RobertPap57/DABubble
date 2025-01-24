@@ -3,12 +3,16 @@
     <emoji-mart appClickOutside (clickOutside)="closeEmojiPicker()" title="Pick your emoji…" emoji="point_up"
         set="twitter" (emojiClick)="addEmoji($event)"></emoji-mart>
     }
-    <div class="recent-emoji">
-        <span *ngFor="let emoji of message.recentEmojis" (click)="addRecentEmoji(emoji)">{{emoji}}</span>
-    </div>
+    @if(message.reactions.length > 0) {
+        <div class="recent-emoji">
+            <span *ngFor="let emoji of message.recentEmojis" (click)="addRecentEmoji(emoji)">{{emoji}}</span>
+        </div>
+    }
 
     <mat-icon (click)="toggleEmojiPicker()" fontSet="material-symbols-rounded">add_reaction</mat-icon>
-    <mat-icon fontSet="material-symbols-rounded">comment</mat-icon>
+   @if(chatType !== 'thread') {
+       <mat-icon (click)="openThread(message)" fontSet="material-symbols-rounded">comment</mat-icon>
+   }
     <div *ngIf="loggedUser === message.senderId" class="open-options">
         <mat-icon (click)="toggleOptions()" fontSet="material-symbols-rounded">more_vert</mat-icon>
         <div *ngIf="optionsOpen" appClickOutside (clickOutside)="closeOptions()" class="edit-message">

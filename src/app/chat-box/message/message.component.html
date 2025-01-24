@@ -1,6 +1,8 @@
-<div [class.my-message]="userService.loggedUserId === message.senderId" class="message-container">
+<div [class.my-message]="userService.loggedUserId === message.senderId" 
+[class.thread-message]="chatType === 'thread'"
+class="message-container">
 
-    <app-reaction-bar [loggedUser]="userService.loggedUserId" class="reaction-bar"
+    <app-reaction-bar [loggedUser]="userService.loggedUserId" [chatType]="chatType" class="reaction-bar"
         [message]="message"></app-reaction-bar>
 
     @for(user of userService.users; track user.id) {
@@ -17,7 +19,7 @@
             <h2>{{user.name}}</h2>
             }
             }
-            <p>{{message.time}} Uhr</p>
+            <p>{{getTimeInHours(message.time)}} Uhr</p>
         </div>
 
         <p class="message-text">{{message.text}}</p>
@@ -49,10 +51,15 @@
                     }
                 </div>
             </div>
-            <div *ngIf="message.threadMessages.length > 0" class="thread-responses">
-                <p>{{message.threadMessages.length}} Antworten</p>
-                <p>Letzte Antwort {{message.threadMessages[message.threadMessages.length - 1].time}}</p>
-            </div>
+            @if(chatType !== 'thread') {
+                @if(countThreadAnswers(message.id) > 1) {
+                    
+                    <div class="thread-responses" (click)="openThread(message)">
+                        <p>{{countThreadAnswers(message.id) -1}} Antworten</p>
+                        <p>{{getLastThreadTime(message.id)}} Letzte Antwort </p>
+                    </div>
+                }
+            }
         </div>
     </div>
 </div>
