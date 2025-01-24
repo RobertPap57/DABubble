@@ -92,6 +92,18 @@ section {
     }
 }
 
+@media screen and (min-width: 1921px) {
+    .overlay {
+        p {
+            right: calc(50vw - 940px);
+        }
+
+        >div {
+            right: calc(50vw - 940px);
+        }
+    }
+}
+
 @media screen and (max-width: 1250px) {
     section {
         width: 340px;
@@ -128,8 +140,8 @@ section {
     }
 
     .slideOut {
-        transform: translateY(100%)!important;
-        transition: transform 0.2s ease-in-out!important;
+        transform: translateY(100%) !important;
+        transition: transform 0.2s ease-in-out !important;
     }
 
     .profilePic {

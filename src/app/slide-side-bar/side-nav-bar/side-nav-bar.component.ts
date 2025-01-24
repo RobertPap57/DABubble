@@ -72,6 +72,8 @@ export class SideNavBarComponent {
    */
   openNewMsgChannel() {
     this.channelService.isServer = false;
+    this.channelService.channelChatId = '';
+    this.userService.privMsgUserId = '';
     //opens a new Msg Box with search bar for #channel or @Alex or Email
   }
 

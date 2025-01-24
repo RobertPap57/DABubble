@@ -96,6 +96,7 @@ export class SearchbarComponent {
         const messageText = message.text.toLowerCase().includes(input);
         const messageSenderID = this.filteredUsers.some(userId => message.senderId.includes(userId));
         const messageReceiverID = this.filteredUsers.some(userId => message.userId.includes(userId));
+        // const messageChannelID = messageReceiverID.includes(messageReceiverID.valueOf.name);
         return messageText || messageSenderID || messageReceiverID;
       })
       .map(msg => msg.id);
