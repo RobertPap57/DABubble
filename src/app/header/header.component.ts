@@ -6,6 +6,8 @@ import { NgClass } from '@angular/common';
 import { NavigationEnd, Router, RouterLink } from '@angular/router';
 import { filter } from 'rxjs';
 import { ChannelService } from '../services/channel.service';
+import { UserService } from '../services/user.service';
+import { MessageService } from '../services/message.service';
 
 @Component({
   selector: 'app-header',
@@ -22,7 +24,7 @@ export class HeaderComponent {
   animationPlayed: boolean = false;
   server: string = 'Devspace';
 
-  constructor(private router: Router, public channelService: ChannelService) {
+  constructor(private router: Router, public channelService: ChannelService, private userService: UserService, private messageService: MessageService) {
     this.ngOnInit();
   }
 
@@ -63,5 +65,8 @@ export class HeaderComponent {
    */
   backToServer() {
     this.channelService.isServer = true;
+    this.channelService.channelChatId = '';
+    this.userService.privMsgUserId = '';
+    this.messageService.threadOpen = false;
   }
 }

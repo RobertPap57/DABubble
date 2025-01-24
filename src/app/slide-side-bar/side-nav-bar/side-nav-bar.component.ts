@@ -74,6 +74,7 @@ export class SideNavBarComponent {
     this.channelService.channelChatId = '';
     this.userService.privMsgUserId = '';
     this.messageService.threadOpen = false;
+    this.channelService.isServer = false;
     //opens a new Msg Box with search bar for #channel or @Alex or Email
   }
 
@@ -86,6 +87,7 @@ export class SideNavBarComponent {
     this.userService.privMsgUserId = id;
     this.channelService.channelChatId = '';
     this.messageService.threadOpen = false;
+    this.channelService.isServer = false;
   }
 
   /**
@@ -97,5 +99,6 @@ export class SideNavBarComponent {
     this.channelService.channelChatId = id;
     this.userService.privMsgUserId = '';
     this.messageService.threadOpen = false;
+    this.channelService.isServer = false;
   }
 }
