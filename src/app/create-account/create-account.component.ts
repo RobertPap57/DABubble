@@ -32,6 +32,12 @@ export class CreateAccountComponent {
   isArrowHovered: boolean = false;
   backArrowImage: string = '/back-arrow.png';
 
+  visibilityIcon: string = './visibility_off.png';
+  visibilityOnIcon: string = './visibility.png';
+  passwordFieldType: string = 'password';
+  confirmPasswordFieldType: string = 'password';
+  confirmVisibilityIcon: string = './visibility_off.png';
+
   next: boolean = false;
   regexp = new RegExp(
     /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
@@ -47,6 +53,42 @@ export class CreateAccountComponent {
     this.userData.email = this.emailText;
     this.userData.password = this.passwordText;
     this.userData.confirmPassword = this.confirmPasswordText;
+  }
+
+  /**
+   * Handles the mouse down event for the primary password input field.
+   * Changes the field type to 'text' to display the password and updates the visibility icon.
+   */
+  onPasswordMouseDown(): void {
+    this.passwordFieldType = 'text';
+    this.visibilityIcon = './visibility.png';
+  }
+
+  /**
+   * Handles the mouse up event for the primary password input field.
+   * Changes the field type back to 'password' to hide the password and resets the visibility icon.
+   */
+  onPasswordMouseUp(): void {
+    this.passwordFieldType = 'password';
+    this.visibilityIcon = './visibility_off.png';
+  }
+
+  /**
+   * Handles the mouse down event for the confirmation password input field.
+   * Changes the field type to 'text' to display the password and updates the visibility icon.
+   */
+  onConfirmMouseDown(): void {
+    this.confirmPasswordFieldType = 'text';
+    this.confirmVisibilityIcon = './visibility.png';
+  }
+
+  /**
+   * Handles the mouse up event for the confirmation password input field.
+   * Changes the field type back to 'password' to hide the password and resets the visibility icon.
+   */
+  onConfirmMouseUp(): void {
+    this.confirmPasswordFieldType = 'password';
+    this.confirmVisibilityIcon = './visibility_off.png';
   }
 
   /**
@@ -89,9 +131,9 @@ export class CreateAccountComponent {
    */
   enableButton(isValid: boolean | null | undefined): void {
     this.next =
-    !!isValid && 
-    this.userNameText.length >= 3 && 
-    this.passwordText === this.confirmPasswordText; 
+      !!isValid &&
+      this.userNameText.length >= 3 &&
+      this.passwordText === this.confirmPasswordText;
   }
 
   /**
