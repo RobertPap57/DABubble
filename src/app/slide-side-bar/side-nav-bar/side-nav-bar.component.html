@@ -48,9 +48,12 @@
 
     @if (channelsVisible) {
     @for (channel of channelService.channels; track $index) {
-    <span class="channel" [class.active]="channel.chanId === channelService.channelChatId" (click)="openChannel(channel.chanId)">
+    @if (channel.userIds.includes(userService.loggedUserId)) {
+    <span class="channel" [class.active]="channel.chanId === channelService.channelChatId"
+        (click)="openChannel(channel.chanId)">
         <img src="./tag.png">{{channel.chanName}}
     </span>
+    }
     } @empty {
     <span class="channel">No Channel created</span>
     }
@@ -134,7 +137,7 @@
     }
     @for (user of userService.users; track user.id) {
     @if (user.id !== userService.loggedUserId) {
-        
+
     <div (click)="openDirectMsg(user.id)" [class.active]="user.id === userService.privMsgUserId" class="users">
         <div>
             <img src=".{{user.userImage}}" alt="User Image">
