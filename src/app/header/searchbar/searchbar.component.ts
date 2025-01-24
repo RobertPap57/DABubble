@@ -24,7 +24,7 @@ export class SearchbarComponent {
   filteredMsgsUser: string[] = [];
   filteredMsgsUserSender: string[] = [];
 
-  
+
   constructor(public channelService: ChannelService, public userService: UserService, public messageService: MessageService) { }
 
   /**
@@ -102,20 +102,16 @@ export class SearchbarComponent {
   filterMessages(input: string) {
     this.filteredMessagesWithChannels = this.messageService.messages
       .filter(message => {
+        const channel = this.channelService.channels.find(chan => chan.chanId === message.channelId);
+        if (!channel || !channel.userIds.includes(this.userService.loggedUserId)) { return false; }
         const messageText = message.text.toLowerCase().includes(input);
         const messageSenderID = this.filteredUsers.some(userId => message.senderId.includes(userId));
         const messageReceiverID = this.filteredUsers.some(userId => message.userId.includes(userId));
-        const channel = this.channelService.channels.find(chan => chan.chanId === message.channelId);
-        if (channel) {
-          return messageText || messageSenderID || messageReceiverID || channel.userIds.includes(this.userService.loggedUserId);
-        } else return false
-        })
+        return messageText || messageSenderID || messageReceiverID;
+      })
       .map(message => ({
-        messageId: message.id,
-        channelId: message.channelId,
-        threadId: message.threadId,
-        userId: message.userId,
-        senderId: message.senderId
+        messageId: message.id, channelId: message.channelId,
+        threadId: message.threadId, userId: message.userId, senderId: message.senderId
       }));
   }
 
