@@ -16,6 +16,7 @@ import { Message, Reaction } from '../interfaces/message.interface';
 import { UserService } from '../services/user.service';
 import { ChannelService } from '../services/channel.service';
 import { ContactWindowComponent } from '../contacts/contact-window/contact-window.component';
+import { EditChannelComponent } from '../slide-side-bar/edit-channel/edit-channel.component';
 
 @Component({
   selector: 'app-chat-box',
@@ -27,7 +28,8 @@ import { ContactWindowComponent } from '../contacts/contact-window/contact-windo
     AutosizeModule,
     ClickOutsideDirective,
     MessageComponent,
-    ContactWindowComponent
+    ContactWindowComponent,
+    EditChannelComponent
   ],
   templateUrl: './chat-box.component.html',
   styleUrl: './chat-box.component.scss'
@@ -38,6 +40,7 @@ export class ChatBoxComponent {
   channelService = inject(ChannelService);
   @ViewChild('profileBox') profileBox!: ElementRef<HTMLDivElement>;
   openProfileBox = false;
+  openEditChannel = false;
 
   @Input() threadId: string | null = null;
 
@@ -93,6 +96,10 @@ export class ChatBoxComponent {
       let clickInsideChan = this.profileBox.nativeElement.contains(target);
       if (!clickInsideChan) { this.closeProfilBox(); }
     }
+  }
+
+  showEditChannel() {
+    this.openEditChannel = true;
   }
 
   closeThread(): void {

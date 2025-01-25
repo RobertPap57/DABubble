@@ -30,11 +30,11 @@
 
         @case('channel') {
         <div class="channel-chat">
-            <div class="channel-title">
+            <a (click)="showEditChannel()" class="channel-title">
                 <h2>#</h2>
                 <h1>{{getChannelName()}}</h1>
                 <mat-icon class="arrow-down" fontSet="material-symbols-rounded">keyboard_arrow_down</mat-icon>
-            </div>
+            </a>
             <div class="members-container">
                 <div class="members">
                     <div>
@@ -69,8 +69,17 @@
 
     @if(openProfileBox) {
     <div class="overlay">
-        <p #profileBox id="profileBox">
+        <p #profileBox>
             <app-contact-window userId={{userService.privMsgUserId}} (onClose)="closeProfilBox()" ></app-contact-window>
+        </p>
+    </div>
+    }
+
+
+    @if(openEditChannel) {
+    <div class="overlay">
+        <p #editChannel>
+            <app-edit-channel ></app-edit-channel>
         </p>
     </div>
     }
