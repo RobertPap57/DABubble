@@ -1,28 +1,28 @@
-<section class="dFlexCenter" [ngClass]="{'dNone': addingUsers}">
+<section class="dFlexCenter">
     <div #createdChannelBox class="nameBox createBox">
         <h2>#<span class="dFlexCenter" (click)="closeEditChannel()">+</span></h2>
 
         <div class="align">
             <h3>Channel-Name</h3>
-            <a>Speichern</a>
+            <a (click)="updateChannel()">Speichern</a>
         </div>
 
         <form #form="ngForm">
 
             <div>
                 <img src="./tag_grey.png" alt="#">
-                <input #name="ngModel" placeholder="z.B. Kooperationsprojekte" type="text" [(ngModel)]="channelName"
+                <input #name="ngModel" placeholder="z.B. Kooperationsprojekte" type="text" [(ngModel)]="channel.chanName"
                     name="channelName" [ngClass]="{'redBorder': !name.valid && name.touched && !name.disabled}"
                     minlength="3" class="createChanInput" required>
             </div>
 
             <div class="align">
                 <h3>Beschreibung</h3>
-                <a>Speichern</a>
+                <a (click)="updateChannel()">Speichern</a>
             </div>
 
             <div>
-                <textarea placeholder="Deine Channel-Beschreibung" type="text" [(ngModel)]="channelDescription"
+                <textarea placeholder="Deine Channel-Beschreibung" type="text" [(ngModel)]="channel.chanDescription"
                     name="channelDescription"></textarea>
             </div>
 

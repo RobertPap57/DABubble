@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ChannelService } from '../../services/channel.service';
 import { UserService } from '../../services/user.service';
+import { Channel } from '../../interfaces/channel.model';
 
 
 @Component({
@@ -21,19 +22,8 @@ export class EditChannelComponent {
   @ViewChild('focusdropdown') focusDropdown!: ElementRef;
   @Input({required: true}) channelId!: string;
 
-  addingUsers: boolean = false;
-  dropdownActive: boolean = false;
-
-  channelName: string = '';
-  channelDescription: string = '';
+  channel!: Channel;
   channelCreatorName: string = '';
-  channelCreatorId: string = '';
-  selectedUserId: string[] = [];
-  selectedOption: string | null = null;
-
-  searchInput: string = '';
-  searchUser: string = '';
-  searchIds: string[] = [];
 
   constructor(private userService: UserService ,private channelService: ChannelService) {
 
@@ -42,12 +32,12 @@ export class EditChannelComponent {
   ngOnInit(): void {
     this.channelService.channels.forEach(element => {
       if (element.chanId === this.channelId) {
-        this.channelDescription = element.chanDescription ? element.chanDescription : '';
-        this.channelName = element.chanName;
-        this.channelCreatorId = element.chanCreatedByUser;
+        this.channel = {
+          ...element
+        }
       }
     });
-    this.channelCreatorName = this.userService.getUserById(this.channelCreatorId).name;
+    this.channelCreatorName = this.userService.getUserById(this.channel.chanCreatedByUser).name;
   }
 
 
@@ -65,18 +55,14 @@ export class EditChannelComponent {
     }
   }
 
-  @HostListener('document:mousedown', ['$event.target'])
-  onClickOutsideDrop(target: HTMLElement): void {
-    if (this.createPeopleBox) {
-      let clickInsideDrop = this.focusDropdown?.nativeElement.contains(target); {
-      } if (!clickInsideDrop) this.dropdownActive = false;;
-    }
-  }
-
   /**
    * closes the module Create Channel
    */
   closeEditChannel() {
     this.channelService.createChannelBox = false;
+  }
+
+  updateChannel() {
+    this.channelService.updateChannel(this.channel);
   }
 }
