@@ -1,4 +1,4 @@
-import { Component, ElementRef, HostListener, Input, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, HostListener, Input, Output, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ChannelService } from '../../services/channel.service';
@@ -17,16 +17,13 @@ export class EditChannelComponent {
   inputPlaceholder = 'Name eingeben';
   onlineColor = '#92c73e';
   offlineColor = '#696969';
-  @ViewChild('createdChannelBox') createdChannelBox!: ElementRef<HTMLDivElement>;
-  @ViewChild('createPeopleBox') createPeopleBox!: ElementRef<HTMLDivElement>;
-  @ViewChild('focusdropdown') focusDropdown!: ElementRef;
   @Input({required: true}) channelId!: string;
-
+  @Output() onClose: EventEmitter<void> = new EventEmitter();
   channel!: Channel;
   channelCreatorName: string = '';
 
   constructor(private userService: UserService ,private channelService: ChannelService) {
-
+ 
   }
 
   ngOnInit(): void {
@@ -40,29 +37,34 @@ export class EditChannelComponent {
     this.channelCreatorName = this.userService.getUserById(this.channel.chanCreatedByUser).name;
   }
 
-
-  /**
-   * closes the Module if the user clicks outside the input box
-   * 
-   * @param target The Box with the inputs for the channela
-   */
-  @HostListener('document:mouseup', ['$event.target'])
-  onClickOutsideChan(target: HTMLElement): void {
-    if (this.createdChannelBox || this.createPeopleBox) {
-      let clickInsideChan = this.createdChannelBox.nativeElement.contains(target);
-      let clickInsidePpl = this.createPeopleBox.nativeElement.contains(target);
-      if (!clickInsideChan && !clickInsidePpl) this.closeEditChannel();
-    }
-  }
-
   /**
    * closes the module Create Channel
    */
   closeEditChannel() {
-    this.channelService.createChannelBox = false;
+    this.onClose.emit();
   }
 
   updateChannel() {
     this.channelService.updateChannel(this.channel);
+  }
+
+  removeUser() {
+    let index = this.channel.userIds.indexOf(this.userService.loggedUserId);
+    console.log(this.userService.loggedUserId)
+    this.channel.userIds.splice(index, 1);
+    this.updateChannel();
+    this.closeEditChannel();
+  }
+
+  @ViewChild('createdChannelBox') editBox!: ElementRef<HTMLDivElement>;
+  /**
+   * a listener for mouseup event if the profileBox is active, if you click anywhere on the overlay it closes the profile box
+   * 
+   * @param target #profileBox
+   */
+  @HostListener('document:click', ['$event.target'])
+  onClickOutsideProfileBox(target: HTMLElement): void {
+      let clickInsideChan = this.editBox.nativeElement.contains(target);
+      if (!clickInsideChan) { this.closeEditChannel(); }
   }
 }

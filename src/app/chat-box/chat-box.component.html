@@ -69,7 +69,7 @@
 
     @if(openProfileBox) {
     <div class="overlay">
-        <p #profileBox>
+        <p #profileBox id="profileBox">
             <app-contact-window userId={{userService.privMsgUserId}} (onClose)="closeProfilBox()" ></app-contact-window>
         </p>
     </div>
@@ -78,8 +78,8 @@
 
     @if(openEditChannel) {
     <div class="overlay">
-        <p #editChannel>
-            <app-edit-channel channelId={{channelService.channelChatId}} ></app-edit-channel>
+        <p #editChannel id="editChannel">
+            <app-edit-channel channelId={{channelService.channelChatId}} (onClose)="closeEditChannel()" ></app-edit-channel>
         </p>
     </div>
     }

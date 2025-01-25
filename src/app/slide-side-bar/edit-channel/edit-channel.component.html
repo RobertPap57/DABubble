@@ -1,6 +1,6 @@
 <section class="dFlexCenter">
-    <div #createdChannelBox class="nameBox createBox">
-        <h2>#<span class="dFlexCenter" (click)="closeEditChannel()">+</span></h2>
+    <div #createdChannelBox class="nameBox createBox" id="createdChannelBox">
+        <h2># {{channel.chanName}}<span class="dFlexCenter" (click)="closeEditChannel()">+</span></h2>
 
         <div class="align">
             <h3>Channel-Name</h3>
@@ -33,7 +33,7 @@
             <h2>{{channelCreatorName}}</h2>
         </div>
 
-        <button (click)="closeEditChannel()" class="leave-btn">Channel verlassen</button>
+        <button (click)=" removeUser()" class="leave-btn">Channel verlassen</button>
 
     </div>
 </section>

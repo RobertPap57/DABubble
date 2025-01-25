@@ -66,6 +66,7 @@ export class ChatBoxComponent {
 
   }
 
+
   get filteredChannelMessages(): Message[] {
     return this.messageService.messages.filter(
       message => message.channelId === this.channelService.channelChatId
@@ -96,10 +97,6 @@ export class ChatBoxComponent {
       let clickInsideChan = this.profileBox.nativeElement.contains(target);
       if (!clickInsideChan) { this.closeProfilBox(); }
     }
-  }
-
-  showEditChannel() {
-    this.openEditChannel = true;
   }
 
   closeThread(): void {
@@ -142,6 +139,8 @@ export class ChatBoxComponent {
         return 'Starte eine neue Nachricht';
     }
   }
+
+
 
   getChannelName(): string | null {
     const channel = this.channelService.channels.find(
@@ -206,6 +205,8 @@ export class ChatBoxComponent {
     }
   }
 
+
+
   sendMainMessage(): void {
     const newMessage: Message = {
       id: '',
@@ -262,6 +263,14 @@ export class ChatBoxComponent {
    */
   closeProfilBox() {
     this.openProfileBox = false;
+  }
+
+  showEditChannel(){
+    this.openEditChannel = true;
+  }
+
+  closeEditChannel(){
+    this.openEditChannel = false;
   }
 
 
