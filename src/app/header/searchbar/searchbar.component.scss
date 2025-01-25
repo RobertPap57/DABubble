@@ -45,7 +45,7 @@ section {
             }
 
             .searchResult {
-                display: block;
+                display: flex;
             }
         }
     }
@@ -87,7 +87,7 @@ img {
 }
 
 b {
-    margin-right: 4px;
+    margin-inline: 4px;
 }
 
 @media screen and (max-width: 1250px) {
