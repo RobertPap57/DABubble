@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { UserService } from '../../services/user.service';
 
 @Component({
@@ -14,6 +14,7 @@ export class ContactWindowComponent {
   email: string = 'thehoffman@beispiel.com'; // Beispiel-E-Mail
   picture: string =  '/steffen-hoffmann-avatar.png';
   isActive: boolean = false; // Status standardmäßig 'abwesend'
+  @Input({required : true}) userId!: String;
 
   constructor(public userSerice: UserService) { }
 

@@ -2,7 +2,7 @@
 
 import { User } from './../interfaces/user.model';
 import { serverTimestamp } from 'firebase/firestore';
-import { Component, Input, Inject, inject, PLATFORM_ID } from '@angular/core';
+import { Component, Input, Inject, inject, PLATFORM_ID, HostListener, ElementRef, ViewChild } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { PickerComponent } from '@ctrl/ngx-emoji-mart';
@@ -15,23 +15,7 @@ import { MessageService } from '../services/message.service';
 import { Message, Reaction } from '../interfaces/message.interface';
 import { UserService } from '../services/user.service';
 import { ChannelService } from '../services/channel.service';
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+import { ContactWindowComponent } from '../contacts/contact-window/contact-window.component';
 
 @Component({
   selector: 'app-chat-box',
@@ -42,7 +26,8 @@ import { ChannelService } from '../services/channel.service';
     FormsModule,
     AutosizeModule,
     ClickOutsideDirective,
-    MessageComponent
+    MessageComponent,
+    ContactWindowComponent
   ],
   templateUrl: './chat-box.component.html',
   styleUrl: './chat-box.component.scss'
@@ -51,6 +36,8 @@ export class ChatBoxComponent {
   userService = inject(UserService);
   messageService = inject(MessageService);
   channelService = inject(ChannelService);
+  @ViewChild('profileBox') profileBox!: ElementRef<HTMLDivElement>;
+  openProfileBox = false;
 
   @Input() threadId: string | null = null;
 
@@ -71,17 +58,10 @@ export class ChatBoxComponent {
   users: User[] = this.userService.users;
   messageText: string = '';
 
-
-
-
-
-
-
   constructor(@Inject(PLATFORM_ID) private platformId: any) {
     this.isBrowser = isPlatformBrowser(this.platformId);
 
   }
-
 
   get filteredChannelMessages(): Message[] {
     return this.messageService.messages.filter(
@@ -102,7 +82,18 @@ export class ChatBoxComponent {
     );
   }
 
-
+  /**
+   * a listener for mouseup event if the profileBox is active, if you click anywhere on the overlay it closes the profile box
+   * 
+   * @param target #profileBox
+   */
+  @HostListener('document:click', ['$event.target'])
+  onClickOutsideProfileBox(target: HTMLElement): void {
+    if (this.openProfileBox) {
+      let clickInsideChan = this.profileBox.nativeElement.contains(target);
+      if (!clickInsideChan) { this.closeProfilBox(); }
+    }
+  }
 
   closeThread(): void {
     this.messageService.threadId = null;
@@ -144,8 +135,6 @@ export class ChatBoxComponent {
         return 'Starte eine neue Nachricht';
     }
   }
-
-
 
   getChannelName(): string | null {
     const channel = this.channelService.channels.find(
@@ -210,8 +199,6 @@ export class ChatBoxComponent {
     }
   }
 
-
-
   sendMainMessage(): void {
     const newMessage: Message = {
       id: '',
@@ -256,8 +243,19 @@ export class ChatBoxComponent {
     this.emojiPickerOn = false;
   }
 
+  /**
+  * opens the profile box
+  */
+  openProfile() {
+    this.openProfileBox = true;
+  }
 
-
+  /**
+   * closes the profile box
+   */
+  closeProfilBox() {
+    this.openProfileBox = false;
+  }
 
 
 }

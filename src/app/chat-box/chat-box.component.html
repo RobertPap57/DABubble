@@ -15,7 +15,7 @@
 
         @case('private') {
         <div class="private-chat">
-            <div class="title">
+            <a class="title" (click)="openProfile()">
                 <div class="avatar-image">
                     <img src="{{getUserImg()}}" alt="">
                     <mat-icon fontSet="material-symbols-sharp" class="status-icon"
@@ -24,7 +24,7 @@
                     </mat-icon>
                 </div>
                 <h1>{{getUserName()}}</h1>
-            </div>
+            </a>
         </div>
         }
 
@@ -67,7 +67,13 @@
     </div>
 
 
-
+    @if(openProfileBox) {
+    <div class="overlay">
+        <p #profileBox id="profileBox">
+            <app-contact-window userId={{userService.privMsgUserId}}></app-contact-window>
+        </p>
+    </div>
+    }
 
 
     <div class="messages-container">
@@ -113,16 +119,16 @@
 
         @case('thread') {
         @for(message of filteredThreadMessages; track message.id; let last = $last) {
-            @if(last && countThreadAnswers() > 1){
-            <div class="thread-separator">
-                <p>{{countThreadAnswers() - 1}} Antworten</p>
-                <span></span>
-            </div>}
+        @if(last && countThreadAnswers() > 1){
+        <div class="thread-separator">
+            <p>{{countThreadAnswers() - 1}} Antworten</p>
+            <span></span>
+        </div>}
         <app-message [message]="message" [chatType]="chatType"></app-message>
         }
         }
         }
-        
+
     </div>
 
 
