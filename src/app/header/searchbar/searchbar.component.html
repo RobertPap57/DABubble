@@ -23,9 +23,9 @@
     <div class="searchbarDropdown" #searchbarDropdown>
         <div>
 
-            <h3>Found User</h3>
+            <h3>Gefundene Nutzer</h3>
             @if (filteredUsers.length === 0) {
-            <span>No User with that Name found</span>
+            <span>Kein Nutzer mit diesem Namen gefunden</span>
             }
             @for (user of userService.users; track user.id) {
 
@@ -35,9 +35,9 @@
             }
 
 
-            <h3>Found Channels</h3>
+            <h3>Gefundene Channelnamen oder Nutzer</h3>
             @if (filteredChannels.length === 0) {
-            <span>No Channel with that Name found</span>
+            <span>Kein Kanalname oder Nutzer gefunden</span>
             }
             @for (channel of channelService.channels; track channel.chanId) {
 
@@ -47,23 +47,30 @@
             }
 
 
-            <h3>Found Messages in Channels</h3>
+            <h3>Gefundene Nachrichten in Channels</h3>
             @if (filteredMessagesWithChannels.length === 0) {
-            <span>No Message with that User or Text found</span>
+            <span>Keine Nachricht in Channels gefunden</span>
             }
-            @for (textId of filteredMessagesWithChannels; track $index) {
-            @for (msg of messageService.messages; track msg.id) {
+            @for (msg of filteredMessagesWithChannels; track $index) {
+                <p (click)="openChannel(msg.channelId)" class="searchResult">{{msg.messageText}} in <b># {{msg.chanName}}</b></p>
+            }
 
-            @if (textId.messageId === msg.id) {
-                @if (msg.channelId === textId.channelId) {
-                <p (click)="openChannel(textId.channelId)" class="searchResult">{{msg.text}} in <b># {{textId.chanName}}</b></p>
-            } @else if (msg.channelId === textId.channelId) {
-                <!-- <p (click)="openThread(textId.threadId)" class="searchResult">{{msg.threadId}}</p> -->
-            } @else {
-                <p>Habe ??? gefunden</p>
+
+            <h3>Gefundene Private Nachrichten</h3>
+            @if (filteredMessagesWithPrivChat.length === 0) {
+            <span>Keine privaten Nachrichten gefunden</span>
             }
+            @for (msg of filteredMessagesWithPrivChat; track $index) {
+                <p (click)="openChannel(msg.messageId)" class="searchResult">{{msg.messageText}} in <b># {{msg.messageId}}</b></p>
             }
+
+
+            <h3>Gefundene Nachrichten in Threads</h3>
+            @if (filteredMessagesWithThreads.length === 0) {
+            <span>Keine Nachricht in Threads gefunden</span>
             }
+            @for (msg of filteredMessagesWithThreads; track $index) {
+                <p (click)="openChannel(msg.messageId)" class="searchResult">{{msg.messageText}} in <b># {{msg.messageId}}</b></p>
             }
 
         </div>
