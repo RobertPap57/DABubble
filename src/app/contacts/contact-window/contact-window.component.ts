@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { UserService } from '../../services/user.service';
 
 @Component({
@@ -17,11 +17,11 @@ export class ContactWindowComponent {
   picture: string = '/steffen-hoffmann-avatar.png';
   isActive: boolean = false; // Status standardmäßig 'abwesend'
   @Input({ required: true }) userId!: String;
-
-  constructor(public userSerice: UserService) { }
+  @Output() onClose: EventEmitter<void> = new EventEmitter();
+  constructor(public userService: UserService) { }
 
   ngOnInit(): void {
-    this.userSerice.users.forEach(user => {
+    this.userService.users.forEach(user => {
       if (user.id == this.userId) {
         this.name = user.name;
         this.email = user.email;
@@ -29,6 +29,10 @@ export class ContactWindowComponent {
         this.isActive = user.status == "online";
       }
     });
+  }
+
+  close(): void {
+    this.onClose.emit();
   }
 
   // Diese Methode könnte verwendet werden, um den Status von einer Datenbank abzurufen

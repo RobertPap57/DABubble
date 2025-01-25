@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { UserService } from '../../services/user.service';
 import { FormsModule } from '@angular/forms';
 
@@ -19,6 +19,7 @@ export class ProfileWindowComponent {
   email: string = 'thehoffman@beispiel.com'; // Beispiel-E-Mail
   picture: string = '/steffen-hoffmann-avatar.png';
   status: string = '';
+  @Output() onClose: EventEmitter<void> = new EventEmitter();
 
   constructor(public userService: UserService) { }
 
@@ -38,8 +39,8 @@ export class ProfileWindowComponent {
     });
   }
 
-  // Diese Methode könnte verwendet werden, um den Status von einer Datenbank abzurufen
-  fetchStatusFromDatabase() {
+  close(): void {
+    this.onClose.emit();
   }
 
   save(): void {
