@@ -64,7 +64,7 @@
             @for (msg of filteredMessagesWithPrivChat; track $index) {
             @for (user of userService.users; track user.id) {
             @if (msg.messageUserId === user.id) {
-            <p (click)="opendirectMsg(msg.messageUserId)" class="searchResult">{{msg.messageText}} <b> von </b><img src=".{{user.userImage}}"><b>{{user.name}}</b>
+            <p (click)="opendirectMsg(msg.messageUserId)" class="searchResult">{{msg.messageText}}<b> von </b><img src=".{{user.userImage}}"><b>{{user.name}}</b>
             </p>
             }
             }
@@ -76,8 +76,7 @@
             <span>Keine Nachricht in Threads gefunden</span>
             }
             @for (msg of filteredMessagesWithThreads; track $index) {
-            <p (click)="openChannel(msg.messageId)" class="searchResult">{{msg.messageText}} in <b>#
-                    {{msg.messageId}}</b></p>
+            <p (click)="openThread(msg.messageThreadId)" class="searchResult">{{msg.messageText}}</p>
             }
 
         </div>
