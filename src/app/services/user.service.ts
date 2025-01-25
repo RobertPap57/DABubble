@@ -126,7 +126,7 @@ export class UserService {
       email: this.email,
       password: this.password,
       userImage: this.userImage,
-      status: '',
+      status: 'offline',
       lastSeen: new Date(),
     };
   }

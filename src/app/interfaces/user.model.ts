@@ -4,6 +4,6 @@ export interface User {
     userImage: string,
     email: string,
     password: string,
-    status: string,
+    status: 'offline'|'online',
     lastSeen: any,
 }
