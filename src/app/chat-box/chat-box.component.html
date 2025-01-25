@@ -79,7 +79,7 @@
     @if(openEditChannel) {
     <div class="overlay">
         <p #editChannel>
-            <app-edit-channel ></app-edit-channel>
+            <app-edit-channel channelId={{channelService.channelChatId}} ></app-edit-channel>
         </p>
     </div>
     }

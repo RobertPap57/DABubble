@@ -17,6 +17,7 @@ import {
   CollectionReference,
 } from '@angular/fire/firestore';
 import { Router } from '@angular/router';
+import { error } from 'console';
 
 @Injectable({
   providedIn: 'root',
@@ -175,6 +176,18 @@ export class UserService {
     let userRef = this.getallUsersdocRef();
     let emailQuery = query(userRef, where('email', '==', email));
     return await getDocs(emailQuery);
+  }
+
+  public getUserById(
+    id: string
+  ): User {
+    for (var i = 0; i < this.users.length; i++){
+      var user = this.users[i]; 
+      if (user.id === id) {
+        return user;
+      }
+    };
+    throw Error("Can't find user");
   }
 
   /**

@@ -1,4 +1,4 @@
-import { Component, ElementRef, HostListener, ViewChild } from '@angular/core';
+import { Component, ElementRef, HostListener, Input, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ChannelService } from '../../services/channel.service';
@@ -19,12 +19,15 @@ export class EditChannelComponent {
   @ViewChild('createdChannelBox') createdChannelBox!: ElementRef<HTMLDivElement>;
   @ViewChild('createPeopleBox') createPeopleBox!: ElementRef<HTMLDivElement>;
   @ViewChild('focusdropdown') focusDropdown!: ElementRef;
+  @Input({required: true}) channelId!: string;
 
   addingUsers: boolean = false;
   dropdownActive: boolean = false;
 
   channelName: string = '';
   channelDescription: string = '';
+  channelCreatorName: string = '';
+  channelCreatorId: string = '';
   selectedUserId: string[] = [];
   selectedOption: string | null = null;
 
@@ -32,9 +35,21 @@ export class EditChannelComponent {
   searchUser: string = '';
   searchIds: string[] = [];
 
-  constructor(public userService: UserService, private channelService: ChannelService) {
-    this.searchIds = this.userService.users.map(user => user.id);
+  constructor(private userService: UserService ,private channelService: ChannelService) {
+
   }
+
+  ngOnInit(): void {
+    this.channelService.channels.forEach(element => {
+      if (element.chanId === this.channelId) {
+        this.channelDescription = element.chanDescription ? element.chanDescription : '';
+        this.channelName = element.chanName;
+        this.channelCreatorId = element.chanCreatedByUser;
+      }
+    });
+    this.channelCreatorName = this.userService.getUserById(this.channelCreatorId).name;
+  }
+
 
   /**
    * closes the Module if the user clicks outside the input box
