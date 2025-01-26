@@ -176,6 +176,10 @@ app-profile {
         .logoContainer {
             animation: none;
             animation: slideInBig 2.5s linear;
+
+            @supports (-moz-appearance: none) {
+                animation: mozuslideInBig 2.5s linear;
+            }
         }
     }
 }
