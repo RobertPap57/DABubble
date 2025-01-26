@@ -459,3 +459,15 @@ emoji-mart {
 
     }
 }
+
+@media screen and (max-width: 768px) {
+    .active {
+        border-radius: 0;
+        position: absolute;
+        left: 0;
+        top: 100px;
+        z-index: 5!important;
+        bottom: 0;
+        height: calc(100vh - 100px);
+    }
+}

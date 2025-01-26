@@ -303,6 +303,13 @@ section {
             color: #535AF1;
         }
     }
+
+    .slideOut {
+        opacity: 1;
+        transform: translateX(0%) !important;
+        visibility: unset;
+        transition: transform 0.2s ease-in-out, visibility 0.2s linear, opacity 0.2s;
+    }
 }
 
 @media screen and (max-width: 350px) {
