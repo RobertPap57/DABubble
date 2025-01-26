@@ -46,6 +46,10 @@ section {
         cursor: pointer;
         animation: slideIn 2.5s linear;
 
+        @supports (-moz-appearance: none) {
+            animation: mozSlideIn 2.5s linear;
+        }
+
         svg {
             z-index: 4;
             height: 70px;
@@ -190,13 +194,13 @@ app-profile {
     }
 
     45% {
-        height: 85%;
-        width: 85%;
+        height: 85vh;
+        width: 85vw;
     }
 
     80% {
-        top: 0px;
-        left: 0px;
+        top: 0;
+        left: 0;
         height: 200px;
         width: 400px;
     }

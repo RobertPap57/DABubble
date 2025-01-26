@@ -14,8 +14,9 @@ import { MessageService } from '../services/message.service';
   standalone: true,
   imports: [ProfileComponent, SearchbarComponent, LinkCreateComponent, NgClass, RouterLink],
   templateUrl: './header.component.html',
-  styleUrl: './header.component.scss'
+  styleUrls: ['./header.keyframes.scss', './header.component.scss']
 })
+
 export class HeaderComponent {
   isLoginRoute: boolean = false;
   isNotLoggedInRoute: boolean = false;
@@ -47,7 +48,7 @@ export class HeaderComponent {
    * checks on which route the user currently is to display the correct header items and animations
    */
   ngOnInit() {
-    
+
     this.router.events
       .pipe(filter(event => event instanceof NavigationEnd))
       .subscribe((event: NavigationEnd) => {
