@@ -178,7 +178,7 @@ app-profile {
             animation: slideInBig 2.5s linear;
 
             @supports (-moz-appearance: none) {
-                animation: mozuslideInBig 2.5s linear;
+                animation: mozSlideInBig 2.5s linear;
             }
         }
     }
@@ -256,16 +256,13 @@ app-profile {
         font-size: 48px;
     }
 
-    35% {
-        width: 250px;
-    }
-
     75% {
         color: white;
         font-size: 32px;
     }
 
     100% {
+        width: 145px;
         color: black;
         font-size: 30px;
     }
