@@ -203,15 +203,15 @@ app-profile {
     }
 
     80% {
-        top: 0;
-        left: 0;
+        top: 10px;
+        left: 20;
         height: 200px;
         width: 400px;
     }
 
     100% {
-        top: 8px;
-        left: -22px;
+        top: 7px;
+        left: 50px;
         width: 230px;
         height: 101px;
     }
@@ -380,9 +380,8 @@ app-profile {
 
     100% {
         top: 8px;
-        left: -22px;
         width: 230px;
         height: 101px;
-        left: calc(50vw - 982px);
+        left: calc(50vw - 908px);
     }
 }
