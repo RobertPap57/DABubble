@@ -1,7 +1,9 @@
 section {
-    position: absolute;
-    top: 20%;
-    left: 40%;
+    position: fixed;
+    z-index: 4;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); 
     width: 500px;
     height: 705px;
     padding: 40px 0px 0px 0px;
@@ -111,5 +113,11 @@ h2 {
         &:hover {
             filter: brightness(1.5);
         }
+    }
+}
+
+@media screen and (max-width: 768px) {
+    section {
+        left: 35%;
     }
 }
