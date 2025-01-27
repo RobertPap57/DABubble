@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { Channel } from '../interfaces/channel.model';
-import { addDoc, updateDoc, deleteDoc, collection, doc, DocumentData, Firestore, onSnapshot, QuerySnapshot, } from '@angular/fire/firestore';
+import { addDoc, updateDoc, deleteDoc, collection, doc, DocumentData, Firestore, onSnapshot, QuerySnapshot, arrayUnion, } from '@angular/fire/firestore';
 
 
 @Injectable({
@@ -85,6 +85,24 @@ export class ChannelService {
       this.channelChatId = chanId;
     } catch (error) {
       console.error('Error updating channel status:', error);
+    }
+  }
+
+  /**
+   * adds the addedUser Array to the Channel userIds and updates in the firestore
+   * 
+   * @param chanId id of the channel that the users are getting added
+   * @param addedUsers the added User Array
+   */
+  async updateUserinChannel(chanId: string, addedUsers: string[]): Promise<void> {
+    try {
+      const channelDocRef = this.getSingleChannelDocRef('channel', chanId);
+      await updateDoc(channelDocRef, {
+        userIds: arrayUnion(...addedUsers),
+      });
+      console.log('Users successfully added to channel.');
+    } catch (error) {
+      console.error('Error updating channel users:', error);
     }
   }
 

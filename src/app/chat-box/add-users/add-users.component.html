@@ -92,20 +92,9 @@
             }
         </div>
         <div class="button">
-            <button>
+            <button (click)="addUserToChannel()">
                 <span>Hinzufügen</span>
             </button>
         </div>
-    </div>
-    <div class="channel">
-        <span><b>#</b>{{chatBox.getChannelName()}}</span>
-    </div>
-    <div class="inputField">
-        <input type="text" class="input" placeholder="Name eingeben">
-    </div>
-    <div class="button">
-        <button>
-            <span>Hinzufügen</span>
-        </button>
     </div>
 }
