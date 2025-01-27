@@ -557,6 +557,92 @@ h1 {
 
 }
 
+.addUsersBox {
+    background-color: white;
+    border-radius: 30px 0 30px 30px;
+    padding: 20px 40px 20px 40px;
+    top: 214px;
+    position: absolute;
+    width: 514px;
+    height: 294px;
+    right: 70px;
+    z-index: 8;
+
+    .top {
+        display: flex;
+        justify-content: space-between;
+
+        h2 {
+            font-size: 24px;
+        }
+
+        img {
+            cursor: pointer;
+            transition: transform 0.3s ease;
+
+            &:hover {
+                transform: scale(1.5);
+            }
+        }
+    }
+
+    .channel {
+        b{
+            font-size: 18px;
+            font-weight: 400;
+            margin-right: 15px;
+        }
+        span {
+            color: #797EF3;
+            font-size: 18px;
+            font-weight: 400;
+        }
+    }
+
+    .inputField {
+        margin-top: 20px;
+    }
+
+    .input {
+        border-radius: 30px;
+        width: 434px;
+        height: 55px;
+        padding: 15px 20px 15px 20px;
+        border: 1px solid #444DF2;
+        &::placeholder {
+            font-size: 18px;
+        }
+    
+        &:focus {
+            font-size: 18px;
+        }
+    }
+
+    .button {
+        margin-top: 20px;
+        display: flex;
+        justify-content: flex-end;
+        gap: 32px;
+    
+        button {
+            width: 147px;
+            height: 49px;
+            border: 1px solid #444DF2;
+            border-radius: 25px;
+            background-color: #444DF2;
+            span {
+                color: white;
+                font-size: 18px;
+            }
+            &:hover {
+                cursor: pointer;
+                filter: brightness(1.5);
+            }
+        }
+    }
+
+}
+
 @media screen and (max-width: 768px) {
     .chat-box {
         position: absolute;
