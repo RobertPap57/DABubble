@@ -1,26 +1,26 @@
 <section [ngClass]="{'slideOut': channelService.slideOutNavBar}">
+    <div class="wrapper">
 
+        <h2><img src="./Workspace_logo.png">Devspace<div><img (click)="openNewMsgChannel()" class="editChannel"
+                    src="./edit_square.png"></div>
+        </h2>
 
-    <h2><img src="./Workspace_logo.png">Devspace<div><img (click)="openNewMsgChannel()" class="editChannel"
-                src="./edit_square.png"></div>
-    </h2>
-
-    <div class="dFlexCenter">
-        <h3 (click)="toggleChannels()">
-            <a [ngClass]="{'rotateArrow': !channelsVisible}">
-                <svg class="channels" width="10" height="7" viewBox="0 0 10 7" fill="none"
-                    xmlns="http://www.w3.org/2000/svg">
-                    <path d="M4.12508 5.875L0.875076 2.625C0.479243 2.22917 0.390909 1.77625 0.610076 1.26625C0.828409
+        <div class="dFlexCenter">
+            <h3 (click)="toggleChannels()">
+                <a [ngClass]="{'rotateArrow': !channelsVisible}">
+                    <svg class="channels" width="10" height="7" viewBox="0 0 10 7" fill="none"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4.12508 5.875L0.875076 2.625C0.479243 2.22917 0.390909 1.77625 0.610076 1.26625C0.828409
             0.755417 1.21883 0.5 1.78133 0.5H8.21883C8.78133 0.5 9.17174 0.755417 9.39008 1.26625C9.60924 1.77625
             9.52091 2.22917 9.12508 2.625L5.87508 5.875C5.75008 6 5.61466 6.09375 5.46883 6.15625C5.32299 6.21875
             5.16674 6.25 5.00008 6.25C4.83341 6.25 4.67716 6.21875 4.53133 6.15625C4.38549 6.09375 4.25008
             6 4.12508 5.875Z" fill="black" />
-                </svg>
-            </a>
+                    </svg>
+                </a>
 
-            <svg class="channels" width="20" height="18" viewBox="0 0 20 18" fill="none"
-                xmlns="http://www.w3.org/2000/svg">
-                <path d="M4 18C2.9 18 1.95833 17.6083 1.175 16.825C0.391667 16.0417 0 15.1 0 14C0 12.9 0.391667
+                <svg class="channels" width="20" height="18" viewBox="0 0 20 18" fill="none"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path d="M4 18C2.9 18 1.95833 17.6083 1.175 16.825C0.391667 16.0417 0 15.1 0 14C0 12.9 0.391667
                 11.9583 1.175 11.175C1.95833 10.3917 2.9 10 4 10C5.1 10 6.04167 10.3917 6.825 11.175C7.60833
                 11.9583 8 12.9 8 14C8 15.1 7.60833 16.0417 6.825 16.825C6.04167 17.6083 5.1 18 4 18ZM16 18C14.9
                 18 13.9583 17.6083 13.175 16.825C12.3917 16.0417 12 15.1 12 14C12 12.9 12.3917 11.9583 13.175
@@ -37,28 +37,32 @@
                 11.1 8 10 8ZM10 6C10.55 6 11.021 5.804 11.413 5.412C11.8043 5.02067 12 4.55 12 4C12 3.45 11.8043
                 2.97933 11.413 2.588C11.021 2.196 10.55 2 10 2C9.45 2 8.97933 2.196 8.588 2.588C8.196 2.97933
                 8 3.45 8 4C8 4.55 8.196 5.02067 8.588 5.412C8.97933 5.804 9.45 6 10 6Z" fill="black" />
-            </svg>
+                </svg>
 
-            Channels
-        </h3>
-        <div class="addBtn dFlexCenter">
-            <a (click)="openCreateChannel()">+</a>
+                Channels
+            </h3>
+            <div class="addBtn dFlexCenter">
+                <a (click)="openCreateChannel()">+</a>
+            </div>
         </div>
-    </div>
 
-    @if (channelsVisible) {
-    @for (channel of channelService.channels; track $index) {
-    <span class="channel" [class.active]="channel.chanId === channelService.channelChatId" (click)="openChannel(channel.chanId)">
-        <img src="./tag.png">{{channel.chanName}}
-    </span>
-    } @empty {
-    <span class="channel">No Channel created</span>
-    }
-    }
+        @if (channelsVisible) {
+        @for (channel of channelService.channels; track $index) {
+        @if (channel.userIds.includes(userService.loggedUserId)) {
+        <span class="channel" [class.active]="channel.chanId === channelService.channelChatId"
+            (click)="openChannel(channel.chanId)">
+            <img src="./tag.png">{{channel.chanName}}
+        </span>
+        }
+        } @empty {
+        <span class="channel">No Channel created</span>
+        }
+        }
 
-    <a (click)="openCreateChannel()">
-        <svg class="channels" width="20" height="21" viewBox="0 0 20 21" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M10 15.5C10.2833 15.5 10.521 15.404 10.713 15.212C10.9043 15.0207 11 14.7833
+        <a (click)="openCreateChannel()">
+            <svg class="channels" width="20" height="21" viewBox="0 0 20 21" fill="none"
+                xmlns="http://www.w3.org/2000/svg">
+                <path d="M10 15.5C10.2833 15.5 10.521 15.404 10.713 15.212C10.9043 15.0207 11 14.7833
                 11 14.5V11.5H14.025C14.3083 11.5 14.5417 11.404 14.725 11.212C14.9083 11.0207 15 10.7833
                 15 10.5C15 10.2167 14.904 9.979 14.712 9.787C14.5207 9.59567 14.2833 9.5 14 9.5H11V6.475C11
                 6.19167 10.9043 5.95833 10.713 5.775C10.521 5.59167 10.2833 5.5 10 5.5C9.71667 5.5 9.47933
@@ -75,23 +79,23 @@
                 17.721 15.663 16.163C17.221 14.6043 18 12.7167 18 10.5C18 8.28333 17.221 6.39567 15.663 4.837C14.1043
                 3.279 12.2167 2.5 10 2.5C7.78333 2.5 5.896 3.279 4.338 4.837C2.77933 6.39567 2 8.28333 2 10.5C2 12.7167
                 2.77933 14.6043 4.338 16.163C5.896 17.721 7.78333 18.5 10 18.5Z" fill="black" />
-        </svg>
-        Channel hinzufügen</a>
+            </svg>
+            Channel hinzufügen</a>
 
-    <h1 (click)="toggleDirectMsgs()">
-        <a [ngClass]="{'rotateArrow': !directMsgVisible}"><svg class="channels" width="10" height="7" viewBox="0 0 10 7"
-                fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M4.12508 5.875L0.875076 2.625C0.479243 2.22917 0.390909 1.77625 0.610076 1.26625C0.828409
+        <h1 (click)="toggleDirectMsgs()">
+            <a [ngClass]="{'rotateArrow': !directMsgVisible}"><svg class="channels" width="10" height="7"
+                    viewBox="0 0 10 7" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M4.12508 5.875L0.875076 2.625C0.479243 2.22917 0.390909 1.77625 0.610076 1.26625C0.828409
                 0.755417 1.21883 0.5 1.78133 0.5H8.21883C8.78133 0.5 9.17174 0.755417 9.39008 1.26625C9.60924 1.77625
                 9.52091 2.22917 9.12508 2.625L5.87508 5.875C5.75008 6 5.61466 6.09375 5.46883 6.15625C5.32299 6.21875
                 5.16674 6.25 5.00008 6.25C4.83341 6.25 4.67716 6.21875 4.53133 6.15625C4.38549 6.09375 4.25008
                 6 4.12508 5.875Z" fill="black" />
-            </svg></a>
-        <div class="channels">
+                </svg></a>
+            <div class="channels">
 
-            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path
-                    d="M3.85 15.1C4.7 14.45 5.65 13.9373 6.7 13.562C7.75 13.1873 8.85 13 10 13C11.15
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path
+                        d="M3.85 15.1C4.7 14.45 5.65 13.9373 6.7 13.562C7.75 13.1873 8.85 13 10 13C11.15
                     13 12.25 13.1873 13.3 13.562C14.35 13.9373 15.3 14.45 16.15 15.1C16.7333 14.4167
                     17.1877 13.6417 17.513 12.775C17.8377 11.9083 18 10.9833 18 10C18 7.78333 17.221
                     5.89567 15.663 4.337C14.1043 2.779 12.2167 2 10 2C7.78333 2 5.896 2.779 4.338
@@ -112,46 +116,46 @@
                     9C10.4333 9 10.7917 8.85833 11.075 8.575C11.3583 8.29167 11.5 7.93333 11.5 7.5C11.5 7.06667 11.3583
                     6.70833 11.075 6.425C10.7917 6.14167 10.4333 6 10 6C9.56667 6 9.20833 6.14167 8.925 6.425C8.64167
                     6.70833 8.5 7.06667 8.5 7.5C8.5 7.93333 8.64167 8.29167 8.925 8.575C9.20833 8.85833 9.56667 9 10 9Z"
-                    fill="black" />
-            </svg>
-            Direktnachrichten
+                        fill="black" />
+                </svg>
+                Direktnachrichten
+            </div>
+        </h1>
+
+        @if (directMsgVisible) {
+        @for (user of userService.users; track user.id) {
+        @if (user.id === userService.loggedUserId) {
+
+        <div (click)="openDirectMsg(user.id)" [class.active]="user.id === userService.privMsgUserId" class="users">
+            <div>
+                <img src=".{{user.userImage}}" alt="User Image">
+                <span [ngStyle]="{'background-color': user.status === 'online' ? '#92c73e' : '#696969'}"></span>
+            </div>
+            <p>{{user.name}} (Du)</p>
         </div>
-    </h1>
 
-    @if (directMsgVisible) {
-    @for (user of userService.users; track user.id) {
-    @if (user.id === userService.loggedUserId) {
+        }
+        }
+        @for (user of userService.users; track user.id) {
+        @if (user.id !== userService.loggedUserId) {
 
-    <div (click)="openDirectMsg(user.id)" [class.active]="user.id === userService.privMsgUserId" class="users">
-        <div>
-            <img src=".{{user.userImage}}" alt="User Image">
-            <span [ngStyle]="{'background-color': user.status === 'online' ? onlineColor : offlineColor}"></span>
+        <div (click)="openDirectMsg(user.id)" [class.active]="user.id === userService.privMsgUserId" class="users">
+            <div>
+                <img src=".{{user.userImage}}" alt="User Image">
+                <span [ngStyle]="{'background-color': user.status === 'online' ? '#92c73e' : '#696969'}"></span>
+            </div>
+            <p>{{user.name}}</p>
         </div>
-        <p>{{user.name}} (Du)</p>
-    </div>
+        }
 
-    }
-    }
-    @for (user of userService.users; track user.id) {
-    @if (user.id !== userService.loggedUserId) {
-        
-    <div (click)="openDirectMsg(user.id)" [class.active]="user.id === userService.privMsgUserId" class="users">
-        <div>
-            <img src=".{{user.userImage}}" alt="User Image">
-            <span [ngStyle]="{'background-color': user.status ? onlineColor : offlineColor}"></span>
+        } @empty {
+
+        <div class="users">
+            <p>No other Users</p>
         </div>
-        <p>{{user.name}}</p>
+        }
+        }
+
     </div>
-    }
-
-    } @empty {
-
-    <div class="users">
-        <p>No other Users</p>
-    </div>
-    }
-    }
-
     <div class="editChannelResp"><img (click)="openNewMsgChannel()" src="./edit_square.png"></div>
-
 </section>

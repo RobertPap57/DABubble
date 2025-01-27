@@ -25,9 +25,7 @@
         />
         <div
           class="error-message"
-          *ngIf="
-            (emailInput.invalid && emailInput.touched && showError)
-          "
+          *ngIf="emailInput.invalid && emailInput.touched && showError"
         >
           *Diese E-Mail-Adresse ist leider ungültig.
         </div>
@@ -37,7 +35,7 @@
         <img [src]="lockImg" alt="Lock Icon" />
         <input
           placeholder="Passwort"
-          type="text"
+          [type]="passwordFieldType"
           name="password"
           [(ngModel)]="passwordText"
           (focus)="onFocus('password')"
@@ -46,6 +44,14 @@
           #passwortInput="ngModel"
           required
           password
+        />
+        <img
+          (mousedown)="onMouseDown()"
+          (mouseup)="onMouseUp()"
+          (mouseleave)="onMouseUp()"
+          class="visibility-icon"
+          [src]="visibilityIcon"
+          alt="visibility Icon"
         />
         <div
           class="error-message"
@@ -70,10 +76,22 @@
       <span>Anmelden mit Google</span>
     </div>
     <div class="login-btns">
-      <button [disabled]="!loginUser"
-      [ngClass]="{ 'primary-btn': loginUser, 'disabled-btn': !loginUser }" (click)="onLogin()" class="primary-btn">Anmelden</button>
-      <button [disabled]="!loginGuest"
-      [ngClass]="{ 'secondary-btn': loginGuest, 'disabled-btn': !loginGuest }" (click)="guestLogin()" class="secondary-btn">Gäste-Login</button>
+      <button
+        [disabled]="!loginUser"
+        [ngClass]="{ 'primary-btn': loginUser, 'disabled-btn': !loginUser }"
+        (click)="onLogin()"
+        class="primary-btn"
+      >
+        Anmelden
+      </button>
+      <button
+        [disabled]="!loginGuest"
+        [ngClass]="{ 'secondary-btn': loginGuest, 'disabled-btn': !loginGuest }"
+        (click)="guestLogin()"
+        class="secondary-btn"
+      >
+        Gäste-Login
+      </button>
     </div>
   </div>
 </section>

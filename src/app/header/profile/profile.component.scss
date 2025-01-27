@@ -9,6 +9,9 @@ section {
     h1 {
         margin-right: 20px;
         font-size: 26px;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
     }
 
     svg {
@@ -38,7 +41,7 @@ section {
 
 .overlay {
     position: absolute;
-    z-index: 4;
+    z-index: 6;
     top: 0;
     left: 0;
     right: 0;
@@ -118,7 +121,13 @@ section {
 @media screen and (max-width: 1024px) {
     section {
         width: 176px;
+
+        h1 {
+            display: none;
+        }
     }
+
+
 }
 
 @media screen and (max-width: 768px) {
@@ -153,6 +162,15 @@ section {
 
     .overlay {
         overflow: hidden;
+
+        p {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+            margin-left: -110px;
+            position: static;
+        }
 
         hr {
             display: block;

@@ -43,8 +43,11 @@ section {
         font-weight: 700;
         gap: 16px;
         z-index: 4;
-        cursor: pointer;
         animation: slideIn 2.5s linear;
+
+        @supports (-moz-appearance: none) {
+            animation: mozSlideIn 2.5s linear;
+        }
 
         svg {
             z-index: 4;
@@ -69,7 +72,6 @@ section {
     font-size: 30px;
     font-weight: 700;
     gap: 16px;
-    cursor: pointer;
 
     >svg {
         height: 70px;
@@ -96,7 +98,6 @@ app-profile {
         font-size: 22px;
         font-weight: 700;
         gap: 11px;
-        cursor: pointer;
 
         >svg {
             height: 45px;
@@ -105,11 +106,13 @@ app-profile {
 
         .backArrow {
             rotate: 90deg;
+            cursor: pointer;
         }
 
         img {
             height: 50px;
             width: 50px;
+            cursor: pointer;
         }
     }
 
@@ -172,6 +175,10 @@ app-profile {
         .logoContainer {
             animation: none;
             animation: slideInBig 2.5s linear;
+
+            @supports (-moz-appearance: none) {
+                animation: mozSlideInBig 2.5s linear;
+            }
         }
     }
 }
@@ -190,20 +197,20 @@ app-profile {
     }
 
     45% {
-        height: 85%;
-        width: 85%;
+        height: 85vh;
+        width: 85vw;
     }
 
     80% {
-        top: 0px;
-        left: 0px;
+        top: 10px;
+        left: 20;
         height: 200px;
         width: 400px;
     }
 
     100% {
-        top: 8px;
-        left: -22px;
+        top: 7px;
+        left: 50px;
         width: 230px;
         height: 101px;
     }
@@ -248,16 +255,13 @@ app-profile {
         font-size: 48px;
     }
 
-    35% {
-        width: 250px;
-    }
-
     75% {
         color: white;
         font-size: 32px;
     }
 
     100% {
+        width: 145px;
         color: black;
         font-size: 30px;
     }
@@ -375,9 +379,8 @@ app-profile {
 
     100% {
         top: 8px;
-        left: -22px;
         width: 230px;
         height: 101px;
-        left: calc(50vw - 982px);
+        left: calc(50vw - 908px);
     }
 }

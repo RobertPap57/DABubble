@@ -20,15 +20,40 @@ export class LoginComponent {
 
   emailImg: string = './mail-grey.png';
   lockImg: string = './lock-grey.png';
+  visibilityIcon: string = './visibility_off.png';
+  visibilityOnIcon: string = './visibility.png';
+  passwordFieldType: string = 'password';
 
   emailText: string = '';
   passwordText: string = '';
   showError: boolean = false;
   loginUser: boolean = false;
   loginGuest: boolean = true;
-  regexp = new RegExp(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
+  regexp = new RegExp(
+    /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+  );
 
   guestUrl: string = '0LxX4SgAJLMdrMynLbem';
+
+  /**
+   * Handles the mouse down event on the visibility icon.
+   * Changes the password field type to 'text' to display the password
+   * and updates the visibility icon to indicate that the password is visible.
+   */
+  onMouseDown(): void {
+    this.passwordFieldType = 'text';
+    this.visibilityIcon = this.visibilityOnIcon;
+  }
+
+  /**
+   * Handles the mouse up event on the visibility icon.
+   * Changes the password field type back to 'password' to hide the password
+   * and restores the visibility icon to its default state.
+   */
+  onMouseUp(): void {
+    this.passwordFieldType = 'password';
+    this.visibilityIcon = './visibility_off.png';
+  }
 
   /**
    * Handles the login process, showing errors if login fails.
@@ -103,21 +128,21 @@ export class LoginComponent {
     this.enableButton(this.isFormValid());
   }
 
-    /**
+  /**
    * Enables or disables the email submission button.
    * @param {boolean} isValid - Whether the email is valid.
    */
-    enableButton(isValid: boolean | null | undefined): void {
-      this.loginUser = !!isValid;
-    }
+  enableButton(isValid: boolean | null | undefined): void {
+    this.loginUser = !!isValid;
+  }
 
-    /**
+  /**
    * Checks if the form is valid based on password length and match.
    * @returns True if the passwords are valid and match.
    */
-    private isFormValid(): boolean {
-      return this.regexp.test(this.emailText); // Überprüft die E-Mail-Adresse
-    }
+  private isFormValid(): boolean {
+    return this.regexp.test(this.emailText); // Überprüft die E-Mail-Adresse
+  }
 
   /**
    * Updates the icon for the specified input field based on its state.
@@ -144,7 +169,7 @@ export class LoginComponent {
 
   guestLogin(): void {
     this.loginGuest = false;
-    this.userService.finalizeLogin(this.guestUrl)
+    this.userService.finalizeLogin(this.guestUrl);
     this.feedbackOverlay.showFeedback('Anmelden');
   }
 }

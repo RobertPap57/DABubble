@@ -2,7 +2,7 @@
 
 import { User } from './../interfaces/user.model';
 import { serverTimestamp } from 'firebase/firestore';
-import { Component, Input, Inject, inject, PLATFORM_ID,ViewChild, ElementRef, AfterViewInit, viewChild, Signal } from '@angular/core';
+import { Component, Input, Inject, inject, PLATFORM_ID,HostListener, ElementRef, ViewChild, viewChild, Signal, AfterViewInit } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { PickerComponent } from '@ctrl/ngx-emoji-mart';
@@ -15,8 +15,24 @@ import { MessageService } from '../services/message.service';
 import { Message, Reaction } from '../interfaces/message.interface';
 import { UserService } from '../services/user.service';
 import { ChannelService } from '../services/channel.service';
+
+import { ContactWindowComponent } from '../contacts/contact-window/contact-window.component';
+import { EditChannelComponent } from '../slide-side-bar/edit-channel/edit-channel.component';
+
 import { EmojiService } from '../services/emoji.service';
 import { Subscription } from 'rxjs';
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -30,6 +46,9 @@ import { Subscription } from 'rxjs';
     AutosizeModule,
     ClickOutsideDirective,
     MessageComponent,
+    MessageComponent,
+    ContactWindowComponent,
+    EditChannelComponent
   ],
   templateUrl: './chat-box.component.html',
   styleUrl: './chat-box.component.scss'
@@ -38,9 +57,14 @@ export class ChatBoxComponent {
   userService = inject(UserService);
   messageService = inject(MessageService);
   channelService = inject(ChannelService);
-  emojiService = inject(EmojiService);
-    private emojiSubscription!: Subscription;
+  @ViewChild('profileBox') profileBox!: ElementRef<HTMLDivElement>;
+  openProfileBox = false;
+  openEditChannel = false;
+  addUsersToChannel = false;
+  usersBoxInChannel = true;
 
+  emojiService = inject(EmojiService);
+  private emojiSubscription!: Subscription;
   @Input() threadId: string | null = null;
   @Input() channelId: string = '';
   @Input() privateChatId: string = '';
@@ -56,11 +80,22 @@ export class ChatBoxComponent {
   loggedUserId: string = '';
   users: User[] = this.userService.users;
   messageText: string = '';
+
+
   threadMessageText: string = '';
   focusedInput: string | null = null;
 
   @ViewChild('emojiPicker') emojiPicker!: ElementRef<HTMLElement>;
   excludeElements: HTMLElement[] = [];
+
+
+
+
+  constructor(@Inject(PLATFORM_ID) private platformId: any) {
+    this.isBrowser = isPlatformBrowser(this.platformId);
+
+  }
+
 
 
   ngAfterViewInit() {
@@ -87,13 +122,6 @@ export class ChatBoxComponent {
     }
   }
 
-
-  constructor(@Inject(PLATFORM_ID) private platformId: any) {
-    this.isBrowser = isPlatformBrowser(this.platformId);
-
-  }
-
-
   get filteredChannelMessages(): Message[] {
     return this.messageService.messages.filter(
       message => message.channelId === this.channelService.channelChatId
@@ -113,7 +141,18 @@ export class ChatBoxComponent {
     );
   }
 
-
+  /**
+   * a listener for mouseup event if the profileBox is active, if you click anywhere on the overlay it closes the profile box
+   * 
+   * @param target #profileBox
+   */
+  @HostListener('document:click', ['$event.target'])
+  onClickOutsideProfileBox(target: HTMLElement): void {
+    if (this.openProfileBox) {
+      let clickInsideChan = this.profileBox.nativeElement.contains(target);
+      if (!clickInsideChan) { this.closeProfilBox(); }
+    }
+  }
 
   closeThread(): void {
     this.messageService.threadId = null;
@@ -300,8 +339,25 @@ export class ChatBoxComponent {
 
 
 
+  /**
+  * opens the profile box
+  */
+  openProfile() {
+    this.openProfileBox = true;
+  }
 
+  /**
+   * closes the profile box
+   */
+  closeProfilBox() {
+    this.openProfileBox = false;
+  }
 
+  showEditChannel(){
+    this.openEditChannel = true;
+  }
 
-
+  closeEditChannel(){
+    this.openEditChannel = false;
+  }
 }

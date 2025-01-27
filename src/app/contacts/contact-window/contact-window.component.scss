@@ -1,11 +1,15 @@
 section {
+    position: absolute;
+    z-index: 4;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); 
     width: 500px;
     height: 705px;
     padding: 40px 0px 0px 0px;
-    border-radius: 15px 0px 15px 15px;
+    border-radius: 15px;
     opacity: 0px;
     box-shadow: 0px 6px 10px 0px #00000033;
-    margin-left: 75px;
     background-color: white;
 
 }
@@ -108,5 +112,43 @@ h2 {
         &:hover {
             filter: brightness(1.5);
         }
+    }
+}
+
+// @media screen and (max-width: 768px) {
+//     section {
+//         left: 35%;
+//     }
+// }
+
+@media screen and (max-width: 768px) {
+    section {
+        border-radius: 30px;
+        max-width: 500px;
+        width: calc(100vw - 20px);
+    }
+
+    .edit {
+        width: 85%;
+    }
+
+    .edit-section {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        margin-left: 0;
+    }
+
+    .input {
+        width: 75%;
+    }
+
+    .buttons {
+        gap: 20px;
+    }
+
+    .mail {
+        max-width: 280px;
     }
 }

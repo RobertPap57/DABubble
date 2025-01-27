@@ -17,7 +17,9 @@ export class SearchbarComponent {
   searchBar: string = '';
   filteredUsers: string[] = [];
   filteredChannels: string[] = [];
-  filteredMsgs: string[] = [];
+  filteredMessagesWithChannels: { messageId: string; chanName: string; channelId: string; messageText: string; }[] = [];
+  filteredMessagesWithThreads: { messageId: string; messageThreadId: string; messageText: string; }[] = [];
+  filteredMessagesWithPrivChat: { messageId: string; messageUserId: string; messageSenderId: string; messageText: string; }[] = [];
 
   constructor(public channelService: ChannelService, public userService: UserService, public messageService: MessageService) { }
 
@@ -51,9 +53,12 @@ export class SearchbarComponent {
     this.dropdownActive = true;
     const input = userInput.toLowerCase();
     if (input.length >= 3) {
+      const id = this.userService.loggedUserId;
       this.filterUsers(input);
-      this.filterChannels(input);
-      this.filterMessages(input);
+      this.filterChannels(input, id);
+      this.filterMessagesInChannels(input, id);
+      this.filterMessagesInPrivate(input, id);
+      this.filterMessagesinThreads(input, id);
     } else this.checkNoFindings();
   }
 
@@ -71,14 +76,15 @@ export class SearchbarComponent {
   /**
    * filters all channels and check if the input matches one of them or includes the input,
    * then checks if the input matches the users that are included on the channel
+   * only return if the logged in user is also in the channel
    * 
    * @param input the input the user types in the searchbar
    */
-  filterChannels(input: string) {
+  filterChannels(input: string, loggedUserId: string) {
     this.filteredChannels = this.channelService.channels
       .filter(channel => {
         const matchesChannelName = channel.chanName.toLowerCase().includes(input);
-        const hasMatchingUser = this.filteredUsers.some(userId => channel.userIds.includes(userId));
+        const hasMatchingUser = this.filteredUsers.some(userId => channel.userIds.includes(userId && loggedUserId));
         return matchesChannelName || hasMatchingUser;
       })
       .map(channel => channel.chanId)
@@ -86,20 +92,56 @@ export class SearchbarComponent {
 
   /**
    * filters all messages and check if the input matches one of them or includes the input,
-   * then checks if the input matches the users that are included on the messages
+   * puts back the Channel in where the text is
    * 
    * @param input the input the user types in the searchbar
    */
-  filterMessages(input: string) {
-    this.filteredMsgs = this.messageService.messages
+  filterMessagesInChannels(input: string, loggedUserId: string) {
+    const channelMap = new Map(this.channelService.channels.map(chan => [chan.chanId, chan]));
+    this.filteredMessagesWithChannels = this.messageService.messages
       .filter(message => {
-        const messageText = message.text.toLowerCase().includes(input);
-        const messageSenderID = this.filteredUsers.some(userId => message.senderId.includes(userId));
-        const messageReceiverID = this.filteredUsers.some(userId => message.userId.includes(userId));
-        // const messageChannelID = messageReceiverID.includes(messageReceiverID.valueOf.name);
-        return messageText || messageSenderID || messageReceiverID;
+        const channel = channelMap.get(message.channelId);
+        return channel && channel.userIds.includes(loggedUserId) &&
+          message.text.toLowerCase().includes(input);
       })
-      .map(msg => msg.id);
+      .map(message => {
+        const channel = channelMap.get(message.channelId);
+        return {
+          messageId: message.id, chanName: channel ? channel.chanName : 'Unknown',
+          channelId: message.channelId, messageText: message.text,
+        };
+      });
+  }
+
+  filterMessagesInPrivate(input: string, loggedUserId: string) {
+    this.filteredMessagesWithPrivChat = this.messageService.messages
+      .filter(message => {
+        const isInvolved = message.senderId === loggedUserId || message.userId === loggedUserId;
+        const matchesText = message.text.toLowerCase().includes(input);
+        return isInvolved && matchesText;
+      })
+      .map(message => {
+        return {
+          messageId: message.id, messageUserId: message.userId,
+          messageSenderId: message.senderId, messageText: message.text,
+        }
+      })
+  }
+
+  filterMessagesinThreads(input: string, loggedUserId: string) {
+    this.filteredMessagesWithThreads = this.messageService.messages
+      .filter(message => {
+        const isInvolved = message.senderId === loggedUserId || message.userId === loggedUserId;
+        const matchesText = message.text.toLowerCase().includes(input);
+        return isInvolved && matchesText && message.threadId !== '';
+      })
+      .map(message => {
+        return {
+          messageId: message.id,
+          messageThreadId: message.threadId || '',
+          messageText: message.text,
+        }
+      })
   }
 
   /**
@@ -108,7 +150,7 @@ export class SearchbarComponent {
   checkNoFindings() {
     this.filteredUsers.length = 0;
     this.filteredChannels.length = 0;
-    this.filteredMsgs.length = 0;
+    this.filteredMessagesWithChannels.length = 0;
   }
 
   /**
@@ -131,6 +173,22 @@ export class SearchbarComponent {
     this.channelService.channelChatId = id;
     this.userService.privMsgUserId = '';
     this.searchBar = '';
+    this.messageService.threadOpen = false;
+  }
+
+  /**
+   * opens a new threadTab
+   * 
+   * @param id the id of the thread selected
+   */
+  openThread(id: string | null) {
+    if (id) {
+      this.messageService.threadOpen = true;
+      this.channelService.channelChatId = '';
+      this.userService.privMsgUserId = '';
+      this.searchBar = '';
+      this.messageService.threadId = id;
+    }
   }
 
   openMessage() { }// hier noch etwas hinzufügen was ich genau suchen soll

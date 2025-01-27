@@ -45,7 +45,7 @@ section {
             }
 
             .searchResult {
-                display: block;
+                display: flex;
             }
         }
     }
@@ -87,7 +87,7 @@ img {
 }
 
 b {
-    margin-right: 4px;
+    margin-inline: 4px;
 }
 
 @media screen and (max-width: 1250px) {
@@ -106,7 +106,7 @@ b {
 
 @media screen and (max-width: 1024px) {
     section {
-        margin-right: 10px;
+        margin-right: -20px;
         margin-left: -52px;
 
         a {
@@ -122,6 +122,7 @@ b {
         height: 48px;
         border: 1px solid #ADB0D9;
         margin-left: 20px;
+        margin-right: 10px;
 
         .searchbarDropdown {
             top: 36px;

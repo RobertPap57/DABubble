@@ -68,8 +68,8 @@
       <div class="input password-input">
         <img [src]="lockImg" alt="Lock Icon" />
         <input
-          placeholder="Passwort"
-          type="text"
+          placeholder=" Neues Passwort"
+          [type]="passwordFieldType"
           name="password"
           [(ngModel)]="passwordText"
           (focus)="onFocus('password')"
@@ -78,6 +78,14 @@
           #passwortInput="ngModel"
           required
           password
+        />
+        <img
+          (mousedown)="onPasswordMouseDown()"
+          (mouseup)="onPasswordMouseUp()"
+          (mouseleave)="onPasswordMouseUp()"
+          class="visibility-icon"
+          [src]="visibilityIcon"
+          alt="visibility Icon"
         />
         <div
           class="error-message"
@@ -94,7 +102,7 @@
         <img [src]="confirmLockImg" alt="Lock Icon" />
         <input
           placeholder="Passwort bestätigen"
-          type="text"
+          [type]="confirmPasswordFieldType"
           name="confirm"
           [(ngModel)]="confirmPasswordText"
           (focus)="onFocus('confirm')"
@@ -103,6 +111,14 @@
           #confirmPasswortInput="ngModel"
           required
           confirm
+        />
+        <img
+          (mousedown)="onConfirmMouseDown()"
+          (mouseup)="onConfirmMouseUp()"
+          (mouseleave)="onConfirmMouseUp()"
+          class="visibility-icon"
+          [src]="confirmVisibilityIcon"
+          alt="visibility Icon"
         />
         <div
           class="error-message"
@@ -133,8 +149,14 @@
       </div>
     </div>
     <div class="next-btn">
-      <button [disabled]="!next"
-      [ngClass]="{ 'primary-btn': next, 'disabled-btn': !next }" (click)="openAvatar()" class="primary-btn">Weiter</button>
+      <button
+        [disabled]="!next"
+        [ngClass]="{ 'primary-btn': next, 'disabled-btn': !next }"
+        (click)="openAvatar()"
+        class="primary-btn"
+      >
+        Weiter
+      </button>
     </div>
   </div>
 </section>

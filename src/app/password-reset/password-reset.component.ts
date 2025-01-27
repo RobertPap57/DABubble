@@ -38,8 +38,48 @@ export class PasswordResetComponent implements OnInit {
   isPasswordValid: boolean = true;
   showError: boolean = false;
 
+  visibilityIcon: string = './visibility_off.png';
+  passwordFieldType: string = 'password';
+  confirmPasswordFieldType: string = 'password';
+  confirmVisibilityIcon: string = './visibility_off.png';
+
   ngOnInit(): void {
     this.route.paramMap.subscribe((params) => this.setToken(params));
+  }
+  /**
+   * Handles the mouse down event for the primary password input field.
+   * Changes the field type to 'text' to display the password and updates the visibility icon.
+   */
+  onPasswordMouseDown(): void {
+    this.passwordFieldType = 'text';
+    this.visibilityIcon = './visibility.png';
+  }
+
+  /**
+   * Handles the mouse up event for the primary password input field.
+   * Changes the field type back to 'password' to hide the password and resets the visibility icon.
+   */
+  onPasswordMouseUp(): void {
+    this.passwordFieldType = 'password';
+    this.visibilityIcon = './visibility_off.png';
+  }
+
+  /**
+   * Handles the mouse down event for the confirmation password input field.
+   * Changes the field type to 'text' to display the password and updates the visibility icon.
+   */
+  onConfirmMouseDown(): void {
+    this.confirmPasswordFieldType = 'text';
+    this.confirmVisibilityIcon = './visibility.png';
+  }
+
+  /**
+   * Handles the mouse up event for the confirmation password input field.
+   * Changes the field type back to 'password' to hide the password and resets the visibility icon.
+   */
+  onConfirmMouseUp(): void {
+    this.confirmPasswordFieldType = 'password';
+    this.confirmVisibilityIcon = './visibility_off.png';
   }
 
   /**

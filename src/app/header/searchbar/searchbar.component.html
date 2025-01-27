@@ -1,5 +1,6 @@
 <section>
-    <input [(ngModel)]="searchBar" type="text" placeholder="Devspace durchsuchen" name="search" (keyup.enter)="searchResults(searchBar)">
+    <input [(ngModel)]="searchBar" type="text" placeholder="Devspace durchsuchen" name="search"
+        (keyup.enter)="searchResults(searchBar)">
 
     <a (click)="searchResults(searchBar)">
         <svg width="27" height="27" viewBox="0 0 27 27" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -22,9 +23,9 @@
     <div class="searchbarDropdown" #searchbarDropdown>
         <div>
 
-            <h3>Found User</h3>
+            <h3>Gefundene Nutzer</h3>
             @if (filteredUsers.length === 0) {
-            <span>No User with that Name found</span>
+            <span>Kein Nutzer mit diesem Namen gefunden</span>
             }
             @for (user of userService.users; track user.id) {
 
@@ -33,9 +34,10 @@
             }
             }
 
-            <h3>Found Channels</h3>
+
+            <h3>Gefundene Channelnamen oder Nutzer</h3>
             @if (filteredChannels.length === 0) {
-            <span>No Channel with that Name found</span>
+            <span>Kein Kanalname oder Nutzer gefunden</span>
             }
             @for (channel of channelService.channels; track channel.chanId) {
 
@@ -44,15 +46,37 @@
             }
             }
 
-            <h3>Found Messages</h3>
-            @if (filteredMsgs.length === 0) {
-                <span>No Message with that User or Text found</span>
-            }
-            @for (msg of messageService.messages; track msg.id) {
 
-            @if (filteredMsgs.includes(msg.id)) {
-            <p (click)="openMessage()" class="searchResult">{{msg.text}}</p>
+            <h3>Gefundene Nachrichten in Channels</h3>
+            @if (filteredMessagesWithChannels.length === 0) {
+            <span>Keine Nachricht in Channels gefunden</span>
             }
+            @for (msg of filteredMessagesWithChannels; track $index) {
+            <p (click)="openChannel(msg.channelId)" class="searchResult">{{msg.messageText}} in <b>#
+                    {{msg.chanName}}</b></p>
+            }
+
+
+            <h3>Gefundene Private Nachrichten</h3>
+            @if (filteredMessagesWithPrivChat.length === 0) {
+            <span>Keine privaten Nachrichten gefunden</span>
+            }
+            @for (msg of filteredMessagesWithPrivChat; track $index) {
+            @for (user of userService.users; track user.id) {
+            @if (msg.messageUserId === user.id) {
+            <p (click)="opendirectMsg(msg.messageUserId)" class="searchResult">{{msg.messageText}}<b> von </b><img src=".{{user.userImage}}"><b>{{user.name}}</b>
+            </p>
+            }
+            }
+            }
+
+
+            <h3>Gefundene Nachrichten in Threads</h3>
+            @if (filteredMessagesWithThreads.length === 0) {
+            <span>Keine Nachricht in Threads gefunden</span>
+            }
+            @for (msg of filteredMessagesWithThreads; track $index) {
+            <p (click)="openThread(msg.messageThreadId)" class="searchResult">{{msg.messageText}}</p>
             }
 
         </div>

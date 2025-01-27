@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { UserService } from '../../services/user.service';
 import { FormsModule } from '@angular/forms';
 
@@ -19,6 +19,7 @@ export class ProfileWindowComponent {
   email: string = 'thehoffman@beispiel.com'; // Beispiel-E-Mail
   picture: string = '/steffen-hoffmann-avatar.png';
   status: string = '';
+  @Output() onClose: EventEmitter<void> = new EventEmitter();
 
   constructor(public userService: UserService) { }
 
@@ -27,8 +28,6 @@ export class ProfileWindowComponent {
   }
 
   ngOnInit(): void {
-    // @for (user of userService.users; track user.id) {
-    //   @if (user.id === userService.loggedUserId) {
     this.userService.users.forEach(user => {
       if (user.id === this.userService.loggedUserId) {
         this.userId = user.id;
@@ -38,12 +37,10 @@ export class ProfileWindowComponent {
         this.status = user.status
       }
     });
-
-
   }
 
-  // Diese Methode könnte verwendet werden, um den Status von einer Datenbank abzurufen
-  fetchStatusFromDatabase() {
+  close(): void {
+    this.onClose.emit();
   }
 
   save(): void {

@@ -1,5 +1,8 @@
-<div class="chat-box">
+<div class="chat-box" [ngClass]="{ 'active': !channelService.isServer}">
 
+    @if (addUsersToChannel) {
+    <div class="addUsersBox"></div>
+    }
 
     <div class="chat-header">
         @switch (chatType) {
@@ -15,7 +18,7 @@
 
         @case('private') {
         <div class="private-chat">
-            <div class="title">
+            <a class="title" (click)="openProfile()">
                 <div class="avatar-image">
                     <img src="{{getUserImg()}}" alt="">
                     <mat-icon fontSet="material-symbols-sharp" class="status-icon"
@@ -24,17 +27,17 @@
                     </mat-icon>
                 </div>
                 <h1>{{getUserName()}}</h1>
-            </div>
+            </a>
         </div>
         }
 
         @case('channel') {
         <div class="channel-chat">
-            <div class="channel-title">
+            <a (click)="showEditChannel()" class="channel-title">
                 <h2>#</h2>
                 <h1>{{getChannelName()}}</h1>
                 <mat-icon class="arrow-down" fontSet="material-symbols-rounded">keyboard_arrow_down</mat-icon>
-            </div>
+            </a>
             <div class="members-container">
                 <div class="members">
                     <div>
@@ -67,7 +70,14 @@
     </div>
 
 
-
+    @if(openEditChannel) {
+    <div class="overlay">
+        <p #editChannel id="editChannel">
+            <app-edit-channel channelId={{channelService.channelChatId}}
+                (onClose)="closeEditChannel()"></app-edit-channel>
+        </p>
+    </div>
+    }
 
 
     <div class="messages-container">
@@ -181,3 +191,17 @@
     </div>
 
 </div>
+
+@if (addUsersToChannel) {
+<div class="overlay"></div>
+}
+
+
+
+@if(openProfileBox) {
+<div class="overlay">
+    <p #profileBox id="profileBox">
+        <app-contact-window userId={{userService.privMsgUserId}} (onClose)="closeProfilBox()"></app-contact-window>
+    </p>
+</div>
+}

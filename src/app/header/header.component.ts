@@ -6,14 +6,17 @@ import { NgClass } from '@angular/common';
 import { NavigationEnd, Router, RouterLink } from '@angular/router';
 import { filter } from 'rxjs';
 import { ChannelService } from '../services/channel.service';
+import { UserService } from '../services/user.service';
+import { MessageService } from '../services/message.service';
 
 @Component({
   selector: 'app-header',
   standalone: true,
   imports: [ProfileComponent, SearchbarComponent, LinkCreateComponent, NgClass, RouterLink],
   templateUrl: './header.component.html',
-  styleUrl: './header.component.scss'
+  styleUrls: ['./header.keyframes.scss', './header.component.scss']
 })
+
 export class HeaderComponent {
   isLoginRoute: boolean = false;
   isNotLoggedInRoute: boolean = false;
@@ -22,7 +25,7 @@ export class HeaderComponent {
   animationPlayed: boolean = false;
   server: string = 'Devspace';
 
-  constructor(private router: Router, public channelService: ChannelService) {
+  constructor(private router: Router, public channelService: ChannelService, private userService: UserService, private messageService: MessageService) {
     this.ngOnInit();
   }
 
@@ -45,16 +48,17 @@ export class HeaderComponent {
    * checks on which route the user currently is to display the correct header items and animations
    */
   ngOnInit() {
+
     this.router.events
       .pipe(filter(event => event instanceof NavigationEnd))
       .subscribe((event: NavigationEnd) => {
         this.isHomeRoute = event.url.includes('/home');
         this.isLoginRoute = event.url === '/'
         this.isNotLoggedInRoute = ['/register', '/avatar', '/reset-password'].some(route => event.url.includes(route));
-        if (typeof window !== 'undefined'){
-          if (window.innerWidth < 769)
-          setTimeout(() => this.animationPlayed = true, 3000);
+        if (typeof window !== "undefined") {
+          if (window.innerWidth < 769) this.isMobile = true;
         }
+        setTimeout(() => this.animationPlayed = true, 3000);
       });
   }
 
@@ -63,5 +67,8 @@ export class HeaderComponent {
    */
   backToServer() {
     this.channelService.isServer = true;
+    this.channelService.channelChatId = '';
+    this.userService.privMsgUserId = '';
+    this.messageService.threadOpen = false;
   }
 }

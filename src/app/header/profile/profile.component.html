@@ -39,10 +39,11 @@
     </div>
 </div>
 }
+
 @if(openProfileBox) {
 <div class="overlay">
     <p #profileBox>
-        <app-profile-window></app-profile-window>
+        <app-profile-window (onClose)="closeProfilBox()" ></app-profile-window>
     </p>
 </div>
 }
