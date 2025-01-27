@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { ChannelService } from '../../services/channel.service';
 import { UserService } from '../../services/user.service';
 import { Channel } from '../../interfaces/channel.model';
+import { MessageService } from '../../services/message.service';
 
 
 @Component({
@@ -22,7 +23,7 @@ export class EditChannelComponent {
   channel!: Channel;
   channelCreatorName: string = '';
 
-  constructor(private userService: UserService ,private channelService: ChannelService) {
+  constructor(private userService: UserService ,private channelService: ChannelService, private messageService: MessageService) {
  
   }
 
@@ -54,6 +55,15 @@ export class EditChannelComponent {
     console.log(this.channel.userIds.splice(index, 1));
     this.updateChannel();
     this.closeEditChannel();
+    this.openNewMsgChannel(); 
+  }
+
+  openNewMsgChannel() {
+    this.channelService.isServer = false;
+    this.channelService.channelChatId = '';
+    this.userService.privMsgUserId = '';
+    this.messageService.threadOpen = false;
+    this.channelService.isServer = false;
   }
 
   @ViewChild('createdChannelBox') editBox!: ElementRef<HTMLDivElement>;
