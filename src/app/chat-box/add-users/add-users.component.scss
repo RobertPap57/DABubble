@@ -28,6 +28,11 @@
 
         &:Hover {
             color: #444DF2;
+            background-color: #ECEEFE;
+        }
+        
+        &:hover .channels {
+            fill: #444DF2;
         }
     }
 
@@ -35,7 +40,7 @@
         scrollbar-width: none;
         overflow-y: scroll;
         box-sizing: border-box;
-        height: 206px;
+        height: 212px;
     }
 
     h2 {
@@ -47,9 +52,13 @@
         font-size: 26px;
         cursor: pointer;
         rotate: 45deg;
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
 
         &:hover {
             color: #444df2;
+            background-color: #ECEEFE;
         }
     }
 
@@ -125,11 +134,12 @@
     }
 
     .channel {
-        b{
+        b {
             font-size: 18px;
             font-weight: 400;
             margin-right: 15px;
         }
+
         span {
             color: #797EF3;
             font-size: 18px;
@@ -147,6 +157,7 @@
         height: 55px;
         padding-left: 15px;
         border: 1px solid #444DF2;
+
         &::placeholder {
             font-size: 18px;
         }
@@ -168,10 +179,12 @@
             border: 1px solid #444DF2;
             border-radius: 25px;
             background-color: #444DF2;
+
             span {
                 color: white;
                 font-size: 18px;
             }
+
             &:hover {
                 cursor: pointer;
                 filter: brightness(1.5);
@@ -206,6 +219,65 @@
 .invisibleOverlay {
     background-color: transparent !important;
     pointer-events: none !important;
+}
+
+.invisibleInputOverlay {
+    position: absolute;
+    left: 12px;
+    top: 7px;
+    display: flex;
+    max-width: 96%;
+
+    >p {
+        position: relative;
+        display: flex;
+        align-items: center;
+        background-color: #ECEEFE;
+        border-radius: 35px;
+        height: 34px;
+        padding-block: 3px;
+        padding-left: 18px;
+        padding-right: 28px;
+        margin-right: 8px;
+        font-size: 16px;
+        top: -15px;
+
+        >p {
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
+            max-width: 66px;
+            font-size: 16px;
+        }
+
+        >span {
+            font-size: 22px;
+            position: absolute;
+            right: 3px;
+            top: 8px;
+            cursor: pointer;
+            rotate: 45deg;
+            width: 12px;
+            height: 12px;
+
+            &:hover {
+                color: #444df2;
+            }
+        }
+
+        img {
+            border-radius: 50%;
+            width: 36px;
+            height: 36px;
+            margin-right: 3px;
+        }
+    }
+}
+
+.click {
+    cursor: pointer;
+    padding-inline: 12px !important;
+    order: 66;
 }
 
 .greyButton {
