@@ -71,10 +71,11 @@
       <div class="div-line"></div>
       <span>ODER</span>
     </div>
-    <div class="google-btn">
-      <img src="/Google.png" alt="" />
+    <div class="google-btn" (click)="onGoogleLogin()">
+      <img src="/Google.png" alt="Google Logo" />
       <span>Anmelden mit Google</span>
     </div>
+    
     <div class="login-btns">
       <button
         [disabled]="!loginUser"

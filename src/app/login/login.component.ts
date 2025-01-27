@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { UserService } from '../services/user.service';
 import { FeedbackOverlayComponent } from '../feedback-overlay/feedback-overlay.component';
+import { getAuth, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 
 @Component({
   selector: 'app-login',
@@ -34,6 +35,44 @@ export class LoginComponent {
   );
 
   guestUrl: string = '0LxX4SgAJLMdrMynLbem';
+
+  /**
+   * Initiates Google Login process.
+   */
+  async onGoogleLogin(): Promise<void> {
+    const auth = getAuth();
+    const provider = new GoogleAuthProvider();
+
+    try {
+      this.feedbackOverlay.showFeedback('Anmeldung mit Google läuft...');
+
+      const result = await signInWithPopup(auth, provider);
+      const user = result.user;
+
+      if (user) {
+        const userData = {
+          id: user.uid,
+          name: user.displayName || '',
+          email: user.email || '',
+          userImage: user.photoURL || '',
+          status: 'online' as 'online',
+          lastSeen: new Date(),
+          password: '',
+        };
+
+        await this.userService.saveGoogleUserToFirestore(userData);
+
+        this.feedbackOverlay.showFeedback('Anmelden mit Google erfolgreich!');
+        this.router.navigate(['/home', userData.id]);
+      }
+    } catch (error) {
+      console.error('Fehler bei der Google-Anmeldung:', error);
+
+      this.feedbackOverlay.showFeedback(
+        'Google-Anmeldung fehlgeschlagen. Bitte erneut versuchen.'
+      );
+    }
+  }
 
   /**
    * Handles the mouse down event on the visibility icon.
