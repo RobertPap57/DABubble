@@ -4,7 +4,7 @@
     @if (addUsersToChannel) {
     <div class="displayUsersBox">
             <h2>Mitglieder<span class="dFlexCenter" (click)="closeDisplayUsersBox()">+</span></h2>
-            <div>
+            <div class="scrollableUsers">
             @for(member of getChannelMembers(); track member.id) {
             @if (userService.loggedUserId === member.id) {
             <div class="users">
@@ -28,6 +28,7 @@
             </div>
             }
         </div>
+        <div class="addMembersToChannel"></div>
     </div>
     }
 
