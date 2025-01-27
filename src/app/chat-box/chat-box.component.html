@@ -137,9 +137,6 @@
     </div>
 
 
-
-
-
     <div class="input-container" [class]="{ 'thread-margin': chatType === 'thread' ,
      'reduced-margin': messageService.threadOpen && !channelService.slideOutNavBar && chatType !== 'thread'}">
 
@@ -192,15 +189,6 @@
     </div>
 
 </div>
-
-@if (addUsersToChannel) {
-<div class="overlay"></div>
-}
-
-@if (usersBoxInChannel) {
-<div class="overlay"></div>
-}
-
 
 
 @if(openProfileBox) {

@@ -100,7 +100,6 @@ export class ChannelService {
       await updateDoc(channelDocRef, {
         userIds: arrayUnion(...addedUsers),
       });
-      console.log('Users successfully added to channel.');
     } catch (error) {
       console.error('Error updating channel users:', error);
     }
