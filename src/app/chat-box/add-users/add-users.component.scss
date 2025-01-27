@@ -30,7 +30,7 @@
             color: #444DF2;
             background-color: #ECEEFE;
         }
-        
+
         &:hover .channels {
             fill: #444DF2;
         }
@@ -341,4 +341,20 @@
     bottom: 0;
     background-color: rgba(0, 0, 0, 0.4);
     z-index: 6;
+}
+
+@media screen and (max-width: 768px) {
+    .displayUsersBox {
+        right: 10px;
+        max-width: 415px;
+        width: 95%;
+        padding-inline: 16px;
+    }
+
+    .addUsersBox {
+        right: 10px;
+        max-width: 514px;
+        width: 90%;
+        padding-inline: 16px;
+    }
 }
