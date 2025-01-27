@@ -321,6 +321,7 @@ h1 {
     textarea {
         all: unset;
         word-break: break-word;
+        font-size: 18px;
     }
 
     .actions-container {
@@ -363,10 +364,7 @@ h1 {
     }
 }
 
-emoji-mart {
-    top: -430px;
-    left: 0px;
-}
+
 
 .private-chat-empty {
     margin: 20px 45px;
@@ -445,17 +443,34 @@ emoji-mart {
     padding-inline: 35px;
     display: flex;
     gap: 20px;
+
     p {
         color: #ADB0D9;
         font-size: 18px;
         margin: 0;
         width: fit-content;
     }
+
     span {
         background-color: #ADB0D9;
         height: 1px;
         flex: 1;
         align-self: center;
 
+    }
+}
+
+.emoji-picker {
+    position: absolute;
+    top: -430px;
+    left: 0px;
+    z-index: 20;
+
+    &.active {
+        display: flex;
+    }
+
+    &.hidden {
+        display: none;
     }
 }

@@ -13,40 +13,41 @@ export class MessageService {
     userService = inject(UserService);
     channelService = inject(ChannelService);
     firestore: Firestore = inject(Firestore);
-    messages: Message[]=[];
+    messages: Message[] = [];
     threadId: string | null = null;
-    threadOpen: boolean = false;
     threadChannelName: string = '';
+    editMessage: Message | null = null;
+    originalText: string = '';
+    threadOpen: boolean = false;
 
 
-
- unsubMessageList;
+    unsubMessageList;
 
     constructor() {
         this.unsubMessageList = this.subMessageList();
-       
+
     }
 
 
 
     subMessageList() {
         const q = query(
-          collection(this.firestore, 'messages'),orderBy('time', 'desc')
+            collection(this.firestore, 'messages'), orderBy('time', 'desc')
         );
         return onSnapshot(q, (list) => {
             this.messages = list.docs.map(doc => {
-              const messageData = doc.data();
-              const message = this.setMessageObject(messageData, doc.id);
-          
-              // Convert Timestamp to string (if necessary)
-              
-          
-              return message;
+                const messageData = doc.data();
+                const message = this.setMessageObject(messageData, doc.id);
+
+                // Convert Timestamp to string (if necessary)
+
+
+                return message;
             });
-          
-          });
-      }
-    
+
+        });
+    }
+
 
     ngOnDestroy() {
         this.unsubMessageList;
@@ -56,11 +57,11 @@ export class MessageService {
     async createMessage(message: Message) {
         try {
             const docRef = await addDoc(this.getMessagesDocRef(), message);
-          
-    
+
+
             // Update the message with the auto-generated ID
             await updateDoc(docRef, { id: docRef.id });
-    
+
             return docRef.id; // Return the ID for further usage, if needed
         } catch (err) {
             console.error("Error creating message: ", err);
@@ -79,6 +80,7 @@ export class MessageService {
         }
     }
 
+
     async deleteMessage(docId: string) {
         await deleteDoc(this.getSingleMessageDocRef('messages', docId)).catch(
             (err) => { console.log(err); }
@@ -89,23 +91,23 @@ export class MessageService {
 
     getCleanJSON(message: Message): {} {
         return {
-            id: message.id || '', 
+            id: message.id || '',
             senderId: message.senderId,
             text: message.text,
             time: message.time,
-            reactions: message.reactions, 
+            reactions: message.reactions,
             recentEmojis: message.recentEmojis,
             channelId: message.channelId,
             userId: message.userId,
             threadId: message.threadId
-            
-           
+
+
         }
     }
 
     setMessageObject(obj: any, id: string): Message {
         return {
-            id: id ,
+            id: id,
             senderId: obj.senderId,
             text: obj.text,
             time: obj.time,

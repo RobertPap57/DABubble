@@ -2,7 +2,7 @@
 
 import { User } from './../interfaces/user.model';
 import { serverTimestamp } from 'firebase/firestore';
-import { Component, Input, Inject, inject, PLATFORM_ID } from '@angular/core';
+import { Component, Input, Inject, inject, PLATFORM_ID,ViewChild, ElementRef, AfterViewInit, viewChild, Signal } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { PickerComponent } from '@ctrl/ngx-emoji-mart';
@@ -15,21 +15,8 @@ import { MessageService } from '../services/message.service';
 import { Message, Reaction } from '../interfaces/message.interface';
 import { UserService } from '../services/user.service';
 import { ChannelService } from '../services/channel.service';
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+import { EmojiService } from '../services/emoji.service';
+import { Subscription } from 'rxjs';
 
 
 
@@ -42,7 +29,7 @@ import { ChannelService } from '../services/channel.service';
     FormsModule,
     AutosizeModule,
     ClickOutsideDirective,
-    MessageComponent
+    MessageComponent,
   ],
   templateUrl: './chat-box.component.html',
   styleUrl: './chat-box.component.scss'
@@ -51,30 +38,54 @@ export class ChatBoxComponent {
   userService = inject(UserService);
   messageService = inject(MessageService);
   channelService = inject(ChannelService);
+  emojiService = inject(EmojiService);
+    private emojiSubscription!: Subscription;
 
   @Input() threadId: string | null = null;
-
   @Input() channelId: string = '';
   @Input() privateChatId: string = '';
   @Input() newMessage: boolean = false;
 
   isBrowser: boolean;
-  emojiPickerOn: boolean = false;
   @Input() chatType: 'private' | 'channel' | 'thread' | 'new' = 'new';
+   messageInput: Signal<ElementRef | undefined> = viewChild('messageInput');
+   threadMessageInput: Signal<ElementRef | undefined> = viewChild('threadMessageInput');
   @Input() userId: string = '';
-  channelName = 'Entwicklerteam';
   senderName: string = '';
   senderImg: string = '';
   loggedUserId: string = '';
-
-
   users: User[] = this.userService.users;
   messageText: string = '';
+  threadMessageText: string = '';
+  focusedInput: string | null = null;
+
+  @ViewChild('emojiPicker') emojiPicker!: ElementRef<HTMLElement>;
+  excludeElements: HTMLElement[] = [];
 
 
+  ngAfterViewInit() {
+    setTimeout(() => {
+      this.excludeElements = [this.emojiPicker.nativeElement];
+    }, 0);
 
+  }
 
+  ngOnInit(): void {
+    this.emojiSubscription = this.emojiService.emojiSelected$.subscribe(({ event, destination }) => {
+      if (destination === 'newMessage') {
+        this.addEmojiInMessage(event);
+      }
+      if(destination === 'threadMessage'){
+        this.addEmojiInThread(event);
+      }
+    });
+  }
 
+  ngOnDestroy(): void {
+    if (this.emojiSubscription) {
+      this.emojiSubscription.unsubscribe();
+    }
+  }
 
 
   constructor(@Inject(PLATFORM_ID) private platformId: any) {
@@ -108,6 +119,7 @@ export class ChatBoxComponent {
     this.messageService.threadId = null;
     this.messageService.threadOpen = false;
   }
+  
 
   countThreadAnswers(): number {
     return this.messageService.messages.filter(
@@ -200,13 +212,14 @@ export class ChatBoxComponent {
   }
 
   sendMessage(): void {
-    if (this.messageText.trim() !== '') {
+    if (this.messageText.trim() !== ''|| this.threadMessageText.trim() !== '') {
       if (this.threadId) {
         this.sendThreadMessage();
       } else {
         this.sendMainMessage();
       }
       this.messageText = ''; // Clear input
+      this.threadMessageText = ''; // Clear input
     }
   }
 
@@ -231,7 +244,7 @@ export class ChatBoxComponent {
     const newMessage: Message = {
       id: '',
       senderId: this.userService.loggedUserId,
-      text: this.messageText,
+      text: this.threadMessageText,
       time: serverTimestamp(),
       reactions: [],
       recentEmojis: [],
@@ -242,19 +255,50 @@ export class ChatBoxComponent {
     this.messageService.createMessage(newMessage);
   }
 
+  addEmojiInThread(event: any): void {
+    const emoji = event.emoji.native;
+    const threadRef = this.threadMessageInput();
+    const textarea = threadRef?.nativeElement
 
-  toggleEmojiPicker(): void {
-    this.emojiPickerOn = !this.emojiPickerOn;
+    if (textarea) {
+      const cursorPosition = textarea.selectionStart || 0;
+      const textBeforeCursor = textarea.value.slice(0, cursorPosition);
+      const textAfterCursor = textarea.value.slice(cursorPosition);
+      this.threadMessageText = textBeforeCursor + emoji + textAfterCursor;
+
+      // Restore the cursor position and focus
+      setTimeout(() => {
+        const newCursorPosition = cursorPosition + emoji.length;
+        textarea.setSelectionRange(newCursorPosition, newCursorPosition);
+        textarea.focus();
+      });
+    }
+
   }
 
-  addEmoji(event: any): void {
-    this.messageText += event.emoji.native;
-    this.closeEmojiPicker();
+
+
+
+  addEmojiInMessage(event: any): void {
+    const emoji = event.emoji.native;
+    const messageRef = this.messageInput();
+      const textarea = messageRef?.nativeElement
+      if (textarea) {
+        const cursorPosition = textarea.selectionStart || 0;
+        const textBeforeCursor = textarea.value.slice(0, cursorPosition);
+        const textAfterCursor = textarea.value.slice(cursorPosition);
+        this.messageText = textBeforeCursor + emoji + textAfterCursor;
+
+        // Restore the cursor position and focus
+        setTimeout(() => {
+          const newCursorPosition = cursorPosition + emoji.length;
+          textarea.setSelectionRange(newCursorPosition, newCursorPosition);
+          textarea.focus();
+        });
+      }
   }
 
-  closeEmojiPicker(): void {
-    this.emojiPickerOn = false;
-  }
+
 
 
 
