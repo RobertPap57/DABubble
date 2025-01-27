@@ -461,13 +461,17 @@ emoji-mart {
 }
 
 @media screen and (max-width: 768px) {
-    .active {
-        border-radius: 0;
+    .chat-box {
         position: absolute;
+        z-index: 1;
         left: 0;
-        top: 100px;
-        z-index: 5!important;
         bottom: 0;
+        top: 100px;
+        border-radius: 0;
         height: calc(100vh - 100px);
+    }
+
+    .active {
+        z-index: 5!important;
     }
 }
