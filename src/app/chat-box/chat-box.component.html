@@ -67,19 +67,11 @@
     </div>
 
 
-    @if(openProfileBox) {
-    <div class="overlay">
-        <p #profileBox id="profileBox">
-            <app-contact-window userId={{userService.privMsgUserId}} (onClose)="closeProfilBox()" ></app-contact-window>
-        </p>
-    </div>
-    }
-
-
     @if(openEditChannel) {
     <div class="overlay">
         <p #editChannel id="editChannel">
-            <app-edit-channel channelId={{channelService.channelChatId}} (onClose)="closeEditChannel()" ></app-edit-channel>
+            <app-edit-channel channelId={{channelService.channelChatId}}
+                (onClose)="closeEditChannel()"></app-edit-channel>
         </p>
     </div>
     }
@@ -174,3 +166,13 @@
     </div>
 
 </div>
+
+
+
+@if(openProfileBox) {
+<div class="overlay">
+    <p #profileBox id="profileBox">
+        <app-contact-window userId={{userService.privMsgUserId}} (onClose)="closeProfilBox()"></app-contact-window>
+    </p>
+</div>
+}
