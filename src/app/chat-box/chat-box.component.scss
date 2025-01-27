@@ -486,10 +486,16 @@ h1 {
     overflow: hidden;
     scrollbar-width: none;
 
-    >div {
+    .addMembersToChannel {
+        
+    }
+
+    .scrollableUsers {
         scrollbar-width: none;
         overflow-y: scroll;
         box-sizing: border-box;
+        height: 198px;
+
     }
 
     h2 {

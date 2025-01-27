@@ -24,18 +24,6 @@ import { Subscription } from 'rxjs';
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
 @Component({
   selector: 'app-chat-box',
   standalone: true,
