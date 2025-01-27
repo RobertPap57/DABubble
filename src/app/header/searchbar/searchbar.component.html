@@ -74,7 +74,7 @@
             @for (user of userService.users; track user.id) {
             @if (msg.messageUserId === user.id) {
             <p (click)="opendirectMsg(msg.messageUserId)" class="searchResult">{{msg.messageText}}<b> von </b><img
-                    src=".{{user.userImage}}"><b>{{user.name}}</b>
+                    src="{{user.userImage}}"><b>{{user.name}}</b>
             </p>
             }
             }
