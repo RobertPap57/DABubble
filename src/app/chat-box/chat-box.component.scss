@@ -466,8 +466,18 @@ emoji-mart {
         height: 1px;
         flex: 1;
         align-self: center;
-
     }
+}
+
+.addUsersBox {
+    background-color: white;
+    border-radius: 30px 0 30px 30px;
+    padding: 40px;
+    top: 220px;
+    position: absolute;
+    width: 514px;
+    height: 294px;
+    right: 64px;
 }
 
 @media screen and (max-width: 768px) {
