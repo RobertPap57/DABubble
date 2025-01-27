@@ -1,56 +1,6 @@
 <div class="chat-box" [ngClass]="{ 'active': !channelService.isServer}">
 
-
-    @if (addUsersToChannel) {
-    <div class="displayUsersBox">
-            <h2>Mitglieder<span class="dFlexCenter" (click)="closeDisplayUsersBox()">+</span></h2>
-            <div class="scrollableUsers">
-            @for(member of getChannelMembers(); track member.id) {
-            @if (userService.loggedUserId === member.id) {
-            <div class="users">
-                <div>
-                    <img src=".{{member.userImage}}" alt="User Image">
-                    <span [ngStyle]="{'background-color': member.status === 'online' ? '#92c73e' : '#696969'}"></span>
-                </div>
-                <p>{{member.name}} (Du)</p>
-            </div>
-            } @else {
-            <div (click)="openProfile()" class="users">
-                <div>
-                    <img src=".{{member.userImage}}" alt="User Image">
-                    <span [ngStyle]="{'background-color': member.status === 'online' ? '#92c73e' : '#696969'}"></span>
-                </div>
-                <p>{{member.name}}</p>
-            </div>
-            }
-            <div>
-
-            </div>
-            }
-        </div>
-        <div class="addMembersToChannel"></div>
-    </div>
-    }
-
-    @if (usersBoxInChannel) {
-    <div class="addUsersBox">
-        <div class="top">
-            <h2>Leute hinzufügen</h2>
-            <img (click)="toggleDisplayAddBox()" src="/close.svg" alt="close icon">
-        </div>
-        <div class="channel">
-            <span><b>#</b>{{getChannelName()}}</span>
-        </div>
-        <div class="inputField">
-            <input type="text" class="input" placeholder="Name eingeben">
-        </div>
-        <div class="button">
-            <button>
-                <span>Hinzufügen</span>
-            </button>
-        </div>
-    </div>
-    }
+<app-add-users></app-add-users>
 
     <div class="chat-header">
         @switch (chatType) {

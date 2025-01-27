@@ -21,6 +21,7 @@ import { EditChannelComponent } from '../slide-side-bar/edit-channel/edit-channe
 
 import { EmojiService } from '../services/emoji.service';
 import { Subscription } from 'rxjs';
+import { AddUsersComponent } from './add-users/add-users.component';
 
 
 
@@ -37,7 +38,8 @@ import { Subscription } from 'rxjs';
     MessageComponent,
     ContactWindowComponent,
     EditChannelComponent,
-    SearchbarComponent
+    SearchbarComponent,
+    AddUsersComponent
   ],
   templateUrl: './chat-box.component.html',
   styleUrl: './chat-box.component.scss'
