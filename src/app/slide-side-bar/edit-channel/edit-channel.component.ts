@@ -51,7 +51,7 @@ export class EditChannelComponent {
   removeUser() {
     let index = this.channel.userIds.indexOf(this.userService.loggedUserId);
     console.log(this.userService.loggedUserId)
-    this.channel.userIds.splice(index, 1);
+    console.log(this.channel.userIds.splice(index, 1));
     this.updateChannel();
     this.closeEditChannel();
   }

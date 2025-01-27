@@ -29,11 +29,15 @@
         </form>
 
         <div class="creator">
-            <h1>Erstellt von</h1>
+            <div class="line"></div>
+            <h1>Erstellt von:</h1>
             <h2>{{channelCreatorName}}</h2>
         </div>
+        <div class="btn-container">
+            <button (click)=" removeUser()" class="leave-btn">Channel verlassen</button>
+        </div>
 
-        <button (click)=" removeUser()" class="leave-btn">Channel verlassen</button>
+        
 
     </div>
 </section>
