@@ -15,7 +15,7 @@ import { MessageService } from '../services/message.service';
 import { Message, Reaction } from '../interfaces/message.interface';
 import { UserService } from '../services/user.service';
 import { ChannelService } from '../services/channel.service';
-
+import { SearchbarComponent } from '../header/searchbar/searchbar.component';
 import { ContactWindowComponent } from '../contacts/contact-window/contact-window.component';
 import { EditChannelComponent } from '../slide-side-bar/edit-channel/edit-channel.component';
 
@@ -36,7 +36,8 @@ import { Subscription } from 'rxjs';
     MessageComponent,
     MessageComponent,
     ContactWindowComponent,
-    EditChannelComponent
+    EditChannelComponent,
+    SearchbarComponent
   ],
   templateUrl: './chat-box.component.html',
   styleUrl: './chat-box.component.scss'
@@ -355,5 +356,9 @@ export class ChatBoxComponent {
 
   openDisplayUsersBox() {
     this.addUsersToChannel = true;
+  }
+
+  toggleDisplayAddBox() {
+    this.usersBoxInChannel = !this.usersBoxInChannel;
   }
 }
