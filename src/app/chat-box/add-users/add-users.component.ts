@@ -3,6 +3,8 @@ import { ChatBoxComponent } from '../chat-box.component';
 import { UserService } from '../../services/user.service';
 import { CommonModule, NgStyle } from '@angular/common';
 import { FormsModule, NgModel } from '@angular/forms';
+import { user } from '@angular/fire/auth';
+import { ChannelService } from '../../services/channel.service';
 
 @Component({
   selector: 'app-add-users',
@@ -20,21 +22,26 @@ export class AddUsersComponent {
   inputPlaceholder = 'Name eingeben';
   onlineColor = '#92c73e';
   offlineColor = '#696969';
-  @ViewChild('createPeopleBox') createPeopleBox!: ElementRef<HTMLDivElement>;
   @ViewChild('focusdropdown') focusDropdown!: ElementRef;
+  chatBoxIds:string [] = [];
 
-  constructor(public chatBox: ChatBoxComponent, public userService: UserService) { }
+  constructor(public chatBox: ChatBoxComponent, public userService: UserService, private channelService: ChannelService) {
+  }
 
+  /**
+   * Loads the current Users in the channel and maps them out in the chatBoxIds
+   */
+  loadUserIDs() {
+    this.searchIds = this.userService.users.map(user => user.id);
+    const members = this.chatBox.getChannelMembers();
+    this.chatBoxIds = members.map((user: { id: string; }) => user.id);
+  }
 
   @HostListener('document:mousedown', ['$event.target'])
   onClickOutsideDrop(target: HTMLElement): void {
-    if (this.createPeopleBox) {
       let clickInsideDrop = this.focusDropdown?.nativeElement.contains(target); {
       } if (!clickInsideDrop) this.dropdownActive = false;;
-    }
   }
-
-
 
   /**
  * checks if no user is selected and changes the placeholder of the input
@@ -82,5 +89,24 @@ export class AddUsersComponent {
         .filter(user => user.name.toLowerCase().includes(input))
         .map(user => user.id);
     } else this.searchIds = this.userService.users.map(user => user.id);
+  }
+
+  /**
+   * clears the add User array
+   */
+  clearaddUser() {
+    this.selectedUserId.length = 0;
+  }
+
+  /**
+   * adds the selected User to the Channel
+   */
+  addUserToChannel() {
+    console.log("kerk");
+    this.channelService.updateUserinChannel(this.channelService.channelChatId, this.selectedUserId);
+    this.clearaddUser();
+    this.chatBox.toggleDisplayAddBox();
+    console.log("kerk");
+    
   }
 }

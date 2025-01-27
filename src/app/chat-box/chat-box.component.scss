@@ -16,6 +16,7 @@ h1 {
     background-color: white;
     display: flex;
     flex-direction: column;
+    position: relative;
 }
 
 
@@ -76,6 +77,10 @@ h1 {
         display: flex;
         align-items: center;
         gap: 10px;
+
+        .add-member-responsive {
+            display: none;
+        }
 
         .members {
             display: flex;
@@ -469,6 +474,21 @@ h1 {
     }
 }
 
+.emoji-picker {
+    position: absolute;
+    top: -430px;
+    left: 0px;
+    z-index: 20;
+
+    &.active {
+        display: flex;
+    }
+
+    &.hidden {
+        display: none;
+    }
+}
+
 @media screen and (max-width: 768px) {
     .chat-box {
         position: absolute;
@@ -483,19 +503,35 @@ h1 {
     .active {
         z-index: 5 !important;
     }
-}
 
-.emoji-picker {
-    position: absolute;
-    top: -430px;
-    left: 0px;
-    z-index: 20;
+    .channel-chat {
+        .members-container {
+            .members {
+                display: none;
+            }
 
-    &.active {
-        display: flex;
-    }
+            .add-member {
+                display: none;
+            }
 
-    &.hidden {
-        display: none;
+            .add-member-responsive {
+                font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+                width: 40px;
+                height: 40px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 24px;
+                border-radius: 30px;
+                transition: all 125ms ease-in-out;
+                color: #797EF3;
+                background-color: #ECEEFE;
+
+                &:hover {
+                    font-size: 26px;
+                    cursor: pointer;
+                }
+            }
+        }
     }
 }

@@ -50,6 +50,7 @@
                     <p>{{getChannelMembers().length}}</p>
                 </div>
                 <mat-icon (click)="toggleDisplayAddBox()" class="add-member" fontSet="material-symbols-rounded">person_add</mat-icon>
+                <mat-icon (click)="openDisplayUsersBox()" class="add-member-responsive" fontSet="material-symbols-rounded">person_add</mat-icon>
             </div>
         </div>
         }
@@ -192,14 +193,6 @@
     </div>
 
 </div>
-
-@if (addUsersToChannel) {
-<div class="overlay"></div>
-}
-
-@if (usersBoxInChannel) {
-<div class="overlay"></div>
-}
 
 
 

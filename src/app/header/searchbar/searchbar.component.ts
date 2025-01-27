@@ -115,7 +115,8 @@ export class SearchbarComponent {
       .filter(channel => {
         const matchesChannelName = channel.chanName.toLowerCase().includes(input);
         const hasMatchingUser = this.filteredUsers.some(userId => channel.userIds.includes(userId && loggedUserId));
-        return matchesChannelName || hasMatchingUser;
+        const hasLoggedUser = channel.userIds.includes(loggedUserId);
+        return matchesChannelName && hasLoggedUser || hasMatchingUser && hasLoggedUser;
       })
       .map(channel => channel.chanId)
   }
