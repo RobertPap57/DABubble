@@ -1,8 +1,36 @@
 <div class="chat-box" [ngClass]="{ 'active': !channelService.isServer}">
 
+
     @if (addUsersToChannel) {
-    <div class="displayUsersBox"></div>
+    <div class="displayUsersBox">
+            <h2>Mitglieder<span class="dFlexCenter" (click)="closeDisplayUsersBox()">+</span></h2>
+            <div>
+            @for(member of getChannelMembers(); track member.id) {
+            @if (userService.loggedUserId === member.id) {
+            <div class="users">
+                <div>
+                    <img src=".{{member.userImage}}" alt="User Image">
+                    <span [ngStyle]="{'background-color': member.status === 'online' ? '#92c73e' : '#696969'}"></span>
+                </div>
+                <p>{{member.name}} (Du)</p>
+            </div>
+            } @else {
+            <div (click)="openProfile()" class="users">
+                <div>
+                    <img src=".{{member.userImage}}" alt="User Image">
+                    <span [ngStyle]="{'background-color': member.status === 'online' ? '#92c73e' : '#696969'}"></span>
+                </div>
+                <p>{{member.name}}</p>
+            </div>
+            }
+            <div>
+
+            </div>
+            }
+        </div>
+    </div>
     }
+
 
     <div class="chat-header">
         @switch (chatType) {
@@ -38,7 +66,7 @@
                 <h1>{{getChannelName()}}</h1>
                 <mat-icon class="arrow-down" fontSet="material-symbols-rounded">keyboard_arrow_down</mat-icon>
             </a>
-            <div class="members-container">
+            <div class="members-container" (click)="openDisplayUsersBox()">
                 <div class="members">
                     <div>
                         @for(member of getChannelMembers(); track member.id) {
