@@ -96,7 +96,6 @@ export class MessageService {
             text: message.text,
             time: message.time,
             reactions: message.reactions,
-            recentEmojis: message.recentEmojis,
             channelId: message.channelId,
             userId: message.userId,
             threadId: message.threadId
@@ -112,7 +111,6 @@ export class MessageService {
             text: obj.text,
             time: obj.time,
             reactions: obj.reactions,
-            recentEmojis: obj.recentEmojis,
             channelId: obj.channelId,
             userId: obj.userId,
             threadId: obj.threadId

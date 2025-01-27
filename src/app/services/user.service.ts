@@ -94,6 +94,7 @@ export class UserService {
       password: obj.password || '',
       status: obj.status || '',
       lastSeen: obj.lastSeen || new Date(),
+      recentEmojis: obj.recentEmojis || [],
     };
   }
 
@@ -139,6 +140,7 @@ export class UserService {
       userImage: this.userImage,
       status: 'offline',
       lastSeen: new Date(),
+      recentEmojis: [],
     };
   }
 
@@ -262,10 +264,21 @@ export class UserService {
     }, 1500);
   }
 
+async updateRecentEmojis (id: string, recentEmojis: string []): Promise<void> {
+  try {
+    let userDocRef = this.getSingleUserDocRef('user', id);
+    await updateDoc(userDocRef, {
+      recentEmojis: recentEmojis,
+    });
+    console.log('User info updated successfully.');
+  } catch (error) {
+    console.error('Error updating user info:', error);
+  }
+}
   async updateUserInfo(
     id: string,
     name: string,
-    avatar: string
+    avatar: string,
   ): Promise<void> {
     try {
       console.log(id);

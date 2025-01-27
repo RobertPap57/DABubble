@@ -6,4 +6,5 @@ export interface User {
     password: string,
     status: 'offline'|'online',
     lastSeen: any,
+    recentEmojis: string[],
 }

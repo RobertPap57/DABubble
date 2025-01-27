@@ -1,7 +1,7 @@
 <div class="reactions-container">
-    @if(message.recentEmojis.length > 0) {
+    @if( getRecentEmojis().length > 0) {
     <div class="recent-emoji">
-        <span *ngFor="let emoji of message.recentEmojis" (click)="addRecentEmoji(emoji, message)">{{emoji}}</span>
+        <span *ngFor="let emoji of getRecentEmojis()" (click)="addRecentEmoji(emoji, message)">{{emoji}}</span>
     </div>
     }
 

@@ -272,7 +272,6 @@ export class ChatBoxComponent {
       text: this.messageText,
       time: serverTimestamp(),
       reactions: [],
-      recentEmojis: [],
       channelId: this.channelService.channelChatId,
       userId: this.userService.privMsgUserId,
       threadId: ''
@@ -287,7 +286,6 @@ export class ChatBoxComponent {
       text: this.threadMessageText,
       time: serverTimestamp(),
       reactions: [],
-      recentEmojis: [],
       channelId: '',
       userId: '',
       threadId: this.threadId

@@ -8,7 +8,6 @@ export interface Message {
     text: string; 
     time: Timestamp | any;
     reactions: Reaction[]; 
-    recentEmojis: string[];
     channelId: string;
     userId: string;
     threadId: string | null;

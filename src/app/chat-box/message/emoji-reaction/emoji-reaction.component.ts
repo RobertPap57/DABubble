@@ -94,17 +94,22 @@ export class EmojiReactionComponent {
 
 
   pushToRecentEmojis(emoji: string): void {
-    if (this.emojiService.reactionMessage?.recentEmojis) {
-      if (this.emojiService.reactionMessage.recentEmojis.includes(emoji)) {
+    const user = this.userService.users.find(
+      (user) => user.id === this.loggedUser
+    );
+    if (user) {
+      if (user.recentEmojis.includes(emoji)) {
         return;
       } else {
-        this.emojiService.reactionMessage.recentEmojis.push(emoji);
+        user.recentEmojis.push(emoji);
       }
-      if (this.emojiService.reactionMessage.recentEmojis.length > 2) {
-        this.emojiService.reactionMessage.recentEmojis.shift();
+      if (user.recentEmojis.length > 2) {
+       user.recentEmojis.shift();
       }
+      this.userService.updateRecentEmojis(user.id, user.recentEmojis);
     }
   }
+
 
 
   addExistingEmoji(existingEmoji: string, message: Message): void {

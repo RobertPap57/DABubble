@@ -58,6 +58,7 @@ export class LoginComponent {
           status: 'online' as 'online',
           lastSeen: new Date(),
           password: '',
+          recentEmojis: [],
         };
 
         await this.userService.saveGoogleUserToFirestore(userData);
