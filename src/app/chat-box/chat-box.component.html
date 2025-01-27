@@ -4,6 +4,26 @@
     <div class="displayUsersBox"></div>
     }
 
+    @if (usersBoxInChannel) {
+    <div class="addUsersBox">
+        <div class="top">
+            <h2>Leute hinzufügen</h2>
+            <img src="/close.svg" alt="close icon">
+        </div>
+        <div class="channel">
+            <span><b>#</b>{{channelName}}</span>
+        </div>
+        <div class="inputField">
+            <input type="text" class="input" placeholder="Name eingeben">
+        </div>
+        <div class="button">
+            <button>
+                <span>Hinzufügen</span>
+            </button>
+        </div>
+    </div>
+    }
+
     <div class="chat-header">
         @switch (chatType) {
 
@@ -171,6 +191,10 @@
 </div>
 
 @if (addUsersToChannel) {
+<div class="overlay"></div>
+}
+
+@if (usersBoxInChannel) {
 <div class="overlay"></div>
 }
 
