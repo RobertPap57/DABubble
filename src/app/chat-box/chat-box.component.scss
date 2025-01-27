@@ -469,6 +469,21 @@ h1 {
     }
 }
 
+.emoji-picker {
+    position: absolute;
+    top: -430px;
+    left: 0px;
+    z-index: 20;
+
+    &.active {
+        display: flex;
+    }
+
+    &.hidden {
+        display: none;
+    }
+}
+
 @media screen and (max-width: 768px) {
     .chat-box {
         position: absolute;
@@ -483,19 +498,12 @@ h1 {
     .active {
         z-index: 5 !important;
     }
-}
 
-.emoji-picker {
-    position: absolute;
-    top: -430px;
-    left: 0px;
-    z-index: 20;
-
-    &.active {
-        display: flex;
-    }
-
-    &.hidden {
-        display: none;
+    .channel-chat {
+        .members-container {
+            .members {
+                display: none;
+            }
+        }
     }
 }
