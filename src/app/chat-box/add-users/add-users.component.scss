@@ -145,7 +145,7 @@
         border-radius: 30px;
         width: 434px;
         height: 55px;
-        padding: 15px 20px 15px 20px;
+        padding-left: 15px;
         border: 1px solid #444DF2;
         &::placeholder {
             font-size: 18px;
@@ -157,7 +157,7 @@
     }
 
     .button {
-        margin-top: 20px;
+        margin-top: 40px;
         display: flex;
         justify-content: flex-end;
         gap: 32px;
@@ -179,4 +179,84 @@
         }
     }
 
+}
+
+.dropdownInput {
+    position: relative;
+    margin-top: 16px;
+}
+
+.dropdown {
+    border-radius: 0px 20px 20px 20px;
+    height: 204px;
+    width: 335px;
+    padding: 20px;
+    scrollbar-width: none;
+    gap: 15px;
+    background-color: #ffffff;
+    border: 1px solid #ADB0D9;
+    position: absolute;
+    top: 42px;
+    left: 22px;
+    display: flex;
+    flex-direction: column;
+    overflow: auto;
+}
+
+.invisibleOverlay {
+    background-color: transparent !important;
+    pointer-events: none !important;
+}
+
+.greyButton {
+    background-color: #686868 !important;
+    cursor: not-allowed;
+}
+
+.redBorder {
+    border: 1px solid #ED1E79 !important;
+}
+
+.users {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    padding: 4px 20px 4px 20px;
+    height: 50px;
+    gap: 15px;
+    border-radius: 35px;
+    width: fit-content;
+
+    &:hover {
+        background-color: #ECEEFE;
+    }
+
+    >div {
+        position: relative;
+        height: 50px;
+    }
+
+    img {
+        height: 50px;
+        width: 50px;
+        cursor: pointer;
+        border-radius: 50px;
+        object-fit: cover;
+    }
+
+    span {
+        position: absolute;
+        left: 36px;
+        bottom: 2px;
+        border-radius: 50%;
+        width: 10px;
+        height: 10px;
+        border: 2px #edefff solid;
+    }
+}
+
+.users.active {
+    color: #535AF1;
+    background-color: #ECEEFE;
+    font-weight: 700;
 }
