@@ -82,6 +82,7 @@ export class ChannelService {
     try {
       let channelDocRef = this.getSingleChannelDocRef('channel', chanId);
       await updateDoc(channelDocRef, { chanId });
+      this.channelChatId = chanId;
     } catch (error) {
       console.error('Error updating channel status:', error);
     }
