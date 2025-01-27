@@ -13,6 +13,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
         $token = $params->token;
         $resetLink = "https://dabubble.lars-schumacher.com/reset-password/" . urlencode($token);
         $recipient = $email;
+        $logo = "https://dabubble.lars-schumacher.com/email-logo.png";
         $subject = "Passwort zurücksetzen";
         $message = "
         <html>
@@ -20,16 +21,33 @@ switch ($_SERVER['REQUEST_METHOD']) {
         <title>Passwort zurücksetzen</title>
         </head>
         <body>
-        <p>Sie haben eine Anfrage zum Zurücksetzen Ihres Passworts gestellt.</p>
-        <p>Um fortzufahren, klicken Sie auf den folgenden Link:</p>
+        <p>Hallo,</p>
+        <p>Wir haben kürzlich eine Anfrage zum Zurücksetzen deines Passworts erhalten. 
+        Falls du diese Anfrage gestellt hast, 
+        <br>
+        klicke bitte auf den folgenden Link, 
+        um dein Passwort zurückzusetzen:</p>
+        <br>
         <a href='$resetLink'>Passwort zurücksetzen</a>
+        <br>
+        <br>
+        <p>Falls du keine Anfrage zum Zurücksetzen deines Passworts gestellt hast, 
+        ignoriere bitte diese E-Mail.
+        </p>
+        <br>
+        <p>Beste Grüße,
+        <br>
+        Dein DABubble Team!
+        </p>
+        <br>
+        <img src='$logo'>
         </body>
         </html>
         ";
         $headers = array();
         $headers[] = 'MIME-Version: 1.0';
         $headers[] = 'Content-type: text/html; charset=utf-8';
-        $headers[] = "From: noreply@dabubble.com";
+        $headers[] = "From: info@dabubble.com";
         mail($recipient, $subject, $message, implode("\r\n", $headers));
         break;
     default:
