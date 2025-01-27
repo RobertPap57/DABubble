@@ -1,3 +1,5 @@
+import { User } from './../../../interfaces/user.model';
+import { UserService } from './../../../services/user.service';
 import { ChannelService } from './../../../services/channel.service';
 import { Component, Input, inject } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
@@ -7,8 +9,8 @@ import { CommonModule } from '@angular/common';
 import { MessageService } from '../../../services/message.service';
 import { Message } from '../../../interfaces/message.interface';
 import { serverTimestamp } from '@angular/fire/firestore';
-
-
+import { EmojiService } from '../../../services/emoji.service';
+import { Subscription } from 'rxjs';
 
 
 
@@ -26,16 +28,35 @@ import { serverTimestamp } from '@angular/fire/firestore';
 })
 export class ReactionBarComponent {
   @Input() chatType: 'private' | 'channel' | 'thread' | 'new' = 'new';
-  @Input() message: any;
+  @Input() message!: Message;
   @Input() loggedUser: string = '';
   optionsOpen: boolean = false;
-  emojiPickerOn: boolean = false;
   messageService = inject(MessageService);
   channelService = inject(ChannelService);
+  emojiService = inject(EmojiService);
+  userService = inject(UserService);
+  private emojiSubscription!: Subscription;
 
 
-  toggleEmojiPicker(): void {
-    this.emojiPickerOn = !this.emojiPickerOn;
+  ngOnInit(): void {
+    this.emojiSubscription = this.emojiService.emojiSelected$.subscribe(({ event, destination }) => {
+      if (destination === 'reactionBar') {
+        this.addEmoji(event);
+      }
+    });
+  }
+
+  ngOnDestroy(): void {
+    if (this.emojiSubscription) {
+      this.emojiSubscription.unsubscribe();
+    }
+  }
+
+
+  openEditMessage(message: Message): void {
+    this.messageService.originalText = message.text;
+    this.messageService.editMessage = message;
+    this.closeOptions();
   }
 
   openThread(message: Message): void {
@@ -49,7 +70,7 @@ export class ReactionBarComponent {
 
   }
 
-   addFirstThreadMessage(message: Message): void {
+  addFirstThreadMessage(message: Message): void {
     const existingMessage = this.messageService.messages.find(
       (msg) => msg.threadId === message.id
     );
@@ -57,7 +78,7 @@ export class ReactionBarComponent {
 
       const newMessage: Message = {
         id: '',
-        senderId: message.senderId ,
+        senderId: message.senderId,
         text: message.text,
         time: serverTimestamp(),
         reactions: [],
@@ -69,40 +90,19 @@ export class ReactionBarComponent {
       this.messageService.createMessage(newMessage);
     }
   }
-
-  addEmoji(event: { emoji: { native: string } }): void {
-    const existingReaction = this.message.reactions.find(
-      (reaction: { emoji: string; users: string[] }) => reaction.emoji === event.emoji.native
+  isFirstMessageInThread(msg: Message): boolean {
+    if (!msg.threadId) {
+      return false;
+    }
+    const matchingMessages = this.messageService.messages.filter(
+      (message) => message.threadId === msg.threadId
     );
 
-    if (existingReaction && !this.alreadyReacted(event.emoji.native)) {
+    const earliestMessage = matchingMessages.reduce((earliest, current) =>
+      current.time < earliest.time ? current : earliest
+    );
 
-      if (!existingReaction.users.includes(this.loggedUser)) {
-        existingReaction.users.push(this.loggedUser);
-      }
-    } else if (!this.alreadyReacted(event.emoji.native)) {
-
-      this.message.reactions.push({
-        emoji: event.emoji.native,
-        users: [this.loggedUser]
-      });
-    }
-    this.pushToRecentEmojis(event.emoji.native);
-    this.closeEmojiPicker();
-  }
-
-  pushToRecentEmojis(emoji: string): void {
-    if (this.message.recentEmojis.includes(emoji)) {
-      return;
-    } else {
-      this.message.recentEmojis.push(emoji);
-    }
-    if (this.message.recentEmojis.length > 2) {
-      this.message.recentEmojis.shift();
-    }
-  }
-  closeEmojiPicker(): void {
-    this.emojiPickerOn = false;
+    return msg.id === earliestMessage.id;
   }
 
   toggleOptions(): void {
@@ -113,48 +113,96 @@ export class ReactionBarComponent {
     this.optionsOpen = false;
   }
 
-  addRecentEmoji(recentEmoji: string): void {
-    const existingReaction = this.message.reactions.find(
-      (reaction: { emoji: string; users: string[] }) => reaction.emoji === recentEmoji
+  addEmoji(event: any): void {
+    const emoji = event.emoji.native;
+    if(this.emojiService.reactionMessage) {
+    const existingReaction = this.emojiService.reactionMessage.reactions.find(
+      (reaction: { emoji: string; users: string[] }) => reaction.emoji === emoji
     );
-  
-    if (existingReaction && !this.alreadyReacted(recentEmoji)) {
-      existingReaction.users.push(this.loggedUser);
-    } else if (!existingReaction) {
-      this.message.reactions.push({
-        emoji: recentEmoji,
-        users: [this.loggedUser]
+
+    if (existingReaction && !this.alreadyReacted(emoji)) {
+
+      if (!existingReaction.users.includes(this.loggedUser)) {
+        existingReaction.users.push(this.loggedUser);
+      }
+    } else if (!this.alreadyReacted(emoji)) {
+
+      this.emojiService.reactionMessage.reactions.push({
+        emoji: emoji,
+        users: [this.loggedUser],
       });
-    } else if (this.alreadyReacted(recentEmoji)) {
-      this.removeEmoji(recentEmoji);
+    }
+    this.pushToRecentEmojis(emoji);
+    this.messageService.updateMessage(this.emojiService.reactionMessage);
+    console.log(this.emojiService.reactionMessage);
+    this.emojiService.closeEmojiPicker();
+  }
+  }
+
+  pushToRecentEmojis(emoji: string): void {
+    if (this.emojiService.reactionMessage?.recentEmojis) {
+      if (this.emojiService.reactionMessage.recentEmojis.includes(emoji)) {
+        return;
+      } else {
+        this.emojiService.reactionMessage.recentEmojis.push(emoji);
+      }
+      if (this.emojiService.reactionMessage.recentEmojis.length > 2) {
+        this.emojiService.reactionMessage.recentEmojis.shift();
+      }
     }
   }
 
 
-removeEmoji(emoji: string): void {
-  const reactionIndex = this.message.reactions.findIndex(
-    (reaction: { emoji: string; users: string[] }) => reaction.emoji === emoji
-  );
 
-  if (reactionIndex !== -1) {
-    const reaction = this.message.reactions[reactionIndex];
+  addRecentEmoji(recentEmoji: string, message: Message): void {
+    this.emojiService.reactionMessage = message;
+    if (this.emojiService.reactionMessage?.reactions) {
+      const reactionIndex = this.emojiService.reactionMessage.reactions.findIndex(
+        (reaction: { emoji: string; users: string[] }) => reaction.emoji === recentEmoji
+      );
 
-    reaction.users = reaction.users.filter((user: string) => user !== this.loggedUser);
+      if (reactionIndex !== -1 && !this.alreadyReacted(recentEmoji)) {
+        this.emojiService.reactionMessage.reactions[reactionIndex].users.push(this.userService.loggedUserId);
+      } else if (reactionIndex === -1) {
+        this.emojiService.reactionMessage.reactions.push({
+          emoji: recentEmoji,
+          users: [this.userService.loggedUserId]
+        });
+      } else if (this.alreadyReacted(recentEmoji)) {
+        this.removeEmoji(recentEmoji);
+      }
 
-    if (reaction.users.length === 0) {
-      this.message.reactions.splice(reactionIndex, 1);
+      this.messageService.updateMessage(this.emojiService.reactionMessage);
     }
   }
-}
 
+  removeEmoji(emoji: string): void {
+    if (this.emojiService.reactionMessage?.reactions) {
+      const reactionIndex = this.emojiService.reactionMessage.reactions.findIndex(
+        (reaction: { emoji: string; users: string[] }) => reaction.emoji === emoji
+      );
+
+      if (reactionIndex !== -1) {
+        const reaction = this.emojiService.reactionMessage.reactions[reactionIndex];
+
+        reaction.users = reaction.users.filter((user: string) => user !== this.loggedUser);
+
+        if (reaction.users.length === 0) {
+          this.emojiService.reactionMessage.reactions.splice(reactionIndex, 1);
+        }
+      }
+    }
+  }
 
   alreadyReacted(reactedEmoji: string): boolean {
-    return this.message.reactions.some(
+    if (!this.emojiService.reactionMessage?.reactions) {
+      return false;
+    }
+    return this.emojiService.reactionMessage.reactions.some(
       (reaction: { emoji: string; users: string[] }) =>
         reaction.users.includes(this.loggedUser) && reaction.emoji === reactedEmoji
     );
   }
-
 
 
 

@@ -331,6 +331,7 @@ h1 {
     textarea {
         all: unset;
         word-break: break-word;
+        font-size: 18px;
     }
 
     .actions-container {
@@ -373,10 +374,7 @@ h1 {
     }
 }
 
-emoji-mart {
-    top: -430px;
-    left: 0px;
-}
+
 
 .private-chat-empty {
     margin: 20px 45px;
@@ -582,5 +580,20 @@ emoji-mart {
 
     .active {
         z-index: 5 !important;
+    }
+}
+
+.emoji-picker {
+    position: absolute;
+    top: -430px;
+    left: 0px;
+    z-index: 20;
+
+    &.active {
+        display: flex;
+    }
+
+    &.hidden {
+        display: none;
     }
 }
