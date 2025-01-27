@@ -60,8 +60,8 @@ export class ChatBoxComponent {
   @ViewChild('profileBox') profileBox!: ElementRef<HTMLDivElement>;
   openProfileBox = false;
   openEditChannel = false;
-  addUsersToChannel = false;
-  usersBoxInChannel = true;
+  addUsersToChannel = true;
+  usersBoxInChannel = false;
 
   emojiService = inject(EmojiService);
   private emojiSubscription!: Subscription;
