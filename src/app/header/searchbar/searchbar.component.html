@@ -1,7 +1,10 @@
-<section>
-    <input [(ngModel)]="searchBar" type="text" placeholder="Devspace durchsuchen" name="search"
-        (keyup.enter)="searchResults(searchBar)">
+<section [class.chat-box]="chatType === 'new'">
+    <input [(ngModel)]="searchBar" type="text"
+        [placeholder]="chatType === 'new' ? 'An: #channel, oder @jemand oder E-Mail Adresse' : 'Devspace durchsuchen'"
+        name="search" (keyup.enter)="chatType !== 'new' && searchResults(searchBar)"
+        (keyup)="chatType === 'new' && searchInNewChat(searchBar)">
 
+    @if(chatType !== 'new') {
     <a (click)="searchResults(searchBar)">
         <svg width="27" height="27" viewBox="0 0 27 27" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M23.5625 26.1042L15.3958 17.9375C14.6667 18.5208 13.8281 18.9826 12.8802 19.3229C11.9323
@@ -18,6 +21,7 @@
             12.1771 3.92944 13.7268 5.205 15.0033C6.48153 16.2789 8.03125 16.9167 9.85417 16.9167Z" fill="#686868" />
         </svg>
     </a>
+    }
 
     @if (dropdownActive) {
     <div class="searchbarDropdown" #searchbarDropdown>
@@ -34,8 +38,12 @@
             }
             }
 
-
+            @if(chatType === 'new'){
+            <h3>Gefundene Channelnamen</h3>
+            }
+            @else {
             <h3>Gefundene Channelnamen oder Nutzer</h3>
+            }
             @if (filteredChannels.length === 0) {
             <span>Kein Kanalname oder Nutzer gefunden</span>
             }
@@ -46,17 +54,18 @@
             }
             }
 
-
-            <h3>Gefundene Nachrichten in Channels</h3>
-            @if (filteredMessagesWithChannels.length === 0) {
-            <span>Keine Nachricht in Channels gefunden</span>
+            @if(chatType !== 'new') {
+                <h3>Gefundene Nachrichten in Channels</h3>
+                @if (filteredMessagesWithChannels.length === 0) {
+                <span>Keine Nachricht in Channels gefunden</span>
+                }
+                @for (msg of filteredMessagesWithChannels; track $index) {
+                <p (click)="openChannel(msg.channelId)" class="searchResult">{{msg.messageText}} in <b>#
+                        {{msg.chanName}}</b></p>
+                }
             }
-            @for (msg of filteredMessagesWithChannels; track $index) {
-            <p (click)="openChannel(msg.channelId)" class="searchResult">{{msg.messageText}} in <b>#
-                    {{msg.chanName}}</b></p>
-            }
 
-
+            @if(chatType !== 'new') {
             <h3>Gefundene Private Nachrichten</h3>
             @if (filteredMessagesWithPrivChat.length === 0) {
             <span>Keine privaten Nachrichten gefunden</span>
@@ -64,13 +73,16 @@
             @for (msg of filteredMessagesWithPrivChat; track $index) {
             @for (user of userService.users; track user.id) {
             @if (msg.messageUserId === user.id) {
-            <p (click)="opendirectMsg(msg.messageUserId)" class="searchResult">{{msg.messageText}}<b> von </b><img src=".{{user.userImage}}"><b>{{user.name}}</b>
+            <p (click)="opendirectMsg(msg.messageUserId)" class="searchResult">{{msg.messageText}}<b> von </b><img
+                    src=".{{user.userImage}}"><b>{{user.name}}</b>
             </p>
             }
             }
             }
+        }
 
 
+        @if(chatType !== 'new') {
             <h3>Gefundene Nachrichten in Threads</h3>
             @if (filteredMessagesWithThreads.length === 0) {
             <span>Keine Nachricht in Threads gefunden</span>
@@ -78,6 +90,7 @@
             @for (msg of filteredMessagesWithThreads; track $index) {
             <p (click)="openThread(msg.messageThreadId)" class="searchResult">{{msg.messageText}}</p>
             }
+        }
 
         </div>
     </div>

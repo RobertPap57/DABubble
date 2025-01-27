@@ -1,8 +1,9 @@
-import { Component, ElementRef, HostListener, ViewChild } from '@angular/core';
+import { Component, ElementRef, HostListener, ViewChild, Input } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ChannelService } from '../../services/channel.service';
 import { UserService } from '../../services/user.service';
 import { MessageService } from '../../services/message.service';
+
 
 @Component({
   selector: 'app-searchbar',
@@ -12,6 +13,7 @@ import { MessageService } from '../../services/message.service';
   styleUrl: './searchbar.component.scss'
 })
 export class SearchbarComponent {
+  @Input() chatType: 'private' | 'channel' | 'thread' | 'new'| '' = '';
   @ViewChild('searchbarDropdown') searchbarDropdown!: ElementRef<HTMLDivElement>;
   dropdownActive: boolean = false;
   searchBar: string = '';
@@ -62,6 +64,27 @@ export class SearchbarComponent {
     } else this.checkNoFindings();
   }
 
+  searchInNewChat(userInput: string) {
+    if(userInput.length === 0 ) {
+      this.checkNoFindings();
+      this.dropdownActive = false
+    } else {
+      this.dropdownActive = true;
+      const input = userInput.toLowerCase();
+      if (input.startsWith('@')) {
+        this.filterUsers(input.substring(1));
+      }
+      else if (input.startsWith('#')) {
+        const id = this.userService.loggedUserId;
+        this.filterChannels(input.substring(1), id);
+      }
+      else{
+        this.filterUserEmail(input);
+      }
+    }
+  }
+
+
   /**
    * filters all users and check if the input matches one of them or includes the input
    * 
@@ -70,6 +93,13 @@ export class SearchbarComponent {
   filterUsers(input: string) {
     this.filteredUsers = this.userService.users
       .filter(users => users.name.toLowerCase().includes(input))
+      .map(user => user.id);
+  }
+
+
+  filterUserEmail(input: string) {
+    this.filteredUsers = this.userService.users
+      .filter(users => users.email.toLowerCase().includes(input))
       .map(user => user.id);
   }
 
