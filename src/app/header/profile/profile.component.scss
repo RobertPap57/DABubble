@@ -10,7 +10,7 @@ section {
         margin-right: 20px;
         font-size: 26px;
         white-space: nowrap;
-        text-overflow: ellipsis; 
+        text-overflow: ellipsis;
         overflow: hidden;
     }
 
@@ -162,6 +162,15 @@ section {
 
     .overlay {
         overflow: hidden;
+
+        p {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+            margin-left: -110px;
+            position: static;
+        }
 
         hr {
             display: block;

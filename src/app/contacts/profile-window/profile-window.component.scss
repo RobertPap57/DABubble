@@ -165,3 +165,36 @@ h2 {
         }
     }
 }
+
+@media screen and (max-width: 768px) {
+    section {
+        border-radius: 30px;
+        max-width: 500px;
+        width: calc(100vw - 20px);
+        margin-left: 105px;
+    }
+
+    .edit {
+        width: 85%;
+    }
+
+    .edit-section {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        margin-left: 0;
+    }
+
+    .input {
+        width: 75%;
+    }
+
+    .buttons {
+        gap: 20px;
+    }
+
+    .mail {
+        max-width: 280px;
+    }
+}
