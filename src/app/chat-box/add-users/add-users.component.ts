@@ -3,6 +3,7 @@ import { ChatBoxComponent } from '../chat-box.component';
 import { UserService } from '../../services/user.service';
 import { CommonModule, NgStyle } from '@angular/common';
 import { FormsModule, NgModel } from '@angular/forms';
+import { user } from '@angular/fire/auth';
 
 @Component({
   selector: 'app-add-users',
@@ -20,18 +21,22 @@ export class AddUsersComponent {
   inputPlaceholder = 'Name eingeben';
   onlineColor = '#92c73e';
   offlineColor = '#696969';
-  @ViewChild('createPeopleBox') createPeopleBox!: ElementRef<HTMLDivElement>;
   @ViewChild('focusdropdown') focusDropdown!: ElementRef;
+  chatBoxIds:string [] = [];
 
-  constructor(public chatBox: ChatBoxComponent, public userService: UserService) { }
+  constructor(public chatBox: ChatBoxComponent, public userService: UserService) {
+  }
 
+  loadUserIDs() {
+    this.searchIds = this.userService.users.map(user => user.id);
+    const members = this.chatBox.getChannelMembers();
+    this.chatBoxIds = members.map((user: { id: string; }) => user.id);
+  }
 
   @HostListener('document:mousedown', ['$event.target'])
   onClickOutsideDrop(target: HTMLElement): void {
-    if (this.createPeopleBox) {
       let clickInsideDrop = this.focusDropdown?.nativeElement.contains(target); {
       } if (!clickInsideDrop) this.dropdownActive = false;;
-    }
   }
 
 

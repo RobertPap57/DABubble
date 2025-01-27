@@ -36,7 +36,7 @@
 }
 
     @if (chatBox.usersBoxInChannel) {
-    <div class="addUsersBox">
+    <div class="addUsersBox" (mouseenter)="loadUserIDs()">
         <div class="top">
             <h2>Leute hinzufügen</h2>
             <img (click)="chatBox.toggleDisplayAddBox()" src="/close.svg" alt="close icon">
@@ -69,7 +69,7 @@
             <div class="dropdown" #focusdropdown>
                 @for (user of userService.users; track user.id) {
 
-                @if (user.id !== userService.loggedUserId && searchIds.includes(user.id)) {
+                @if (user.id !== userService.loggedUserId && searchIds.includes(user.id) && !chatBoxIds.includes(user.id)) {
                 <div (click)="selectUser(user.id)" [class.active]="isSelected(user.id)" class="users">
                     <div>
                         <img src=".{{user.userImage}}">
