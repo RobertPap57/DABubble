@@ -27,6 +27,52 @@
     <div class="searchbarDropdown" #searchbarDropdown>
         <div>
 
+            @if(chatType=== 'new') {
+            @if (filteredUsers.length > 0) {
+            <h3>Gefundene Nutzer</h3>
+            @for (user of userService.users; track user.id) {
+            @if (filteredUsers.includes(user.id)) {
+            <p (click)="opendirectMsg(user.id)"><img src=".{{user.userImage}}">{{user.name}}</p>
+            }
+            }
+            }
+            @if(filteredUsers.length === 0 && searchBar.startsWith('@')) {
+            <span>Kein Nutzer mit diesem Namen gefunden</span>
+            }
+            }
+
+            @if(chatType === 'new') {
+            @if(filteredEmails.length > 0){
+            <h3>Gefundene E-Mails</h3>
+            @for (user of userService.users; track user.id) {
+            @if (filteredEmails.includes(user.id)) {
+            <p (click)="opendirectMsg(user.id)"><img src=".{{user.userImage}}">{{user.email}}</p>
+            }
+            }
+            }
+            @if (filteredEmails.length === 0 && !(searchBar.startsWith('@') || searchBar.startsWith('#'))) {
+            <span>Kein Nutzer mit diesem E-Mail gefunden</span>
+            }
+            }
+
+            @if(chatType === 'new'){
+            @if( filteredChannels.length > 0) {
+
+            <h3>Gefundene Channelnamen</h3>
+            @for (channel of channelService.channels; track channel.chanId) {
+
+            @if (filteredChannels.includes(channel.chanId)) {
+            <p (click)="openChannel(channel.chanId)" class="searchResult"><b>#</b>{{channel.chanName}}</p>
+            }
+            }
+            }
+            @if(filteredChannels.length === 0 && searchBar.startsWith('#')) {
+            <span>Kein Channel mit diesem Namen gefunden</span>
+            }
+            }
+
+
+            @if(chatType !== 'new') {
             <h3>Gefundene Nutzer</h3>
             @if (filteredUsers.length === 0) {
             <span>Kein Nutzer mit diesem Namen gefunden</span>
@@ -37,13 +83,12 @@
             <p (click)="opendirectMsg(user.id)"><img src=".{{user.userImage}}">{{user.name}}</p>
             }
             }
+            }
 
-            @if(chatType === 'new'){
-            <h3>Gefundene Channelnamen</h3>
-            }
-            @else {
+
+
+            @if(chatType !== 'new') {
             <h3>Gefundene Channelnamen oder Nutzer</h3>
-            }
             @if (filteredChannels.length === 0) {
             <span>Kein Kanalname oder Nutzer gefunden</span>
             }
@@ -53,16 +98,17 @@
             <p (click)="openChannel(channel.chanId)" class="searchResult"><b>#</b>{{channel.chanName}}</p>
             }
             }
+            }
 
             @if(chatType !== 'new') {
-                <h3>Gefundene Nachrichten in Channels</h3>
-                @if (filteredMessagesWithChannels.length === 0) {
-                <span>Keine Nachricht in Channels gefunden</span>
-                }
-                @for (msg of filteredMessagesWithChannels; track $index) {
-                <p (click)="openChannel(msg.channelId)" class="searchResult">{{msg.messageText}} in <b>#
-                        {{msg.chanName}}</b></p>
-                }
+            <h3>Gefundene Nachrichten in Channels</h3>
+            @if (filteredMessagesWithChannels.length === 0) {
+            <span>Keine Nachricht in Channels gefunden</span>
+            }
+            @for (msg of filteredMessagesWithChannels; track $index) {
+            <p (click)="openChannel(msg.channelId)" class="searchResult">{{msg.messageText}} in <b>#
+                    {{msg.chanName}}</b></p>
+            }
             }
 
             @if(chatType !== 'new') {
@@ -79,10 +125,10 @@
             }
             }
             }
-        }
+            }
 
 
-        @if(chatType !== 'new') {
+            @if(chatType !== 'new') {
             <h3>Gefundene Nachrichten in Threads</h3>
             @if (filteredMessagesWithThreads.length === 0) {
             <span>Keine Nachricht in Threads gefunden</span>
@@ -90,7 +136,7 @@
             @for (msg of filteredMessagesWithThreads; track $index) {
             <p (click)="openThread(msg.messageThreadId)" class="searchResult">{{msg.messageText}}</p>
             }
-        }
+            }
 
         </div>
     </div>

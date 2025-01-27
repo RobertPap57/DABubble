@@ -17,6 +17,7 @@ export class SearchbarComponent {
   @ViewChild('searchbarDropdown') searchbarDropdown!: ElementRef<HTMLDivElement>;
   dropdownActive: boolean = false;
   searchBar: string = '';
+  filteredEmails: string[] = [];
   filteredUsers: string[] = [];
   filteredChannels: string[] = [];
   filteredMessagesWithChannels: { messageId: string; chanName: string; channelId: string; messageText: string; }[] = [];
@@ -69,8 +70,8 @@ export class SearchbarComponent {
       this.checkNoFindings();
       this.dropdownActive = false
     } else {
-      this.dropdownActive = true;
       const input = userInput.toLowerCase();
+      this.dropdownActive = true;
       if (input.startsWith('@')) {
         this.filterUsers(input.substring(1));
       }
@@ -78,7 +79,7 @@ export class SearchbarComponent {
         const id = this.userService.loggedUserId;
         this.filterChannels(input.substring(1), id);
       }
-      else{
+      else {
         this.filterUserEmail(input);
       }
     }
@@ -98,7 +99,7 @@ export class SearchbarComponent {
 
 
   filterUserEmail(input: string) {
-    this.filteredUsers = this.userService.users
+    this.filteredEmails = this.userService.users
       .filter(users => users.email.toLowerCase().includes(input))
       .map(user => user.id);
   }
