@@ -15,9 +15,9 @@ import {
   DocumentReference,
   Unsubscribe,
   CollectionReference,
+  setDoc,
 } from '@angular/fire/firestore';
 import { Router } from '@angular/router';
-import { error } from 'console';
 
 @Injectable({
   providedIn: 'root',
@@ -57,15 +57,25 @@ export class UserService {
   }
 
   /**
-   * Adds a new user document to Firestore with a generated ID.
-   * @param {User} user - The user data to add.
+   * Fügt ein neues Benutzer-Dokument zu Firestore hinzu, mit einer generierten ID, wenn der Benutzer selbst registriert wurde.
+   * @param {User} user - Die Benutzerdaten, die hinzugefügt werden sollen.
+   * @returns {Promise<DocumentReference>} - Die Dokumentenreferenz des neu erstellten Benutzers.
    */
-  async createUser(user: User): Promise<void> {
+  async createUser(user: User): Promise<DocumentReference> {
     try {
-      let docRef = await addDoc(this.getallUsersdocRef(), user);
-      console.log('User Data doc:', docRef.id);
+      let docRef: DocumentReference;
+      if (!user.id) {
+        docRef = await addDoc(this.getallUsersdocRef(), user);
+      } else {
+        docRef = doc(this.getallUsersdocRef(), user.id);
+        await setDoc(docRef, user);
+      }
+
+      console.log('User Data saved with ID:', docRef.id);
+      return docRef;
     } catch (error) {
       console.error('Error creating user:', error);
+      throw error;
     }
   }
 
@@ -145,6 +155,39 @@ export class UserService {
     }
   }
 
+  public async saveGoogleUserToFirestore(
+    user: User
+  ): Promise<DocumentReference> {
+    try {
+      const existingUserQuery = query(
+        this.getallUsersdocRef(),
+        where('id', '==', user.id)
+      );
+      const existingUserSnapshot = await getDocs(existingUserQuery);
+
+      if (existingUserSnapshot.empty) {
+        const docRef = await this.createUser(user);
+        console.log('Neuer Benutzer wurde erfolgreich gespeichert.');
+        return docRef;
+      } else {
+        const userDocId = existingUserSnapshot.docs[0].id;
+        const userDocRef = this.getSingleUserDocRef('user', userDocId);
+        await updateDoc(userDocRef, {
+          name: user.name,
+          email: user.email,
+          userImage: user.userImage,
+          status: user.status,
+          lastSeen: user.lastSeen,
+        });
+        console.log('Benutzer wurde erfolgreich aktualisiert.');
+        return userDocRef;
+      }
+    } catch (error) {
+      console.error('Fehler beim Speichern der Benutzerdaten:', error);
+      throw error;
+    }
+  }
+
   /**
    * Logs in a user by validating their email and password.
    * @param {string} email - The user's email.
@@ -178,15 +221,13 @@ export class UserService {
     return await getDocs(emailQuery);
   }
 
-  public getUserById(
-    id: string
-  ): User {
-    for (var i = 0; i < this.users.length; i++){
-      var user = this.users[i]; 
+  public getUserById(id: string): User {
+    for (var i = 0; i < this.users.length; i++) {
+      var user = this.users[i];
       if (user.id === id) {
         return user;
       }
-    };
+    }
     throw Error("Can't find user");
   }
 
@@ -221,13 +262,17 @@ export class UserService {
     }, 1500);
   }
 
-  async updateUserInfo(id: string, name: string, avatar: string): Promise<void> {
+  async updateUserInfo(
+    id: string,
+    name: string,
+    avatar: string
+  ): Promise<void> {
     try {
       console.log(id);
       let userDocRef = this.getSingleUserDocRef('user', id);
       await updateDoc(userDocRef, {
         name: name,
-        userImage: avatar
+        userImage: avatar,
       });
       console.log('User info updated successfully.');
     } catch (error) {
