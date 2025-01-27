@@ -93,6 +93,7 @@ h1 {
             div {
                 height: 40px;
                 margin-left: 11px;
+                display: flex;
 
                 img {
                     width: 40px;
@@ -100,6 +101,22 @@ h1 {
                     border: 2px solid white;
                     border-radius: 30px;
                     margin-left: -11px;
+                }
+
+                .additional-members {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    width: 40px;
+                    height: 40px;
+                    border: 2px solid white;
+                    border-radius: 30px;
+                    margin-left: -11px;
+                    background-image: url(/default-user-avatar.png);
+                    background-size: cover;
+                    background-position: center;
+                    background-repeat: no-repeat;
+                    font-weight: 700;
                 }
             }
 
@@ -246,6 +263,7 @@ h1 {
         padding: 15px 20px 15px 20px;
         border-radius: 30px;
         border: 1px solid #ADB0D9;
+
         app-searchbar {
             width: 100%;
         }
@@ -534,4 +552,9 @@ h1 {
             }
         }
     }
+}
+
+
+@media screen and (max-width: 768px) {
+    
 }

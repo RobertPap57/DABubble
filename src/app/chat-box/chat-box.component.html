@@ -1,6 +1,6 @@
 <div class="chat-box" [ngClass]="{ 'active': !channelService.isServer}">
 
-<app-add-users></app-add-users>
+    <app-add-users></app-add-users>
 
     <div class="chat-header">
         @switch (chatType) {
@@ -10,10 +10,9 @@
             <div class="title">
                 <h1>Neue Nachricht</h1>
             </div>
-            <!-- <input type="search" placeholder="An: #channel, oder @jemand oder E-Mail Adresse"> -->
-           <div class="searchbar">
-            <app-searchbar [chatType]="'new'"></app-searchbar>
-           </div>
+            <div class="searchbar">
+                <app-searchbar [chatType]="'new'"></app-searchbar>
+            </div>
         </div>
         }
 
@@ -42,15 +41,29 @@
             <div class="members-container">
                 <div (click)="openDisplayUsersBox()" class="members">
                     <div>
-                        @for(member of getChannelMembers(); track member.id) {
+                        @let members = getChannelMembers();
+                        @let displayedMembers = members.slice(0, 3);
+                        @let additionalCount = members.length - displayedMembers.length;
 
+                        @if (additionalCount > 0) {
+                        <div class="additional-members">
+                            <span>
+                                +{{additionalCount}}
+                            </span>
+                        </div>
+                        }
+
+                        @for (member of displayedMembers; track member.id) {
                         <img src="{{member.userImage}}" alt="">
                         }
+
                     </div>
                     <p>{{getChannelMembers().length}}</p>
                 </div>
-                <mat-icon (click)="toggleDisplayAddBox()" class="add-member" fontSet="material-symbols-rounded">person_add</mat-icon>
-                <mat-icon (click)="openDisplayUsersBox()" class="add-member-responsive" fontSet="material-symbols-rounded">person_add</mat-icon>
+                <mat-icon (click)="toggleDisplayAddBox()" class="add-member"
+                    fontSet="material-symbols-rounded">person_add</mat-icon>
+                <mat-icon (click)="openDisplayUsersBox()" class="add-member-responsive"
+                    fontSet="material-symbols-rounded">person_add</mat-icon>
             </div>
         </div>
         }
@@ -144,13 +157,21 @@
     <div class="input-container" [class]="{ 'thread-margin': chatType === 'thread' ,
      'reduced-margin': messageService.threadOpen && !channelService.slideOutNavBar && chatType !== 'thread'}">
 
+        @if(openUsersBox) {
+        <div></div>
+        }
+
         @if(chatType === 'thread') {
-        <div class="emoji-picker" [ngClass]="emojiService.emojiPickerOn && emojiService.emojiPickerInThread ? 'active' : 'hidden'" #emojiPicker>
+        <div class="emoji-picker"
+            [ngClass]="emojiService.emojiPickerOn && emojiService.emojiPickerInThread ? 'active' : 'hidden'"
+            #emojiPicker>
             <emoji-mart appClickOutside (clickOutside)="emojiService.closeEmojiPicker()" title="Pick your emoji…"
                 emoji="point_up" set="twitter" (emojiClick)="emojiService.addEmoji($event)"></emoji-mart>
         </div>
         } @else {
-        <div class="emoji-picker" [ngClass]="emojiService.emojiPickerOn && !emojiService.emojiPickerInThread ? 'active' : 'hidden'" #emojiPicker>
+        <div class="emoji-picker"
+            [ngClass]="emojiService.emojiPickerOn && !emojiService.emojiPickerInThread ? 'active' : 'hidden'"
+            #emojiPicker>
             <emoji-mart appClickOutside (clickOutside)="emojiService.closeEmojiPicker()" title="Pick your emoji…"
                 emoji="point_up" set="twitter" (emojiClick)="emojiService.addEmoji($event)"></emoji-mart>
         </div>
@@ -171,12 +192,14 @@
         <div class="actions-container">
             <div>
                 @if(chatType === 'thread') {
-                <button (click)="emojiService.toggleEmojiPicker('threadMessage', chatType, null); $event.stopPropagation()">
+                <button
+                    (click)="emojiService.toggleEmojiPicker('threadMessage', chatType, null); $event.stopPropagation()">
                     <mat-icon fontSet="material-symbols-rounded">sentiment_satisfied</mat-icon>
                 </button>
                 }
                 @else {
-                <button (click)="emojiService.toggleEmojiPicker('newMessage', chatType, null); $event.stopPropagation()">
+                <button
+                    (click)="emojiService.toggleEmojiPicker('newMessage', chatType, null); $event.stopPropagation()">
                     <mat-icon fontSet="material-symbols-rounded">sentiment_satisfied</mat-icon>
                 </button>
 
