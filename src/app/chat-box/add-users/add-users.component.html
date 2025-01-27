@@ -35,11 +35,67 @@
 </div>
 }
 
-@if (chatBox.usersBoxInChannel) {
-<div class="addUsersBox">
-    <div class="top">
-        <h2>Leute hinzufügen</h2>
-        <img (click)="chatBox.toggleDisplayAddBox()" src="/close.svg" alt="close icon">
+    @if (chatBox.usersBoxInChannel) {
+    <div class="addUsersBox">
+        <div class="top">
+            <h2>Leute hinzufügen</h2>
+            <img (click)="chatBox.toggleDisplayAddBox()" src="/close.svg" alt="close icon">
+        </div>
+        <div class="channel">
+            <span><b>#</b>{{chatBox.getChannelName()}}</span>
+        </div>
+        <div class="dropdownInput">
+            <input (keyup)="updateField()" [(ngModel)]="searchInput" (focus)="dropdownActive = true" class="searchUser"
+                type="search" placeholder="{{inputPlaceholder}}">
+            <div class="invisibleInputOverlay">
+                @for (user of userService.users; track user.id) {
+
+                @for (select of selectedUserId; track $index) {
+
+                @if (select === user.id) {
+
+                @if ($index < 2) {
+                    <p><img src=".{{user.userImage}}"><p>{{user.name}}</p><span (click)="selectUser(user.id)">+</span></p>
+                    }
+                    @if ($index === 2) {
+                    <p class="click" (click)="dropdownActive = true">+ {{ selectedUserId.length - 2 }} Users</p>
+                    }
+                    }
+                    }
+                    }
+            </div>
+
+            @if (dropdownActive) {
+            <div class="dropdown" #focusdropdown>
+                @for (user of userService.users; track user.id) {
+
+                @if (user.id !== userService.loggedUserId && searchIds.includes(user.id)) {
+                <div (click)="selectUser(user.id)" [class.active]="isSelected(user.id)" class="users">
+                    <div>
+                        <img src=".{{user.userImage}}">
+                        <span
+                            [ngStyle]="{'background-color': user.status === 'online' ? onlineColor : offlineColor}"></span>
+                    </div>
+                    <p>{{user.name}}</p>
+                </div>
+                }
+
+                } @empty {
+                <div class="users">
+                    <div>
+                        <span></span>
+                    </div>
+                    <p>No Users found</p>
+                </div>
+                }
+            </div>
+            }
+        </div>
+        <div class="button">
+            <button>
+                <span>Hinzufügen</span>
+            </button>
+        </div>
     </div>
     <div class="channel">
         <span><b>#</b>{{chatBox.getChannelName()}}</span>
@@ -52,5 +108,4 @@
             <span>Hinzufügen</span>
         </button>
     </div>
-</div>
 }
