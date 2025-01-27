@@ -82,7 +82,7 @@ export class ChatBoxComponent {
 
 
 
-  constructor(@Inject(PLATFORM_ID) private platformId: any) {
+  constructor(@Inject(PLATFORM_ID) private platformId: any, private addUser: AddUsersComponent) {
     this.isBrowser = isPlatformBrowser(this.platformId);
 
   }
@@ -360,5 +360,6 @@ export class ChatBoxComponent {
 
   toggleDisplayAddBox() {
     this.usersBoxInChannel = !this.usersBoxInChannel;
+    this.addUser.selectedUserId.length = 0;
   }
 }
