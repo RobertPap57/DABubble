@@ -1,5 +1,8 @@
 <div class="chat-box" [ngClass]="{ 'active': !channelService.isServer}">
 
+    @if (addUsersToChannel) {
+    <div class="addUsersBox"></div>
+    }
 
     <div class="chat-header">
         @switch (chatType) {
@@ -168,9 +171,7 @@
 </div>
 
 @if (addUsersToChannel) {
-    <div class="overlay">
-        <div class="addUsersBox"></div>
-    </div>
+<div class="overlay"></div>
 }
 
 
