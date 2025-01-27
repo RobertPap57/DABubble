@@ -13,14 +13,29 @@
     overflow: hidden;
     scrollbar-width: none;
 
-    .addMembersToChannel {}
+    .addMembersToChannel {
+        cursor: pointer;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        padding: 4px 20px 4px 20px;
+        margin-block: 12px;
+        height: 50px;
+        gap: 15px;
+        margin-left: 10px;
+        border-radius: 35px;
+        width: fit-content;
+
+        &:Hover {
+            color: #444DF2;
+        }
+    }
 
     .scrollableUsers {
         scrollbar-width: none;
         overflow-y: scroll;
         box-sizing: border-box;
-        height: 198px;
-
+        height: 206px;
     }
 
     h2 {
