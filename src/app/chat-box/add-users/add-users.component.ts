@@ -88,4 +88,8 @@ export class AddUsersComponent {
         .map(user => user.id);
     } else this.searchIds = this.userService.users.map(user => user.id);
   }
+
+  clearaddUser() {
+    this.selectedUserId.length = 0;
+  }
 }
