@@ -35,7 +35,7 @@
     <div class="addUsersBox">
         <div class="top">
             <h2>Leute hinzufügen</h2>
-            <img src="/close.svg" alt="close icon">
+            <img (click)="toggleDisplayAddBox()" src="/close.svg" alt="close icon">
         </div>
         <div class="channel">
             <span><b>#</b>{{getChannelName()}}</span>
@@ -85,8 +85,8 @@
                 <h1>{{getChannelName()}}</h1>
                 <mat-icon class="arrow-down" fontSet="material-symbols-rounded">keyboard_arrow_down</mat-icon>
             </a>
-            <div class="members-container" (click)="openDisplayUsersBox()">
-                <div class="members">
+            <div class="members-container">
+                <div (click)="openDisplayUsersBox()" class="members">
                     <div>
                         @for(member of getChannelMembers(); track member.id) {
 
@@ -95,7 +95,7 @@
                     </div>
                     <p>{{getChannelMembers().length}}</p>
                 </div>
-                <mat-icon class="add-member" fontSet="material-symbols-rounded">person_add</mat-icon>
+                <mat-icon (click)="toggleDisplayAddBox()" class="add-member" fontSet="material-symbols-rounded">person_add</mat-icon>
             </div>
         </div>
         }

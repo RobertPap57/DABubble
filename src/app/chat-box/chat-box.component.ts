@@ -368,4 +368,8 @@ export class ChatBoxComponent {
   openDisplayUsersBox() {
     this.addUsersToChannel = true;
   }
+
+  toggleDisplayAddBox() {
+    this.usersBoxInChannel = !this.usersBoxInChannel;
+  }
 }
