@@ -274,6 +274,4 @@ export class ChatBoxComponent {
   closeEditChannel(){
     this.openEditChannel = false;
   }
-
-
 }
