@@ -41,8 +41,8 @@ export class ChatBoxComponent {
   @ViewChild('profileBox') profileBox!: ElementRef<HTMLDivElement>;
   openProfileBox = false;
   openEditChannel = false;
-  addUsersToChannel = false;
-  usersBoxInChannel = true;
+  addUsersToChannel = true;
+  usersBoxInChannel = false;
 
   @Input() threadId: string | null = null;
 
