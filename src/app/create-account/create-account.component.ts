@@ -8,12 +8,12 @@ import { FooterComponent } from "../shared/footer/footer.component";
 @Component({
   selector: 'app-create-account',
   standalone: true,
-  imports: [FormsModule, CommonModule, FooterComponent, RouterLink ],
+  imports: [FormsModule, CommonModule, FooterComponent, RouterLink],
   templateUrl: './create-account.component.html',
   styleUrl: './create-account.component.scss',
 })
 export class CreateAccountComponent {
-  constructor(private router: Router, public userData: UserService) {}
+  constructor(private router: Router, public userData: UserService) { }
 
   emailImg: string = '/mail-grey.png';
   lockImg: string = '/lock-grey.png';
@@ -28,6 +28,10 @@ export class CreateAccountComponent {
   isChecked: boolean = false;
   isHovered: boolean = false;
   showError: boolean = false;
+  emailError: boolean = false;
+  passwordError: boolean = false;
+  confirmPasswordError: boolean = false;
+  userNameError: boolean = false;
   currentImage: string = '/check-field.png';
 
   isArrowHovered: boolean = false;
@@ -186,29 +190,27 @@ export class CreateAccountComponent {
    */
   onInput(field: string, event: Event): void {
     let value = (event.target as HTMLInputElement).value;
-
+  
     if (field === 'email') {
       this.emailText = value;
       this.emailImg = value ? '/mail-black.png' : '/mail-grey.png';
+      this.emailError = !this.regexp.test(value);
     } else if (field === 'password') {
       this.passwordText = value;
       this.lockImg = value ? '/lock-black.png' : '/lock-grey.png';
-      this.showError = !this.passwordRegex.test(value);
+      this.passwordError = !this.passwordRegex.test(value);
     } else if (field === 'confirm') {
       this.confirmPasswordText = value;
       this.confirmLockImg = value ? '/lock-black.png' : '/lock-grey.png';
-      if (this.passwordText === this.confirmPasswordText) {
-        this.showError = false;
-      }
+      this.confirmPasswordError = this.passwordText !== this.confirmPasswordText;
     } else if (field === 'userName') {
       this.userNameText = value;
       this.userNameImg = value
         ? '/user-name-icon-black.png'
         : '/user-name-icon-grey.png';
-      this.showError = !(
-        this.regexpName.test(value) && value.trim().length >= 3
-      );
+      this.userNameError = !this.regexpName.test(value) || value.trim().length < 3;
     }
+  
     this.enableButton(this.isFormValid());
   }
 
