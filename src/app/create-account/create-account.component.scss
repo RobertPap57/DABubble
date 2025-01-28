@@ -216,6 +216,18 @@ section {
   }
 }
 
+@media (max-width: 400px) {
+  .section-content {
+    form {
+      .input {
+        input {
+          font-size: 14px;
+        }
+      }
+    }
+  }
+}
+
 @media (max-width: 375px) {
   .password-input {
     margin-bottom: 80px !important;
@@ -224,7 +236,7 @@ section {
     form {
       .input {
         input {
-          font-size: 14px;
+          font-size: 12px;
         }
       }
     }
