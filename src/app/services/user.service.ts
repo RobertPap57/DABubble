@@ -18,6 +18,8 @@ import {
   setDoc,
 } from '@angular/fire/firestore';
 import { Router } from '@angular/router';
+import { LoginComponent } from '../login/login.component';
+import { SearchbarComponent } from '../header/searchbar/searchbar.component';
 
 @Injectable({
   providedIn: 'root',
@@ -38,7 +40,7 @@ export class UserService {
 
   unsubUserList;
 
-  constructor(private router: Router) {
+  constructor(private router: Router, private login: LoginComponent, private searchbar: SearchbarComponent) {
     this.unsubUserList = this.subUserList();
   }
 
@@ -316,6 +318,9 @@ async updateRecentEmojis (id: string, recentEmojis: string []): Promise<void> {
    * @param {string} id - The user's Firestore document ID.
    */
   async logoutUser(id: string): Promise<void> {
+    if (id === this.login.guestUrl) {
+      this.searchbar.deleteGuestComments(this.login.guestUrl);
+    }
     try {
       await this.updateUserStatus(id, 'offline');
       this.router.navigate(['']);
