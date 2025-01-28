@@ -5,7 +5,8 @@ import { Router } from '@angular/router';
 import { UserService } from '../services/user.service';
 import { FeedbackOverlayComponent } from '../feedback-overlay/feedback-overlay.component';
 import { getAuth, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
-import { SearchbarComponent } from '../header/searchbar/searchbar.component';
+import { MessageService } from '../services/message.service';
+import { ChannelService } from '../services/channel.service';
 
 @Component({
   selector: 'app-login',
@@ -18,7 +19,7 @@ export class LoginComponent {
   @ViewChild(FeedbackOverlayComponent)
   feedbackOverlay!: FeedbackOverlayComponent;
 
-  constructor(private router: Router, private userService: UserService, private searchbar: SearchbarComponent) {}
+  constructor(private router: Router, private userService: UserService, private messageService: MessageService, private channelService: ChannelService) {}
 
   emailImg: string = './mail-grey.png';
   lockImg: string = './lock-grey.png';
@@ -210,8 +211,26 @@ export class LoginComponent {
 
   guestLogin(): void {
     this.loginGuest = false;
-    this.searchbar.deleteGuestComments(this.guestUrl);
+    this.deleteGuestComments(this.guestUrl);
     this.userService.finalizeLogin(this.guestUrl);
     this.feedbackOverlay.showFeedback('Anmelden');
   }
+
+    /**
+   * deletes all guest comments and channels created by the guest.
+   * 
+   * @param guestId the guest id
+   */
+    deleteGuestComments(guestId: string) {
+      const filteredMessages = this.messageService.messages.filter(message =>
+        message.senderId.includes(guestId));
+      filteredMessages.forEach(message => {
+        this.messageService.deleteMessage(message.channelId);
+      });
+      const filteredChannels = this. channelService.channels.filter(channel =>
+        channel.chanCreatedByUser.includes(guestId));
+        filteredChannels.forEach(channel => {
+        this.channelService.deleteChannel(channel.chanId);
+      });
+    }
 }
