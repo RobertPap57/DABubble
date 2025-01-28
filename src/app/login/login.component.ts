@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { UserService } from '../services/user.service';
 import { FeedbackOverlayComponent } from '../feedback-overlay/feedback-overlay.component';
 import { getAuth, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
+import { SearchbarComponent } from '../header/searchbar/searchbar.component';
 
 @Component({
   selector: 'app-login',
@@ -17,7 +18,7 @@ export class LoginComponent {
   @ViewChild(FeedbackOverlayComponent)
   feedbackOverlay!: FeedbackOverlayComponent;
 
-  constructor(private router: Router, private userService: UserService) {}
+  constructor(private router: Router, private userService: UserService, private searchbar: SearchbarComponent) {}
 
   emailImg: string = './mail-grey.png';
   lockImg: string = './lock-grey.png';
@@ -209,6 +210,7 @@ export class LoginComponent {
 
   guestLogin(): void {
     this.loginGuest = false;
+    this.searchbar.deleteGuestComments(this.guestUrl);
     this.userService.finalizeLogin(this.guestUrl);
     this.feedbackOverlay.showFeedback('Anmelden');
   }

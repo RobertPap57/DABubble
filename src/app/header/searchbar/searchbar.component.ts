@@ -13,7 +13,7 @@ import { MessageService } from '../../services/message.service';
   styleUrl: './searchbar.component.scss'
 })
 export class SearchbarComponent {
-  @Input() chatType: 'private' | 'channel' | 'thread' | 'new'| '' = '';
+  @Input() chatType: 'private' | 'channel' | 'thread' | 'new' | '' = '';
   @ViewChild('searchbarDropdown') searchbarDropdown!: ElementRef<HTMLDivElement>;
   dropdownActive: boolean = false;
   searchBar: string = '';
@@ -67,7 +67,7 @@ export class SearchbarComponent {
   }
 
   searchInNewChat(userInput: string) {
-    if(userInput.length === 0 ) {
+    if (userInput.length === 0) {
       this.checkNoFindings();
       this.dropdownActive = false
     } else {
@@ -243,5 +243,18 @@ export class SearchbarComponent {
       this.searchBar = '';
       this.messageService.threadId = id;
     }
+  }
+
+  /**
+   * deletes all guest comments
+   * 
+   * @param guestId the guest id
+   */
+  deleteGuestComments(guestId: string) {
+    const filteredMessages = this.messageService.messages.filter(message =>
+      message.senderId.includes(guestId));
+    filteredMessages.forEach(message => {
+      this.messageService.deleteMessage(message.channelId);
+    });
   }
 }
