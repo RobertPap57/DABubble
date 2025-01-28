@@ -34,6 +34,7 @@ export class UserService {
 
   loggedUserId: string = '';
   privMsgUserId: string = '';
+  profileUserId: string = '';
 
   unsubUserList;
 
