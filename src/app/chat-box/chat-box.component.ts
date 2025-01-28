@@ -1,8 +1,9 @@
+import { user } from '@angular/fire/auth';
 
 
 import { User } from './../interfaces/user.model';
 import { serverTimestamp } from 'firebase/firestore';
-import { Component, Input, Inject, inject, PLATFORM_ID,HostListener, ElementRef, ViewChild, viewChild, Signal, AfterViewInit } from '@angular/core';
+import { Component, Input, Inject, inject, PLATFORM_ID, HostListener, ElementRef, ViewChild, viewChild, Signal, AfterViewInit } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { PickerComponent } from '@ctrl/ngx-emoji-mart';
@@ -18,7 +19,7 @@ import { ChannelService } from '../services/channel.service';
 import { SearchbarComponent } from '../header/searchbar/searchbar.component';
 import { ContactWindowComponent } from '../contacts/contact-window/contact-window.component';
 import { EditChannelComponent } from '../slide-side-bar/edit-channel/edit-channel.component';
-
+import { Channel } from '../interfaces/channel.model';
 import { EmojiService } from '../services/emoji.service';
 import { Subscription } from 'rxjs';
 import { AddUsersComponent } from './add-users/add-users.component';
@@ -53,7 +54,9 @@ export class ChatBoxComponent {
   openEditChannel = false;
   addUsersToChannel = false;
   usersBoxInChannel = false;
-  openUsersBox = false;
+  suggestedUsers: User[] = []; // Assuming user objects
+  suggestedChannels: Channel[] = []; // Assuming channel obje
+  showSuggestions: boolean = false;
   emojiService = inject(EmojiService);
   private emojiSubscription!: Subscription;
   @Input() threadId: string | null = null;
@@ -63,8 +66,8 @@ export class ChatBoxComponent {
 
   isBrowser: boolean;
   @Input() chatType: 'private' | 'channel' | 'thread' | 'new' = 'new';
-   messageInput: Signal<ElementRef | undefined> = viewChild('messageInput');
-   threadMessageInput: Signal<ElementRef | undefined> = viewChild('threadMessageInput');
+  messageInput: Signal<ElementRef | undefined> = viewChild('messageInput');
+  threadMessageInput: Signal<ElementRef | undefined> = viewChild('threadMessageInput');
   @Input() userId: string = '';
   senderName: string = '';
   senderImg: string = '';
@@ -75,6 +78,7 @@ export class ChatBoxComponent {
 
   threadMessageText: string = '';
   focusedInput: string | null = null;
+  
 
   @ViewChild('emojiPicker') emojiPicker!: ElementRef<HTMLElement>;
   excludeElements: HTMLElement[] = [];
@@ -101,7 +105,7 @@ export class ChatBoxComponent {
       if (destination === 'newMessage') {
         this.addEmojiInMessage(event);
       }
-      if(destination === 'threadMessage'){
+      if (destination === 'threadMessage') {
         this.addEmojiInThread(event);
       }
     });
@@ -112,6 +116,114 @@ export class ChatBoxComponent {
       this.emojiSubscription.unsubscribe();
     }
   }
+
+
+  onInput(event: any): void {
+    const inputText = event.target.value;
+    const cursorPosition = event.target.selectionStart;
+
+    // Find the position of the last @ or # character
+    const lastAtIndex = inputText.lastIndexOf('@');
+    const lastHashIndex = inputText.lastIndexOf('#');
+    const lastIndex = Math.max(lastAtIndex, lastHashIndex);
+
+    // If there's an @ or # in the input
+    if (lastIndex !== -1) {
+      const searchTerm = inputText.slice(lastIndex + 1, cursorPosition); // Get text after @ or #
+
+      if (inputText[lastIndex] === '@') {
+        this.searchUsers(searchTerm); // Search users
+      } else if (inputText[lastIndex] === '#') {
+        this.searchChannels(searchTerm); // Search channels
+      }
+
+
+    } else {
+      this.showSuggestions = false; 
+      this.suggestedUsers = [];
+      this.suggestedChannels = [];
+    }
+  }
+
+  searchUsers(input: string): void {
+    this.suggestedUsers = this.userService.users
+      .filter(user => user.name.toLowerCase().includes(input.toLowerCase()));
+    this.showSuggestions = this.suggestedUsers.length > 0;
+  }
+
+  searchChannels(input: string): void {
+    this.suggestedChannels = this.channelService.channels
+      .filter(channel => 
+          channel.userIds.includes(this.userService.loggedUserId) && // Check if the logged user is in the channel
+          channel.chanName.toLowerCase().includes(input.toLowerCase()) // Filter by channel name
+      );
+
+    this.showSuggestions = this.suggestedChannels.length > 0; // Show suggestions if any channels match
+}
+
+selectSuggestion(suggestion: any): void {
+  // Determine which textarea to use based on chatType
+  const textareaRef = this.chatType === 'thread' ? this.threadMessageInput() : this.messageInput();
+  const textarea = textareaRef?.nativeElement;
+
+  if (!textarea) {
+      console.error('Textarea is undefined'); // Log an error if textarea is not found
+      return; // Exit the function if textarea is not defined
+  }
+
+  const cursorPosition = textarea.selectionStart;
+
+  const textBeforeCursor = textarea.value.slice(0, cursorPosition);
+  const textAfterCursor = textarea.value.slice(cursorPosition);
+
+  // Determine the last @ or # position
+  const lastAtIndex = textBeforeCursor.lastIndexOf('@');
+  const lastHashIndex = textBeforeCursor.lastIndexOf('#');
+  const lastIndex = Math.max(lastAtIndex, lastHashIndex);
+
+  // Determine the tag and name based on the last character
+  let tag: string;
+  let name: string;
+
+  if (lastAtIndex > lastHashIndex) {
+      tag = '@';
+      name = suggestion.name; // Assuming suggestion is a user object
+  } else {
+      tag = '#';
+      name = suggestion.chanName; // Assuming suggestion is a channel object
+  }
+
+  if (!name) {
+      console.error('Name is undefined'); // Log if name is not found
+      return; // Exit if name is undefined
+  }
+
+  // Create new text
+  const updatedText = textBeforeCursor.slice(0, lastIndex) + tag + name + ' ' + textAfterCursor;
+
+  // Update the bound model
+  if (this.chatType === 'thread') {
+    this.threadMessageText = updatedText; // For thread messages
+  } else {
+    this.messageText = updatedText; // For main messages
+  }
+
+  // Restore the cursor position
+  setTimeout(() => {
+      const newCursorPosition = lastIndex + name.length + 2; // +2 for @ or # and the space
+      textarea.value = updatedText; // Update the textarea value
+      textarea.setSelectionRange(newCursorPosition, newCursorPosition); // Set cursor position
+      textarea.focus();
+  });
+
+  this.showSuggestions = false; // Hide suggestions after selection
+  this.suggestedUsers = []; // Clear suggested users
+  this.suggestedChannels = []; // Clear suggested channels
+
+}
+
+
+
 
   get filteredChannelMessages(): Message[] {
     return this.messageService.messages.filter(
@@ -149,7 +261,7 @@ export class ChatBoxComponent {
     this.messageService.threadId = null;
     this.messageService.threadOpen = false;
   }
-  
+
 
   countThreadAnswers(): number {
     return this.messageService.messages.filter(
@@ -242,7 +354,7 @@ export class ChatBoxComponent {
   }
 
   sendMessage(): void {
-    if (this.messageText.trim() !== ''|| this.threadMessageText.trim() !== '') {
+    if (this.messageText.trim() !== '' || this.threadMessageText.trim() !== '') {
       if (this.threadId) {
         this.sendThreadMessage();
       } else {
@@ -310,20 +422,20 @@ export class ChatBoxComponent {
   addEmojiInMessage(event: any): void {
     const emoji = event.emoji.native;
     const messageRef = this.messageInput();
-      const textarea = messageRef?.nativeElement
-      if (textarea) {
-        const cursorPosition = textarea.selectionStart || 0;
-        const textBeforeCursor = textarea.value.slice(0, cursorPosition);
-        const textAfterCursor = textarea.value.slice(cursorPosition);
-        this.messageText = textBeforeCursor + emoji + textAfterCursor;
+    const textarea = messageRef?.nativeElement
+    if (textarea) {
+      const cursorPosition = textarea.selectionStart || 0;
+      const textBeforeCursor = textarea.value.slice(0, cursorPosition);
+      const textAfterCursor = textarea.value.slice(cursorPosition);
+      this.messageText = textBeforeCursor + emoji + textAfterCursor;
 
-        // Restore the cursor position and focus
-        setTimeout(() => {
-          const newCursorPosition = cursorPosition + emoji.length;
-          textarea.setSelectionRange(newCursorPosition, newCursorPosition);
-          textarea.focus();
-        });
-      }
+      // Restore the cursor position and focus
+      setTimeout(() => {
+        const newCursorPosition = cursorPosition + emoji.length;
+        textarea.setSelectionRange(newCursorPosition, newCursorPosition);
+        textarea.focus();
+      });
+    }
   }
 
 
@@ -342,11 +454,11 @@ export class ChatBoxComponent {
     this.openProfileBox = false;
   }
 
-  showEditChannel(){
+  showEditChannel() {
     this.openEditChannel = true;
   }
 
-  closeEditChannel(){
+  closeEditChannel() {
     this.openEditChannel = false;
   }
 

@@ -201,4 +201,13 @@ export class ChannelService {
   getSingleChannelDocRef(colId: string, docId: string) {
     return doc(collection(this.firestore, colId), docId);
   }
+
+  isValidChannel(channelName: string): boolean {
+    console.log(channelName); // Useful for debugging, but can be removed in production
+  
+    // Use .some() for better performance
+    return this.channels.some(channel => 
+      channel.chanName.toLowerCase() === channelName.toLowerCase()
+    );
+  }
 }
