@@ -132,7 +132,7 @@ export class ChannelService {
       try {
         const channelDocRef = this.getSingleChannelDocRef('channel', this.guestChannelId);
         await updateDoc(channelDocRef, {
-          userIds: arrayUnion(...id),
+          userIds: arrayUnion(id),
         });
       } catch (error) {
         console.error('Error updating channel users:', error);
