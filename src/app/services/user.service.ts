@@ -128,14 +128,15 @@ export class UserService {
     this.saveUserToFirestore(newUser);
   }
 
-  /**
-   * Creates a new user object based on input data.
-   * @returns {User} - The constructed user object.
-   */
   private prepareNewUser(): User {
+    const userCode =
+      this.userName.trim() === '' ? this.generateRandomCode() : '';
+    const finalUserName =
+      this.userName.trim() === '' ? 'User ' + userCode : this.userName;
+
     return {
       id: '',
-      name: this.userName,
+      name: finalUserName,
       email: this.email,
       password: this.password,
       userImage: this.userImage,
@@ -143,6 +144,10 @@ export class UserService {
       lastSeen: new Date(),
       recentEmojis: [],
     };
+  }
+
+  generateRandomCode(): string {
+    return Math.floor(100000 + Math.random() * 900000).toString(); // Generiert eine Zahl zwischen 100000 und 999999
   }
 
   /**
