@@ -33,6 +33,22 @@
     height: 100%;
 }
 
+.active {
+    display: none;
+}
+
+.slide-out-thread {
+    margin-left: 326px;
+    animation: slideOut 0.2s ease-in-out;
+    width: 100%;
+}
+
+.slide-in-thread {
+    margin-left: 0;
+    animation: slideIn 0.2s ease-in-out;
+    width: 100%;
+}
+
 @keyframes slideIn {
     0% {
         margin-left: 326px;
