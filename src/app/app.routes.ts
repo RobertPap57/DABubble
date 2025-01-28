@@ -11,10 +11,12 @@ import { ProfileWindowComponent } from './contacts/profile-window/profile-window
 import { EditChannelComponent } from './slide-side-bar/edit-channel/edit-channel.component';
 import { ImprintComponent } from './shared/imprint/imprint.component';
 import { PrivacyPolicyComponent } from './shared/privacy-policy/privacy-policy.component';
+import { FooterComponent } from './shared/footer/footer.component';
 export const routes: Routes = [
   { path: '', component: LoginComponent },
   { path: 'header', component: HeaderComponent },
   { path: 'imprint', component: ImprintComponent },
+  { path: 'footer', component: FooterComponent },
   { path: 'privacy-policy', component: PrivacyPolicyComponent },
   { path: 'register', component: CreateAccountComponent },
   { path: 'avatar', component: ChooseAvatarComponent },
