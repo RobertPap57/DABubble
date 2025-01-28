@@ -55,7 +55,6 @@ export class LoginComponent {
   async onGoogleLogin(): Promise<void> {
     const auth = getAuth();
     const provider = new GoogleAuthProvider();
-    await this.channelService.updateStandardChannel(this.userService.userId);
 
     try {
       this.feedbackOverlay.showFeedback('Google Anmeldung');
@@ -78,6 +77,7 @@ export class LoginComponent {
         await this.userService.saveGoogleUserToFirestore(userData);
 
         this.router.navigate(['/home', userData.id]);
+        await this.channelService.updateStandardChannel(this.userService.loggedUserId);
       }
     } catch (error) {
       console.error('Fehler bei der Google-Anmeldung:', error);
@@ -112,7 +112,6 @@ export class LoginComponent {
    * Handles the login process, showing errors if login fails.
    */
   async onLogin(): Promise<void> {
-    await this.channelService.updateStandardChannel(this.userService.userId);
     try {
       this.showError = false;
       let loginSuccessful = await this.userService.loginUser(
@@ -125,6 +124,7 @@ export class LoginComponent {
         this.showError = false;
         this.loginUser = false;
         this.feedbackOverlay.showFeedback('Anmelden');
+        await this.channelService.updateStandardChannel(this.userService.loggedUserId);
       }
       if (!loginSuccessful) {
         this.showError = true;
