@@ -45,16 +45,16 @@
                         @let displayedMembers = members.slice(0, 3);
                         @let additionalCount = members.length - displayedMembers.length;
 
+                        
+                        @for (member of displayedMembers; track member.id) {
+                            <img src="{{member.userImage}}" alt="">
+                        }
                         @if (additionalCount > 0) {
                         <div class="additional-members">
                             <span>
-                                +{{additionalCount}}
+                                ...
                             </span>
                         </div>
-                        }
-
-                        @for (member of displayedMembers; track member.id) {
-                        <img src="{{member.userImage}}" alt="">
                         }
 
                     </div>
