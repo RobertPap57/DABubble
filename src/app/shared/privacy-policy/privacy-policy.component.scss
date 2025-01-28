@@ -5,7 +5,7 @@ section {
 
 .box {
     background-color: white;
-    padding: 48px 56px 48px 56px;
+    padding: 48px;
     border-radius: 30px;
     width: 600px;
 
@@ -19,8 +19,20 @@ section {
     }
 }
 
-@media screen and (max-width: 725px) {
+.wrapper {
+    position: sticky;
+    top: -16px;
+    background: white;
+    height: 36px;
+}
+
+@media screen and (max-width: 768px) {
     .box {
-        width: 320px;
+        width: calc(100% - 124px);
+        max-height: calc(100vh - 150px);
+        padding: 16px 36px 16px 36px;
+        overflow-y: auto;
+        scrollbar-width: none;
+        word-break: break-word;
     }
 }
