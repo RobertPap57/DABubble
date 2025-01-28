@@ -217,6 +217,10 @@ export class LoginComponent {
     this.deleteGuestComments(this.guestUrl);
     this.userService.finalizeLogin(this.guestUrl);
     this.feedbackOverlay.showFeedback('Anmelden');
+    this.userService.privMsgUserId = this.guestUrl;
+    this.channelService.channelChatId = '';
+    this.messageService.threadOpen = false;
+    this.channelService.isServer = false;
   }
 
   /**
