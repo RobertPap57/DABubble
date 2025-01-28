@@ -1,8 +1,10 @@
 .buttons {
-    button {
+    a {
         font-size: 18px;
         font-weight: 400;
         color: #797EF3;
+        padding: 8px;
+        text-decoration: none;
         &:hover{
             cursor: pointer;
             border: 1px solid;
