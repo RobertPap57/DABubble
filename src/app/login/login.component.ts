@@ -55,7 +55,7 @@ export class LoginComponent {
   async onGoogleLogin(): Promise<void> {
     const auth = getAuth();
     const provider = new GoogleAuthProvider();
-    this.channelService.updateStandardChannel(this.userService.userId);
+    await this.channelService.updateStandardChannel(this.userService.userId);
 
     try {
       this.feedbackOverlay.showFeedback('Google Anmeldung');
@@ -112,7 +112,7 @@ export class LoginComponent {
    * Handles the login process, showing errors if login fails.
    */
   async onLogin(): Promise<void> {
-    this.channelService.updateStandardChannel(this.userService.userId);
+    await this.channelService.updateStandardChannel(this.userService.userId);
     try {
       this.showError = false;
       let loginSuccessful = await this.userService.loginUser(
