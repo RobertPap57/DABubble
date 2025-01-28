@@ -38,6 +38,7 @@ export class CreateAccountComponent {
   confirmVisibilityIcon: string = './visibility_off.png';
 
   next: boolean = false;
+  regexpName = /^[A-Za-zÄÖÜäöüß]{3,}([ ]?[A-Za-zÄÖÜäöüß]{2,})*$/;
   regexp = new RegExp(
     /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
   );
@@ -203,6 +204,9 @@ export class CreateAccountComponent {
       this.userNameImg = value
         ? '/user-name-icon-black.png'
         : '/user-name-icon-grey.png';
+      this.showError = !(
+        this.regexpName.test(value) && value.trim().length >= 3
+      );
     }
     this.enableButton(this.isFormValid());
   }

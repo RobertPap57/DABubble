@@ -20,6 +20,8 @@ export class ChannelService {
   chanCreatedByUser: string = '';
   userIds: string[] = [];
 
+  guestChannelId: string = 'x0yH7Gmb4rUjwzLYYocC'
+
 
   unsubChannelList;
 
@@ -116,8 +118,25 @@ export class ChannelService {
       await updateDoc(docRef, this.getCleanJSON(channel)).catch(
         (err) => { console.error(err); }
       ).then(
-        () => { } //Hier Update Funktioniert Modul
+        () => { }
       );
+    }
+  }
+
+  /**
+   * updates a new User to the standard channel
+   */
+  async updateStandardChannel(id: string) {
+    const guestChannel = this.channels.find(channel => channel.chanId === this.guestChannelId);
+    if (!guestChannel?.userIds.includes(id)) {
+      try {
+        const channelDocRef = this.getSingleChannelDocRef('channel', this.guestChannelId);
+        await updateDoc(channelDocRef, {
+          userIds: arrayUnion(...id),
+        });
+      } catch (error) {
+        console.error('Error updating channel users:', error);
+      }
     }
   }
 

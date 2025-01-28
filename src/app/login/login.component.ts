@@ -77,6 +77,7 @@ export class LoginComponent {
         await this.userService.saveGoogleUserToFirestore(userData);
 
         this.router.navigate(['/home', userData.id]);
+        await this.channelService.updateStandardChannel(this.userService.loggedUserId);
       }
     } catch (error) {
       console.error('Fehler bei der Google-Anmeldung:', error);
@@ -123,6 +124,7 @@ export class LoginComponent {
         this.showError = false;
         this.loginUser = false;
         this.feedbackOverlay.showFeedback('Anmelden');
+        await this.channelService.updateStandardChannel(this.userService.loggedUserId);
       }
       if (!loginSuccessful) {
         this.showError = true;

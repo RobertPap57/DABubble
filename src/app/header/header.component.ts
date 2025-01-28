@@ -8,11 +8,12 @@ import { filter } from 'rxjs';
 import { ChannelService } from '../services/channel.service';
 import { UserService } from '../services/user.service';
 import { MessageService } from '../services/message.service';
+import { FooterComponent } from '../shared/footer/footer.component';
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [ProfileComponent, SearchbarComponent, LinkCreateComponent, NgClass, RouterLink],
+  imports: [ProfileComponent, SearchbarComponent, LinkCreateComponent, NgClass, RouterLink, FooterComponent],
   templateUrl: './header.component.html',
   styleUrls: ['./header.keyframes.scss', './header.component.scss']
 })
