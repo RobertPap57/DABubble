@@ -45,6 +45,7 @@ export class ProfileWindowComponent {
 
   save(): void {
     this.userService.updateUserInfo(this.userId, this.name, this.picture);
+    this.close();
   }
 
   cancel() {
