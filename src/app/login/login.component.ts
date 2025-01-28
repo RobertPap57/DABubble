@@ -19,7 +19,7 @@ export class LoginComponent {
   @ViewChild(FeedbackOverlayComponent)
   feedbackOverlay!: FeedbackOverlayComponent;
 
-  constructor(private router: Router, private userService: UserService, private messageService: MessageService, private channelService: ChannelService) {}
+  constructor(private router: Router, private userService: UserService, private messageService: MessageService, private channelService: ChannelService) { }
 
   emailImg: string = './mail-grey.png';
   lockImg: string = './lock-grey.png';
@@ -216,21 +216,23 @@ export class LoginComponent {
     this.feedbackOverlay.showFeedback('Anmelden');
   }
 
-    /**
-   * deletes all guest comments and channels created by the guest.
-   * 
-   * @param guestId the guest id
-   */
-    deleteGuestComments(guestId: string) {
-      const filteredMessages = this.messageService.messages.filter(message =>
-        message.senderId.includes(guestId));
-      filteredMessages.forEach(message => {
-        this.messageService.deleteMessage(message.channelId);
-      });
-      const filteredChannels = this. channelService.channels.filter(channel =>
-        channel.chanCreatedByUser.includes(guestId));
-        filteredChannels.forEach(channel => {
-        this.channelService.deleteChannel(channel.chanId);
-      });
-    }
+  /**
+ * deletes all guest comments and channels created by the guest.
+ * 
+ * @param guestId the guest id
+ */
+  deleteGuestComments(guestId: string) {
+    const filteredMessages = this.messageService.messages.filter(message => {
+      message.senderId.includes(guestId)
+      message.userId.includes(guestId)
+    });
+    filteredMessages.forEach(async message => {
+      await this.messageService.deleteMessage(message.channelId);
+    });
+    const filteredChannels = this.channelService.channels.filter(channel =>
+      channel.chanCreatedByUser.includes(guestId));
+    filteredChannels.forEach(async channel => {
+      await this.channelService.deleteChannel(channel.chanId);
+    });
+  }
 }

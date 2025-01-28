@@ -48,7 +48,6 @@ export class HeaderComponent {
    * checks on which route the user currently is to display the correct header items and animations
    */
   ngOnInit() {
-
     this.router.events
       .pipe(filter(event => event instanceof NavigationEnd))
       .subscribe((event: NavigationEnd) => {

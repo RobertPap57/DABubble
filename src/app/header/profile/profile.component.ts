@@ -79,11 +79,11 @@ export class ProfileComponent {
     this.openProfileBox = false;
   }
 
-/**
- * logs the user out and deletes all guest user comments
- * 
- * @param id the id of the guest user
- */
+  /**
+   * logs the user out and deletes all guest user comments
+   * 
+   * @param id the id of the guest user
+   */
   logoutUser(id: string) {
     if (id === this.guestUrl) {
       this.deleteGuestComments(this.guestUrl);
@@ -97,15 +97,17 @@ export class ProfileComponent {
    * @param guestId the guest id
    */
   deleteGuestComments(guestId: string) {
-    const filteredMessages = this.messageService.messages.filter(message =>
-      message.senderId.includes(guestId));
-    filteredMessages.forEach(message => {
-      this.messageService.deleteMessage(message.channelId);
+    const filteredMessages = this.messageService.messages.filter(message => {
+      message.senderId.includes(guestId)
+      message.userId.includes(guestId)
+    });
+    filteredMessages.forEach(async message => {
+      await this.messageService.deleteMessage( message.channelId);
     });
     const filteredChannels = this.channelService.channels.filter(channel =>
       channel.chanCreatedByUser.includes(guestId));
-    filteredChannels.forEach(channel => {
-      this.channelService.deleteChannel(channel.chanId);
+    filteredChannels.forEach(async channel => {
+      await this.channelService.deleteChannel(channel.chanId);
     });
   }
 }

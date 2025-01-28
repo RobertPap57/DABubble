@@ -127,11 +127,13 @@ export class ChannelService {
    * @param docId 
    */
   async deleteChannel(docId: string) {
-    await deleteDoc(this.getSingleChannelDocRef('channel', docId)).catch(
-      (err) => { console.error(err); }
-    ).then(
-      () => { } //Hier Update Funktioniert Modul
-    );
+    if (docId) {
+      await deleteDoc(this.getSingleChannelDocRef('channel', docId)).catch(
+        (err) => { console.error(err); }
+      ).then(
+        () => { } //Hier Update Funktioniert Modul
+      );
+    }
   }
 
   /**
