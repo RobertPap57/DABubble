@@ -53,7 +53,7 @@ export class ChatBoxComponent {
   openEditChannel = false;
   addUsersToChannel = false;
   usersBoxInChannel = false;
-
+  openUsersBox = false;
   emojiService = inject(EmojiService);
   private emojiSubscription!: Subscription;
   @Input() threadId: string | null = null;
