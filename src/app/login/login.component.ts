@@ -225,17 +225,17 @@ export class LoginComponent {
    * @param guestId the guest id
    */
   deleteGuestComments(guestId: string) {
-    const filteredMessages = this.messageService.messages.filter((message) =>
+    const filteredMessages = this.messageService.messages.filter(message => {
       message.senderId.includes(guestId)
-    );
-    filteredMessages.forEach((message) => {
-      this.messageService.deleteMessage(message.channelId);
+      message.userId.includes(guestId)
     });
-    const filteredChannels = this.channelService.channels.filter((channel) =>
-      channel.chanCreatedByUser.includes(guestId)
-    );
-    filteredChannels.forEach((channel) => {
-      this.channelService.deleteChannel(channel.chanId);
+    filteredMessages.forEach(async message => {
+      await this.messageService.deleteMessage( message.channelId);
+    });
+    const filteredChannels = this.channelService.channels.filter(channel =>
+      channel.chanCreatedByUser.includes(guestId));
+    filteredChannels.forEach(async channel => {
+      await this.channelService.deleteChannel(channel.chanId);
     });
   }
 }
