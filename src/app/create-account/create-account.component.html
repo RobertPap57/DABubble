@@ -141,7 +141,9 @@
       />
       <p>
         Ich stimme der
-        <a href="privacy-policy" (click)="onClick()">Datenschutzerklärung</a>
+        <span [routerLink]="['/privacy-policy']" (click)="onClick()"
+          >Datenschutzerklärung</span
+        >
         zu.
       </p>
       <div class="error-message" *ngIf="showError && !isChecked">

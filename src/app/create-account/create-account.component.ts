@@ -1,14 +1,14 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { UserService } from '../services/user.service';
 import { FooterComponent } from "../shared/footer/footer.component";
 
 @Component({
   selector: 'app-create-account',
   standalone: true,
-  imports: [FormsModule, CommonModule, FooterComponent],
+  imports: [FormsModule, CommonModule, FooterComponent, RouterLink ],
   templateUrl: './create-account.component.html',
   styleUrl: './create-account.component.scss',
 })
