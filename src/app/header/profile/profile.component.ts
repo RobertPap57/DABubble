@@ -97,10 +97,8 @@ export class ProfileComponent {
    * @param guestId the guest id
    */
   deleteGuestComments(guestId: string) {
-    const filteredMessages = this.messageService.messages.filter(message => {
-      message.senderId.includes(guestId)
-      message.userId.includes(guestId)
-    });
+    const filteredMessages = this.messageService.messages.filter(message =>
+      (message.senderId.includes(guestId) ? 1 : 0) + (message.userId.includes(guestId) ? 1 : 0) >= 1);
     filteredMessages.forEach(async message => {
       await this.messageService.deleteMessage( message.id);
     });
