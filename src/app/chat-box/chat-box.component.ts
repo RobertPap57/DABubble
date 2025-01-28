@@ -144,6 +144,39 @@ export class ChatBoxComponent {
     }
   }
 
+  triggerAtMention(): void {
+    // Determine the target input and model based on chatType
+    const textareaRef = this.chatType === 'thread' ? this.threadMessageInput() : this.messageInput();
+    const textarea = textareaRef?.nativeElement;
+  
+    if (!textarea) {
+      console.error('Textarea reference is not available.');
+      return;
+    }
+  
+    const model = this.chatType === 'thread' ? 'threadMessageText' : 'messageText';
+  
+    // Add '@' at the cursor position
+    const cursorPosition = textarea.selectionStart || 0;
+    const beforeCursor = this[model].slice(0, cursorPosition);
+    const afterCursor = this[model].slice(cursorPosition);
+  
+    // Update the input value and model
+    this[model] = beforeCursor + '@' + afterCursor;
+    textarea.value = this[model];
+  
+    // Set the cursor position after the `@`
+    setTimeout(() => {
+      textarea.setSelectionRange(cursorPosition + 1, cursorPosition + 1);
+  
+      // Manually trigger the input event
+      const event = new Event('input', { bubbles: true });
+      textarea.dispatchEvent(event);
+    }, 0);
+  }
+
+  
+
   searchUsers(input: string): void {
     this.suggestedUsers = this.userService.users
       .filter(user => user.name.toLowerCase().includes(input.toLowerCase()));

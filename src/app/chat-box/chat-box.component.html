@@ -237,6 +237,10 @@
                     (click)="emojiService.toggleEmojiPicker('threadMessage', chatType, null); $event.stopPropagation()">
                     <mat-icon fontSet="material-symbols-rounded">sentiment_satisfied</mat-icon>
                 </button>
+
+                <button>
+                    <mat-icon (click)="triggerAtMention()" fontSet="material-symbols-rounded">alternate_email</mat-icon>
+                </button>
                 }
                 @else {
                 <button
@@ -244,11 +248,11 @@
                     <mat-icon fontSet="material-symbols-rounded">sentiment_satisfied</mat-icon>
                 </button>
 
-                }
-
+                
                 <button>
-                    <mat-icon fontSet="material-symbols-rounded">alternate_email</mat-icon>
+                    <mat-icon (click)="triggerAtMention()" fontSet="material-symbols-rounded">alternate_email</mat-icon>
                 </button>
+            }
             </div>
 
             <mat-icon fontSet="material-symbols-rounded" class="send-icon" (click)="sendMessage()">send</mat-icon>
