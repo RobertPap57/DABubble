@@ -9,9 +9,13 @@ import { PasswordResetComponent } from './password-reset/password-reset.componen
 import { HomeComponent } from './home/home.component';
 import { ProfileWindowComponent } from './contacts/profile-window/profile-window.component';
 import { EditChannelComponent } from './slide-side-bar/edit-channel/edit-channel.component';
+import { ImprintComponent } from './shared/imprint/imprint.component';
+import { PrivacyPolicyComponent } from './shared/privacy-policy/privacy-policy.component';
 export const routes: Routes = [
   { path: '', component: LoginComponent },
   { path: 'header', component: HeaderComponent },
+  { path: 'imprint', component: ImprintComponent },
+  { path: 'privacy-policy', component: PrivacyPolicyComponent },
   { path: 'register', component: CreateAccountComponent },
   { path: 'avatar', component: ChooseAvatarComponent },
   { path: 'profile', component: ProfileWindowComponent },
