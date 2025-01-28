@@ -45,6 +45,7 @@ export class SearchbarComponent {
   closesearchbarDropdown() {
     this.dropdownActive = false;
     this.searchBar = '';
+    this.checkNoFindings();
   }
 
   /**

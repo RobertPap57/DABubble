@@ -39,4 +39,5 @@ export class ContactWindowComponent {
   fetchStatusFromDatabase() {
   }
 
+  openDirectMessage() {}
 }
