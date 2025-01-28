@@ -18,6 +18,7 @@ import {
   setDoc,
 } from '@angular/fire/firestore';
 import { Router } from '@angular/router';
+import { ChannelService } from './channel.service';
 
 @Injectable({
   providedIn: 'root',
@@ -38,7 +39,7 @@ export class UserService {
 
   unsubUserList;
 
-  constructor(private router: Router) {
+  constructor(private router: Router, private channelService: ChannelService) {
     this.unsubUserList = this.subUserList();
   }
 
@@ -286,6 +287,7 @@ export class UserService {
    */
   public async finalizeLogin(userId: string): Promise<void> {
     await this.updateUserStatus(userId, 'online');
+    await this.channelService.updateStandardChannel(userId);
     setTimeout(() => {
       this.router.navigate(['/home', userId]);
     }, 1500);
