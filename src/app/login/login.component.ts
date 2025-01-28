@@ -230,7 +230,7 @@ export class LoginComponent {
       message.userId.includes(guestId)
     });
     filteredMessages.forEach(async message => {
-      await this.messageService.deleteMessage( message.channelId);
+      await this.messageService.deleteMessage( message.id);
     });
     const filteredChannels = this.channelService.channels.filter(channel =>
       channel.chanCreatedByUser.includes(guestId));
