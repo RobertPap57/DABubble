@@ -72,6 +72,7 @@ export class ChatBoxComponent {
   users: User[] = this.userService.users;
   messageText: string = '';
 
+  guestUrl: string = '0LxX4SgAJLMdrMynLbem';
 
   threadMessageText: string = '';
   focusedInput: string | null = null;

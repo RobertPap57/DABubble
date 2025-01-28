@@ -232,6 +232,10 @@ export class LoginComponent {
     this.deleteGuestComments(this.guestUrl);
     this.userService.finalizeLogin(this.guestUrl);
     this.feedbackOverlay.showFeedback('Anmelden');
+    this.userService.privMsgUserId = this.guestUrl;
+    this.channelService.channelChatId = '';
+    this.messageService.threadOpen = false;
+    this.channelService.isServer = false;
   }
 
   /**
@@ -242,13 +246,11 @@ export class LoginComponent {
    * @param {string} guestId - The unique identifier of the guest user whose messages and channels should be deleted.
    * @returns {void} - This method does not return any value.
    */
-  deleteGuestComments(guestId: string): void {
-    const filteredMessages = this.messageService.messages.filter((message) => {
-      message.senderId.includes(guestId);
-      message.userId.includes(guestId);
-    });
-    filteredMessages.forEach(async (message) => {
-      await this.messageService.deleteMessage(message.id);
+  deleteGuestComments(guestId: string) {
+    const filteredMessages = this.messageService.messages.filter(message =>
+      (message.senderId.includes(guestId) ? 1 : 0) + (message.userId.includes(guestId) ? 1 : 0) >= 1);
+    filteredMessages.forEach(async message => {
+      await this.messageService.deleteMessage( message.id);
     });
     const filteredChannels = this.channelService.channels.filter((channel) =>
       channel.chanCreatedByUser.includes(guestId)

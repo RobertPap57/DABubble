@@ -42,7 +42,7 @@
     <div *ngIf="isEditMode" class="edit-view">
         <div class="top">
             <h2>Profil bearbeiten</h2>
-            <img src="/close.svg" alt="close icon">
+            <img (click)="close()" src="/close.svg" alt="close icon">
         </div>
         <div class="avatar">
             <img src="{{picture}}">
