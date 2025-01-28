@@ -369,4 +369,18 @@ export class UserService {
       console.error('Error during logout:', error);
     }
   }
+
+  isValidUser(userName: string): boolean {
+    const normalizedUserName = userName.toLowerCase().trim();
+    const words = normalizedUserName.split(' '); // Split into words
+    
+    return this.users.some(user => {
+      const normalizedUser = user.name.toLowerCase().trim();
+      
+      // Check if each word in the channel name matches a part of the channel name
+      return words.every(word => normalizedUser.includes(word));
+    });
+  }
+
+
 }
