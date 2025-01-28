@@ -99,8 +99,15 @@
         @switch (chatType) {
 
         @case('channel') {
-        @for(message of filteredChannelMessages; track message.id) {
-        <app-message [message]="message" [chatType]="chatType" [excludeElements]="excludeElements"></app-message>
+            @for(message of filteredChannelMessages; track message.id; let i = $index ) {
+                <app-message [message]="message" [chatType]="chatType" [excludeElements]="excludeElements"></app-message>
+                @if(i === 0){
+                <div class="date-separator">
+                    <span></span>
+                    <p>Heute</p>
+                    <span></span>
+                </div>
+                }
         }@empty {
         <div class="channel-chat-empty">
             <div class="channel-title">
@@ -163,8 +170,31 @@
     <div class="input-container" [class]="{ 'thread-margin': chatType === 'thread' ,
      'reduced-margin': messageService.threadOpen && !channelService.slideOutNavBar && chatType !== 'thread'}">
 
-        @if(openUsersBox) {
-        <div></div>
+
+
+
+        @if(showSuggestions) {
+        <div class="suggestions-container">
+            <div>
+
+                @for(user of suggestedUsers; track user.id) {
+                <p (click)="selectSuggestion(user)">
+                    <img [src]="user.userImage" alt="{{user.name}}">{{user.name}}
+                </p>
+
+                }
+
+                @for(channel of suggestedChannels; track channel.chanId) {
+                <p (click)="selectSuggestion(channel)">
+                    #{{channel.chanName}}
+                </p>
+
+                }
+
+
+            </div>
+        </div>
+
         }
 
         @if(chatType === 'thread') {
@@ -185,15 +215,16 @@
 
 
         @if(chatType === 'thread') {
-        <textarea #threadMessageInput type="text" [(ngModel)]="threadMessageText" [placeholder]="getPlaceholder()"
-            rows="2" *ngIf="isBrowser" autosize (keyup.enter)="sendMessage()">
+        <textarea (input)="onInput($event)" #threadMessageInput type="text" [(ngModel)]="threadMessageText"
+            [placeholder]="getPlaceholder()" rows="2" *ngIf="isBrowser" autosize (keyup.enter)="sendMessage()">
         </textarea>
         }
         @else {
-        <textarea #messageInput type="text" [(ngModel)]="messageText" [placeholder]="getPlaceholder()" rows="2"
-            *ngIf="isBrowser" autosize (keyup.enter)="sendMessage()">
+        <textarea (input)="onInput($event)" #messageInput type="text" [(ngModel)]="messageText"
+            [placeholder]="getPlaceholder()" rows="2" *ngIf="isBrowser" autosize (keyup.enter)="sendMessage()">
         </textarea>
         }
+   
 
         <div class="actions-container">
             <div>

@@ -15,6 +15,7 @@ import { FormsModule } from '@angular/forms';
 import { isPlatformBrowser } from '@angular/common';
 import { EmojiService } from '../../services/emoji.service';
 import { Subscription } from 'rxjs';
+import { HighlightPipe } from './highlight.pipe';
 
 
 
@@ -31,7 +32,8 @@ import { Subscription } from 'rxjs';
     CommonModule,
     ReactionBarComponent,
     FormsModule,
-    EmojiReactionComponent
+    EmojiReactionComponent,
+    HighlightPipe
 
   ],
   templateUrl: './message.component.html',
@@ -186,6 +188,19 @@ export class MessageComponent {
 
 
 
+
+  handleClick(event: MouseEvent): void {
+    const target = event.target as HTMLElement;
+    if (target.classList.contains('mention')) {
+      const mentionText = target.innerText;
+      // Call your desired function with the mentionText
+      this.yourFunction(mentionText);
+    }
+  }
+
+  yourFunction(mentionText: string): void {
+    console.log('Mention clicked:', mentionText);
+  }
 
 }
 
