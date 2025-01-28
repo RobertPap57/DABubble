@@ -7,11 +7,12 @@ import { FeedbackOverlayComponent } from '../feedback-overlay/feedback-overlay.c
 import { getAuth, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 import { MessageService } from '../services/message.service';
 import { ChannelService } from '../services/channel.service';
+import { FooterComponent } from '../shared/footer/footer.component';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [FormsModule, CommonModule, FeedbackOverlayComponent],
+  imports: [FormsModule, CommonModule, FeedbackOverlayComponent, FooterComponent],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
 })
