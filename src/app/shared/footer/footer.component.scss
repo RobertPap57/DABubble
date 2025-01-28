@@ -1,16 +1,35 @@
-.buttons {
-    a {
-        font-size: 18px;
-        font-weight: 400;
-        color: #797EF3;
-        padding: 8px;
-        text-decoration: none;
+section {
+  padding-right: 0;
+  padding-top: 16px;
+  padding-bottom: 32px;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  justify-content: center;
+  position: fixed;
+  bottom: 0px;
+}
 
-        &:hover {
-            cursor: pointer;
-            border: 1px solid;
-            border-radius: 30px;
-            background-color: transparent;
-        }
+.buttons {
+  a {
+    font-size: 18px;
+    font-weight: 400;
+    color: #797ef3;
+    padding: 8px;
+    text-decoration: none;
+
+    &:hover {
+      cursor: pointer;
+      border: 1px solid;
+      border-radius: 30px;
+      background-color: transparent;
     }
+  }
+}
+
+@media (max-width: 768px) {
+  section {
+    position: unset;
+    bottom: 0px;
+  }
 }

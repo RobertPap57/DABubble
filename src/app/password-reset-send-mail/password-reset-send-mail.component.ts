@@ -7,6 +7,7 @@ import { UserService } from '../services/user.service';
 import { getDocs, query, updateDoc } from '@angular/fire/firestore';
 import { where } from '@firebase/firestore';
 import { FeedbackOverlayComponent } from '../feedback-overlay/feedback-overlay.component';
+import { FooterComponent } from "../shared/footer/footer.component";
 
 @Component({
   selector: 'app-password-reset-send-mail',
@@ -16,7 +17,8 @@ import { FeedbackOverlayComponent } from '../feedback-overlay/feedback-overlay.c
     CommonModule,
     HttpClientModule,
     FeedbackOverlayComponent,
-  ],
+    FooterComponent
+],
   templateUrl: './password-reset-send-mail.component.html',
   styleUrl: './password-reset-send-mail.component.scss',
 })

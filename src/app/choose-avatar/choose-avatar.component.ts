@@ -3,11 +3,12 @@ import { Component, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { UserService } from '../services/user.service';
 import { FeedbackOverlayComponent } from '../feedback-overlay/feedback-overlay.component';
+import { FooterComponent } from "../shared/footer/footer.component";
 
 @Component({
   selector: 'app-choose-avatar',
   standalone: true,
-  imports: [CommonModule, FeedbackOverlayComponent],
+  imports: [CommonModule, FeedbackOverlayComponent, FooterComponent],
   templateUrl: './choose-avatar.component.html',
   styleUrl: './choose-avatar.component.scss',
 })

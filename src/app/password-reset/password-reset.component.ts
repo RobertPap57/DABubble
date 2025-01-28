@@ -13,11 +13,12 @@ import {
   QueryDocumentSnapshot,
 } from '@angular/fire/firestore';
 import { FeedbackOverlayComponent } from '../feedback-overlay/feedback-overlay.component';
+import { FooterComponent } from "../shared/footer/footer.component";
 
 @Component({
   selector: 'app-password-reset',
   standalone: true,
-  imports: [FormsModule, CommonModule, FeedbackOverlayComponent],
+  imports: [FormsModule, CommonModule, FeedbackOverlayComponent, FooterComponent],
   templateUrl: './password-reset.component.html',
   styleUrl: './password-reset.component.scss',
 })
