@@ -19,7 +19,12 @@ export class LoginComponent {
   @ViewChild(FeedbackOverlayComponent)
   feedbackOverlay!: FeedbackOverlayComponent;
 
-  constructor(private router: Router, private userService: UserService, private messageService: MessageService, private channelService: ChannelService) { }
+  constructor(
+    private router: Router,
+    private userService: UserService,
+    private messageService: MessageService,
+    private channelService: ChannelService
+  ) {}
 
   emailImg: string = './mail-grey.png';
   lockImg: string = './lock-grey.png';
@@ -46,7 +51,7 @@ export class LoginComponent {
     const provider = new GoogleAuthProvider();
 
     try {
-      this.feedbackOverlay.showFeedback('Anmeldung mit Google läuft...');
+      this.feedbackOverlay.showFeedback('Google Anmeldung');
 
       const result = await signInWithPopup(auth, provider);
       const user = result.user;
@@ -64,8 +69,6 @@ export class LoginComponent {
         };
 
         await this.userService.saveGoogleUserToFirestore(userData);
-
-        this.feedbackOverlay.showFeedback('Anmelden mit Google erfolgreich!');
         this.router.navigate(['/home', userData.id]);
       }
     } catch (error) {
@@ -217,22 +220,22 @@ export class LoginComponent {
   }
 
   /**
- * deletes all guest comments and channels created by the guest.
- * 
- * @param guestId the guest id
- */
+   * deletes all guest comments and channels created by the guest.
+   *
+   * @param guestId the guest id
+   */
   deleteGuestComments(guestId: string) {
-    const filteredMessages = this.messageService.messages.filter(message => {
+    const filteredMessages = this.messageService.messages.filter((message) =>
       message.senderId.includes(guestId)
-      message.userId.includes(guestId)
+    );
+    filteredMessages.forEach((message) => {
+      this.messageService.deleteMessage(message.channelId);
     });
-    filteredMessages.forEach(async message => {
-      await this.messageService.deleteMessage(message.channelId);
-    });
-    const filteredChannels = this.channelService.channels.filter(channel =>
-      channel.chanCreatedByUser.includes(guestId));
-    filteredChannels.forEach(async channel => {
-      await this.channelService.deleteChannel(channel.chanId);
+    const filteredChannels = this.channelService.channels.filter((channel) =>
+      channel.chanCreatedByUser.includes(guestId)
+    );
+    filteredChannels.forEach((channel) => {
+      this.channelService.deleteChannel(channel.chanId);
     });
   }
 }
