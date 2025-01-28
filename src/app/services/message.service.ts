@@ -82,11 +82,13 @@ export class MessageService {
 
 
     async deleteMessage(docId: string) {
-        await deleteDoc(this.getSingleMessageDocRef('messages', docId)).catch(
-            (err) => { console.log(err); }
-        ).then(
-            () => { } //Hier Update Funktioniert Modul
-        );
+        if (docId) {
+            await deleteDoc(this.getSingleMessageDocRef('messages', docId)).catch(
+                (err) => { console.log(err); }
+            ).then(
+                () => { } //Hier Update Funktioniert Modul
+            );
+        }
     }
 
     getCleanJSON(message: Message): {} {

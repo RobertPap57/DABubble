@@ -80,7 +80,7 @@
             @for (user of userService.users; track user.id) {
 
             @if (filteredUsers.includes(user.id)) {
-            <p (click)="opendirectMsg(user.id)"><img src=".{{user.userImage}}">{{user.name}}</p>
+            <p (click)="opendirectMsg(user.id)"><img src="{{user.userImage}}">{{user.name}}</p>
             }
             }
             }

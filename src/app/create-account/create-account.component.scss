@@ -102,6 +102,9 @@ section {
   gap: 8px;
   margin-bottom: 48px;
   padding-top: 8px;
+  a {
+    text-decoration: none;
+  }
   img {
     cursor: pointer;
     height: 24px;

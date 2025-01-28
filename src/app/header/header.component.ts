@@ -48,13 +48,12 @@ export class HeaderComponent {
    * checks on which route the user currently is to display the correct header items and animations
    */
   ngOnInit() {
-
     this.router.events
       .pipe(filter(event => event instanceof NavigationEnd))
       .subscribe((event: NavigationEnd) => {
         this.isHomeRoute = event.url.includes('/home');
         this.isLoginRoute = event.url === '/'
-        this.isNotLoggedInRoute = ['/register', '/avatar', '/reset-password'].some(route => event.url.includes(route));
+        this.isNotLoggedInRoute = ['/register', '/avatar', '/reset-password','/privacy-policy', '/imprint'].some(route => event.url.includes(route));
         if (typeof window !== "undefined") {
           if (window.innerWidth < 769) this.isMobile = true;
         }

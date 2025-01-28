@@ -3,11 +3,12 @@ import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { UserService } from '../services/user.service';
+import { FooterComponent } from "../shared/footer/footer.component";
 
 @Component({
   selector: 'app-create-account',
   standalone: true,
-  imports: [FormsModule, CommonModule],
+  imports: [FormsModule, CommonModule, FooterComponent],
   templateUrl: './create-account.component.html',
   styleUrl: './create-account.component.scss',
 })
@@ -38,6 +39,7 @@ export class CreateAccountComponent {
   confirmVisibilityIcon: string = './visibility_off.png';
 
   next: boolean = false;
+  regexpName = /^[A-Za-zÄÖÜäöüß]{3,}([ ]?[A-Za-zÄÖÜäöüß]{2,})*$/;
   regexp = new RegExp(
     /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
   );
@@ -203,6 +205,9 @@ export class CreateAccountComponent {
       this.userNameImg = value
         ? '/user-name-icon-black.png'
         : '/user-name-icon-grey.png';
+      this.showError = !(
+        this.regexpName.test(value) && value.trim().length >= 3
+      );
     }
     this.enableButton(this.isFormValid());
   }

@@ -1,0 +1,27 @@
+section {
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+}
+
+.box {
+    background-color: white;
+    padding: 48px 56px 48px 56px;
+    border-radius: 30px;
+    width: 600px;
+
+    img {
+        cursor: pointer;
+        margin-bottom: 8px;
+        transition: transform 0.3s ease;
+        &:hover{
+                transform: scale(1.8); 
+        }
+    }
+}
+
+@media screen and (max-width: 725px) {
+    .box {
+        width: 320px;
+    }
+}

@@ -5,11 +5,14 @@ import { Router } from '@angular/router';
 import { UserService } from '../services/user.service';
 import { FeedbackOverlayComponent } from '../feedback-overlay/feedback-overlay.component';
 import { getAuth, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
+import { MessageService } from '../services/message.service';
+import { ChannelService } from '../services/channel.service';
+import { FooterComponent } from '../shared/footer/footer.component';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [FormsModule, CommonModule, FeedbackOverlayComponent],
+  imports: [FormsModule, CommonModule, FeedbackOverlayComponent, FooterComponent],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
 })
@@ -17,7 +20,12 @@ export class LoginComponent {
   @ViewChild(FeedbackOverlayComponent)
   feedbackOverlay!: FeedbackOverlayComponent;
 
-  constructor(private router: Router, private userService: UserService) {}
+  constructor(
+    private router: Router,
+    private userService: UserService,
+    private messageService: MessageService,
+    private channelService: ChannelService
+  ) {}
 
   emailImg: string = './mail-grey.png';
   lockImg: string = './lock-grey.png';
@@ -37,14 +45,20 @@ export class LoginComponent {
   guestUrl: string = '0LxX4SgAJLMdrMynLbem';
 
   /**
-   * Initiates Google Login process.
+   * Handles the Google login process, authenticates the user, and stores the user data.
+   *
+   * This method triggers the Google authentication flow, retrieves the user’s information upon successful login,
+   * and saves the user data to Firestore. If the login fails, an error message is displayed.
+   *
+   * @returns {Promise<void>} - A promise that resolves when the login and user data saving process is complete.
+   * @throws {Error} - Catches and logs any error that occurs during the Google login or data saving process.
    */
   async onGoogleLogin(): Promise<void> {
     const auth = getAuth();
     const provider = new GoogleAuthProvider();
 
     try {
-      this.feedbackOverlay.showFeedback('Anmeldung mit Google läuft...');
+      this.feedbackOverlay.showFeedback('Google Anmeldung');
 
       const result = await signInWithPopup(auth, provider);
       const user = result.user;
@@ -63,8 +77,8 @@ export class LoginComponent {
 
         await this.userService.saveGoogleUserToFirestore(userData);
 
-        this.feedbackOverlay.showFeedback('Anmelden mit Google erfolgreich!');
         this.router.navigate(['/home', userData.id]);
+        await this.channelService.updateStandardChannel(userData.id);
       }
     } catch (error) {
       console.error('Fehler bei der Google-Anmeldung:', error);
@@ -207,9 +221,49 @@ export class LoginComponent {
     this.router.navigate(['/reset-password']);
   }
 
+  /**
+   * Handles the guest login process.
+   *
+   * This method manages the guest login flow by hiding the guest login option, deleting any associated guest comments,
+   * finalizing the login process for the guest user, and displaying a feedback message.
+   *
+   * @returns {void} - This method does not return any value.
+   */
   guestLogin(): void {
     this.loginGuest = false;
+    this.deleteGuestComments(this.guestUrl);
     this.userService.finalizeLogin(this.guestUrl);
     this.feedbackOverlay.showFeedback('Anmelden');
+    this.userService.privMsgUserId = this.guestUrl;
+    this.channelService.channelChatId = '';
+    this.messageService.threadOpen = false;
+    this.channelService.isServer = false;
+  }
+
+  /**
+   * Deletes messages and channels associated with a guest user.
+   *
+   * This method filters and deletes all messages where the guest user is either the sender or recipient,
+   * and deletes all channels created by the guest user.
+   *
+   * @param {string} guestId - The unique identifier of the guest user whose messages and channels should be deleted.
+   * @returns {void} - This method does not return any value.
+   */
+  deleteGuestComments(guestId: string): void {
+    const filteredMessages = this.messageService.messages.filter(
+      (message) =>
+        (message.senderId.includes(guestId) ? 1 : 0) +
+          (message.userId.includes(guestId) ? 1 : 0) >=
+        1
+    );
+    filteredMessages.forEach(async (message) => {
+      await this.messageService.deleteMessage(message.id);
+    });
+    const filteredChannels = this.channelService.channels.filter((channel) =>
+      channel.chanCreatedByUser.includes(guestId)
+    );
+    filteredChannels.forEach(async (channel) => {
+      await this.channelService.deleteChannel(channel.chanId);
+    });
   }
 }

@@ -37,6 +37,11 @@ export class AddUsersComponent {
     this.chatBoxIds = members.map((user: { id: string; }) => user.id);
   }
 
+  /**
+   * Listens on mouseclick if the user clicked outside of the dropdown menu
+   * 
+   * @param target the dropdown menu
+   */
   @HostListener('document:mousedown', ['$event.target'])
   onClickOutsideDrop(target: HTMLElement): void {
       let clickInsideDrop = this.focusDropdown?.nativeElement.contains(target); {
@@ -102,11 +107,8 @@ export class AddUsersComponent {
    * adds the selected User to the Channel
    */
   addUserToChannel() {
-    console.log("kerk");
     this.channelService.updateUserinChannel(this.channelService.channelChatId, this.selectedUserId);
     this.clearaddUser();
     this.chatBox.toggleDisplayAddBox();
-    console.log("kerk");
-    
   }
 }

@@ -13,7 +13,7 @@ import { MessageService } from '../../services/message.service';
   styleUrl: './searchbar.component.scss'
 })
 export class SearchbarComponent {
-  @Input() chatType: 'private' | 'channel' | 'thread' | 'new'| '' = '';
+  @Input() chatType: 'private' | 'channel' | 'thread' | 'new' | '' = '';
   @ViewChild('searchbarDropdown') searchbarDropdown!: ElementRef<HTMLDivElement>;
   dropdownActive: boolean = false;
   searchBar: string = '';
@@ -45,6 +45,7 @@ export class SearchbarComponent {
   closesearchbarDropdown() {
     this.dropdownActive = false;
     this.searchBar = '';
+    this.checkNoFindings();
   }
 
   /**
@@ -66,7 +67,7 @@ export class SearchbarComponent {
   }
 
   searchInNewChat(userInput: string) {
-    if(userInput.length === 0 ) {
+    if (userInput.length === 0) {
       this.checkNoFindings();
       this.dropdownActive = false
     } else {
@@ -98,6 +99,11 @@ export class SearchbarComponent {
   }
 
 
+  /**
+   * filters all users and check if the input matches one of the emails
+   * 
+   * @param input the input the user types in the searchbar
+   */
   filterUserEmail(input: string) {
     this.filteredEmails = this.userService.users
       .filter(users => users.email.toLowerCase().includes(input))
@@ -110,6 +116,7 @@ export class SearchbarComponent {
    * only return if the logged in user is also in the channel
    * 
    * @param input the input the user types in the searchbar
+   * @param loggedUserId currently logged in user
    */
   filterChannels(input: string, loggedUserId: string) {
     this.filteredChannels = this.channelService.channels
@@ -127,6 +134,7 @@ export class SearchbarComponent {
    * puts back the Channel in where the text is
    * 
    * @param input the input the user types in the searchbar
+   * @param loggedUserId currently logged in user
    */
   filterMessagesInChannels(input: string, loggedUserId: string) {
     const channelMap = new Map(this.channelService.channels.map(chan => [chan.chanId, chan]));
@@ -145,6 +153,13 @@ export class SearchbarComponent {
       });
   }
 
+  /**
+   * filters all messages and check if the input matches one of them or includes the input,
+   * puts back the Private Message in where the text is
+   * 
+   * @param input the input the user types in the searchbar
+   * @param loggedUserId currently logged in user
+   */
   filterMessagesInPrivate(input: string, loggedUserId: string) {
     this.filteredMessagesWithPrivChat = this.messageService.messages
       .filter(message => {
@@ -160,6 +175,13 @@ export class SearchbarComponent {
       })
   }
 
+  /**
+   * filters all messages and check if the input matches one of them or includes the input,
+   * puts back the Thread in where the text is
+   * 
+   * @param input the input the user types in the searchbar
+   * @param loggedUserId currently logged in user
+   */
   filterMessagesinThreads(input: string, loggedUserId: string) {
     this.filteredMessagesWithThreads = this.messageService.messages
       .filter(message => {
@@ -222,6 +244,4 @@ export class SearchbarComponent {
       this.messageService.threadId = id;
     }
   }
-
-  openMessage() { }// hier noch etwas hinzufügen was ich genau suchen soll
 }

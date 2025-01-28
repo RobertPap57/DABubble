@@ -24,7 +24,7 @@
             <a [href]="'mailto:' + email">{{ email }}</a>
         </div>
         <div class="message">
-            <img src="message.svg">
+            <img src="message.svg" (click)="openDirectMessage(userId)">
         </div>
     </div>
 </section>

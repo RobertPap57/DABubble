@@ -15,6 +15,7 @@ import { MessageService } from '../../services/message.service';
   styleUrl: './edit-channel.component.scss'
 })
 export class EditChannelComponent {
+  @ViewChild('createdChannelBox') editBox!: ElementRef<HTMLDivElement>;
   inputPlaceholder = 'Name eingeben';
   onlineColor = '#92c73e';
   offlineColor = '#696969';
@@ -45,10 +46,16 @@ export class EditChannelComponent {
     this.onClose.emit();
   }
 
+  /**
+   * updates the channel
+   */
   updateChannel() {
     this.channelService.updateChannel(this.channel);
   }
 
+  /**
+   * removes the user from the channel
+   */
   removeUser() {
     let index = this.channel.userIds.indexOf(this.userService.loggedUserId);
     console.log(this.userService.loggedUserId)
@@ -58,6 +65,9 @@ export class EditChannelComponent {
     this.openNewMsgChannel(); 
   }
 
+  /**
+   * opens a new chatbox with an empty msg
+   */
   openNewMsgChannel() {
     this.channelService.isServer = false;
     this.channelService.channelChatId = '';
@@ -66,7 +76,6 @@ export class EditChannelComponent {
     this.channelService.isServer = false;
   }
 
-  @ViewChild('createdChannelBox') editBox!: ElementRef<HTMLDivElement>;
   /**
    * a listener for mouseup event if the profileBox is active, if you click anywhere on the overlay it closes the profile box
    * 

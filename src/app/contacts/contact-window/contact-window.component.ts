@@ -1,6 +1,8 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { UserService } from '../../services/user.service';
+import { ChatBoxComponent } from '../../chat-box/chat-box.component';
+import { ChannelService } from '../../services/channel.service';
 
 @Component({
   selector: 'app-contact-window',
@@ -12,20 +14,22 @@ import { UserService } from '../../services/user.service';
 export class ContactWindowComponent {
   onlineColor: string = '#92c73e';
   offlineColor: string = '#696969';
-  name: string = 'Steffen Hoffmann';  // Beispielname
-  email: string = 'thehoffman@beispiel.com'; // Beispiel-E-Mail
+  name: string = 'Steffen Hoffmann';
+  email: string = 'thehoffman@beispiel.com';
+  userId: string = '';
   picture: string = '/steffen-hoffmann-avatar.png';
-  isActive: boolean = false; // Status standardmäßig 'abwesend'
-  @Input({ required: true }) userId!: String;
+  isActive: boolean = false;
   @Output() onClose: EventEmitter<void> = new EventEmitter();
-  constructor(public userService: UserService) { }
+
+  constructor(public userService: UserService, private chatBox: ChatBoxComponent, private channelService: ChannelService) { }
 
   ngOnInit(): void {
     this.userService.users.forEach(user => {
-      if (user.id == this.userId) {
+      if (user.id === this.userService.profileUserId) {
         this.name = user.name;
         this.email = user.email;
         this.picture = user.userImage;
+        this.userId = user.id;
         this.isActive = user.status == "online";
       }
     });
@@ -39,4 +43,10 @@ export class ContactWindowComponent {
   fetchStatusFromDatabase() {
   }
 
+  openDirectMessage(id: string) {
+    this.channelService.channelChatId = '';
+    this.userService.privMsgUserId = id;
+    this.chatBox.closeDisplayUsersBox();
+    this.close();
+  }
 }

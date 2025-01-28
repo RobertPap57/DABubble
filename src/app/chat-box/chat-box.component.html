@@ -18,7 +18,7 @@
 
         @case('private') {
         <div class="private-chat">
-            <a class="title" (click)="openProfile()">
+            <a class="title" (click)="openProfile(userService.privMsgUserId)">
                 <div class="avatar-image">
                     <img src="{{getUserImg()}}" alt="">
                     <mat-icon fontSet="material-symbols-sharp" class="status-icon"
@@ -132,7 +132,13 @@
                 <img src="{{getUserImg()}}" alt="">
                 <h1>{{getUserName()}}</h1>
             </div>
-            @if(userService.privMsgUserId === userService.loggedUserId){
+
+            @if (userService.privMsgUserId === userService.loggedUserId && userService.loggedUserId === guestUrl) {
+            <p><b>Dies ist ein Testaccount.</b> Alle Eingaben die du hier machst werden nach dem Logout gelöscht. Du
+                kannst alle Funktionen testen, Channels erstellen, Nachrichten austauschen und die App anschauen und testen.
+            Wenn sie dir gefällt kannst du gerne einen richtigen Account bei uns registrieren 😀</p>
+            }
+            @else if(userService.privMsgUserId === userService.loggedUserId){
             <p><b>Dieser Raum ist nur für dich da. </b>Mache dir Notizen, liste deine To-dos auf oder bewahre Links und
                 Texten griffbereit auf. Du kannst hier auch gerne Dinge mit dir selbst beschprechen.</p>
             }
@@ -253,7 +259,7 @@
 @if(openProfileBox) {
 <div class="overlay">
     <p #profileBox id="profileBox">
-        <app-contact-window userId={{userService.privMsgUserId}} (onClose)="closeProfilBox()"></app-contact-window>
+        <app-contact-window (onClose)="closeProfilBox()"></app-contact-window>
     </p>
 </div>
 }

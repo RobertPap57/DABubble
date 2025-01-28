@@ -75,6 +75,7 @@ export class ChatBoxComponent {
   users: User[] = this.userService.users;
   messageText: string = '';
 
+  guestUrl: string = '0LxX4SgAJLMdrMynLbem';
 
   threadMessageText: string = '';
   focusedInput: string | null = null;
@@ -251,7 +252,7 @@ selectSuggestion(suggestion: any): void {
    */
   @HostListener('document:click', ['$event.target'])
   onClickOutsideProfileBox(target: HTMLElement): void {
-    if (this.openProfileBox) {
+    if (this.openProfileBox && this.profileBox) {
       let clickInsideChan = this.profileBox.nativeElement.contains(target);
       if (!clickInsideChan) { this.closeProfilBox(); }
     }
@@ -443,7 +444,8 @@ selectSuggestion(suggestion: any): void {
   /**
   * opens the profile box
   */
-  openProfile() {
+  openProfile(id: string) {
+    this.userService.profileUserId = id;
     this.openProfileBox = true;
   }
 
