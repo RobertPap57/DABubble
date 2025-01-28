@@ -31,5 +31,16 @@ section {
     img {
         cursor: pointer;
         margin-bottom: 8px;
+        transition: transform 0.3s ease;
+        &:hover{
+                transform: scale(1.8); 
+        }
+    }
+}
+
+
+@media screen and (max-width: 725px) {
+    .box {
+        width: auto;
     }
 }
