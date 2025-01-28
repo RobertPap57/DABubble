@@ -37,6 +37,11 @@ export class AddUsersComponent {
     this.chatBoxIds = members.map((user: { id: string; }) => user.id);
   }
 
+  /**
+   * Listens on mouseclick if the user clicked outside of the dropdown menu
+   * 
+   * @param target the dropdown menu
+   */
   @HostListener('document:mousedown', ['$event.target'])
   onClickOutsideDrop(target: HTMLElement): void {
       let clickInsideDrop = this.focusDropdown?.nativeElement.contains(target); {

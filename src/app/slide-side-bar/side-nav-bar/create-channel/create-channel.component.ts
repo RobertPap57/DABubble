@@ -50,6 +50,11 @@ export class CreateChannelComponent {
     }
   }
 
+  /**
+   * closes the Module if the user clicks outside the create people box
+   * 
+   * @param target The Box with the inputs for the channela
+   */
   @HostListener('document:mousedown', ['$event.target'])
   onClickOutsideDrop(target: HTMLElement): void {
     if (this.createPeopleBox) {
