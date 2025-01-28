@@ -1,6 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Output } from '@angular/core';
 import { UserService } from '../../services/user.service';
+import { ChatBoxComponent } from '../../chat-box/chat-box.component';
+import { ChannelService } from '../../services/channel.service';
 
 @Component({
   selector: 'app-contact-window',
@@ -18,7 +20,8 @@ export class ContactWindowComponent {
   picture: string = '/steffen-hoffmann-avatar.png';
   isActive: boolean = false;
   @Output() onClose: EventEmitter<void> = new EventEmitter();
-  constructor(public userService: UserService) { }
+
+  constructor(public userService: UserService, private chatBox: ChatBoxComponent, private channelService: ChannelService) { }
 
   ngOnInit(): void {
     this.userService.users.forEach(user => {
@@ -41,9 +44,9 @@ export class ContactWindowComponent {
   }
 
   openDirectMessage(id: string) {
-    console.log(id);
-    
+    this.channelService.channelChatId = '';
     this.userService.privMsgUserId = id;
+    this.chatBox.closeDisplayUsersBox();
     this.close();
   }
 }
