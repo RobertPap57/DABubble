@@ -14,12 +14,16 @@ import { ChannelService } from '../services/channel.service';
 })
 export class SlideSideBarComponent {
 
-  constructor(public channelService: ChannelService) { }
+  constructor(public channelService: ChannelService) {
+    const savedState = localStorage.getItem('slideOutNavBar');
+    this.channelService.slideOutNavBar = savedState ? JSON.parse(savedState) : false;
+  }
 
   /**
-   * toggles the sideBar in and out of the screen
+   * toggles the sideBar in and out of the screen and saves it to local storage
    */
   toggleSideBar() {
     this.channelService.slideOutNavBar = !this.channelService.slideOutNavBar;
+    localStorage.setItem('slideOutNavBar', JSON.stringify(this.channelService.slideOutNavBar));
   }
 }
