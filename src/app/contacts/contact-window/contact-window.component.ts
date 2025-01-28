@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { UserService } from '../../services/user.service';
 
 @Component({
@@ -12,20 +12,21 @@ import { UserService } from '../../services/user.service';
 export class ContactWindowComponent {
   onlineColor: string = '#92c73e';
   offlineColor: string = '#696969';
-  name: string = 'Steffen Hoffmann';  // Beispielname
-  email: string = 'thehoffman@beispiel.com'; // Beispiel-E-Mail
+  name: string = 'Steffen Hoffmann';
+  email: string = 'thehoffman@beispiel.com';
+  userId: string = '';
   picture: string = '/steffen-hoffmann-avatar.png';
-  isActive: boolean = false; // Status standardmäßig 'abwesend'
-  @Input({ required: true }) userId!: string;
+  isActive: boolean = false;
   @Output() onClose: EventEmitter<void> = new EventEmitter();
   constructor(public userService: UserService) { }
 
   ngOnInit(): void {
     this.userService.users.forEach(user => {
-      if (user.id == this.userId || user.id === this.userService.profileUserId) {
+      if (user.id === this.userService.profileUserId) {
         this.name = user.name;
         this.email = user.email;
         this.picture = user.userImage;
+        this.userId = user.id;
         this.isActive = user.status == "online";
       }
     });
@@ -39,8 +40,10 @@ export class ContactWindowComponent {
   fetchStatusFromDatabase() {
   }
 
-  openDirectMessage() {
-    this.userService.privMsgUserId = this.userId;
+  openDirectMessage(id: string) {
+    console.log(id);
+    
+    this.userService.privMsgUserId = id;
     this.close();
   }
 }

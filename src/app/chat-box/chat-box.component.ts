@@ -139,7 +139,7 @@ export class ChatBoxComponent {
    */
   @HostListener('document:click', ['$event.target'])
   onClickOutsideProfileBox(target: HTMLElement): void {
-    if (this.openProfileBox) {
+    if (this.openProfileBox && this.profileBox) {
       let clickInsideChan = this.profileBox.nativeElement.contains(target);
       if (!clickInsideChan) { this.closeProfilBox(); }
     }

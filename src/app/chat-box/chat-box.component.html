@@ -222,7 +222,7 @@
 @if(openProfileBox) {
 <div class="overlay">
     <p #profileBox id="profileBox">
-        <app-contact-window userId={{userService.privMsgUserId}} (onClose)="closeProfilBox()"></app-contact-window>
+        <app-contact-window (onClose)="closeProfilBox()"></app-contact-window>
     </p>
 </div>
 }

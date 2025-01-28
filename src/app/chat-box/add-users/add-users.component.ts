@@ -107,11 +107,8 @@ export class AddUsersComponent {
    * adds the selected User to the Channel
    */
   addUserToChannel() {
-    console.log("kerk");
     this.channelService.updateUserinChannel(this.channelService.channelChatId, this.selectedUserId);
     this.clearaddUser();
     this.chatBox.toggleDisplayAddBox();
-    console.log("kerk");
-    
   }
 }
