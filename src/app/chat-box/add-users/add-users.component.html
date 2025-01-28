@@ -12,7 +12,7 @@
             <p>{{member.name}} (Du)</p>
         </div>
         } @else {
-        <div (click)="chatBox.openProfile()" class="users">
+        <div (click)="chatBox.openProfile(member.id)" class="users">
             <div>
                 <img src=".{{member.userImage}}" alt="User Image">
                 <span [ngStyle]="{'background-color': member.status === 'online' ? '#92c73e' : '#696969'}"></span>

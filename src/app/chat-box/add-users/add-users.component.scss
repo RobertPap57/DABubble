@@ -8,7 +8,7 @@
     width: 415px;
     height: 411px;
     right: 58px;
-    z-index: 8;
+    z-index: 6;
     box-sizing: border-box;
     overflow: hidden;
     scrollbar-width: none;
@@ -340,7 +340,7 @@
     right: 0;
     bottom: 0;
     background-color: rgba(0, 0, 0, 0.4);
-    z-index: 6;
+    z-index: 5;
 }
 
 @media screen and (max-width: 768px) {

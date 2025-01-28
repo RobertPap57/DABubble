@@ -331,7 +331,8 @@ export class ChatBoxComponent {
   /**
   * opens the profile box
   */
-  openProfile() {
+  openProfile(id: string) {
+    this.userService.profileUserId = id;
     this.openProfileBox = true;
   }
 

@@ -16,13 +16,13 @@ export class ContactWindowComponent {
   email: string = 'thehoffman@beispiel.com'; // Beispiel-E-Mail
   picture: string = '/steffen-hoffmann-avatar.png';
   isActive: boolean = false; // Status standardmäßig 'abwesend'
-  @Input({ required: true }) userId!: String;
+  @Input({ required: true }) userId!: string;
   @Output() onClose: EventEmitter<void> = new EventEmitter();
   constructor(public userService: UserService) { }
 
   ngOnInit(): void {
     this.userService.users.forEach(user => {
-      if (user.id == this.userId) {
+      if (user.id == this.userId || user.id === this.userService.profileUserId) {
         this.name = user.name;
         this.email = user.email;
         this.picture = user.userImage;
@@ -39,5 +39,8 @@ export class ContactWindowComponent {
   fetchStatusFromDatabase() {
   }
 
-  openDirectMessage() {}
+  openDirectMessage() {
+    this.userService.privMsgUserId = this.userId;
+    this.close();
+  }
 }

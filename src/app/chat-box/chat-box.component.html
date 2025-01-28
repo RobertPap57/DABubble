@@ -18,7 +18,7 @@
 
         @case('private') {
         <div class="private-chat">
-            <a class="title" (click)="openProfile()">
+            <a class="title" (click)="openProfile(userService.privMsgUserId)">
                 <div class="avatar-image">
                     <img src="{{getUserImg()}}" alt="">
                     <mat-icon fontSet="material-symbols-sharp" class="status-icon"
