@@ -100,8 +100,9 @@
 
         @case('channel') {
             @for(message of filteredChannelMessages; track message.id; let i = $index ) {
-                <app-message [message]="message" [chatType]="chatType" [excludeElements]="excludeElements"></app-message>
-                @if(i === 0){
+                <app-message [message]="message" [chatType]="chatType"
+                 [excludeElements]="excludeElements" [(openProfileBox)]="openProfileBox"></app-message>
+                @if(filteredChannelMessages.length > 0 && i === filteredChannelMessages.length - 1) {
                 <div class="date-separator">
                     <span></span>
                     <p>Heute</p>
@@ -125,7 +126,8 @@
 
         @case('private') {
         @for(message of filteredPrivateMessages; track message.id) {
-        <app-message [message]="message" [chatType]="chatType" [excludeElements]="excludeElements"></app-message>
+        <app-message [message]="message" [chatType]="chatType"
+         [excludeElements]="excludeElements" [(openProfileBox)]="openProfileBox"></app-message>
         }@empty {
         <div class="private-chat-empty">
             <div>
@@ -156,7 +158,8 @@
             <p>{{countThreadAnswers() - 1}} Antworten</p>
             <span></span>
         </div>}
-        <app-message [message]="message" [chatType]="chatType" [excludeElements]="excludeElements"></app-message>
+        <app-message [message]="message" [chatType]="chatType"
+         [excludeElements]="excludeElements" [(openProfileBox)]="openProfileBox"></app-message>
         }
         }
         }

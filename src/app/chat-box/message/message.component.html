@@ -1,5 +1,5 @@
 <div [class.my-message]="userService.loggedUserId === message.senderId" [class.thread-message]="chatType === 'thread'"
-    class="message-container" (click)="handleClick($event)">
+    class="message-container">
 
 
     <app-reaction-bar [loggedUser]="userService.loggedUserId" [chatType]="chatType" class="reaction-bar"
@@ -38,7 +38,7 @@
         </div>
 
         } @else {
-            <p class="message-text" [innerHTML]="message.text | highlight"></p>
+            <div #messageContainer  class="message-text" [innerHTML]="message.text | highlight"></div>
         }
 
         <div class="reactions-container">

@@ -1,6 +1,6 @@
 import { EmojiReactionComponent } from './emoji-reaction/emoji-reaction.component';
 
-import { Component, Input, Inject, inject, PLATFORM_ID, viewChild, ElementRef, Signal } from '@angular/core';
+import { Component, Input, Output, EventEmitter, Inject, inject, PLATFORM_ID, ElementRef, Signal, AfterViewInit, ViewChild, viewChild } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { ClickOutsideDirective } from '../click-outside.directive';
 import { CommonModule } from '@angular/common';
@@ -33,21 +33,24 @@ import { HighlightPipe } from './highlight.pipe';
     ReactionBarComponent,
     FormsModule,
     EmojiReactionComponent,
-    HighlightPipe
+    HighlightPipe,
+
 
   ],
   templateUrl: './message.component.html',
   styleUrl: './message.component.scss'
 })
 
-export class MessageComponent {
+export class MessageComponent implements AfterViewInit {
+  @ViewChild('messageContainer', { static: false }) messageContainer!: ElementRef;
+  isBrowser: boolean;
   userService = inject(UserService);
   messageService = inject(MessageService);
   channelService = inject(ChannelService);
   emojiService = inject(EmojiService);
   private emojiSubscription!: Subscription;
-
-  isBrowser: boolean;
+  @Input() openProfileBox = false;
+  @Output() openProfileBoxChange = new EventEmitter<boolean>();
   @Input() message!: Message;
   @Input() chatType: 'private' | 'channel' | 'thread' | 'new' = 'new';
   messageInput: Signal<ElementRef | undefined> = viewChild('messageInput');
@@ -71,6 +74,38 @@ export class MessageComponent {
     }
   }
 
+  ngAfterViewInit() {
+    // Ensure messageContainer is defined before calling addClickHandlers
+    if (this.messageContainer) {
+      this.addClickHandlers();
+    } else {
+      console.error('messageContainer is not defined');
+    }
+  }
+  addClickHandlers() {
+    const container = this.messageContainer.nativeElement;
+
+    // Add event listener for clicks
+    container.addEventListener('click', (event: MouseEvent) => {
+      const target = event.target as HTMLElement;
+
+      // Log the target to see what is clicked
+      console.log('Clicked target:', target);
+
+      if (target.classList.contains('highlighted')) {
+        const mention = target.getAttribute('data-mention');
+        console.log('Mention clicked:', mention); // Log the mention
+
+        if (mention) {
+          if (mention.startsWith('@')) {
+            this.openProfile(mention.slice(1)); // Remove '@'
+          } else if (mention.startsWith('#')) {
+            this.openChannel(mention.slice(1)); // Remove '#'
+          }
+        }
+      }
+    });
+  }
 
   getTimeInHours(timestamp: Timestamp): any {
     if (timestamp instanceof Timestamp) {
@@ -84,7 +119,7 @@ export class MessageComponent {
     const editedMessage = this.messageService.editMessage;
     if (editedMessage) {
       this.messageService.updateMessage(editedMessage);
-     const threadMessage = this.findMatchingTread(editedMessage.id);
+      const threadMessage = this.findMatchingTread(editedMessage.id);
 
       if (threadMessage) {
         threadMessage.text = editedMessage.text;
@@ -187,20 +222,30 @@ export class MessageComponent {
   }
 
 
-
-
-  handleClick(event: MouseEvent): void {
-    const target = event.target as HTMLElement;
-    if (target.classList.contains('mention')) {
-      const mentionText = target.innerText;
-      // Call your desired function with the mentionText
-      this.yourFunction(mentionText);
+  openChannel(channelName: string): void {
+    const channel = this.channelService.channels.find((channel) => channel.chanName === channelName);
+    if (channel) {
+      this.channelService.channelChatId = channel.chanId;
+      this.userService.privMsgUserId = '';
+      this.messageService.threadOpen = false;
+      this.channelService.isServer = false;
     }
   }
 
-  yourFunction(mentionText: string): void {
-    console.log('Mention clicked:', mentionText);
+  openProfile(userName: string): void {
+    
+    const user = this.userService.users.find((user) => user.name === userName);
+    if (user) {
+      this.userService.profileUserId = user.id;
+      this.openProfileBox = true;
+      this.openProfileBoxChange.emit(this.openProfileBox);
+      
+    } 
   }
+
+
+
+
 
 }
 
