@@ -246,7 +246,7 @@ export class SearchbarComponent {
   }
 
   /**
-   * deletes all guest comments
+   * deletes all guest comments and channels created by the guest.
    * 
    * @param guestId the guest id
    */
@@ -255,6 +255,11 @@ export class SearchbarComponent {
       message.senderId.includes(guestId));
     filteredMessages.forEach(message => {
       this.messageService.deleteMessage(message.channelId);
+    });
+    const filteredChannels = this. channelService.channels.filter(channel =>
+      channel.chanCreatedByUser.includes(guestId));
+      filteredChannels.forEach(channel => {
+      this.channelService.deleteChannel(channel.chanId);
     });
   }
 }
