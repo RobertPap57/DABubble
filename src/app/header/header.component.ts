@@ -37,6 +37,11 @@ export class HeaderComponent {
    */
   @HostListener('window:resize', ['$event.target.innerWidth'])
   handleResize(width: number) {
+    if (width < 1300) {
+      this.channelService.isSmallScreen = true;
+    } else {
+      this.channelService.isSmallScreen = false;
+    }
     if (width < 769) {
       this.isMobile = true;
     } else {
@@ -55,6 +60,7 @@ export class HeaderComponent {
         this.isLoginRoute = event.url === '/'
         this.isNotLoggedInRoute = ['/register', '/avatar', '/reset-password','/privacy-policy', '/imprint'].some(route => event.url.includes(route));
         if (typeof window !== "undefined") {
+          if (window.innerWidth < 769) this.channelService.isSmallScreen = true;
           if (window.innerWidth < 769) this.isMobile = true;
         }
         setTimeout(() => this.animationPlayed = true, 3000);

@@ -47,6 +47,17 @@
         <div class="avatar">
             <img src="{{picture}}">
         </div>
+        <div class="avatar-list">
+            <div class="avatar-container">
+              <div class="avatar-frame" *ngFor="let avatarImage of avatarImages">
+                <img
+                  [src]="avatarImage"
+                  alt="Avatar"
+                  (click)="selectAvatar(avatarImage)"
+                />
+              </div>
+            </div>
+          </div>
         <div class="edit-section">
             <div class="description">
                 <img src="/account_circle.svg">

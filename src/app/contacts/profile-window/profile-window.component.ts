@@ -19,6 +19,7 @@ export class ProfileWindowComponent {
   email: string = 'thehoffman@beispiel.com'; // Beispiel-E-Mail
   picture: string = '/steffen-hoffmann-avatar.png';
   status: string = '';
+  selectedAvatar: string = '/default-user-avatar.png';
   @Output() onClose: EventEmitter<void> = new EventEmitter();
 
   constructor(public userService: UserService) { }
@@ -51,4 +52,23 @@ export class ProfileWindowComponent {
   cancel() {
     this.toggleEditMode();
   }
+
+  avatarImages: string[] = [
+    '/frederik-beck-avatar.png',
+    '/elias-neumann-avatar.png',
+    '/elise-roth-avatar.png',
+    '/noah-braun-avatar.png',
+    '/sofia-müller-avatar.png',
+    '/steffen-hoffmann-avatar.png',
+  ];
+
+    /**
+   * Updates the selected avatar with the clicked image.
+   *
+   * @param {string} avatarImage - The URL of the clicked avatar image.
+   */
+    selectAvatar(avatarImage: string): void {
+      this.selectedAvatar = avatarImage;
+      this.picture = avatarImage; 
+    }
 }

@@ -3,7 +3,7 @@ import { user } from '@angular/fire/auth';
 
 import { User } from './../interfaces/user.model';
 import { serverTimestamp } from 'firebase/firestore';
-import { Component, Input, Inject, inject, PLATFORM_ID, HostListener, ElementRef, ViewChild, viewChild, Signal, AfterViewInit } from '@angular/core';
+import { Component, Input, Inject, inject, PLATFORM_ID, HostListener, ElementRef, ViewChild, viewChild, Signal, AfterViewInit, Renderer2 } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { PickerComponent } from '@ctrl/ngx-emoji-mart';
@@ -40,7 +40,7 @@ import { AddUsersComponent } from './add-users/add-users.component';
     ContactWindowComponent,
     EditChannelComponent,
     SearchbarComponent,
-    AddUsersComponent
+    AddUsersComponent,
   ],
   templateUrl: './chat-box.component.html',
   styleUrl: './chat-box.component.scss'
@@ -79,7 +79,7 @@ export class ChatBoxComponent {
 
   threadMessageText: string = '';
   focusedInput: string | null = null;
-  
+
 
   @ViewChild('emojiPicker') emojiPicker!: ElementRef<HTMLElement>;
   excludeElements: HTMLElement[] = [];
@@ -87,14 +87,12 @@ export class ChatBoxComponent {
 
 
 
-  constructor(@Inject(PLATFORM_ID) private platformId: any) {
+  constructor(@Inject(PLATFORM_ID) private platformId: any, private renderer: Renderer2) {
     this.isBrowser = isPlatformBrowser(this.platformId);
 
   }
 
-
-
-  ngAfterViewInit() {
+  ngAfterViewInit(): void {
     setTimeout(() => {
       this.excludeElements = [this.emojiPicker.nativeElement];
     }, 0);
@@ -140,7 +138,7 @@ export class ChatBoxComponent {
 
 
     } else {
-      this.showSuggestions = false; 
+      this.showSuggestions = false;
       this.suggestedUsers = [];
       this.suggestedChannels = [];
     }
@@ -154,74 +152,74 @@ export class ChatBoxComponent {
 
   searchChannels(input: string): void {
     this.suggestedChannels = this.channelService.channels
-      .filter(channel => 
-          channel.userIds.includes(this.userService.loggedUserId) && // Check if the logged user is in the channel
-          channel.chanName.toLowerCase().includes(input.toLowerCase()) // Filter by channel name
+      .filter(channel =>
+        channel.userIds.includes(this.userService.loggedUserId) && // Check if the logged user is in the channel
+        channel.chanName.toLowerCase().includes(input.toLowerCase()) // Filter by channel name
       );
 
     this.showSuggestions = this.suggestedChannels.length > 0; // Show suggestions if any channels match
-}
+  }
 
-selectSuggestion(suggestion: any): void {
-  // Determine which textarea to use based on chatType
-  const textareaRef = this.chatType === 'thread' ? this.threadMessageInput() : this.messageInput();
-  const textarea = textareaRef?.nativeElement;
+  selectSuggestion(suggestion: any): void {
+    // Determine which textarea to use based on chatType
+    const textareaRef = this.chatType === 'thread' ? this.threadMessageInput() : this.messageInput();
+    const textarea = textareaRef?.nativeElement;
 
-  if (!textarea) {
+    if (!textarea) {
       console.error('Textarea is undefined'); // Log an error if textarea is not found
       return; // Exit the function if textarea is not defined
-  }
+    }
 
-  const cursorPosition = textarea.selectionStart;
+    const cursorPosition = textarea.selectionStart;
 
-  const textBeforeCursor = textarea.value.slice(0, cursorPosition);
-  const textAfterCursor = textarea.value.slice(cursorPosition);
+    const textBeforeCursor = textarea.value.slice(0, cursorPosition);
+    const textAfterCursor = textarea.value.slice(cursorPosition);
 
-  // Determine the last @ or # position
-  const lastAtIndex = textBeforeCursor.lastIndexOf('@');
-  const lastHashIndex = textBeforeCursor.lastIndexOf('#');
-  const lastIndex = Math.max(lastAtIndex, lastHashIndex);
+    // Determine the last @ or # position
+    const lastAtIndex = textBeforeCursor.lastIndexOf('@');
+    const lastHashIndex = textBeforeCursor.lastIndexOf('#');
+    const lastIndex = Math.max(lastAtIndex, lastHashIndex);
 
-  // Determine the tag and name based on the last character
-  let tag: string;
-  let name: string;
+    // Determine the tag and name based on the last character
+    let tag: string;
+    let name: string;
 
-  if (lastAtIndex > lastHashIndex) {
+    if (lastAtIndex > lastHashIndex) {
       tag = '@';
       name = suggestion.name; // Assuming suggestion is a user object
-  } else {
+    } else {
       tag = '#';
       name = suggestion.chanName; // Assuming suggestion is a channel object
-  }
+    }
 
-  if (!name) {
+    if (!name) {
       console.error('Name is undefined'); // Log if name is not found
       return; // Exit if name is undefined
-  }
+    }
 
-  // Create new text
-  const updatedText = textBeforeCursor.slice(0, lastIndex) + tag + name + ' ' + textAfterCursor;
+    // Create new text
+    const updatedText = textBeforeCursor.slice(0, lastIndex) + tag + name + ' ' + textAfterCursor;
 
-  // Update the bound model
-  if (this.chatType === 'thread') {
-    this.threadMessageText = updatedText; // For thread messages
-  } else {
-    this.messageText = updatedText; // For main messages
-  }
+    // Update the bound model
+    if (this.chatType === 'thread') {
+      this.threadMessageText = updatedText; // For thread messages
+    } else {
+      this.messageText = updatedText; // For main messages
+    }
 
-  // Restore the cursor position
-  setTimeout(() => {
+    // Restore the cursor position
+    setTimeout(() => {
       const newCursorPosition = lastIndex + name.length + 2; // +2 for @ or # and the space
       textarea.value = updatedText; // Update the textarea value
       textarea.setSelectionRange(newCursorPosition, newCursorPosition); // Set cursor position
       textarea.focus();
-  });
+    });
 
-  this.showSuggestions = false; // Hide suggestions after selection
-  this.suggestedUsers = []; // Clear suggested users
-  this.suggestedChannels = []; // Clear suggested channels
+    this.showSuggestions = false; // Hide suggestions after selection
+    this.suggestedUsers = []; // Clear suggested users
+    this.suggestedChannels = []; // Clear suggested channels
 
-}
+  }
 
 
 
@@ -416,9 +414,6 @@ selectSuggestion(suggestion: any): void {
     }
 
   }
-
-
-
 
   addEmojiInMessage(event: any): void {
     const emoji = event.emoji.native;
