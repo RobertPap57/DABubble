@@ -158,6 +158,15 @@ export class UserService {
     }
   }
 
+  /**
+   * Saves a Google user to Firestore.
+   * If the user does not exist in Firestore, a new document is created.
+   * If the user already exists, their details are updated without changing the name.
+   *
+   * @param {User} user - The Google user data to be saved or updated.
+   * @returns {Promise<DocumentReference>} - A promise that resolves to the Firestore document reference of the user.
+   * @throws {Error} - If an error occurs while saving or updating the user.
+   */
   public async saveGoogleUserToFirestore(
     user: User
   ): Promise<DocumentReference> {
@@ -170,23 +179,28 @@ export class UserService {
 
       if (existingUserSnapshot.empty) {
         const docRef = await this.createUser(user);
-        console.log('Neuer Benutzer wurde erfolgreich gespeichert.');
+        console.log('New user successfully saved.');
         return docRef;
       } else {
         const userDocId = existingUserSnapshot.docs[0].id;
         const userDocRef = this.getSingleUserDocRef('user', userDocId);
+
+        const existingUserData = existingUserSnapshot.docs[0].data();
+
         await updateDoc(userDocRef, {
-          name: user.name,
           email: user.email,
           userImage: user.userImage,
           status: user.status,
           lastSeen: user.lastSeen,
+          recentEmojis: user.recentEmojis || [],
+          name: existingUserData['name'] || user.name,
         });
-        console.log('Benutzer wurde erfolgreich aktualisiert.');
+
+        console.log('User successfully updated (Name was not changed).');
         return userDocRef;
       }
     } catch (error) {
-      console.error('Fehler beim Speichern der Benutzerdaten:', error);
+      console.error('Error while saving user data:', error);
       throw error;
     }
   }
@@ -224,6 +238,13 @@ export class UserService {
     return await getDocs(emailQuery);
   }
 
+  /**
+   * Retrieves a user by their unique ID.
+   *
+   * @param {string} id - The unique identifier of the user to retrieve.
+   * @returns {User} - The user object that matches the given ID.
+   * @throws {Error} - Throws an error if no user with the given ID is found.
+   */
   public getUserById(id: string): User {
     for (var i = 0; i < this.users.length; i++) {
       var user = this.users[i];
@@ -265,21 +286,39 @@ export class UserService {
     }, 1500);
   }
 
-async updateRecentEmojis (id: string, recentEmojis: string []): Promise<void> {
-  try {
-    let userDocRef = this.getSingleUserDocRef('user', id);
-    await updateDoc(userDocRef, {
-      recentEmojis: recentEmojis,
-    });
-    console.log('User info updated successfully.');
-  } catch (error) {
-    console.error('Error updating user info:', error);
+  /**
+   * Updates the recent emojis for a specific user.
+   *
+   * @param {string} id - The unique identifier of the user whose recent emojis are being updated.
+   * @param {string[]} recentEmojis - An array of recent emojis to be updated for the user.
+   * @returns {Promise<void>} - A promise that resolves when the user info is updated successfully.
+   * @throws {Error} - Catches and logs any error that occurs during the update process.
+   */
+  async updateRecentEmojis(id: string, recentEmojis: string[]): Promise<void> {
+    try {
+      let userDocRef = this.getSingleUserDocRef('user', id);
+      await updateDoc(userDocRef, {
+        recentEmojis: recentEmojis,
+      });
+      console.log('User info updated successfully.');
+    } catch (error) {
+      console.error('Error updating user info:', error);
+    }
   }
-}
+
+  /**
+   * Updates the user's information (name and avatar) in the database.
+   *
+   * @param {string} id - The unique identifier of the user whose information is being updated.
+   * @param {string} name - The new name to set for the user.
+   * @param {string} avatar - The new avatar image URL to set for the user.
+   * @returns {Promise<void>} - A promise that resolves when the user info has been updated successfully.
+   * @throws {Error} - Catches and logs any error that occurs during the update process.
+   */
   async updateUserInfo(
     id: string,
     name: string,
-    avatar: string,
+    avatar: string
   ): Promise<void> {
     try {
       console.log(id);

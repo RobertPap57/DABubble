@@ -44,7 +44,13 @@ export class LoginComponent {
   guestUrl: string = '0LxX4SgAJLMdrMynLbem';
 
   /**
-   * Initiates Google Login process.
+   * Handles the Google login process, authenticates the user, and stores the user data.
+   *
+   * This method triggers the Google authentication flow, retrieves the user’s information upon successful login,
+   * and saves the user data to Firestore. If the login fails, an error message is displayed.
+   *
+   * @returns {Promise<void>} - A promise that resolves when the login and user data saving process is complete.
+   * @throws {Error} - Catches and logs any error that occurs during the Google login or data saving process.
    */
   async onGoogleLogin(): Promise<void> {
     const auth = getAuth();
@@ -69,6 +75,7 @@ export class LoginComponent {
         };
 
         await this.userService.saveGoogleUserToFirestore(userData);
+
         this.router.navigate(['/home', userData.id]);
       }
     } catch (error) {
@@ -212,6 +219,14 @@ export class LoginComponent {
     this.router.navigate(['/reset-password']);
   }
 
+  /**
+   * Handles the guest login process.
+   *
+   * This method manages the guest login flow by hiding the guest login option, deleting any associated guest comments,
+   * finalizing the login process for the guest user, and displaying a feedback message.
+   *
+   * @returns {void} - This method does not return any value.
+   */
   guestLogin(): void {
     this.loginGuest = false;
     this.deleteGuestComments(this.guestUrl);
@@ -220,21 +235,25 @@ export class LoginComponent {
   }
 
   /**
-   * deletes all guest comments and channels created by the guest.
+   * Deletes messages and channels associated with a guest user.
    *
-   * @param guestId the guest id
+   * This method filters and deletes all messages sent by or to the guest user, as well as channels created by the guest user.
+   *
+   * @param {string} guestId - The unique identifier of the guest user whose messages and channels should be deleted.
+   * @returns {void} - This method does not return any value.
    */
-  deleteGuestComments(guestId: string) {
-    const filteredMessages = this.messageService.messages.filter(message => {
-      message.senderId.includes(guestId)
-      message.userId.includes(guestId)
+  deleteGuestComments(guestId: string): void {
+    const filteredMessages = this.messageService.messages.filter((message) => {
+      message.senderId.includes(guestId);
+      message.userId.includes(guestId);
     });
-    filteredMessages.forEach(async message => {
-      await this.messageService.deleteMessage( message.id);
+    filteredMessages.forEach(async (message) => {
+      await this.messageService.deleteMessage(message.id);
     });
-    const filteredChannels = this.channelService.channels.filter(channel =>
-      channel.chanCreatedByUser.includes(guestId));
-    filteredChannels.forEach(async channel => {
+    const filteredChannels = this.channelService.channels.filter((channel) =>
+      channel.chanCreatedByUser.includes(guestId)
+    );
+    filteredChannels.forEach(async (channel) => {
       await this.channelService.deleteChannel(channel.chanId);
     });
   }
