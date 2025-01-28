@@ -241,16 +241,21 @@ export class LoginComponent {
   /**
    * Deletes messages and channels associated with a guest user.
    *
-   * This method filters and deletes all messages sent by or to the guest user, as well as channels created by the guest user.
+   * This method filters and deletes all messages where the guest user is either the sender or recipient,
+   * and deletes all channels created by the guest user.
    *
    * @param {string} guestId - The unique identifier of the guest user whose messages and channels should be deleted.
    * @returns {void} - This method does not return any value.
    */
-  deleteGuestComments(guestId: string) {
-    const filteredMessages = this.messageService.messages.filter(message =>
-      (message.senderId.includes(guestId) ? 1 : 0) + (message.userId.includes(guestId) ? 1 : 0) >= 1);
-    filteredMessages.forEach(async message => {
-      await this.messageService.deleteMessage( message.id);
+  deleteGuestComments(guestId: string): void {
+    const filteredMessages = this.messageService.messages.filter(
+      (message) =>
+        (message.senderId.includes(guestId) ? 1 : 0) +
+          (message.userId.includes(guestId) ? 1 : 0) >=
+        1
+    );
+    filteredMessages.forEach(async (message) => {
+      await this.messageService.deleteMessage(message.id);
     });
     const filteredChannels = this.channelService.channels.filter((channel) =>
       channel.chanCreatedByUser.includes(guestId)
