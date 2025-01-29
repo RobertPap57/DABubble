@@ -67,6 +67,8 @@ export class ReactionBarComponent {
     this.messageService.threadId = message.id;
     this.messageService.threadOpen = true;
     this.addFirstThreadMessage(message);
+    setTimeout(() => this.messageService.focusThreadMessageInput(), 0);
+
 
   }
 

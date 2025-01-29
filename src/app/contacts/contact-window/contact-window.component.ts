@@ -3,6 +3,7 @@ import { Component, EventEmitter, Output } from '@angular/core';
 import { UserService } from '../../services/user.service';
 import { ChatBoxComponent } from '../../chat-box/chat-box.component';
 import { ChannelService } from '../../services/channel.service';
+import { MessageService } from '../../services/message.service';
 
 @Component({
   selector: 'app-contact-window',
@@ -21,7 +22,10 @@ export class ContactWindowComponent {
   isActive: boolean = false;
   @Output() onClose: EventEmitter<void> = new EventEmitter();
 
-  constructor(public userService: UserService, private chatBox: ChatBoxComponent, private channelService: ChannelService) { }
+  constructor(public userService: UserService,
+     private chatBox: ChatBoxComponent,
+      private channelService: ChannelService,
+      private messageService: MessageService) { }
 
   ngOnInit(): void {
     this.userService.users.forEach(user => {
@@ -47,6 +51,7 @@ export class ContactWindowComponent {
     this.channelService.channelChatId = '';
     this.userService.privMsgUserId = id;
     this.chatBox.closeDisplayUsersBox();
+    this.messageService.focusMessageInput();
     this.close();
   }
 }

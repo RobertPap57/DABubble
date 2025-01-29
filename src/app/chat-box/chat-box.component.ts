@@ -1,13 +1,12 @@
-import { user } from '@angular/fire/auth';
 
-
+import { Timestamp} from '@angular/fire/firestore';
 import { User } from './../interfaces/user.model';
 import { serverTimestamp } from 'firebase/firestore';
 import { Component, Input, Inject, inject, PLATFORM_ID, HostListener, ElementRef, ViewChild, viewChild, Signal, AfterViewInit, Renderer2 } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { PickerComponent } from '@ctrl/ngx-emoji-mart';
-import { CommonModule } from '@angular/common';
+import { CommonModule, formatDate } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AutosizeModule } from 'ngx-autosize';
 import { ClickOutsideDirective } from './click-outside.directive';
@@ -66,8 +65,8 @@ export class ChatBoxComponent {
 
   isBrowser: boolean;
   @Input() chatType: 'private' | 'channel' | 'thread' | 'new' = 'new';
-  messageInput: Signal<ElementRef | undefined> = viewChild('messageInput');
-  threadMessageInput: Signal<ElementRef | undefined> = viewChild('threadMessageInput');
+  @ViewChild('messageInput') private messageInputRef!: ElementRef<HTMLInputElement>;
+  @ViewChild('threadMessageInput') private threadMessageInputRef!: ElementRef<HTMLInputElement>;
   @Input() userId: string = '';
   senderName: string = '';
   senderImg: string = '';
@@ -96,7 +95,8 @@ export class ChatBoxComponent {
     setTimeout(() => {
       this.excludeElements = [this.emojiPicker.nativeElement];
     }, 0);
-
+    this.messageService.messageInput.set(this.messageInputRef);
+    this.messageService.threadMessageInput.set(this.threadMessageInputRef);
   }
 
   ngOnInit(): void {
@@ -146,7 +146,7 @@ export class ChatBoxComponent {
 
   triggerAtMention(): void {
     // Determine the target input and model based on chatType
-    const textareaRef = this.chatType === 'thread' ? this.threadMessageInput() : this.messageInput();
+    const textareaRef = this.chatType === 'thread' ? this.messageService.threadMessageInput() : this.messageService.messageInput();
     const textarea = textareaRef?.nativeElement;
   
     if (!textarea) {
@@ -195,7 +195,7 @@ export class ChatBoxComponent {
 
   selectSuggestion(suggestion: any): void {
     // Determine which textarea to use based on chatType
-    const textareaRef = this.chatType === 'thread' ? this.threadMessageInput() : this.messageInput();
+    const textareaRef = this.chatType === 'thread' ? this.messageService.threadMessageInput() : this.messageService.messageInput();
     const textarea = textareaRef?.nativeElement;
 
     if (!textarea) {
@@ -254,22 +254,105 @@ export class ChatBoxComponent {
 
   }
 
+  groupMessagesWithSeparators(messages: Message[]): any[] {
+    if (!messages || messages.length === 0) return [];
+  
+    const groupedMessages = [];
+    let previousDate: Date | null = null;
+  
+    // Sort messages in descending order (newest first)
+    const sortedMessages = messages.sort((a, b) => {
+      const timeA = a.time ? a.time.toDate().getTime() : 0;
+      const timeB = b.time ? b.time.toDate().getTime() : 0;
+      return timeB - timeA; // Newest message first
+    });
+  
+    // Iterate through messages in sorted order (newest to oldest)
+    for (let i = 0; i < sortedMessages.length; i++) {
+      const message = sortedMessages[i];
+  
+      // Skip messages with null or undefined timestamps
+      if (!message.time) {
+        groupedMessages.unshift({
+          type: 'message',
+          data: message,
+        });
+        continue;
+      }
+  
+      const currentDate = message.time.toDate(); // Convert the current message's timestamp to a Date object
+  
+      // Add a separator if there is a 24-hour gap between the current message and the previous message
+      if (previousDate !== null) {
+        const timeDifference = previousDate.getTime() - currentDate.getTime(); // Previous date is newer
+        const hoursDifference = timeDifference / (1000 * 60 * 60); // Convert milliseconds to hours
+  
+        if (hoursDifference >= 24) {
+          groupedMessages.unshift({
+            type: 'separator',
+            date: this.getFormattedDate(new Timestamp(previousDate.getTime() / 1000, 0)),
+          });
+        }
+      }
+  
+      // Add the current message
+      groupedMessages.unshift({
+        type: 'message',
+        data: message,
+      });
+  
+      // Update the previous date
+      previousDate = currentDate;
+    }
+  
+    // Add a separator after the oldest message (last message in the array)
+    if (sortedMessages.length > 0) {
+      const oldestMessage = sortedMessages[sortedMessages.length - 1];
+      if (oldestMessage.time) {
+        groupedMessages.unshift({
+          type: 'separator',
+          date: this.getFormattedDate(oldestMessage.time),
+        });
+      }
+    }
+  
+    return groupedMessages.reverse(); // Reverse to maintain the correct order (newest first)
+  }
 
+  getFormattedDate(timestamp: any): string {
+    const messageDate = timestamp.toDate(); // Convert Firebase Timestamp to Date
+    const today = new Date();
+    const yesterday = new Date(today);
+    yesterday.setDate(today.getDate() - 1);
 
+    // Check if the message date is today
+    if (messageDate.toDateString() === today.toDateString()) {
+      return 'Heute';
+    }
+    // Check if the message date is yesterday
+    if (messageDate.toDateString() === yesterday.toDateString()) {
+      return 'Gestern';
+    }
+    // Return formatted date if older than yesterday
+    return formatDate(messageDate, 'dd.MM.yyyy', 'en-US');
+  }
 
-  get filteredChannelMessages(): Message[] {
-    return this.messageService.messages.filter(
+  get filteredChannelMessages(): any[] {
+    const messages = this.messageService.messages.filter(
       message => message.channelId === this.channelService.channelChatId
     );
+    return this.groupMessagesWithSeparators(messages);
   }
-  get filteredPrivateMessages(): Message[] {
-    return this.messageService.messages.filter(
+  
+  get filteredPrivateMessages(): any[] {
+    const messages = this.messageService.messages.filter(
       message =>
         (message.senderId === this.userService.loggedUserId && message.userId === this.userService.privMsgUserId) ||
         (message.senderId === this.userService.privMsgUserId && message.userId === this.userService.loggedUserId)
     );
+    return this.groupMessagesWithSeparators(messages);
   }
-
+  
   get filteredThreadMessages(): Message[] {
     return this.messageService.messages.filter(
       message => message.threadId === this.threadId
@@ -429,7 +512,7 @@ export class ChatBoxComponent {
 
   addEmojiInThread(event: any): void {
     const emoji = event.emoji.native;
-    const threadRef = this.threadMessageInput();
+    const threadRef = this.messageService.threadMessageInput();
     const textarea = threadRef?.nativeElement
 
     if (textarea) {
@@ -450,7 +533,7 @@ export class ChatBoxComponent {
 
   addEmojiInMessage(event: any): void {
     const emoji = event.emoji.native;
-    const messageRef = this.messageInput();
+    const messageRef = this.messageService.messageInput();
     const textarea = messageRef?.nativeElement
     if (textarea) {
       const cursorPosition = textarea.selectionStart || 0;

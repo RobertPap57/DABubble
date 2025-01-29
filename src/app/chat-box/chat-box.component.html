@@ -99,16 +99,22 @@
         @switch (chatType) {
 
         @case('channel') {
-            @for(message of filteredChannelMessages; track message.id; let i = $index ) {
-                <app-message [message]="message" [chatType]="chatType"
-                 [excludeElements]="excludeElements" [(openProfileBox)]="openProfileBox"></app-message>
-                @if(filteredChannelMessages.length > 0 && i === filteredChannelMessages.length - 1) {
-                <div class="date-separator">
-                    <span></span>
-                    <p>Heute</p>
-                    <span></span>
-                </div>
-                }
+            @for(item of filteredChannelMessages; track item.type === 'message' ? item.data.id : item.date)  {
+                @if (item.type === 'separator') {
+                    <div class="date-separator">
+                      <span></span>
+                      <p>{{ item.date }}</p>
+                      <span></span>
+                    </div>
+                  }
+                  @if (item.type === 'message') {
+                    <app-message
+                      [message]="item.data"
+                      [chatType]="chatType"
+                      [excludeElements]="excludeElements"
+                      [(openProfileBox)]="openProfileBox"
+                    ></app-message>
+                  }
         }@empty {
         <div class="channel-chat-empty">
             <div class="channel-title">
@@ -125,9 +131,22 @@
         }
 
         @case('private') {
-        @for(message of filteredPrivateMessages; track message.id) {
-        <app-message [message]="message" [chatType]="chatType"
-         [excludeElements]="excludeElements" [(openProfileBox)]="openProfileBox"></app-message>
+        @for(item of filteredPrivateMessages; track item.type === 'message' ? item.data.id : item.date) {
+            @if (item.type === 'separator') {
+                <div class="date-separator">
+                  <span></span>
+                  <p>{{ item.date }}</p>
+                  <span></span>
+                </div>
+              }
+              @if (item.type === 'message') {
+                <app-message
+                  [message]="item.data"
+                  [chatType]="chatType"
+                  [excludeElements]="excludeElements"
+                  [(openProfileBox)]="openProfileBox"
+                ></app-message>
+              }
         }@empty {
         <div class="private-chat-empty">
             <div>

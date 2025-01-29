@@ -1,6 +1,6 @@
 
 import { ChannelService } from './channel.service';
-import { Injectable, inject } from '@angular/core';
+import { Injectable, inject, ElementRef, signal, WritableSignal } from '@angular/core';
 import { Message } from '../interfaces/message.interface';
 import { addDoc, query, Timestamp, where, orderBy, limit, updateDoc, deleteDoc, collection, doc, DocumentData, Firestore, onSnapshot, QuerySnapshot, } from '@angular/fire/firestore';
 import { UserService } from './user.service';
@@ -19,7 +19,8 @@ export class MessageService {
     editMessage: Message | null = null;
     originalText: string = '';
     threadOpen: boolean = false;
-
+    messageInput: WritableSignal<ElementRef | undefined> = signal(undefined);
+    threadMessageInput: WritableSignal<ElementRef | undefined> = signal(undefined);
 
     unsubMessageList;
 
@@ -28,7 +29,15 @@ export class MessageService {
 
     }
 
+    focusMessageInput(): void {
+        const inputRef = this.messageInput();
+        inputRef?.nativeElement.focus();
+    }
 
+    focusThreadMessageInput(): void {
+        const inputRef = this.threadMessageInput();
+        inputRef?.nativeElement.focus();
+    }
 
     subMessageList() {
         const q = query(

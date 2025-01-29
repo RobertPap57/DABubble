@@ -75,6 +75,7 @@ export class SideNavBarComponent {
     this.userService.privMsgUserId = '';
     this.messageService.threadOpen = false;
     this.channelService.isServer = false;
+    this.messageService.focusMessageInput();
   }
 
   /**
@@ -87,6 +88,7 @@ export class SideNavBarComponent {
     this.channelService.channelChatId = '';
     this.messageService.threadOpen = false;
     this.channelService.isServer = false;
+    this.messageService.focusMessageInput();
   }
 
   /**
@@ -99,5 +101,6 @@ export class SideNavBarComponent {
     this.userService.privMsgUserId = '';
     this.messageService.threadOpen = false;
     this.channelService.isServer = false;
+    this.messageService.focusMessageInput();
   }
 }
