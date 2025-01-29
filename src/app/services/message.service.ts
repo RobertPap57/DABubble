@@ -32,6 +32,7 @@ export class MessageService {
     focusMessageInput(): void {
         const inputRef = this.messageInput();
         inputRef?.nativeElement.focus();
+        console.log(inputRef);
     }
 
     focusThreadMessageInput(): void {

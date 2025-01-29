@@ -314,6 +314,7 @@ h1 {
     flex-direction: column-reverse;
     overflow-y: auto;
     gap: 20px;
+    padding-top: 20px;
 
     &::-webkit-scrollbar {
         display: none;
@@ -567,6 +568,7 @@ h1 {
         font-size: 18px;
         border: 1px solid #ADB0D9;
         border-radius: 30px;
+        white-space: nowrap;
     }
     
 }

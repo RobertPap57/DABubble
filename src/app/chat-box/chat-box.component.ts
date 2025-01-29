@@ -1,5 +1,4 @@
 
-import { Timestamp} from '@angular/fire/firestore';
 import { User } from './../interfaces/user.model';
 import { serverTimestamp } from 'firebase/firestore';
 import { Component, Input, Inject, inject, PLATFORM_ID, HostListener, ElementRef, ViewChild, viewChild, Signal, AfterViewInit, Renderer2 } from '@angular/core';
@@ -81,7 +80,6 @@ export class ChatBoxComponent {
 
 
   @ViewChild('emojiPicker') emojiPicker!: ElementRef<HTMLElement>;
-  @ViewChild('focus') focus!: ElementRef;
   excludeElements: HTMLElement[] = [];
 
 
@@ -95,10 +93,13 @@ export class ChatBoxComponent {
   ngAfterViewInit(): void {
     setTimeout(() => {
       this.excludeElements = [this.emojiPicker.nativeElement];
-      this.focus.nativeElement.focus();
     }, 0);
-    this.messageService.messageInput.set(this.messageInputRef);
-    this.messageService.threadMessageInput.set(this.threadMessageInputRef);
+    if (this.messageInputRef) {
+      this.messageService.messageInput.set(this.messageInputRef);
+    }
+    if (this.threadMessageInputRef) {
+      this.messageService.threadMessageInput.set(this.threadMessageInputRef);
+    }
   }
 
   ngOnInit(): void {
@@ -110,16 +111,9 @@ export class ChatBoxComponent {
         this.addEmojiInThread(event);
       }
     });
-    this.setFocusOnMessageInput();
   }
 
-  private setFocusOnMessageInput() {
-    if (this.focus) {
-      setTimeout(() => {
-        this.focus.nativeElement.focus();
-      }, 0);
-    }
-  }
+
 
   ngOnDestroy(): void {
     if (this.emojiSubscription) {
@@ -293,17 +287,13 @@ export class ChatBoxComponent {
   
       const currentDate = message.time.toDate(); // Convert the current message's timestamp to a Date object
   
-      // Add a separator if there is a 24-hour gap between the current message and the previous message
-      if (previousDate !== null) {
-        const timeDifference = previousDate.getTime() - currentDate.getTime(); // Previous date is newer
-        const hoursDifference = timeDifference / (1000 * 60 * 60); // Convert milliseconds to hours
-  
-        if (hoursDifference >= 24) {
-          groupedMessages.unshift({
-            type: 'separator',
-            date: this.getFormattedDate(new Timestamp(previousDate.getTime() / 1000, 0)),
-          });
-        }
+      // Add a separator if the current message is on a different day than the previous message
+      if (previousDate !== null && !this.isSameDay(previousDate, currentDate)) {
+        // Add a separator with the date of the NEWER message (previousDate)
+        groupedMessages.unshift({
+          type: 'separator',
+          date: this.getFormattedDate(previousDate), // Use previousDate directly
+        });
       }
   
       // Add the current message
@@ -322,7 +312,7 @@ export class ChatBoxComponent {
       if (oldestMessage.time) {
         groupedMessages.unshift({
           type: 'separator',
-          date: this.getFormattedDate(oldestMessage.time),
+          date: this.getFormattedDate(oldestMessage.time.toDate()),
         });
       }
     }
@@ -331,21 +321,33 @@ export class ChatBoxComponent {
   }
 
   getFormattedDate(timestamp: any): string {
-    const messageDate = timestamp.toDate(); // Convert Firebase Timestamp to Date
+    const messageDate = timestamp.toDate ? timestamp.toDate() : timestamp; // Handle both Firebase Timestamp and Date objects
     const today = new Date();
     const yesterday = new Date(today);
     yesterday.setDate(today.getDate() - 1);
-
+  
     // Check if the message date is today
-    if (messageDate.toDateString() === today.toDateString()) {
+    if (this.isSameDay(messageDate, today)) {
       return 'Heute';
     }
     // Check if the message date is yesterday
-    if (messageDate.toDateString() === yesterday.toDateString()) {
+    if (this.isSameDay(messageDate, yesterday)) {
       return 'Gestern';
     }
-    // Return formatted date if older than yesterday
-    return formatDate(messageDate, 'dd.MM.yyyy', 'en-US');
+    // Return formatted date in German (e.g., "Montag, 20 Januar")
+    return new Intl.DateTimeFormat('de-DE', {
+      weekday: 'long', // Full day name (e.g., "Montag")
+      day: 'numeric',  // Day of the month (e.g., "20")
+      month: 'long',   // Full month name (e.g., "Januar")
+    }).format(messageDate);
+  }
+
+  isSameDay(date1: Date, date2: Date): boolean {
+    return (
+      date1.getFullYear() === date2.getFullYear() &&
+      date1.getMonth() === date2.getMonth() &&
+      date1.getDate() === date2.getDate()
+    );
   }
 
   get filteredChannelMessages(): any[] {
@@ -386,6 +388,7 @@ export class ChatBoxComponent {
   closeThread(): void {
     this.messageService.threadId = null;
     this.messageService.threadOpen = false;
+    this.messageService.focusMessageInput();
   }
 
 

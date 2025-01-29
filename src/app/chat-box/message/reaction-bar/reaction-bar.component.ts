@@ -19,7 +19,6 @@ import { Subscription } from 'rxjs';
   standalone: true,
   imports: [
     MatIconModule,
-    PickerComponent,
     ClickOutsideDirective,
     CommonModule,
   ],

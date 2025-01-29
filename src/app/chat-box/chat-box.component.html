@@ -237,13 +237,13 @@
         }
 
         @if(chatType === 'thread') {
-        <textarea #focus (input)="onInput($event)"
+        <textarea (input)="onInput($event)"
             #threadMessageInput type="text" [(ngModel)]="threadMessageText" [placeholder]="getPlaceholder()" rows="2"
             *ngIf="isBrowser" autosize (keyup.enter)="sendMessage()">
         </textarea>
         }
         @else {
-        <textarea autofocus ng-focus="" (input)="onInput($event)" #messageInput type="text" [(ngModel)]="messageText"
+        <textarea (input)="onInput($event)" #messageInput type="text" [(ngModel)]="messageText"
             [placeholder]="getPlaceholder()" rows="2" *ngIf="isBrowser" autosize (keyup.enter)="sendMessage()">
         </textarea>
         }
