@@ -82,6 +82,7 @@ export class ChatBoxComponent {
 
 
   @ViewChild('emojiPicker') emojiPicker!: ElementRef<HTMLElement>;
+  @ViewChild('focus') focus!: ElementRef;
   excludeElements: HTMLElement[] = [];
 
 
@@ -95,8 +96,8 @@ export class ChatBoxComponent {
   ngAfterViewInit(): void {
     setTimeout(() => {
       this.excludeElements = [this.emojiPicker.nativeElement];
+      this.focus.nativeElement.focus();
     }, 0);
-
   }
 
   ngOnInit(): void {
@@ -108,6 +109,15 @@ export class ChatBoxComponent {
         this.addEmojiInThread(event);
       }
     });
+    this.setFocusOnMessageInput();
+  }
+
+  private setFocusOnMessageInput() {
+    if (this.focus) {
+      setTimeout(() => {
+        this.focus.nativeElement.focus();
+      }, 0);
+    }
   }
 
   ngOnDestroy(): void {
