@@ -141,6 +141,7 @@ export class ChatBoxComponent {
     const afterCursor = this[model].slice(cursorPosition);
     this[model] = beforeCursor + '@' + afterCursor;
     textarea.value = this[model];
+    textarea.focus();
     setTimeout(() => {
       textarea.setSelectionRange(cursorPosition + 1, cursorPosition + 1);
       const event = new Event('input', { bubbles: true });
