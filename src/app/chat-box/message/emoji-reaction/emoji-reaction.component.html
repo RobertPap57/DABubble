@@ -1,4 +1,5 @@
-<div *ngIf="message.reactions.length > 0"  [class.my-message]="userService.loggedUserId === message.senderId" class="emoji-reaction">
+<div *ngIf="message.reactions.length > 0" [class.my-message]="userService.loggedUserId === message.senderId"
+    class="emoji-reaction">
     <div *ngFor="let emoji of message.reactions" (click)="addExistingEmoji(emoji.emoji, message)" class="emoji-icon">
         <p>{{emoji.emoji}}</p>
         <p>{{emoji.users.length}}</p>
@@ -16,7 +17,7 @@
         </div>
     </div>
     <div>
-        <mat-icon (click)="emojiService.toggleEmojiPicker('reaction', chatType, message); $event.stopPropagation()" class="add-emoji"
-            fontSet="material-symbols-rounded">add_reaction</mat-icon>
+        <mat-icon (click)="emojiService.toggleEmojiPicker('reaction', chatType, message); $event.stopPropagation()"
+            class="add-emoji" fontSet="material-symbols-rounded">add_reaction</mat-icon>
     </div>
 </div>

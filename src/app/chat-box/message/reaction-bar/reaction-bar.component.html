@@ -12,16 +12,13 @@
     }
     @if(userService.loggedUserId === message.senderId ) {
 
-            @if(!isFirstMessageInThread(message)) {
-                <div class="open-options">
-                    <mat-icon (click)="toggleOptions()" fontSet="material-symbols-rounded">more_vert</mat-icon>
-                    <div *ngIf="optionsOpen" appClickOutside (clickOutside)="closeOptions()" class="edit-message">
-                        <button (click)="openEditMessage(message)">Nachricht bearbeiten</button>
-                    </div>
-                </div>
-                
-            }
-            
+    @if(!isFirstMessageInThread(message)) {
+    <div class="open-options">
+        <mat-icon (click)="toggleOptions()" fontSet="material-symbols-rounded">more_vert</mat-icon>
+        <div *ngIf="optionsOpen" appClickOutside (clickOutside)="closeOptions()" class="edit-message">
+            <button (click)="openEditMessage(message)">Nachricht bearbeiten</button>
+        </div>
+    </div>
     }
-
+    }
 </div>

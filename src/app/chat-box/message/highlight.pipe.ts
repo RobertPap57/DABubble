@@ -17,23 +17,15 @@ export class HighlightPipe implements PipeTransform {
 
   transform(value: string): SafeHtml {
     if (!value) return value;
-
-    // Regular expression to match @username and #channel
     const mentionPattern = /(@[\p{L}\w]+(?:\s[\p{L}\w]+)?|#[\p{L}\w]+(?:\s[\p{L}\w]+)?)/gu;
-
-    // Replace mentions with spans
     const transformed = value.replace(mentionPattern, (match) => {
-      const mention = match.slice(1); // Remove @ or #
+      const mention = match.slice(1);
       let isValid = false;
-
-      // Check if it’s a valid user or channel
       if (match.startsWith('@')) {
-        isValid = this.userService.isValidUser(mention); // Check if valid user
+        isValid = this.userService.isValidUser(mention); 
       } else if (match.startsWith('#')) {
-        isValid = this.channelService.isValidChannel(mention); // Check if valid channel
+        isValid = this.channelService.isValidChannel(mention); 
       }
-
-      // Return the span if it's valid, otherwise return the mention as it is
       return isValid ? `<span class="highlighted" data-mention="${match}">${match}</span>` : match;
     });
 

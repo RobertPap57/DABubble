@@ -1,7 +1,5 @@
 import { Timestamp } from "@angular/fire/firestore";
 
-
-
 export interface Message {
     id: string; 
     senderId: string; 
@@ -12,10 +10,6 @@ export interface Message {
     userId: string;
     threadId: string | null;
 }
-
-
-
-
 
 export interface Reaction {
   emoji: string; 

@@ -1,7 +1,6 @@
 <div [class.my-message]="userService.loggedUserId === message.senderId" [class.thread-message]="chatType === 'thread'"
     class="message-container">
 
-
     <app-reaction-bar [loggedUser]="userService.loggedUserId" [chatType]="chatType" class="reaction-bar"
         [message]="message"></app-reaction-bar>
 
@@ -23,12 +22,14 @@
         </div>
 
         @if( message === messageService.editMessage) {
-        <div class="edit-input-container" appClickOutside  [excludeElements]="excludeElements"  (clickOutside)="editMessageCancel()">
-            <textarea #messageInput *ngIf="isBrowser" autosize class="edit-input" type="text" rows="1" (keyup.enter)="editMessage()"
-                [(ngModel)]="messageService.editMessage.text"></textarea>
+        <div class="edit-input-container" appClickOutside [excludeElements]="excludeElements"
+            (clickOutside)="editMessageCancel()">
+            <textarea #messageInput *ngIf="isBrowser" autosize class="edit-input" type="text" rows="1"
+                (keyup.enter)="editMessage()" [(ngModel)]="messageService.editMessage.text"></textarea>
             <div class="edit-input-actions">
 
-                <button (click)="emojiService.toggleEmojiPicker('editMessage', chatType, null); $event.stopPropagation()">
+                <button
+                    (click)="emojiService.toggleEmojiPicker('editMessage', chatType, null); $event.stopPropagation()">
                     <mat-icon fontSet="material-symbols-rounded">sentiment_satisfied</mat-icon>
                 </button>
 
@@ -38,11 +39,12 @@
         </div>
 
         } @else {
-            <div #messageContainer  class="message-text" [innerHTML]="message.text | highlight"></div>
+        <div #messageContainer class="message-text" [innerHTML]="message.text | highlight"></div>
         }
 
         <div class="reactions-container">
-            <app-emoji-reaction [message]="message" [chatType]="chatType" [loggedUser]="userService.loggedUserId"></app-emoji-reaction>
+            <app-emoji-reaction [message]="message" [chatType]="chatType"
+                [loggedUser]="userService.loggedUserId"></app-emoji-reaction>
             @if(chatType !== 'thread') {
             @if(countThreadAnswers(message.id) > 1) {
 

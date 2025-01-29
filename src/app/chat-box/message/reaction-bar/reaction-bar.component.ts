@@ -12,8 +12,6 @@ import { serverTimestamp } from '@angular/fire/firestore';
 import { EmojiService } from '../../../services/emoji.service';
 import { Subscription } from 'rxjs';
 
-
-
 @Component({
   selector: 'app-reaction-bar',
   standalone: true,
@@ -25,6 +23,7 @@ import { Subscription } from 'rxjs';
   templateUrl: './reaction-bar.component.html',
   styleUrl: './reaction-bar.component.scss'
 })
+
 export class ReactionBarComponent {
   @Input() chatType: 'private' | 'channel' | 'thread' | 'new' = 'new';
   @Input() message!: Message;
@@ -35,7 +34,6 @@ export class ReactionBarComponent {
   emojiService = inject(EmojiService);
   userService = inject(UserService);
   private emojiSubscription!: Subscription;
-
 
   ngOnInit(): void {
     this.emojiSubscription = this.emojiService.emojiSelected$.subscribe(({ event, destination }) => {
@@ -67,8 +65,6 @@ export class ReactionBarComponent {
     this.messageService.threadOpen = true;
     this.addFirstThreadMessage(message);
     setTimeout(() => this.messageService.focusThreadMessageInput(), 0);
-
-
   }
 
   addFirstThreadMessage(message: Message): void {
@@ -76,7 +72,6 @@ export class ReactionBarComponent {
       (msg) => msg.threadId === message.id
     );
     if (!existingMessage) {
-
       const newMessage: Message = {
         id: '',
         senderId: message.senderId,
@@ -90,6 +85,7 @@ export class ReactionBarComponent {
       this.messageService.createMessage(newMessage);
     }
   }
+
   isFirstMessageInThread(msg: Message): boolean {
     if (!msg.threadId) {
       return false;
@@ -101,7 +97,6 @@ export class ReactionBarComponent {
     const earliestMessage = matchingMessages.reduce((earliest, current) =>
       current.time < earliest.time ? current : earliest
     );
-
     return msg.id === earliestMessage.id;
   }
 
@@ -117,11 +112,8 @@ export class ReactionBarComponent {
     const user = this.userService.users.find(
       (user) => user.id === this.loggedUser
     );
-
     if (user) {
-
         return user.recentEmojis;
-
     }
     return [];
   }
@@ -132,14 +124,11 @@ export class ReactionBarComponent {
     const existingReaction = this.emojiService.reactionMessage.reactions.find(
       (reaction: { emoji: string; users: string[] }) => reaction.emoji === emoji
     );
-
     if (existingReaction && !this.alreadyReacted(emoji)) {
-
       if (!existingReaction.users.includes(this.loggedUser)) {
         existingReaction.users.push(this.loggedUser);
       }
     } else if (!this.alreadyReacted(emoji)) {
-
       this.emojiService.reactionMessage.reactions.push({
         emoji: emoji,
         users: [this.loggedUser],
@@ -170,14 +159,12 @@ export class ReactionBarComponent {
   }
 
 
-
   addRecentEmoji(recentEmoji: string, message: Message): void {
     this.emojiService.reactionMessage = message;
     if (this.emojiService.reactionMessage?.reactions) {
       const reactionIndex = this.emojiService.reactionMessage.reactions.findIndex(
         (reaction: { emoji: string; users: string[] }) => reaction.emoji === recentEmoji
       );
-
       if (reactionIndex !== -1 && !this.alreadyReacted(recentEmoji)) {
         this.emojiService.reactionMessage.reactions[reactionIndex].users.push(this.userService.loggedUserId);
       } else if (reactionIndex === -1) {
@@ -188,7 +175,6 @@ export class ReactionBarComponent {
       } else if (this.alreadyReacted(recentEmoji)) {
         this.removeEmoji(recentEmoji);
       }
-
       this.messageService.updateMessage(this.emojiService.reactionMessage);
     }
   }
@@ -198,7 +184,6 @@ export class ReactionBarComponent {
       const reactionIndex = this.emojiService.reactionMessage.reactions.findIndex(
         (reaction: { emoji: string; users: string[] }) => reaction.emoji === emoji
       );
-
       if (reactionIndex !== -1) {
         const reaction = this.emojiService.reactionMessage.reactions[reactionIndex];
 
@@ -220,8 +205,6 @@ export class ReactionBarComponent {
         reaction.users.includes(this.loggedUser) && reaction.emoji === reactedEmoji
     );
   }
-
-
 
 }
 

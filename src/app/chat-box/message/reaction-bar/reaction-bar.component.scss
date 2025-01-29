@@ -24,12 +24,9 @@
             &:hover {
                 background-color: #ECEEFE;
                 cursor: pointer;
-                
             }
         }
-
     }
-
 
     mat-icon {
         font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
@@ -45,8 +42,6 @@
             background-color: #ECEEFE;
             color: #535AF1;
         }
-
-
     }
 
     .open-options {
@@ -65,15 +60,12 @@
             background-color: white;
             box-shadow: 0px 6px 14px 0px #00000033;
 
-
-
             button {
                 all: unset;
                 font-size: 24px;
                 font-weight: 600;
                 padding: 10px 20px 10px 20px;
                 border-radius: 100px;
-
 
                 &:hover {
                     cursor: pointer;
@@ -83,11 +75,8 @@
                 }
             }
         }
-
     }
-
 }
-
 
 emoji-mart {
     top: -100px;

@@ -1,5 +1,4 @@
 import { EmojiReactionComponent } from './emoji-reaction/emoji-reaction.component';
-
 import { Component, Input, Output, EventEmitter, Inject, inject, PLATFORM_ID, ElementRef, Signal, AfterViewInit, ViewChild, viewChild } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { ClickOutsideDirective } from '../click-outside.directive';
@@ -17,11 +16,6 @@ import { EmojiService } from '../../services/emoji.service';
 import { Subscription } from 'rxjs';
 import { HighlightPipe } from './highlight.pipe';
 
-
-
-
-
-
 @Component({
   selector: 'app-message',
   standalone: true,
@@ -34,8 +28,6 @@ import { HighlightPipe } from './highlight.pipe';
     FormsModule,
     EmojiReactionComponent,
     HighlightPipe,
-
-
   ],
   templateUrl: './message.component.html',
   styleUrl: './message.component.scss'
@@ -78,29 +70,20 @@ export class MessageComponent implements AfterViewInit {
     // Ensure messageContainer is defined before calling addClickHandlers
     if (this.messageContainer) {
       this.addClickHandlers();
-    } else {
-      console.error('messageContainer is not defined');
-    }
+    } 
   }
+
   addClickHandlers() {
     const container = this.messageContainer.nativeElement;
-
-    // Add event listener for clicks
     container.addEventListener('click', (event: MouseEvent) => {
       const target = event.target as HTMLElement;
-
-      // Log the target to see what is clicked
-      console.log('Clicked target:', target);
-
       if (target.classList.contains('highlighted')) {
         const mention = target.getAttribute('data-mention');
-        console.log('Mention clicked:', mention); // Log the mention
-
         if (mention) {
           if (mention.startsWith('@')) {
-            this.openProfile(mention.slice(1)); // Remove '@'
+            this.openProfile(mention.slice(1)); 
           } else if (mention.startsWith('#')) {
-            this.openChannel(mention.slice(1)); // Remove '#'
+            this.openChannel(mention.slice(1)); 
           }
         }
       }
@@ -130,28 +113,19 @@ export class MessageComponent implements AfterViewInit {
   }
 
   findMatchingTread(messageId: string): Message | null {
-    // Filter messages where threadId matches the provided messageId
     const matchingMessages = this.messageService.messages.filter(
       (message) => message.threadId === messageId
     );
-
     if (matchingMessages.length === 0) {
-      // No matching messages found
       return null;
     }
-
-    // Find the message with the earliest time
     const earliestMessage = matchingMessages.reduce((earliest, current) =>
       current.time < earliest.time ? current : earliest
     );
-
-    // Return the id of the earliest matching message
     return earliestMessage;
   }
 
-
   editMessageCancel(): void {
-
     if (this.messageService.editMessage) {
       this.messageService.editMessage.text = this.messageService.originalText;
     }
@@ -174,53 +148,36 @@ export class MessageComponent implements AfterViewInit {
   }
 
   getLastThreadTime(messageId: string): string | null {
-    // Filter messages belonging to the specified thread
     const threadMessages = this.messageService.messages.filter(
       message => message.threadId === messageId
     );
-
-    // Check if there are any messages in the thread
     if (threadMessages.length === 0) {
-      return null; // No messages in the thread
+      return null; 
     }
-
-    // Find the message with the latest timestamp
     const latestMessage = threadMessages.reduce((latest, current) => {
       return current.time > latest.time ? current : latest;
     });
-
-    // Use the existing getTimeInHours function to format the time
     return this.getTimeInHours(latestMessage.time);
   }
-
-
-
-
-
 
   addEmojiInEditMessage(event: any): void {
     const emoji = event.emoji.native;
     const textarea = this.messageInput()?.nativeElement;
-
     if (!textarea) {
       return;
     }
     const cursorPosition = textarea.selectionStart || 0;
     const textBeforeCursor = textarea.value.slice(0, cursorPosition);
     const textAfterCursor = textarea.value.slice(cursorPosition);
-
     if (this.messageService.editMessage) {
       this.messageService.editMessage.text = textBeforeCursor + emoji + textAfterCursor;
     }
-
-    // Restore the cursor position and focus
     setTimeout(() => {
       const newCursorPosition = cursorPosition + emoji.length;
       textarea.setSelectionRange(newCursorPosition, newCursorPosition);
       textarea.focus();
     });
   }
-
 
   openChannel(channelName: string): void {
     const channel = this.channelService.channels.find((channel) => channel.chanName === channelName);
@@ -233,7 +190,6 @@ export class MessageComponent implements AfterViewInit {
   }
 
   openProfile(userName: string): void {
-    
     const user = this.userService.users.find((user) => user.name === userName);
     if (user) {
       this.userService.profileUserId = user.id;
@@ -242,11 +198,6 @@ export class MessageComponent implements AfterViewInit {
       
     } 
   }
-
-
-
-
-
 }
 
 
