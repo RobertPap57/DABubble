@@ -64,11 +64,13 @@ export class LoginComponent {
       const user = result.user;
 
       if (user) {
+        const imageUrl = user.photoURL || '';
+        const base64Image = await this.convertImageToBase64(imageUrl);
         const userData = {
           id: user.uid,
           name: user.displayName || '',
           email: user.email || '',
-          userImage: user.photoURL || '',
+          userImage: base64Image || '',
           status: 'online' as 'online',
           lastSeen: new Date(),
           password: '',
@@ -87,6 +89,18 @@ export class LoginComponent {
         'Google-Anmeldung fehlgeschlagen. Bitte erneut versuchen.'
       );
     }
+  }
+
+
+  async convertImageToBase64(imageUrl: string): Promise<string> {
+    const response = await fetch(imageUrl);
+    const blob = await response.blob();
+    
+    return new Promise((resolve) => {
+      const reader = new FileReader();
+      reader.onloadend = () => resolve(reader.result as string);
+      reader.readAsDataURL(blob);
+    });
   }
 
   /**
